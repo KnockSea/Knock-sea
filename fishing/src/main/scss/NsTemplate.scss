@@ -1,0 +1,28 @@
+div {
+    // display: flex;
+	// flex-direction: column;
+	// justify-content: space-between;
+	// height: 100vh;
+    
+    #header {
+        // position: fixed;
+        // height: 77px;
+        // margin-bottom: 77px;
+    }
+    
+    #main {
+    //     flex: 1;
+    //     margin-top: 77px;
+    //     display: flex;
+    //     justify-content: center;
+	// align-items: center;
+	// flex-direction: column;
+}
+
+#footer {
+    height: 61px;
+    position: relative;
+    transform: translateY(0%);
+}
+
+}
