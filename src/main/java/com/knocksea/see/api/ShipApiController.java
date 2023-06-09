@@ -1,2 +1,4 @@
-package com.knocksea.see.api;public class ShipApiController {
+package com.knocksea.see.api;
+
+public class ShipApiController {
 }

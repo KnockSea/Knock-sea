@@ -1,4 +1,4 @@
-package com.knocksea.see.dto;
+package com.knocksea.see.dto.request;
 
 import lombok.*;
 
