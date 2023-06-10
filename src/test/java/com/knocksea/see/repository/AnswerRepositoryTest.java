@@ -24,7 +24,7 @@ class AnswerRepositoryTest {
     @DisplayName("bulk insert")
     void bulkInsert() {
         //given
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i < 21; i++) {
             answerRepository.save(
                     Answer.builder()
                             .answerDetails("답변테스트" + i)

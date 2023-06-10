@@ -21,7 +21,6 @@ public class InquiryDetailResponseDTO {
 
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDateTime inquiryDateTime;
-//    private Answer answer;
 
     private int userId;
     public InquiryDetailResponseDTO(Inquiry inquiry) {
@@ -29,7 +28,6 @@ public class InquiryDetailResponseDTO {
         this.inquiryDetails = inquiry.getInquiryDetails();
         this.inquiryDateTime = inquiry.getInquiryDateTime();
         this.userId = inquiry.getUserId();
-//        this.answer = inquiry.getAnswer();
     }
 }
 
