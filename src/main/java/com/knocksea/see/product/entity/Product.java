@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @ToString
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of = {"productId"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

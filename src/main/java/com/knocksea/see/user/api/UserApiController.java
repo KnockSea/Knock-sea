@@ -1,14 +1,13 @@
-package com.knocksea.see.api;
+package com.knocksea.see.user.api;
 
-import com.knocksea.see.dto.request.UserModifyRequestDTO;
-import com.knocksea.see.dto.request.UserRegisterRequestDTO;
-import com.knocksea.see.dto.response.UserModifyresponseDTO;
+import com.knocksea.see.user.dto.request.UserModifyRequestDTO;
+import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
+import com.knocksea.see.user.dto.response.UserModifyresponseDTO;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
-import com.knocksea.see.service.UserService;
+import com.knocksea.see.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;

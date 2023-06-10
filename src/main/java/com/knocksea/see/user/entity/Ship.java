@@ -1,4 +1,4 @@
-package com.knocksea.see.entity;
+package com.knocksea.see.user.entity;
 
 import lombok.*;
 

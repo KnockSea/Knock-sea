@@ -1,4 +1,4 @@
-package com.knocksea.see.entity;
+package com.knocksea.see.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;

@@ -1,10 +1,9 @@
-package com.knocksea.see.dto.response;
+package com.knocksea.see.user.dto.response;
 
-import com.knocksea.see.entity.Ship;
-import com.knocksea.see.entity.User;
+import com.knocksea.see.user.entity.Ship;
+import com.knocksea.see.user.entity.User;
 import lombok.*;
 
-import java.time.LocalDate;
 @Setter
 @Getter
 @ToString

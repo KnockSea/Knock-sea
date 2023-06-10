@@ -1,6 +1,6 @@
-package com.knocksea.see.repository;
+package com.knocksea.see.user.repository;
 
-import com.knocksea.see.entity.User;
+import com.knocksea.see.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

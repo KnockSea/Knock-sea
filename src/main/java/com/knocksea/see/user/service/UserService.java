@@ -1,19 +1,17 @@
-package com.knocksea.see.service;
+package com.knocksea.see.user.service;
 
-import com.knocksea.see.dto.request.UserModifyRequestDTO;
-import com.knocksea.see.dto.request.UserRegisterRequestDTO;
-import com.knocksea.see.dto.response.UserModifyresponseDTO;
-import com.knocksea.see.entity.User;
+import com.knocksea.see.user.dto.request.UserModifyRequestDTO;
+import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
+import com.knocksea.see.user.dto.response.UserModifyresponseDTO;
+import com.knocksea.see.user.entity.User;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
-import com.knocksea.see.repository.UserRepository;
+import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Slf4j
