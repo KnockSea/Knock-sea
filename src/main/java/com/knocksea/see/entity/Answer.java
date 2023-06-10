@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Table(name = "inquiry_answer")
+@Entity
 public class Answer {
 
     @Id
@@ -28,13 +29,16 @@ public class Answer {
     @CreationTimestamp
     private LocalDateTime answerDateTime;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "inquiry_id", nullable = false) // pk 컬럼명
-    private Inquiry inquiry;
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "inquiry_id", nullable = false) // pk 컬럼명
+//    private Inquiry inquiry;
 
 //    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    @JoinColumn(name = "user_id", nullable = false)
 //    private User user;
+
+    @Column(name = "inquiry_id", nullable = false)
+    private int inquiryId;
 
     @Column(name = "user_id", nullable = false)
     private int userId;
