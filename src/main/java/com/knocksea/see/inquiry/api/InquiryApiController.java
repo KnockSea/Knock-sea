@@ -4,7 +4,7 @@ import com.knocksea.see.inquiry.dto.page.PageDTO;
 import com.knocksea.see.inquiry.dto.request.InquiryCreateRequestDTO;
 import com.knocksea.see.inquiry.dto.response.InquiryDetailResponseDTO;
 import com.knocksea.see.inquiry.dto.response.InquiryListResponseDTO;
-import com.knocksea.see.inquiry.dto.response.InquiryModifyDTO;
+import com.knocksea.see.inquiry.dto.request.InquiryModifyDTO;
 import com.knocksea.see.inquiry.service.InquiryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class InquiryApiController {
     }
 
     @GetMapping("/{inquiryId}")
-    public ResponseEntity<?> detail(@PathVariable int inquiryId) {
+    public ResponseEntity<?> detail(@PathVariable Long inquiryId) {
         log.info("/api/v1/inquiries/{} GET", inquiryId);
 
         try {
@@ -54,7 +54,7 @@ public class InquiryApiController {
             @Validated @RequestBody InquiryCreateRequestDTO dto
             , BindingResult result
             ) {
-        log.info("/api/v1/post create POST!! - {}", dto);
+        log.info("/api/v1/inquiries InquiryCreateRequestDTO POST!! - {}", dto);
 
         if (dto == null) {
             return ResponseEntity
@@ -114,7 +114,7 @@ public class InquiryApiController {
 
     @DeleteMapping("/{inquiryId}")
     public ResponseEntity<?> delete(
-            @PathVariable int inquiryId
+            @PathVariable Long inquiryId
     ) {
         log.info("/api/v1/inquiries/{}  DELETE!! ", inquiryId);
 

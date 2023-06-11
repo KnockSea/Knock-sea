@@ -21,7 +21,7 @@ public class Inquiry {
     @Id
     @Column(name = "inquiry_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int inquiryId;
+    private Long inquiryId;
 
     @Column(name = "inquiry_details", nullable = false)
     private String inquiryDetails;
@@ -34,10 +34,10 @@ public class Inquiry {
 //    @JoinColumn(name = "user_id", nullable = false)
 //    private User user;
 
-//    @OneToOne(mappedBy = "inquiry", orphanRemoval = true) // 필드명
-//    private Answer answer;
+    @OneToOne(mappedBy = "inquiry", orphanRemoval = true) // 필드명
+    private Answer answer;
 
     @Column(name = "user_id", nullable = false)
-    private int userId;
+    private Long userId;
 
 }

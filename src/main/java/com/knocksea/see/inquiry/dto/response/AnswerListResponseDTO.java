@@ -15,5 +15,6 @@ import java.util.List;
 public class AnswerListResponseDTO {
     private int count;
     private PageResponseDTO pageInfo;
-    private List<InquiryDetailResponseDTO> inquiries;
+    private List<AnswerDetailResponseDTO> answers;
+    private AnswerDetailResponseDTO answerId;
 }

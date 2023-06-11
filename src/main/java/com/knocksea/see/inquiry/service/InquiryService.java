@@ -5,7 +5,7 @@ import com.knocksea.see.inquiry.dto.page.PageResponseDTO;
 import com.knocksea.see.inquiry.dto.request.InquiryCreateRequestDTO;
 import com.knocksea.see.inquiry.dto.response.InquiryDetailResponseDTO;
 import com.knocksea.see.inquiry.dto.response.InquiryListResponseDTO;
-import com.knocksea.see.inquiry.dto.response.InquiryModifyDTO;
+import com.knocksea.see.inquiry.dto.request.InquiryModifyDTO;
 import com.knocksea.see.inquiry.entity.Inquiry;
 import com.knocksea.see.inquiry.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,12 +53,12 @@ public class InquiryService {
                 .build();
     }
 
-    public InquiryDetailResponseDTO getDetail(int inquiryId) {
+    public InquiryDetailResponseDTO getDetail(Long inquiryId) {
         Inquiry inquiryEntity = getInquiry(inquiryId);
 
         return new InquiryDetailResponseDTO(inquiryEntity);
     }
-    private Inquiry getInquiry(int inquiryId) {
+    private Inquiry getInquiry(Long inquiryId) {
         Inquiry inquiryEntity = inquiryRepository.findById(inquiryId)
                 .orElseThrow(
                         () -> new RuntimeException(
@@ -74,7 +74,7 @@ public class InquiryService {
         Inquiry saved = inquiryRepository.save(dto.toEntity());
 
 
-        return null;
+        return new InquiryDetailResponseDTO(saved);
     }
 
     public  InquiryDetailResponseDTO modify(final InquiryModifyDTO dto) {
@@ -88,7 +88,7 @@ public class InquiryService {
         return new InquiryDetailResponseDTO(modifiedInquiry);
     }
 
-    public void delete(int inquiryId) throws RuntimeException, SQLException {
+    public void delete(Long inquiryId) throws RuntimeException, SQLException {
         inquiryRepository.deleteById(inquiryId);
     }
 }

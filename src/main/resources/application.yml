@@ -1,11 +1,11 @@
 
 
 server:
-  port: 8383
+  port: 8012
 
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3307/jpa
+    url: jdbc:mariadb://localhost:3306/knocksea
     username: root
     password: 1234
     driver-class-name: org.mariadb.jdbc.Driver

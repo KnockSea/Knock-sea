@@ -15,14 +15,14 @@ import java.time.LocalDateTime;
 @Builder
 public class AnswerDetailResponseDTO {
 
-    private int answerId;
+    private Long answerId;
     private String answerDetails;
 
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDateTime answerDateTime;
 
-    private int userId;
-    private int inquiryId;
+    private Long userId;
+    private Long inquiryId;
 
     public AnswerDetailResponseDTO(Answer answer) {
         this.answerId = answer.getAnswerId();

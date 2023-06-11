@@ -19,7 +19,7 @@ public class InquiryCreateRequestDTO {
     @NotBlank
     @Size(min = 1, max = 2000)
     private String inquiryDetails;
-    private int userId;
+    private Long userId;
 
     public Inquiry toEntity() {
         return Inquiry.builder()
