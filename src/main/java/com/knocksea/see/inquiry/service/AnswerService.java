@@ -1,8 +1,8 @@
-package com.knocksea.see.service;
+package com.knocksea.see.inquiry.service;
 
-import com.knocksea.see.dto.page.PageDTO;
-import com.knocksea.see.dto.response.AnswerListResponseDTO;
-import com.knocksea.see.repository.AnswerRepository;
+import com.knocksea.see.inquiry.dto.page.PageDTO;
+import com.knocksea.see.inquiry.dto.response.AnswerListResponseDTO;
+import com.knocksea.see.inquiry.repository.AnswerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +25,6 @@ public class AnswerService {
                 Sort.by("answerDateTime").descending()
         );
 
-        answerRepository.findAll(pageable, inquiryId);
+        return null;
     }
 }

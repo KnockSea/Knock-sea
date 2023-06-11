@@ -1,7 +1,7 @@
 package com.knocksea.see.repository;
 
-import com.knocksea.see.entity.Answer;
-import com.knocksea.see.entity.Inquiry;
+import com.knocksea.see.inquiry.entity.Answer;
+import com.knocksea.see.inquiry.repository.AnswerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +10,13 @@ import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
 @Rollback(value = false)
 class AnswerRepositoryTest {
 
     @Autowired
-   AnswerRepository answerRepository;
+    AnswerRepository answerRepository;
 
     @Test
     @DisplayName("bulk insert")

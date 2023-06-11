@@ -1,13 +1,13 @@
-package com.knocksea.see.service;
+package com.knocksea.see.inquiry.service;
 
-import com.knocksea.see.dto.page.PageDTO;
-import com.knocksea.see.dto.page.PageResponseDTO;
-import com.knocksea.see.dto.request.InquiryCreateRequestDTO;
-import com.knocksea.see.dto.response.InquiryDetailResponseDTO;
-import com.knocksea.see.dto.response.InquiryListResponseDTO;
-import com.knocksea.see.dto.response.InquiryModifyDTO;
-import com.knocksea.see.entity.Inquiry;
-import com.knocksea.see.repository.InquiryRepository;
+import com.knocksea.see.inquiry.dto.page.PageDTO;
+import com.knocksea.see.inquiry.dto.page.PageResponseDTO;
+import com.knocksea.see.inquiry.dto.request.InquiryCreateRequestDTO;
+import com.knocksea.see.inquiry.dto.response.InquiryDetailResponseDTO;
+import com.knocksea.see.inquiry.dto.response.InquiryListResponseDTO;
+import com.knocksea.see.inquiry.dto.response.InquiryModifyDTO;
+import com.knocksea.see.inquiry.entity.Inquiry;
+import com.knocksea.see.inquiry.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

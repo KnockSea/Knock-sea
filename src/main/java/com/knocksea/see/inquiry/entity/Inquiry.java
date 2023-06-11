@@ -1,4 +1,4 @@
-package com.knocksea.see.entity;
+package com.knocksea.see.inquiry.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

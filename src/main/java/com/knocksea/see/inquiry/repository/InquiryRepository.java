@@ -1,6 +1,6 @@
-package com.knocksea.see.repository;
+package com.knocksea.see.inquiry.repository;
 
-import com.knocksea.see.entity.Inquiry;
+import com.knocksea.see.inquiry.entity.Inquiry;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/spring
+    url: jdbc:mariadb://localhost:3306/knocksea
     username: root
     password: 1234
     driver-class-name: org.mariadb.jdbc.Driver
@@ -13,7 +13,7 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.MariaDB106Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true

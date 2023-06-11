@@ -1,6 +1,6 @@
-package com.knocksea.see.dto.response;
+package com.knocksea.see.inquiry.dto.response;
 
-import com.knocksea.see.dto.page.PageResponseDTO;
+import com.knocksea.see.inquiry.dto.page.PageResponseDTO;
 import lombok.*;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.knocksea.see.dto.response;
+package com.knocksea.see.inquiry.dto.response;
 
 import lombok.*;
 

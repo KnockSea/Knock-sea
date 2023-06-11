@@ -1,7 +1,7 @@
-package com.knocksea.see.dto.response;
+package com.knocksea.see.inquiry.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.knocksea.see.entity.Answer;
+import com.knocksea.see.inquiry.entity.Answer;
 import lombok.*;
 
 import java.time.LocalDateTime;

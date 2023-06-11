@@ -1,4 +1,4 @@
-package com.knocksea.see.dto.page;
+package com.knocksea.see.inquiry.dto.page;
 
 
 import lombok.Getter;

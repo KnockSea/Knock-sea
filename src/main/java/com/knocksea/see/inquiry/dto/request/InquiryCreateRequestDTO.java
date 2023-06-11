@@ -1,7 +1,7 @@
-package com.knocksea.see.dto.request;
+package com.knocksea.see.inquiry.dto.request;
 
 
-import com.knocksea.see.entity.Inquiry;
+import com.knocksea.see.inquiry.entity.Inquiry;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
