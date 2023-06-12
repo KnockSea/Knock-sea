@@ -25,15 +25,16 @@ public class AnswerApiController {
 
   private final AnswerService answerService;
 
-  @GetMapping
-  public ResponseEntity<?> list(PageDTO pageDTO) {
-    log.info("/api/v1/answers?page={}&size={}", pageDTO.getPage(), pageDTO.getSize());
 
-    AnswerListResponseDTO dto = answerService.getAnswers(pageDTO);
+  @GetMapping("/{inquiryId}")
+  public ResponseEntity<?> detail(Long inquiryId) {
 
-    log.info("dto - {}", dto);
-
-    return ResponseEntity.ok().body(dto);
+    try {
+      AnswerDetailResponseDTO dto = answerService.getDetail(inquiryId);
+      return ResponseEntity.ok().body(dto);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    }
 
   }
 

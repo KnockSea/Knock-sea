@@ -6,8 +6,11 @@ import com.knocksea.see.inquiry.dto.request.AnswerCreateRequestDTO;
 import com.knocksea.see.inquiry.dto.response.AnswerDetailResponseDTO;
 import com.knocksea.see.inquiry.dto.response.AnswerListResponseDTO;
 import com.knocksea.see.inquiry.dto.request.AnswerModifyDTO;
+import com.knocksea.see.inquiry.dto.response.InquiryDetailResponseDTO;
 import com.knocksea.see.inquiry.entity.Answer;
+import com.knocksea.see.inquiry.entity.Inquiry;
 import com.knocksea.see.inquiry.repository.AnswerRepository;
+import com.knocksea.see.inquiry.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -27,36 +30,19 @@ import java.util.stream.Collectors;
 public class AnswerService {
 
     private final AnswerRepository answerRepository;
+    private final InquiryRepository inquiryRepository;
 
-    public AnswerListResponseDTO getAnswers(PageDTO dto) {
-        PageRequest pageable = PageRequest.of(
-                dto.getPage() - 1,
-                dto.getSize(),
-                Sort.by("answerDateTime").descending()
-        );
 
-        Page<Answer> answers = answerRepository.findAll(pageable);
-
-        List<Answer> answerList = answers.getContent();
-
-        List<AnswerDetailResponseDTO> answerDetail = answerList.stream()
-            .map(AnswerDetailResponseDTO::new)
-            .collect(Collectors.toList());
-
-        log.info("answerDetail - {}", answerDetail);
-
-        return AnswerListResponseDTO.builder()
-            .count(answerList.size())
-            .pageInfo(new PageResponseDTO<Answer>(answers))
-            .answers(answerDetail)
-            .build();
+    public AnswerDetailResponseDTO getDetail(Long inquiryId) {
+        Answer answer = getAnswer(inquiryId);
+        return new AnswerDetailResponseDTO(answer);
     }
 
-    private Answer getAnswer(Long answerId) {
-        Answer answerEntity = answerRepository.findById(answerId)
+    private Answer getAnswer(Long inquiryId) {
+        Answer answerEntity = answerRepository.findById(inquiryId)
             .orElseThrow(
                 () -> new RuntimeException(
-                    answerId + "번 문의게시물이 존재하지 않습니다."
+                        inquiryId + "번 문의게시물이 존재하지 않습니다."
                 )
             );
         return answerEntity;

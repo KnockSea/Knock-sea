@@ -21,14 +21,10 @@ public class AnswerDetailResponseDTO {
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDateTime answerDateTime;
 
-    private Long userId;
-    private Long inquiryId;
 
     public AnswerDetailResponseDTO(Answer answer) {
         this.answerId = answer.getAnswerId();
         this.answerDetails = answer.getAnswerDetails();
         this.answerDateTime = answer.getAnswerDateTime();
-//        this.userId = answer.getUserId();
-//        this.inquiryId = answer.getInquiryId();
     }
 }
