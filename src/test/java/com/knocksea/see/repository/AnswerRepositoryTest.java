@@ -15,31 +15,39 @@ import java.util.Optional;
 
 @SpringBootTest
 @Transactional
-@Rollback(value = false)
+@Rollback(false)
 class AnswerRepositoryTest {
 
-    @Autowired
-    AnswerRepository answerRepository;
+//    @Autowired
+//    AnswerRepository answerRepository;
 
     @Autowired
     InquiryRepository inquiryRepository;
 
+//    @Test
+//    @DisplayName("bulk insert")
+//    void bulkInsert() {
+//        //given
+//        for (Long i = 1L; i < 22; i++) {
+//            Inquiry inquiry = inquiryRepository.findById(i).orElseThrow();
+//
+//            answerRepository.save(
+//                    Answer.builder()
+//                            .answerDetails("답변테스트" + i)
+//                            .inquiry(inquiry)
+//                            .build()
+//            );
+//        }
+//        //when
+//
+//        //then
+//    }
+
     @Test
-    @DisplayName("bulk insert")
-    void bulkInsert() {
-        //given
-        for (Long i = 1L; i < 22; i++) {
-            Inquiry inquiry = inquiryRepository.findById(i).orElseThrow();
-
-            answerRepository.save(
-                    Answer.builder()
-                            .answerDetails("답변테스트" + i)
-                            .inquiry(inquiry)
-                            .build()
-            );
-        }
-        //when
-
-        //then
+    @DisplayName("dd")
+    void fff() {
+        Long a = 1L;
+        Inquiry inquiry = inquiryRepository.findById(a).orElseThrow();
+        System.out.println(inquiry);
     }
 }

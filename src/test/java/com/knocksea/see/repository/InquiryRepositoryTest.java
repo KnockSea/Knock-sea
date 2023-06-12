@@ -1,6 +1,8 @@
 package com.knocksea.see.repository;
 
+import com.knocksea.see.inquiry.entity.Answer;
 import com.knocksea.see.inquiry.entity.Inquiry;
+import com.knocksea.see.inquiry.repository.AnswerRepository;
 import com.knocksea.see.inquiry.repository.InquiryRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,9 @@ class InquiryRepositoryTest {
     @Autowired
     InquiryRepository inquiryRepository;
 
+    @Autowired
+    AnswerRepository answerRepository;
+
     @Test
     @DisplayName("bulk insert")
     void bulkInsert() {
@@ -31,6 +36,24 @@ class InquiryRepositoryTest {
             );
         }
         //when
+
+        //then
+    }
+    @Test
+    @DisplayName("dd")
+    void dd() {
+        //given
+        Inquiry inquiry = inquiryRepository.findById(1L).orElseThrow();
+
+        Answer answer = answerRepository.save(
+                Answer.builder()
+                        .answerDetails("답변입니다")
+                        .inquiry(inquiry)
+                        .build()
+        );
+        //when
+        Answer answer1 = inquiry.getAnswer();
+        System.out.println(answer1);
 
         //then
     }

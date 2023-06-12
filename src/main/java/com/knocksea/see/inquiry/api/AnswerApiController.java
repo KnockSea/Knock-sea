@@ -26,10 +26,10 @@ public class AnswerApiController {
   private final AnswerService answerService;
 
   @GetMapping
-  public ResponseEntity<?> list(PageDTO pageDTO, Long answerId) {
+  public ResponseEntity<?> list(PageDTO pageDTO) {
     log.info("/api/v1/answers?page={}&size={}", pageDTO.getPage(), pageDTO.getSize());
 
-    AnswerListResponseDTO dto = answerService.getAnswers(pageDTO, answerId);
+    AnswerListResponseDTO dto = answerService.getAnswers(pageDTO);
 
     log.info("dto - {}", dto);
 

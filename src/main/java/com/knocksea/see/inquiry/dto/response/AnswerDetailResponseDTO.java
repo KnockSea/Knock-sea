@@ -28,7 +28,7 @@ public class AnswerDetailResponseDTO {
         this.answerId = answer.getAnswerId();
         this.answerDetails = answer.getAnswerDetails();
         this.answerDateTime = answer.getAnswerDateTime();
-        this.userId = answer.getUserId();
-        this.inquiryId = answer.getInquiryId();
+//        this.userId = answer.getUserId();
+//        this.inquiryId = answer.getInquiryId();
     }
 }

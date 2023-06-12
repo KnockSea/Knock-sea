@@ -12,5 +12,5 @@ import java.util.List;
 public interface AnswerRepository
     extends JpaRepository<Answer, Long> {
 
-  Page<Answer> findByInquiryIdContaining(Long InquiryId, Pageable pageable);
+//  Page<Answer> findByInquiryIdContaining(Long InquiryId, Pageable pageable);
 }

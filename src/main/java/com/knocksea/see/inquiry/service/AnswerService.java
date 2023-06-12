@@ -28,14 +28,14 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
 
-    public AnswerListResponseDTO getAnswers(PageDTO dto, Long inquiryId) {
+    public AnswerListResponseDTO getAnswers(PageDTO dto) {
         PageRequest pageable = PageRequest.of(
                 dto.getPage() - 1,
                 dto.getSize(),
                 Sort.by("answerDateTime").descending()
         );
 
-        Page<Answer> answers = answerRepository.findByInquiryIdContaining(inquiryId, pageable);
+        Page<Answer> answers = answerRepository.findAll(pageable);
 
         List<Answer> answerList = answers.getContent();
 
