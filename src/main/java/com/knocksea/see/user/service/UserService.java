@@ -1,7 +1,10 @@
 package com.knocksea.see.user.service;
 
+import com.knocksea.see.auth.TokenProvider;
+import com.knocksea.see.user.dto.request.LoginRequestDTO;
 import com.knocksea.see.user.dto.request.UserModifyRequestDTO;
 import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
+import com.knocksea.see.user.dto.response.LoginResponseDTO;
 import com.knocksea.see.user.dto.response.UserModifyresponseDTO;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.exception.DuplicatedEmailException;
@@ -12,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -24,6 +29,8 @@ public class UserService {
     private final UserRepository userRepository;
     //비밀번호 암호화용
     private final PasswordEncoder encoder;
+    //토큰 인증용
+    private final TokenProvider tokenProvider;
 
     //회원가입 기능
     public boolean join(final UserRegisterRequestDTO dto) throws RuntimeException{
@@ -96,5 +103,28 @@ public class UserService {
         User modiftideuser = userRepository.save(founduser);
 
         return new UserModifyresponseDTO(modiftideuser);
+    }
+
+    public LoginResponseDTO authenticate(final LoginRequestDTO dto) {
+        //이메일을 통해 회원정보 조회
+        User user = userRepository.findByUserEmail(dto.getEmail()).orElseThrow(
+                () -> new RuntimeException("가입된 회원이 아닙니다.")
+        );
+
+        //패스워드를 검증한다
+        String rawPassword = dto.getPassword(); //입력비번
+        String encodedPassword = user.getUserPassword(); //db저장 비번
+
+        if (!encoder.matches(rawPassword,encodedPassword)){
+            throw new RuntimeException("비밀번호가 틀렸습니다");
+        }
+
+        log.info("{}님 로그인 성공!!",user.getUserName());
+
+        //로그인 성공 후에 클라이언트에 뭘 리턴할 것인가?
+        //-> JWT를 클라이언트에게 발급해줘야 함.
+        String token = tokenProvider.createToken(user);
+
+        return new LoginResponseDTO(user, token);
     }
 }
