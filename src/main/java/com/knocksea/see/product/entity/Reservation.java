@@ -42,9 +42,6 @@ public class Reservation {
 //    @JoinColumn(name = "product_id")
 //    private Product product;
 
-//    @ManyToOne
-//    @JoinColumn(name = "class_id")
-//    private Class productClass;
 
 
 }
