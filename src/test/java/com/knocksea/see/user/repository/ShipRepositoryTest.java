@@ -25,29 +25,32 @@ class ShipRepositoryTest {
     @Test
     @DisplayName("배를 저장해야한다")
     void insertShipTest() {
-        User user = userRepository.findByUserEmail("chanho@naver.com").orElseThrow();
-        //given
-        Ship build = Ship.builder()
-                .shipSerial("11-45625665")
-                .shipLocation("새벽 롤망호 파티구함")
-                .shipName("롤망호").shipLocation("경상남도 남해")
-                .shipLikeCount(0)
-                .user(user)
-                .build();
-        //when
-        shipRepository.save(build);
+        User user = userRepository.findById(1L).orElseThrow();
 
-        //then
+        System.out.println("user = " + user);
+        Ship shipsample = Ship.builder()
+                .shipDescription("고기가 잘잡히는 우리배타보셔요")
+                .shipLocation("전라남도 나주시")
+                .shipSerial("11-9546256")
+                .shipName("갈치호")
+                .shipLikeCount(2000)
+                .user(user) // Set the user field with a valid User object
+                .build();
+
+        //when
+        shipRepository.save(shipsample);
     }
-//    @Test
-//    @DisplayName("userid로 배 정보를 가져와야한다")
-//    void findshipuserid() {
-//        //given
-//        Long id = 1L;
-//        //when
-//        Ship byUserId = shipRepository.findByUserId(id);
-//        //then
-//
-//        System.out.println("byUserId = " + byUserId);
-//    }
+    @Test
+    @DisplayName("userid로 배 정보를 가져와야한다")
+    void findshipuserid() {
+        //given
+        Long id = 1L;
+        //when
+        Ship byUserId = shipRepository.findByUserUserId(id);
+        //then
+
+        System.out.println("byUserId = " + byUserId);
+
+        System.out.println("byUserId.getUser() = " + byUserId.getUser());
+    }
 }
