@@ -4,6 +4,8 @@ import com.knocksea.see.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -49,6 +51,11 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    // 예약 시간
+    @OneToMany(mappedBy = "product")
+    @Builder.Default
+    private List<ReservationTime> timeList = new ArrayList<>();
 
 
 }

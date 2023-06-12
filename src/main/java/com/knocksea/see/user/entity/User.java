@@ -4,6 +4,7 @@ package com.knocksea.see.user.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.knocksea.see.product.entity.Product;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -50,13 +51,14 @@ public class User {
     @Column(name = "user_full_address", nullable = false)
     private String userFullAddress;
 
-    @Column(name = "user_grade", nullable = false, columnDefinition = "varchar(20) default 'user'", insertable = false)
-    private String userGrade;
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("'COMMON'") // enum은 반드시 '' 로 감싸야함
+    private UserGrade userGrade;
 
     @Column(name = "user_point", nullable = true)
     private int userPoint;
 
-    @Column(name = "user_image",nullable = true)
+    @Column(name = "user_image", nullable = true)
     private String userImage;
 
 

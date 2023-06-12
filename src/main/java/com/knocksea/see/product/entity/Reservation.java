@@ -1,5 +1,6 @@
 package com.knocksea.see.product.entity;
 
+import com.knocksea.see.Edu.entity.Edu;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
 
@@ -26,22 +27,28 @@ public class Reservation {
 
     private LocalDate reservationDate;
 
-    private LocalDateTime reservationTime;
-
     private String reservationAddress;
 
     private int reservationUserCount;
 
     private int reservationPrice;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "product_id")
-//    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "edu_id")
+    private Edu edu;
+
+    // 예약 시간
+    @OneToOne
+    @JoinColumn(name = "time_id", nullable = false)
+    private ReservationTime reservationTime;
 
 
 }
