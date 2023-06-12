@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @ToString
-@EqualsAndHashCode(of = {"productId"})
+@EqualsAndHashCode(of = "reservationId")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "product")
+@Table(name = "reservation")
 @Entity
 public class Reservation {
     @Id
@@ -34,13 +34,13 @@ public class Reservation {
 
     private int reservationPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private User user;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "product_id")
+//    private Product product;
 
 //    @ManyToOne
 //    @JoinColumn(name = "class_id")
