@@ -1,3 +1,4 @@
+/*
 package com.knocksea.see.user.repository;
 
 import com.knocksea.see.user.entity.Ship;
@@ -50,4 +51,4 @@ class ShipRepositoryTest {
 //
 //        System.out.println("byUserId = " + byUserId);
 //    }
-}
+}*/

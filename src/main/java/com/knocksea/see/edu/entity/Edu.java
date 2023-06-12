@@ -1,5 +1,6 @@
-package com.knocksea.see.entity;
+package com.knocksea.see.edu.entity;
 
+import com.knocksea.see.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,53 +9,54 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "eduId")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder @Entity
-@Table(name="product_class")
-public class Class {
+@Table(name="product_edu")
+public class Edu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length =10)
-    private int classId;
+    private int eduId;
 
     @Column(nullable = false, length = 300)
-    private String classTitle;
+    private String eduTitle;
 
     @Column(nullable = false,length = 2000)
-    private String classContent;
+    private String eduContent;
 
     @Column(nullable = false, length = 5)
-    private int classMaxUser;
+    private int eduMaxUser;
 
     @Builder.Default
     @Column(nullable = false, length = 5)
-    private int classCurrentUser=0;
+    private int eduCurrentUser=0;
 
     @Column(nullable = false, length = 7)
-    private String classPrice;
+    private int eduPrice;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ClassLevel classLevel;
+    private EduLevel eduLevel;
 
     @Column(nullable = true, length = 200)
-    private String classService;
+    private String eduService;
 
     @Column(nullable = false, length = 200)
-    private String classFullAddress;
+    private String eduFullAddress;
 
     @Column(nullable = false, length = 500)
-    private String classInfo;
+    private String eduInfo;
 
     @Column(nullable = false, length = 200)
-    private String classLocationInfo;
-
-    @Column(nullable = false, length = 10)
-    private int UserId;
+    private String eduLocationInfo;
 
     @Column(updatable = false)
     private LocalDateTime createDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }
