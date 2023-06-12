@@ -54,6 +54,7 @@ class FishingSpotRepositoryTest {
         System.out.println("\n\n\n\n\n");
         System.out.println("fishingSpot = " + fishingSpot);
         System.out.println("\n\n\n\n\n");
+        System.out.println("fishingSpot.getUser() = " + fishingSpot.getUser());
 
         //then
     }

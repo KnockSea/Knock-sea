@@ -1,11 +1,11 @@
 package com.knocksea.see.user.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+        import com.fasterxml.jackson.annotation.JsonFormat;
+        import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import java.time.LocalDate;
+        import javax.persistence.*;
+        import javax.validation.constraints.Email;
+        import java.time.LocalDate;
 
 @Setter
 @Getter
