@@ -1,7 +1,9 @@
 package com.knocksea.see.api;
 
+import com.knocksea.see.dto.request.LoginRequestDTO;
 import com.knocksea.see.dto.request.UserModifyRequestDTO;
 import com.knocksea.see.dto.request.UserRegisterRequestDTO;
+import com.knocksea.see.dto.response.LoginResponseDTO;
 import com.knocksea.see.dto.response.UserModifyresponseDTO;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
@@ -84,4 +86,18 @@ public class UserApiController {
             throw new RuntimeException(e);
         }
     }
+    //로그인 요청
+    @PostMapping("/signin")
+    public ResponseEntity<?> signIn(
+            @Validated @RequestBody LoginRequestDTO dto
+    ){
+        try{
+            LoginResponseDTO responseDTO = userService.authenticate(dto);
+            return ResponseEntity.ok().body(responseDTO);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }
