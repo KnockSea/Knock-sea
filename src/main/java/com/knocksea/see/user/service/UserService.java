@@ -107,12 +107,12 @@ public class UserService {
 
     public LoginResponseDTO authenticate(final LoginRequestDTO dto) {
         //이메일을 통해 회원정보 조회
-        User user = userRepository.findByUserEmail(dto.getEmail()).orElseThrow(
+        User user = userRepository.findByUserEmail(dto.getUserEmail()).orElseThrow(
                 () -> new RuntimeException("가입된 회원이 아닙니다.")
         );
 
         //패스워드를 검증한다
-        String rawPassword = dto.getPassword(); //입력비번
+        String rawPassword = dto.getUserPassword(); //입력비번
         String encodedPassword = user.getUserPassword(); //db저장 비번
 
         if (!encoder.matches(rawPassword,encodedPassword)){
