@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @ToString
-@EqualsAndHashCode(of = {"productId"})
+@EqualsAndHashCode(of = "reservationId")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "product")
+@Table(name = "reservation")
 @Entity
 public class Reservation {
     @Id

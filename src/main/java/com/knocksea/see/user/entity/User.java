@@ -1,11 +1,14 @@
 package com.knocksea.see.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.knocksea.see.product.entity.Product;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -58,4 +61,12 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Ship ship;
+
+    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    private List<Product> product = new ArrayList<>();
+
+
+
+
 }
