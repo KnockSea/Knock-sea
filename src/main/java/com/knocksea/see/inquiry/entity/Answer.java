@@ -37,9 +37,6 @@ public class Answer {
 //    @JoinColumn(name = "user_id", nullable = false)
 //    private User user;
 
-    @Column(name = "inquiry_id", nullable = false, insertable = false, updatable = false)
-    private Long inquiryId;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+
 }

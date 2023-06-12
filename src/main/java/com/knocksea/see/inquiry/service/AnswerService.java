@@ -35,7 +35,7 @@ public class AnswerService {
                 Sort.by("answerDateTime").descending()
         );
 
-        Page<Answer> answers = answerRepository.findAllByInquiryId(inquiryId, pageable);
+        Page<Answer> answers = answerRepository.findByInquiryIdContaining(inquiryId, pageable);
 
         List<Answer> answerList = answers.getContent();
 

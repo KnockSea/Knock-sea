@@ -21,7 +21,7 @@ class InquiryRepositoryTest {
     @DisplayName("bulk insert")
     void bulkInsert() {
         //given
-        for (int i = 1; i < 22; i++) {
+        for (Long i = 1L; i < 22; i++) {
             inquiryRepository.save(
                             Inquiry.builder()
                                     .inquiryDetails("테스트 게시글 " + i)
