@@ -1,6 +1,8 @@
 package com.knocksea.see.inquiry.dto.request;
 
 import com.knocksea.see.inquiry.entity.Answer;
+import com.knocksea.see.inquiry.entity.Inquiry;
+import com.knocksea.see.user.entity.User;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -18,12 +20,15 @@ public class AnswerCreateRequestDTO {
   @NotBlank
   @Size(min = 1, max = 2000)
   private String answerDetails;
-
+  private Inquiry inquiry;
+  private Long userId;
 
   public Answer toEntity() {
     return Answer.builder()
-        .answerDetails(this.answerDetails)
-        .build();
+            .answerDetails(this.answerDetails)
+            .inquiry(this.inquiry)
+//        .userId(this.userId)
+            .build();
   }
 
 }

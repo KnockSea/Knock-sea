@@ -39,6 +39,7 @@ class InquiryRepositoryTest {
 
         //then
     }
+
     @Test
     @DisplayName("dd")
     void dd() {
