@@ -6,7 +6,9 @@ import com.knocksea.see.inquiry.dto.request.AnswerModifyDTO;
 import com.knocksea.see.inquiry.dto.response.AnswerDetailResponseDTO;
 import com.knocksea.see.inquiry.dto.response.AnswerListResponseDTO;
 import com.knocksea.see.inquiry.entity.Inquiry;
+import com.knocksea.see.inquiry.repository.InquiryRepository;
 import com.knocksea.see.inquiry.service.AnswerService;
+import com.knocksea.see.inquiry.service.InquiryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +27,12 @@ import java.util.List;
 public class AnswerApiController {
 
   private final AnswerService answerService;
+  private final InquiryService inquiryService;
 
   @GetMapping
-  public ResponseEntity<?> detailList(Inquiry inquiry) {
-    log.info("inquiry - {}", inquiry);
-    AnswerDetailResponseDTO answerInfo = answerService.findByInquiry(inquiry);
+  public ResponseEntity<?> detailList(Long inquiryId) {
+    log.info("inquiryId - {}", inquiryId);
+    AnswerDetailResponseDTO answerInfo = answerService.findByInquiry(inquiryId);
     log.info("answerInfo - {}", answerInfo);
     return ResponseEntity.ok().body(answerInfo);
   }

@@ -31,15 +31,20 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final InquiryRepository inquiryRepository;
 
-    public AnswerDetailResponseDTO findByInquiry(Inquiry inquiry) {
+    public AnswerDetailResponseDTO findByInquiry(Long inqyiryId) {
 
-        Answer answerInfo = answerRepository.findByInquiry(inquiry);
-        AnswerDetailResponseDTO dto = new AnswerDetailResponseDTO(answerInfo);
+        Inquiry inquiryInfo = inquiryRepository.findByInquiry(inqyiryId);
+        Answer answer = answerRepository.findByInquiry(inquiryInfo);
+        AnswerDetailResponseDTO dto = new AnswerDetailResponseDTO(answer);
+        log.info("dto - {}", answer);
 
-
-        log.info("dto - {}", answerInfo);
-
-        return dto;
+        return AnswerDetailResponseDTO.builder()
+                .answerDetails(dto.getAnswerDetails())
+//                .userId(dto.getUserId())
+                .inquiryId(dto.getInquiryId())
+                .answerId(dto.getAnswerId())
+                .answerDateTime(dto.getAnswerDateTime())
+                .build();
     }
 
     private Answer getAnswer(Long answerId) {
