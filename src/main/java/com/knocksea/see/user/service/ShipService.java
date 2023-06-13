@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.webjars.NotFoundException;
 
 @Service
 @Slf4j
@@ -26,23 +25,19 @@ public class ShipService {
     private final UserRepository userRepository;
 
     //선박 등록 함수
-    public ShipRegisterResponseDTO join(final ShipRegisterRequestDTO dto) {
+    public ShipRegisterResponseDTO join(final ShipRegisterRequestDTO dto, Long userId) {
 
         log.info("{} 유저 정보 : ",dto);
         if (dto==null){
             throw new NoRegisteredArgumentsException("필수 배등록 정보가 없습니다");
         }
 
-        //유저 이메일 받아오기
-        String userEmail = dto.getUserEmail();
-
-        //유저 정보가 비었다면
-        User user = userRepository.findByUserEmail(userEmail).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow(()->
+                new RuntimeException("회원 정보가 없습니다"));
 
         //배는 사장만 등록 할 수 있음
         if(user.getUserGrade().equals("owner")){
             //배 중복등록방지용 유저pk (배는 1인당 1대씩만등록가능)
-            Long userId = user.getUserId();
 
             Ship foundByUserId = shipRepository.findByUserUserId(userId);
             //등록된 배가 없다면

@@ -1,5 +1,6 @@
 package com.knocksea.see.user.api;
 
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.user.dto.request.ShipRegisterRequestDTO;
@@ -9,6 +10,7 @@ import com.knocksea.see.user.service.ShipService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +30,8 @@ public class ShipApiController {
     //post : /api/v1/ship/register
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Validated @RequestBody ShipRegisterRequestDTO dto
+    public ResponseEntity<?> registerShip(@Validated @RequestBody ShipRegisterRequestDTO dto,
+                                          @AuthenticationPrincipal TokenUserInfo userInfo
             , BindingResult result) {
         //값 들어오는지 확인
         log.info("/user/register POST! --{}", dto);
@@ -40,12 +43,13 @@ public class ShipApiController {
 //        }
 
         if (result.hasErrors()) {
-            log.warn(result.toString());
-            return ResponseEntity.badRequest()
+            log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
+            return ResponseEntity
+                    .badRequest()
                     .body(result.getFieldError());
         }
         try {
-            ShipRegisterResponseDTO join = shipService.join(dto);
+            ShipRegisterResponseDTO join = shipService.join(dto,userInfo.getUserId());
             return ResponseEntity.ok().body(join);
         } catch (NoRegisteredArgumentsException e) {
             log.warn("필수 등록 정보를 받지 못했습니다.");

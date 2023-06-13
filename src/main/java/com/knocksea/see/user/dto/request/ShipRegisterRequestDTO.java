@@ -31,9 +31,5 @@ public class ShipRegisterRequestDTO {
     @NotBlank
     private String shipSerial;
 
-    //유저 정보(아마 토큰에서 받아올듯..?)
-    @NotBlank
-    private String userEmail;
-
 
 }
