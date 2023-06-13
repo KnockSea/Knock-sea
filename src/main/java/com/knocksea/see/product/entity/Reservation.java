@@ -25,7 +25,8 @@ public class Reservation {
 
     private String reservationType;
 
-    private LocalDate reservationDate;
+    // 시간값 연결 문자열
+    private String reservationDate;
 
     private String reservationAddress;
 

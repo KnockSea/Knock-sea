@@ -65,9 +65,9 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Ship ship;
 
-    @OneToMany(mappedBy = "user")
-    @Builder.Default
-    private List<Product> product = new ArrayList<>();
+//    @OneToMany(mappedBy = "user")
+//    @Builder.Default
+//    private List<Product> product = new ArrayList<>();
 
 
 

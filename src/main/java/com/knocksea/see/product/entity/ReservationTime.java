@@ -4,7 +4,9 @@ import com.knocksea.see.Edu.entity.Edu;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Setter
 @Getter
@@ -23,10 +25,12 @@ public class ReservationTime {
     private Long timeId;
 
     private String timeLabelType;
-    private LocalDateTime timeDate;
-    private String timeCheck;
-    private LocalDateTime timeStart;
-    private LocalDateTime timeEnd;
+    private LocalDate timeDate;
+    private String timeVerify;
+    private LocalTime timeStart;
+    private LocalTime timeEnd;
+    private int timeMaxUser;
+    // 한 타임정보에 최대 인원 수만큼 예약을 여러번 받아야 되네?
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
