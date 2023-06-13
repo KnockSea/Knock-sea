@@ -3,9 +3,11 @@ package com.knocksea.see.edu.dto.request;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.entity.EduLevel;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Getter @Setter
@@ -14,6 +16,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Slf4j
 public class EduCreateDTO {
 
     @NotBlank
@@ -27,15 +30,13 @@ public class EduCreateDTO {
     @Size(min=1,max = 2000)
     private String eduContent;
 
-    @NotBlank
-    @Size(min=1,max = 5)
+    @NotNull
     private int eduMaxUser;
 
-    @NotBlank
-//    @Size(min=1,max = 7)
+    @NotNull
     private int eduPrice;
 
-    @NotBlank
+    @NotNull
     private EduLevel eduLevel;
 
     @NotBlank
@@ -57,6 +58,7 @@ public class EduCreateDTO {
     //dto를 entity로 변환
     public Edu toEntity(){
         return Edu.builder()
+
                 .eduTitle(this.eduTitle)
                 .eduContent(this.eduContent)
                 .eduMaxUser(this.eduMaxUser)
