@@ -52,8 +52,6 @@ class EduRepositoryTest {
                 .userGrade("owner")
                 .userPoint(0)
                 .build();
-
-
     }
 
     @Test

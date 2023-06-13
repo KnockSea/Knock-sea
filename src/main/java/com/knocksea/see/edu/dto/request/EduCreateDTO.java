@@ -20,9 +20,6 @@ import javax.validation.constraints.Size;
 public class EduCreateDTO {
 
     @NotBlank
-    private String userId;
-
-    @NotBlank
     @Size(min=1,max = 2000)
     private String eduTitle;
 
@@ -58,7 +55,6 @@ public class EduCreateDTO {
     //dto를 entity로 변환
     public Edu toEntity(){
         return Edu.builder()
-
                 .eduTitle(this.eduTitle)
                 .eduContent(this.eduContent)
                 .eduMaxUser(this.eduMaxUser)

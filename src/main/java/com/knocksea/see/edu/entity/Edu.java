@@ -2,6 +2,7 @@ package com.knocksea.see.edu.entity;
 
 import com.knocksea.see.user.entity.User;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -53,6 +54,7 @@ public class Edu {
     private String eduLocationInfo;
 
     @Column(updatable = false)
+    @CreationTimestamp
     private LocalDateTime createDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
