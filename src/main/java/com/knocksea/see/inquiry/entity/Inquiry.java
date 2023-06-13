@@ -34,8 +34,8 @@ public class Inquiry {
 //    @JoinColumn(name = "user_id", nullable = false)
 //    private User user;
 
-    @OneToOne(mappedBy = "inquiry", orphanRemoval = true) // 필드명
-    private Answer answer;
+//    @OneToOne(mappedBy = "inquiry", orphanRemoval = true) // 필드명
+//    private Answer answer;
 
     @Column(name = "user_id", nullable = false)
     private Long userId;

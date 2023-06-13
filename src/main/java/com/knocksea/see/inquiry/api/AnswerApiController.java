@@ -29,8 +29,8 @@ public class AnswerApiController {
   private final AnswerService answerService;
   private final InquiryService inquiryService;
 
-  @GetMapping
-  public ResponseEntity<?> detailList(Long inquiryId) {
+  @GetMapping("/{inquiryId}")
+  public ResponseEntity<?> detail(@PathVariable Long inquiryId) {
     log.info("inquiryId - {}", inquiryId);
     AnswerDetailResponseDTO answerInfo = answerService.findByInquiry(inquiryId);
     log.info("answerInfo - {}", answerInfo);
