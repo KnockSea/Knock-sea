@@ -1,12 +1,15 @@
 package com.knocksea.see.user.api;
 
+
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
+import com.knocksea.see.user.dto.request.FishingSpotRegisterRequestDTO;
 import com.knocksea.see.user.dto.request.ShipRegisterRequestDTO;
-import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
+import com.knocksea.see.user.dto.response.FishingSpotRegisterResponseDto;
 import com.knocksea.see.user.dto.response.ShipRegisterResponseDTO;
-import com.knocksea.see.user.service.ShipService;
+import com.knocksea.see.user.entity.FishingSpot;
+import com.knocksea.see.user.service.FishingSpotService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,20 +24,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/ship")
-public class ShipApiController {
+@RequestMapping("/api/v1/fishing")
+public class FishingSpotApiController {
 
-    private final ShipService shipService;
+    private final FishingSpotService fishingSpotService;
 
-    //배 등록 요청
-    //post : /api/v1/ship/register
-
+    //낚시터 등록 요청
+    //post : /api/v1/fishing/register
     @PostMapping("/register")
-    public ResponseEntity<?> registerShip(@Validated @RequestBody ShipRegisterRequestDTO dto,
+    public ResponseEntity<?> registerShip(@Validated @RequestBody FishingSpotRegisterRequestDTO dto,
                                           @AuthenticationPrincipal TokenUserInfo userInfo
             , BindingResult result) {
         //값 들어오는지 확인
-        log.info("/user/register POST! --{}", dto);
+        log.info("/fishing/register POST! --{}", dto);
 
 
 //        String savePath = null;
@@ -49,8 +51,8 @@ public class ShipApiController {
                     .body(result.getFieldError());
         }
         try {
-            ShipRegisterResponseDTO join = shipService.save(dto,userInfo.getUserId());
-            return ResponseEntity.ok().body(join);
+            FishingSpotRegisterResponseDto fishingSpotRegisterResponseDto = fishingSpotService.save(dto, userInfo.getUserId());
+            return ResponseEntity.ok().body(fishingSpotRegisterResponseDto);
         } catch (NoRegisteredArgumentsException e) {
             log.warn("필수 등록 정보를 받지 못했습니다.");
             return ResponseEntity.badRequest().body(e.getMessage());

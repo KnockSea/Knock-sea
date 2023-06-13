@@ -60,7 +60,6 @@ public class UserService {
                 .userEmail(dto.getUserEmail())
                 .userFullAddress(dto.getUserFullAddress())
                 .userPoint(100)
-                .userBirth(dto.getUserBirth())
 //                .userImage(savePath)
                 .build();
 

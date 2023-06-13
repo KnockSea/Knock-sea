@@ -34,10 +34,6 @@ public class User {
     @Column(name = "user_password", nullable = false)
     private String userPassword;
 
-    @JsonFormat(pattern="yyyy-MM-dd")
-    @Column(name = "user_birth", nullable = false)
-    private LocalDate userBirth;
-
     @Column(name = "user_name", nullable = false)
     private String userName;
 
@@ -62,6 +58,9 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Ship ship;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private FishingSpot fishingSpot;
 
     @OneToMany(mappedBy = "user")
     @Builder.Default
