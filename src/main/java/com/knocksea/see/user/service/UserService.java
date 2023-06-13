@@ -2,6 +2,7 @@ package com.knocksea.see.user.service;
 
 import com.knocksea.see.auth.TokenProvider;
 import com.knocksea.see.user.dto.request.LoginRequestDTO;
+import com.knocksea.see.user.dto.request.UserDeleteRequest;
 import com.knocksea.see.user.dto.request.UserModifyRequestDTO;
 import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
 import com.knocksea.see.user.dto.response.LoginResponseDTO;
@@ -15,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -125,5 +124,20 @@ public class UserService {
         String token = tokenProvider.createToken(user);
 
         return new LoginResponseDTO(user, token);
+    }
+
+    public boolean deleteUser(UserDeleteRequest dto) {
+
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(
+                () -> new RuntimeException("가입된 회원이 아닙니다.")
+        );
+
+        String encodedPassword = user.getUserPassword(); //db저장 비번
+        if (!encoder.matches(dto.getUserPassword(),encodedPassword)){
+            throw new RuntimeException("비밀번호가 일치하지않아 회원탈퇴를 진행할 수 없습니다");
+        }
+
+        userRepository.deleteById(dto.getUserId());
+        return true;
     }
 }
