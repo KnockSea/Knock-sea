@@ -1,13 +1,16 @@
 package com.knocksea.see.user.api;
 
+import com.knocksea.see.user.dto.request.LoginRequestDTO;
 import com.knocksea.see.user.dto.request.UserModifyRequestDTO;
 import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
+import com.knocksea.see.user.dto.response.LoginResponseDTO;
 import com.knocksea.see.user.dto.response.UserModifyresponseDTO;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -83,4 +86,18 @@ public class UserApiController {
             throw new RuntimeException(e);
         }
     }
+    //로그인 요청
+    @PostMapping("/signin")
+    public ResponseEntity<?> signIn(
+            @Validated @RequestBody LoginRequestDTO dto
+    ){
+        try{
+            LoginResponseDTO responseDTO = userService.authenticate(dto);
+            return ResponseEntity.ok().body(responseDTO);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }
