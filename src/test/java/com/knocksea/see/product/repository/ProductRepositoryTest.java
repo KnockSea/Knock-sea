@@ -76,7 +76,7 @@ class ProductRepositoryTest {
 
         Product product = Product.builder()
                 .productTitle("222바다낚시 갈솨람")
-                .productMaxUser(10)
+//                .productMaxUser(10)
                 .productPrice(500000)
                 .productService("미끼 지급, 낚시대 지원")
                 .productFullAddress("강원도 어딘가")

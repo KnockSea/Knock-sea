@@ -9,6 +9,9 @@ import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.repository.ProductRepository;
 import com.knocksea.see.product.dto.request.PageDTO;
+import com.knocksea.see.product.repository.ReservationTimeRepository;
+import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -27,6 +30,9 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
+
+    private final ReservationTimeRepository reservationTimeRepository;
 
     public Product getProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(() ->
@@ -66,6 +72,16 @@ public class ProductService {
     }
 
     public boolean create(ProductRequestDTO dto) {
+        // 상품을 먼저 등록하고 -> 시간 정보를 등록해야 한다.
+        User user = userRepository.findById(dto.getUserId()).
+                orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
+        Product saveProduct = productRepository.save(dto.toEntity(user));
+
+        // 예약 가능 시간 정보 리스트 dto -> entity -> setProduct -> save
+        dto.getReservationTimeRequestDTO().stream()
+                .map(t -> t.toEntity(saveProduct))
+                .collect(Collectors.toList())
+                .forEach(reservationTimeRepository::save);
 
         return false;
     }

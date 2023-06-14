@@ -1,6 +1,7 @@
 package com.knocksea.see.product.entity;
 
 import com.knocksea.see.Edu.entity.Edu;
+import com.knocksea.see.product.dto.request.ReservationTimeRequestDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -39,5 +40,10 @@ public class ReservationTime {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "edu_id")
     private Edu edu;
+
+    public ReservationTime(ReservationTimeRequestDTO dto) {
+        this.timeLabelType = dto.getTimeLabelType();
+        // 작성중
+    }
 
 }
