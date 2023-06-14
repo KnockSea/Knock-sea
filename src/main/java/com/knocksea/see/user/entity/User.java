@@ -1,7 +1,6 @@
 package com.knocksea.see.user.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.knocksea.see.product.entity.Product;
 import lombok.*;
 
@@ -19,7 +18,7 @@ import java.util.List;
 @Builder
 @Entity
 @ToString(exclude = "ship")
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -33,10 +32,6 @@ public class User {
 
     @Column(name = "user_password", nullable = false)
     private String userPassword;
-
-    @JsonFormat(pattern="yyyy-MM-dd")
-    @Column(name = "user_birth", nullable = false)
-    private LocalDate userBirth;
 
     @Column(name = "user_name", nullable = false)
     private String userName;
@@ -56,15 +51,18 @@ public class User {
     @Column(name = "user_point", nullable = true)
     private int userPoint;
 
-    @Column(name = "user_image",nullable = true)
+    @Column(name = "user_image", nullable = true)
     private String userImage;
 
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Ship ship;
 
-    @OneToMany(mappedBy = "user")
-    @Builder.Default
-    private List<Product> product = new ArrayList<>();
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private FishingSpot fishingSpot;
+
+    //    @OneToMany(mappedBy = "user")
+//    @Builder.Default
+//    private List<Product> product = new ArrayList<>();
 
 }

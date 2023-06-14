@@ -1,6 +1,8 @@
 package com.knocksea.see.user.api;
 
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.user.dto.request.LoginRequestDTO;
+import com.knocksea.see.user.dto.request.UserDeleteRequest;
 import com.knocksea.see.user.dto.request.UserModifyRequestDTO;
 import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
 import com.knocksea.see.user.dto.response.LoginResponseDTO;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -99,5 +102,22 @@ public class UserApiController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    //회원탈퇴 요청
+    @DeleteMapping("/userDelete")
+    public ResponseEntity<?> removeUser(@Validated @RequestBody UserDeleteRequest dto){
+
+        log.info("UserDeleteRequest dto : {}",dto);
+        try {
+            boolean result = userService.deleteUser(dto);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
+
+
 
 }

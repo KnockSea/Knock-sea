@@ -2,6 +2,7 @@ package com.knocksea.see.user.service;
 
 import com.knocksea.see.auth.TokenProvider;
 import com.knocksea.see.user.dto.request.LoginRequestDTO;
+import com.knocksea.see.user.dto.request.UserDeleteRequest;
 import com.knocksea.see.user.dto.request.UserModifyRequestDTO;
 import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
 import com.knocksea.see.user.dto.response.LoginResponseDTO;
@@ -15,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -60,7 +59,6 @@ public class UserService {
                 .userEmail(dto.getUserEmail())
                 .userFullAddress(dto.getUserFullAddress())
                 .userPoint(100)
-                .userBirth(dto.getUserBirth())
 //                .userImage(savePath)
                 .build();
 
@@ -119,12 +117,28 @@ public class UserService {
             throw new RuntimeException("비밀번호가 틀렸습니다");
         }
 
-        log.info("{}님 로그인 성공!!",user.getUserName());
+        log.info("{}님 로그인 성공!!", user.getUserName());
 
         //로그인 성공 후에 클라이언트에 뭘 리턴할 것인가?
         //-> JWT를 클라이언트에게 발급해줘야 함.
         String token = tokenProvider.createToken(user);
 
         return new LoginResponseDTO(user, token);
+    }
+
+    //회원탈퇴 기능 구현
+    public boolean deleteUser(UserDeleteRequest dto) {
+
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(
+                () -> new RuntimeException("가입된 회원이 아닙니다.")
+        );
+
+        String encodedPassword = user.getUserPassword(); //db저장 비번
+        if (!encoder.matches(dto.getUserPassword(),encodedPassword)){
+            throw new RuntimeException("비밀번호가 일치하지않아 회원탈퇴를 진행할 수 없습니다");
+        }
+
+        userRepository.deleteById(dto.getUserId());
+        return true;
     }
 }
