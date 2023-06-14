@@ -27,11 +27,6 @@ public class UserRegisterRequestDTO {
     private String userPassword;
 
 
-    //유저 생년월일
-    @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate userBirth;
-
     //유저 전화번호
     @NotBlank
     private String userPhone;

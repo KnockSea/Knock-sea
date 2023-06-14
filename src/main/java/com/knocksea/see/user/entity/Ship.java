@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @ToString(exclude = "user")
-@Table(name = "ship")
+@Table(name = "sea_ship")
 public class Ship {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
