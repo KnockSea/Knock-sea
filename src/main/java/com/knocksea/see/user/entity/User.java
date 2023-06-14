@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class User {
     @Column(name = "user_point", nullable = true)
     private int userPoint;
 
-    @Column(name = "user_image",nullable = true)
+    @Column(name = "user_image", nullable = true)
     private String userImage;
 
 
@@ -60,9 +61,9 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private FishingSpot fishingSpot;
 
-    @OneToMany(mappedBy = "user")
-    @Builder.Default
-    private List<Product> product = new ArrayList<>();
+    //    @OneToMany(mappedBy = "user")
+//    @Builder.Default
+//    private List<Product> product = new ArrayList<>();
 
 
 
