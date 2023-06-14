@@ -1,5 +1,6 @@
 package com.knocksea.see.product.entity;
 
+import com.knocksea.see.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @ToString
-@EqualsAndHashCode(of = {"productId"})
+@EqualsAndHashCode(of = "productId")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -44,6 +45,10 @@ public class Product {
 
     @Column(name = "product_location_info", nullable = false)
     private String productLocationInfo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
 }
