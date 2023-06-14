@@ -35,13 +35,6 @@ public class Edu {
     @Column(nullable = false, length = 7)
     private int eduPrice;
 
-    @Column(nullable = false, length = 5)
-    private int eduMaxUser;
-
-    @Builder.Default
-    @Column(nullable = false, length = 5)
-    private int eduCurrentUser=0;
-
     @Column(nullable = true, length = 200)
     private String eduService;
 
@@ -65,7 +58,6 @@ public class Edu {
         this.eduTitle = dto.getEduTitle();
         this.eduFullAddress=dto.getEduFullAddress();
         this.eduPrice=dto.getEduPrice();
-        this.eduMaxUser=dto.getEduMaxUser();
         this.eduService=dto.getEduService();
         this.eduLevel=dto.getEduLevel();
         this.eduInfo=dto.getEduInfo();

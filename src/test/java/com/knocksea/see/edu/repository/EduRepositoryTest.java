@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import static com.knocksea.see.edu.entity.EduLevel.LOWER;
 import static com.knocksea.see.edu.entity.EduLevel.MIDDLE;
@@ -60,8 +61,6 @@ class EduRepositoryTest {
 
         Edu p2 = Edu.builder()
                 .eduTitle("중급자 낚시 클래스 모집합니다.")
-                .eduContent("내용입니다.")
-                .eduMaxUser(4)
                 .eduPrice(50000)
                 .eduLevel(MIDDLE)
                 .eduService("장화 대여가능합니다. 10000원 추가 요금 발생됩니다.")

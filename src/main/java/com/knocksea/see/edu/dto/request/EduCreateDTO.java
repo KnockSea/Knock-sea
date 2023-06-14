@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalTime;
+import java.util.Date;
+import java.util.List;
 
 @Getter @Setter
 @ToString
@@ -31,7 +34,16 @@ public class EduCreateDTO {
     private int eduPrice;
 
     @NotNull
-    private int eduMaxUser;
+    private int timeMaxUser; //reservation_time 엔터티
+
+    @NotNull
+    private List<Date> timeDate; //예약일  //reservation_time 엔터티
+
+    @NotNull
+    private List<LocalTime> timeStart;//예약 시작시간  //reservation_time 엔터티
+
+    @NotNull
+    private List<LocalTime> timeEnd;//예약 종료시간  //reservation_time 엔터티
 
     @NotBlank
     @Size(min=1,max = 200)
@@ -52,7 +64,6 @@ public class EduCreateDTO {
     public Edu toEntity(){
         return Edu.builder()
                 .eduTitle(this.eduTitle)
-                .eduMaxUser(this.eduMaxUser)
                 .eduPrice(this.eduPrice)
                 .eduLevel(this.eduLevel)
                 .eduService(this.eduService)
