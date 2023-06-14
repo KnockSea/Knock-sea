@@ -21,10 +21,6 @@ public class EduDetailResponseDTO {
 
     private int eduPrice;
 
-    private int eduMaxUser;
-
-    private int eduCurrentUser;
-
     private String eduService;
 
     private EduLevel eduLevel;
@@ -38,8 +34,6 @@ public class EduDetailResponseDTO {
         this.eduTitle=edu.getEduTitle();
         this.eduFullAddress=edu.getEduFullAddress();
         this.eduPrice=edu.getEduPrice();
-        this.eduMaxUser=edu.getEduMaxUser();
-        this.eduCurrentUser=edu.getEduCurrentUser();
         this.eduService=edu.getEduService();
         this.eduLevel=edu.getEduLevel();
         this.eduInfo=edu.getEduInfo();

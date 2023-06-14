@@ -1,12 +1,15 @@
 package com.knocksea.see.edu.entity;
 
 import com.knocksea.see.edu.dto.response.EduModifyDTO;
+import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -52,6 +55,14 @@ public class Edu {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "edu", orphanRemoval = true)
+    @Builder.Default
+    private List<Like> like = new ArrayList<>();
+
+    @OneToMany(mappedBy = "edu", orphanRemoval = true)
+    @Builder.Default
+    private List<ReservationTime> reservationTime = new ArrayList<>();
 
     // 수정메서드
     public void update(EduModifyDTO dto) {

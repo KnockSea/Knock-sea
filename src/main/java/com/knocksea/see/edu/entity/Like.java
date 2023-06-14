@@ -1,5 +1,7 @@
 package com.knocksea.see.edu.entity;
 
+import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,5 +33,15 @@ public class Like {
 
     @Column(nullable = false, length = 10)
     private int classId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "edu_id")
+    private Edu edu;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "productId")
+    private Product product;
+
+
 
 }

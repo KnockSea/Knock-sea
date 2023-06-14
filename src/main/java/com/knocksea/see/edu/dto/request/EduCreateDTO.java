@@ -34,16 +34,16 @@ public class EduCreateDTO {
     private int eduPrice;
 
     @NotNull
-    private int timeMaxUser; //reservation_time 엔터티
+    private int timeMaxUser; //예약가능인원 //ReservationTime 엔터티
 
     @NotNull
-    private List<Date> timeDate; //예약일  //reservation_time 엔터티
+    private List<Date> timeDate; //예약일  //ReservationTime 엔터티
 
     @NotNull
-    private List<LocalTime> timeStart;//예약 시작시간  //reservation_time 엔터티
+    private List<LocalTime> timeStart; //시작시간  //ReservationTime 엔터티
 
     @NotNull
-    private List<LocalTime> timeEnd;//예약 종료시간  //reservation_time 엔터티
+    private List<LocalTime> timeEnd;//종료시간  //ReservationTime 엔터티
 
     @NotBlank
     @Size(min=1,max = 200)
