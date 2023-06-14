@@ -14,5 +14,5 @@ import java.util.List;
 public interface AnswerRepository
     extends JpaRepository<Answer, Long> {
     @Query("SELECT a FROM Answer a WHERE a.inquiry = :inquiry")
-    Answer findByInquiry(@Param("inquiry")Inquiry inquiry);
+    Answer findByiId(@Param("inquiry")Inquiry inquiry);
 }

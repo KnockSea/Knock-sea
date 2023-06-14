@@ -1,5 +1,6 @@
 package com.knocksea.see.inquiry.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -34,8 +35,10 @@ public class Inquiry {
 //    @JoinColumn(name = "user_id", nullable = false)
 //    private User user;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "inquiry", orphanRemoval = true) // 필드명
     private Answer answer;
+
 
     @Column(name = "user_id", nullable = false)
     private Long userId;

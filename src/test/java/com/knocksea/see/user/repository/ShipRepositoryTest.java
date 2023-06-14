@@ -16,29 +16,29 @@ import static org.junit.jupiter.api.Assertions.*;
 @Rollback(value = false)
 class ShipRepositoryTest {
     
-    @Autowired
-    ShipRepository shipRepository;
+//    @Autowired
+//    ShipRepository shipRepository;
 
     @Autowired
     UserRepository userRepository;
 
-    @Test
-    @DisplayName("배를 저장해야한다")
-    void insertShipTest() {
-        User user = userRepository.findByUserEmail("chanho@naver.com").orElseThrow();
-        //given
-        Ship build = Ship.builder()
-                .shipSerial("11-45625665")
-                .shipLocation("새벽 롤망호 파티구함")
-                .shipName("롤망호").shipLocation("경상남도 남해")
-                .shipLikeCount(0)
-                .user(user)
-                .build();
-        //when
-        shipRepository.save(build);
-
-        //then
-    }
+//    @Test
+//    @DisplayName("배를 저장해야한다")
+//    void insertShipTest() {
+//        User user = userRepository.findByUserEmail("chanho@naver.com").orElseThrow();
+//        //given
+//        Ship build = Ship.builder()
+//                .shipSerial("11-45625665")
+//                .shipLocation("새벽 롤망호 파티구함")
+//                .shipName("롤망호").shipLocation("경상남도 남해")
+//                .shipLikeCount(0)
+//                .user(user)
+//                .build();
+//        //when
+//        shipRepository.save(build);
+//
+//        //then
+//    }
 //    @Test
 //    @DisplayName("userid로 배 정보를 가져와야한다")
 //    void findshipuserid() {

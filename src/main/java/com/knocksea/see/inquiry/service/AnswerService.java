@@ -33,18 +33,13 @@ public class AnswerService {
 
     public AnswerDetailResponseDTO findByInquiry(Long inqyiryId) {
 
-        Inquiry inquiryInfo = inquiryRepository.findByInquiry(inqyiryId);
-        Answer answer = answerRepository.findByInquiry(inquiryInfo);
+        Inquiry inquiry = inquiryRepository.findById(inqyiryId).orElseThrow(() -> new RuntimeException("없는 문의입니다"));
+
+        Answer answer = answerRepository.findByiId(inquiry);
         AnswerDetailResponseDTO dto = new AnswerDetailResponseDTO(answer);
         log.info("dto - {}", answer);
 
-        return AnswerDetailResponseDTO.builder()
-                .answerDetails(dto.getAnswerDetails())
-//                .userId(dto.getUserId())
-                .inquiryId(dto.getInquiryId())
-                .answerId(dto.getAnswerId())
-                .answerDateTime(dto.getAnswerDateTime())
-                .build();
+        return dto;
     }
 
     private Answer getAnswer(Long answerId) {
