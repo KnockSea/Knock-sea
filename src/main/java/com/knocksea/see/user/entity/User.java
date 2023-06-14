@@ -19,7 +19,7 @@ import java.util.List;
 @Builder
 @Entity
 @ToString(exclude = "ship")
-@Table(name = "user")
+@Table(name = "userInfo")
 public class User {
 
     @Id

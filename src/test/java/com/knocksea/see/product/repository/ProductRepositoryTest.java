@@ -39,7 +39,7 @@ class ProductRepositoryTest {
                 .userPassword("1234")
                 .userPhone("010-1000-2000")
                 .build();
-        userRepository.save(u);
+//        userRepository.save(u);
 
         Product product = Product.builder()
                 .productTitle("바다낚시 갈솨람")
