@@ -18,7 +18,7 @@ import java.util.List;
 @Builder
 @Entity
 @ToString(exclude = "ship")
-@Table(name = "users")
+@Table(name = "sea_user")
 public class User {
 
     @Id
@@ -46,7 +46,9 @@ public class User {
     private String userFullAddress;
 
     @Column(name = "user_grade", nullable = false, columnDefinition = "varchar(20) default 'user'", insertable = false)
-    private String userGrade;
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private UserGrade userGrade = UserGrade.COMMON;
 
     @Column(name = "user_point", nullable = true)
     private int userPoint;

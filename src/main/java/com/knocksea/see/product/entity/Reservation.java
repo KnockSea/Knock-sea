@@ -1,12 +1,10 @@
 package com.knocksea.see.product.entity;
 
-import com.knocksea.see.Edu.entity.Edu;
+import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -15,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "reservation")
+@Table(name = "sea_reservation")
 @Entity
 public class Reservation {
     @Id

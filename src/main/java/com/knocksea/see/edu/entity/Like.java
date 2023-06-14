@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder @Entity
-@Table(name="tbl_like")
+@Table(name="sea_like")
 public class Like {
 
     @Id

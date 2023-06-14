@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @ToString(exclude = "user")
-@Table(name = "fishing_spot")
+@Table(name = "sea_fishing_spot")
 public class FishingSpot {
 
 

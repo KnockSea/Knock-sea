@@ -1,12 +1,12 @@
 package com.knocksea.see.product.entity;
 
-import com.knocksea.see.Edu.entity.Edu;
+
+import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.product.dto.request.ReservationTimeRequestDTO;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Setter
@@ -16,7 +16,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "reservation_time")
+@Table(name = "sea_reservation_time")
 @Entity
 public class ReservationTime {
 
