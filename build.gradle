@@ -28,7 +28,6 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// swagger api 문서화
-	// swagger api 문서화
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
 
 	// 쿼리파라미터 추가 외부로그 남기기

@@ -65,7 +65,4 @@ public class User {
 //    @Builder.Default
 //    private List<Product> product = new ArrayList<>();
 
-
-
-
 }

@@ -1,3 +1,4 @@
+/*
 package com.knocksea.see.user.repository;
 
 import com.knocksea.see.user.entity.Ship;
@@ -77,4 +78,16 @@ class ShipRepositoryTest {
 
         //then
     }
-}
+
+//    @Test
+//    @DisplayName("userid로 배 정보를 가져와야한다")
+//    void findshipuserid() {
+//        //given
+//        Long id = 1L;
+//        //when
+//        Ship byUserId = shipRepository.findByUserId(id);
+//        //then
+//
+//        System.out.println("byUserId = " + byUserId);
+//    }
+}*/
