@@ -112,7 +112,7 @@ public class UserApiController {
             boolean result = userService.deleteUser(dto);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
 
     }

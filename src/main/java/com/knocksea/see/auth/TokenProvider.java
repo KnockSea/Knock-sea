@@ -52,7 +52,7 @@ public class TokenProvider {
 
         //추가 클레임 정의
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userId",userEntity.getUserId());
+        claims.put("userId", userEntity.getUserId());
         claims.put("userEmail", userEntity.getUserEmail());
         claims.put("userGrade", userEntity.getUserGrade());
 

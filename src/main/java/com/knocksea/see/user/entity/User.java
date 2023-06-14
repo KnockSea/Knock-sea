@@ -1,13 +1,11 @@
 package com.knocksea.see.user.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.knocksea.see.product.entity.Product;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,7 @@ import java.util.List;
 @Builder
 @Entity
 @ToString(exclude = "ship")
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
     @Id

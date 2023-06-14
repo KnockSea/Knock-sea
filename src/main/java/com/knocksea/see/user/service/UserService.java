@@ -117,7 +117,7 @@ public class UserService {
             throw new RuntimeException("비밀번호가 틀렸습니다");
         }
 
-        log.info("{}님 로그인 성공!!",user.getUserName());
+        log.info("{}님 로그인 성공!!", user.getUserName());
 
         //로그인 성공 후에 클라이언트에 뭘 리턴할 것인가?
         //-> JWT를 클라이언트에게 발급해줘야 함.
@@ -126,6 +126,7 @@ public class UserService {
         return new LoginResponseDTO(user, token);
     }
 
+    //회원탈퇴 기능 구현
     public boolean deleteUser(UserDeleteRequest dto) {
 
         User user = userRepository.findById(dto.getUserId()).orElseThrow(

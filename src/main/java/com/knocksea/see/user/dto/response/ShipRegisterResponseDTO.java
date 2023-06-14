@@ -1,12 +1,7 @@
 package com.knocksea.see.user.dto.response;
 
 import com.knocksea.see.user.entity.Ship;
-import com.knocksea.see.user.entity.User;
 import lombok.*;
-
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 @Getter
 @Setter
