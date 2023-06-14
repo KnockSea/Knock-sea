@@ -1,6 +1,6 @@
 package com.knocksea.see.review.dto.request;
 
-import com.knocksea.see.entity.Class;
+import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.entity.ReviewType;
@@ -20,7 +20,7 @@ public class ReviewCreateDTO {
     private String reviewContent;
     private String reviewType;
     private User user;
-    private Class classInfo;
+    private Edu edu;
     private Product product;
 
     public Review toEntity() {
@@ -29,7 +29,7 @@ public class ReviewCreateDTO {
                 .reviewContent(this.reviewContent)
                 .reviewType(ReviewType.valueOf(this.reviewType))
                 .user(this.user)
-                .classInfo(this.classInfo)
+                .edu(this.edu)
                 .product(this.product)
                 .build();
     }

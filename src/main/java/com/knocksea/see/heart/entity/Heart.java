@@ -1,6 +1,5 @@
 package com.knocksea.see.heart.entity;
 
-import com.knocksea.see.entity.Class;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.user.entity.User;
 import lombok.*;

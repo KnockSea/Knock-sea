@@ -18,16 +18,19 @@ public class ReviewDetailResponseDTO {
     private String reviewContent;
     private String reviewType;
     private Long userId;
-    private Long classId;
+    private Long eduId;
     private Long productId;
 
     public ReviewDetailResponseDTO(Review review) {
         this.reviewId = review.getReviewId();
         this.reviewRating = review.getReviewRating();
         this.reviewContent = review.getReviewContent();
-//        this.reviewType = review.getReviewType();
+        this.reviewType = String.valueOf(review.getReviewType());
         this.userId = review.getUser().getUserId();
-//        this.classId = review.getClass().getClassId();
+        Long eduId = review.getEdu() != null ? (long) review.getEdu().getEduId() : null;
+        this.eduId = eduId;
+        Long productId = review.getProduct() != null ? review.getProduct().getProductId() : null;
+        this.productId = productId;
     }
 
 }

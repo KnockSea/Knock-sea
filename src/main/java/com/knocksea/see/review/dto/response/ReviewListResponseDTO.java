@@ -1,7 +1,6 @@
 package com.knocksea.see.review.dto.response;
 
-import com.knocksea.see.inquiry.dto.page.PageResponseDTO;
-import com.knocksea.see.inquiry.dto.response.InquiryDetailResponseDTO;
+import com.knocksea.see.review.dto.page.PageResponseDTO;
 import lombok.*;
 
 import java.util.List;
@@ -16,5 +15,5 @@ import java.util.List;
 public class ReviewListResponseDTO {
     private int count;
     private PageResponseDTO pageInfo;
-    private List<ReviewDetailResponseDTO> inquiries;
+    private List<ReviewDetailResponseDTO> reviews;
 }
