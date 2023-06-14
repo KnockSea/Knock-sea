@@ -1,0 +1,36 @@
+package com.knocksea.see.review.dto.request;
+
+import com.knocksea.see.entity.Class;
+import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.review.entity.Review;
+import com.knocksea.see.review.entity.ReviewType;
+import com.knocksea.see.user.entity.User;
+import lombok.*;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ReviewCreateDTO {
+
+    private Long reviewRating;
+    private String reviewContent;
+    private String reviewType;
+    private User user;
+    private Class classInfo;
+    private Product product;
+
+    public Review toEntity() {
+        return Review.builder()
+                .reviewRating(this.reviewRating)
+                .reviewContent(this.reviewContent)
+                .reviewType(ReviewType.valueOf(this.reviewType))
+                .user(this.user)
+                .classInfo(this.classInfo)
+                .product(this.product)
+                .build();
+    }
+}
