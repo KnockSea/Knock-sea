@@ -29,6 +29,7 @@ public class Answer {
     @CreationTimestamp
     private LocalDateTime answerDateTime;
 
+    @ToString.Exclude
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "inquiry_id", nullable = false) // pk 컬럼명
     private Inquiry inquiry;
