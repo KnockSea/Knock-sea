@@ -24,25 +24,21 @@ public class EduCreateDTO {
     private String eduTitle;
 
     @NotBlank
-    @Size(min=1,max = 2000)
-    private String eduContent;
-
-    @NotNull
-    private int eduMaxUser;
+    @Size(min=1,max = 200)
+    private String eduFullAddress;
 
     @NotNull
     private int eduPrice;
 
     @NotNull
-    private EduLevel eduLevel;
+    private int eduMaxUser;
 
     @NotBlank
     @Size(min=1,max = 200)
     private String eduService;
 
-    @NotBlank
-    @Size(min=1,max = 200)
-    private String eduFullAddress;
+    @NotNull
+    private EduLevel eduLevel;
 
     @NotBlank
     @Size(min=1,max = 500)
@@ -56,7 +52,6 @@ public class EduCreateDTO {
     public Edu toEntity(){
         return Edu.builder()
                 .eduTitle(this.eduTitle)
-                .eduContent(this.eduContent)
                 .eduMaxUser(this.eduMaxUser)
                 .eduPrice(this.eduPrice)
                 .eduLevel(this.eduLevel)

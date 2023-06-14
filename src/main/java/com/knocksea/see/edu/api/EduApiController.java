@@ -1,9 +1,11 @@
 package com.knocksea.see.edu.api;
 
-import com.knocksea.see.edu.dto.EduModifyDTO;
+import com.knocksea.see.edu.dto.response.EduModifyDTO;
 import com.knocksea.see.edu.dto.request.EduCreateDTO;
 import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
 import com.knocksea.see.edu.service.EduService;
+import com.knocksea.see.inquiry.dto.page.PageDTO;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,30 @@ import java.util.List;
 public class EduApiController {
 
     private final EduService eduService;
+    
+    //전체 조회
+/*    @GetMapping
+    public ResponseEntity<?> list(PageDTO pageDTO){
+        log.info("/api/v1/edu GET");
+
+        eduService.getAllEdu();
+
+    }*/
+    
+    //개별 조회
+    @GetMapping("/{eduId}")
+    public ResponseEntity<?> detail(@PathVariable Integer eduId){
+        log.info("/api/v1/edu/{} GET",eduId);
+
+        try {
+            EduDetailResponseDTO dto = eduService.getDetail(eduId);
+
+            return ResponseEntity.ok().body(dto);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
     //클래스 등록 - post
     @PostMapping
@@ -82,14 +108,32 @@ public class EduApiController {
         if(fieldErros!=null) return fieldErros;
 
         try {
-/*            EduDetailResponseDTO responseDTO
+            EduDetailResponseDTO responseDTO
                     = eduService.modify(dto);
 
-            return ResponseEntity.ok().body(responseDTO);*/
-            return null;
+            return ResponseEntity.ok().body(responseDTO);
         }
         catch (Exception e){
-            return null;
+            return ResponseEntity
+                    .internalServerError()
+                    .body(e.getMessage());
+        }
+    }
+
+    //게시물 삭제
+    @DeleteMapping("/{eduId}")
+    public ResponseEntity<?> delete(@PathVariable Integer eduId){
+        log.info("/api/v1/posts DELETE!! ");
+
+        try {
+            eduService.delete(eduId);
+            return ResponseEntity
+                    .ok("DEL SUCCESS!!");
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity
+                    .internalServerError()
+                    .body(e.getMessage());
         }
     }
 }
