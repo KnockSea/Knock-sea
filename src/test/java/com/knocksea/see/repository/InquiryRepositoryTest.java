@@ -31,7 +31,6 @@ class InquiryRepositoryTest {
                             Inquiry.builder()
                                     .inquiryDetails("테스트 게시글 " + i)
                                     .inquiryId(i)
-                                    .userId(i)
                                     .build()
             );
         }

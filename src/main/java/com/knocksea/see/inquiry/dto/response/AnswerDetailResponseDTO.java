@@ -29,7 +29,7 @@ public class AnswerDetailResponseDTO {
         this.answerId = answer.getAnswerId();
         this.answerDetails = answer.getAnswerDetails();
         this.answerDateTime = answer.getAnswerDateTime();
-//        this.userId = answer.getUserId();
+        this.userId = answer.getUser().getUserId();
         this.inquiryId = answer.getInquiry().getInquiryId();
     }
 }

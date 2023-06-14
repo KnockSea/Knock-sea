@@ -1,5 +1,6 @@
 package com.knocksea.see.inquiry.entity;
 
+import com.knocksea.see.user.entity.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -34,10 +35,9 @@ public class Answer {
     @JoinColumn(name = "inquiry_id", nullable = false) // pk 컬럼명
     private Inquiry inquiry;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
-
-
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 }
