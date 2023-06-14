@@ -15,11 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Rollback(value = false)
 class ShipRepositoryTest {
     
-    @Autowired
-    ShipRepository shipRepository;
+//    @Autowired
+//    ShipRepository shipRepository;
 
     @Autowired
     UserRepository userRepository;
+
 
     @Test
     @DisplayName("배를 저장해야한다")

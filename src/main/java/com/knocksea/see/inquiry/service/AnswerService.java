@@ -6,7 +6,6 @@ import com.knocksea.see.inquiry.dto.request.AnswerCreateRequestDTO;
 import com.knocksea.see.inquiry.dto.response.AnswerDetailResponseDTO;
 import com.knocksea.see.inquiry.dto.response.AnswerListResponseDTO;
 import com.knocksea.see.inquiry.dto.request.AnswerModifyDTO;
-import com.knocksea.see.inquiry.dto.response.InquiryDetailResponseDTO;
 import com.knocksea.see.inquiry.entity.Answer;
 import com.knocksea.see.inquiry.entity.Inquiry;
 import com.knocksea.see.inquiry.repository.AnswerRepository;
@@ -32,29 +31,36 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final InquiryRepository inquiryRepository;
 
+    public AnswerDetailResponseDTO findByInquiry(Long inqyiryId) {
 
-    public AnswerDetailResponseDTO getDetail(Long inquiryId) {
-        Answer answer = getAnswer(inquiryId);
-        return new AnswerDetailResponseDTO(answer);
+        Inquiry inquiry = inquiryRepository.findById(inqyiryId).orElseThrow(() -> new RuntimeException("없는 문의입니다"));
+
+        Answer answer = answerRepository.findByiId(inquiry);
+        AnswerDetailResponseDTO dto = new AnswerDetailResponseDTO(answer);
+        log.info("dto - {}", answer);
+
+        return dto;
     }
 
-    private Answer getAnswer(Long inquiryId) {
-        Answer answerEntity = answerRepository.findById(inquiryId)
-            .orElseThrow(
-                () -> new RuntimeException(
-                        inquiryId + "번 문의게시물이 존재하지 않습니다."
-                )
-            );
+    private Answer getAnswer(Long answerId) {
+        Answer answerEntity = answerRepository.findById(answerId)
+                .orElseThrow(
+                        () -> new RuntimeException(
+                                answerId + "번 문의게시물이 존재하지 않습니다."
+                        )
+                );
         return answerEntity;
     }
 
-    public AnswerDetailResponseDTO insert(final AnswerCreateRequestDTO dto)
-        throws RuntimeException {
+    public AnswerDetailResponseDTO insert(Long inquiryId, final AnswerCreateRequestDTO dto)
+            throws RuntimeException {
+        Inquiry inquiryInfo = inquiryRepository.findById(inquiryId).orElseThrow();
+        dto.setInquiry(inquiryInfo);
 
-            Answer saved = answerRepository.save(dto.toEntity());
-             log.info("answer saved- {}", saved);
+        Answer saved = answerRepository.save(dto.toEntity());
+        log.info("answer saved- {}", saved);
 
-            return new AnswerDetailResponseDTO(saved);
+        return new AnswerDetailResponseDTO(saved);
 
     }
 
