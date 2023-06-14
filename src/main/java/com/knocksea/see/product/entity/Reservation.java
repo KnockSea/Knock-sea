@@ -1,6 +1,5 @@
 package com.knocksea.see.product.entity;
 
-import com.knocksea.see.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
