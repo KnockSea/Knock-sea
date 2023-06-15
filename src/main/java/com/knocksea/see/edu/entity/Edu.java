@@ -25,6 +25,7 @@ public class Edu {
     @Column(length =10)
     private int eduId;
 
+
     @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime createDate;
