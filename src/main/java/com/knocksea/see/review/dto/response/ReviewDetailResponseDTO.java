@@ -25,11 +25,14 @@ public class ReviewDetailResponseDTO {
         this.reviewId = review.getReviewId();
         this.reviewRating = review.getReviewRating();
         this.reviewContent = review.getReviewContent();
-        if (review.getEdu() != null) {
+        if (review.getEdu() != null ) {
             this.reviewType = "CLASS";
-        } else if (review.getProduct() != null) {
+        } else if (review.getProduct() != null || review.getProduct().equals("FISHING")) {
             this.reviewType = "FISHING";
-        } else {
+        } else if (review.getProduct() != null || review.getProduct().equals("SHIP")) {
+            this.reviewType = "SHIP";
+        }
+        else {
             this.reviewType = String.valueOf(review.getReviewType());
         }
         this.userId = review.getUser().getUserId();
