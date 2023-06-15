@@ -23,7 +23,7 @@ public class Edu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length =10)
-    private int eduId;
+    private Long eduId;
 
     @Column(updatable = false)
     @CreationTimestamp
