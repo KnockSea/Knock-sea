@@ -54,13 +54,15 @@ public class Product {
     @Column(name = "product_location_info", nullable = false)
     private String productLocationInfo;
 
+    private String productType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "category_id")
+//    private Category category;
 
     // 예약 시간 양방향 관리 할거면 필요한데...
 //    @OneToMany(mappedBy = "product")

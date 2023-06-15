@@ -10,6 +10,7 @@ import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.repository.ProductRepository;
 import com.knocksea.see.product.dto.request.PageDTO;
 import com.knocksea.see.product.repository.ReservationTimeRepository;
+import com.knocksea.see.review.repository.ReviewRepository;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +33,8 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+
+    private final ReviewRepository reviewRepository;
 
     private final ReservationTimeRepository reservationTimeRepository;
 
@@ -63,28 +67,31 @@ public class ProductService {
     // 상품 상세조회 기능 (예약 가능 시간 정보 포함)
     public ProductDetailResponseDTO getDetail(Long productId) {
         Product product = getProduct(productId);
-//        List<ReservationTime> timeList = productRepository.findByProductId(productId);
+
         List<ReservationTimeResponseDTO> timeResponseDTOList
                 = productRepository.findByProductId(product).stream()
                 .map(ReservationTimeResponseDTO::new)
                 .collect(Collectors.toList());
-
+//        reviewRepository.findAll(product);
         return new ProductDetailResponseDTO(product, timeResponseDTOList);
     }
 
-    public boolean create(ProductRequestDTO dto) {
+    public ProductDetailResponseDTO create(ProductRequestDTO dto) {
         // 상품을 먼저 등록하고 -> 시간 정보를 등록해야 한다.
         User user = userRepository.findById(dto.getUserId()).
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
-        Product saveProduct = productRepository.save(dto.toEntity(user));
+        Product saveProduct = productRepository.save(dto.toProductEntity(user));
 
-        // 예약 가능 시간 정보 리스트 dto -> entity -> setProduct -> save
-        dto.getReservationTimeRequestDTO().stream()
-                .map(t -> t.toEntity(saveProduct))
-                .collect(Collectors.toList())
-                .forEach(reservationTimeRepository::save);
-
-        return false;
+        List<ReservationTimeResponseDTO> timeList = new ArrayList<>();
+        for (int i = 0; i < dto.getTimeDate().size(); i++) {
+            for (int j = 0; j < dto.getTimeStart().size(); j++) {
+                ReservationTime reservationTime
+                        = reservationTimeRepository.save(
+                                dto.toReservationTimeEntity(i, j, saveProduct));
+                timeList.add(new ReservationTimeResponseDTO(reservationTime));
+            }
+        }
+        return new ProductDetailResponseDTO(saveProduct, timeList);
     }
 
 

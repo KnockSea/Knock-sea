@@ -2,6 +2,7 @@ package com.knocksea.see.product.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.product.entity.ReservationTime;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -39,7 +40,7 @@ public class ProductDetailResponseDTO {
 
     }
 
-    public ProductDetailResponseDTO(Product product, List<ReservationTimeResponseDTO> timeResponseDTOList) {
+    public ProductDetailResponseDTO(Product product, List<ReservationTimeResponseDTO> timeList) {
         this.productId = product.getProductId();
         this.title = product.getProductTitle();
         this.price = product.getProductPrice();
@@ -48,6 +49,6 @@ public class ProductDetailResponseDTO {
         this.fullAddress = product.getProductFullAddress();
         this.info = product.getProductInfo();
         this.locationInfo = product.getProductLocationInfo();
-        this.timeList = timeResponseDTOList;
+        this.timeList = timeList;
     }
 }
