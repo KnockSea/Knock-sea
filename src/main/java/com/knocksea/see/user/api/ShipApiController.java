@@ -17,6 +17,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -30,7 +33,8 @@ public class ShipApiController {
     //post : /api/v1/ship/register
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerShip(@Validated @RequestBody ShipRegisterRequestDTO dto,
+    public ResponseEntity<?> registerShip(@Validated @RequestPart("ship") ShipRegisterRequestDTO dto,
+                                          @RequestPart(value = "shipImage", required = false) List<MultipartFile> shipImages,
                                           @AuthenticationPrincipal TokenUserInfo userInfo
             , BindingResult result) {
         //값 들어오는지 확인
@@ -49,6 +53,18 @@ public class ShipApiController {
                     .body(result.getFieldError());
         }
         try {
+            String uploadedFilePath =null;
+            if(shipImages!=null) {
+                //이미지 파일들이 잘 들어왔다면 원본이름 출력시키기
+                for (MultipartFile shipImage : shipImages) {
+                    log.info(shipImage.getOriginalFilename());
+                }
+            }
+
+
+//                uploadedFilePath = shipService.uploadProfileImage(shipImages);
+
+
             ShipRegisterResponseDTO join = shipService.save(dto,userInfo.getUserId());
             return ResponseEntity.ok().body(join);
         } catch (NoRegisteredArgumentsException e) {

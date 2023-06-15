@@ -13,9 +13,15 @@ import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -31,8 +37,11 @@ public class UserService {
     //토큰 인증용
     private final TokenProvider tokenProvider;
 
+    @Value("${upload.path}")
+    private String uploadRootPath;
+
     //회원가입 기능
-    public boolean join(final UserRegisterRequestDTO dto) throws RuntimeException{
+    public boolean join(final UserRegisterRequestDTO dto, String uploadedFilePath) throws RuntimeException{
 
         if(dto==null){
             throw new NoRegisteredArgumentsException("가입 정보가 없습니다");
@@ -51,16 +60,8 @@ public class UserService {
         dto.setUserPassword(encode);
 
         //dto를 엔티티로 변환
-        User user = User.builder()
-                .userName(dto.getUsername())
-                .userPassword(dto.getUserPassword())
-                .userPhone(dto.getUserPhone())
-                .userAddress(dto.getUserAddress())
-                .userEmail(dto.getUserEmail())
-                .userFullAddress(dto.getUserFullAddress())
-                .userPoint(100)
-//                .userImage(savePath)
-                .build();
+        User user = dto.toEntity(uploadedFilePath);
+
 
         //엔티티를 저장하고 리턴값 반환
         User saveuser = userRepository.save(user);
@@ -140,5 +141,29 @@ public class UserService {
 
         userRepository.deleteById(dto.getUserId());
         return true;
+    }
+
+    public boolean isDuplicate(String email) {
+        return userRepository.existsByUserEmail(email);
+    }
+
+    public String uploadProfileImage(MultipartFile originalFile) throws IOException {
+        //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
+        File rootDir = new File(uploadRootPath);
+        if(!rootDir.exists()) rootDir.mkdir();
+
+        //파일명을 유니크하게 변경
+        String uniqueFileName = UUID.randomUUID() + "_" + originalFile.getOriginalFilename();
+
+        //파일을 저장
+        File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
+
+        originalFile.transferTo(uploadFile);
+
+        return uniqueFileName;
+    }
+    public String findProfilePath(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        return uploadRootPath + "/" + user.getProfileImg();
     }
 }

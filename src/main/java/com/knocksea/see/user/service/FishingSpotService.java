@@ -39,14 +39,14 @@ public class FishingSpotService {
         User user = userRepository.findById(userId).orElseThrow(()->
                 new RuntimeException("회원 정보가 없습니다"));
 
-        //배는 사장만 등록 할 수 있음
-        if(user.getUserGrade().equals("owner")){
-            //배 중복등록방지용 유저pk (배는 1인당 1대씩만등록가능)
+        //낚시터는 사장만 등록 할 수 있음
+        if(user.getUserGrade().toString().equals("OWNER")){
+            //낚시터 중복등록방지용 유저pk (배는 1인당 1대씩만등록가능)
 
             FishingSpot foundByUserId = fishingSpotRepository.findByUserUserId(userId);
             //등록된 낚시터가없다면
             if(foundByUserId==null){
-                //dto를 ship엔티티로 변환
+                //dto 를 ship 엔티티로 변환
                 FishingSpot saveship = FishingSpot.builder().spotName(dto.getSpotName()).spotSerialNumber(dto.getSpotSerialNumber()).spotDescription(dto.getSpotDescription()).spotLocation(dto.getSpotLocation()).user(user).build();
                 FishingSpot save = fishingSpotRepository.save(saveship);
                 return new FishingSpotRegisterResponseDto(save);
@@ -58,8 +58,12 @@ public class FishingSpotService {
         }
     }
 
-    //낚시터 정보 수정용 함수
-//    public FishingSpotModifyResponseDTO modify(FishingModifyRequestDTO dto, TokenUserInfo userInfo) {
-//
-//    }
+
+
+   // 낚시터 정보 수정용 함수
+    public FishingSpotModifyResponseDTO modify(FishingModifyRequestDTO dto, TokenUserInfo userInfo) {
+
+
+        return null;
+    }
 }

@@ -1,5 +1,6 @@
 package com.knocksea.see.user.entity;
 
+import com.knocksea.see.product.entity.ProductCategory;
 import com.knocksea.see.user.dto.request.ShipModifyRequestDTO;
 import lombok.*;
 
@@ -37,6 +38,12 @@ public class Ship {
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+
+    @Column(name = "product_category" )
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private ProductCategory productCategory = ProductCategory.SHIP;
 
 
     //배 수정용 함수
