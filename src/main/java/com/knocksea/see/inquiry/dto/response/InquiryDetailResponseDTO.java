@@ -26,7 +26,7 @@ public class InquiryDetailResponseDTO {
         this.inquiryId = inquiry.getInquiryId();
         this.inquiryDetails = inquiry.getInquiryDetails();
         this.inquiryDateTime = inquiry.getInquiryDateTime();
-        this.userId = inquiry.getUserId();
+        this.userId = inquiry.getUser().getUserId();
     }
 }
 

@@ -4,4 +4,6 @@ import com.knocksea.see.user.entity.FishingSpot;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FishingSpotRepository extends JpaRepository<FishingSpot,Long> {
+
+    FishingSpot findByUserUserId(Long userId);
 }

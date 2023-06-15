@@ -1,18 +1,18 @@
 package com.knocksea.see.user.entity;
 
+import com.knocksea.see.user.dto.request.ShipModifyRequestDTO;
 import lombok.*;
 
 import javax.persistence.*;
 
-@Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @Builder
 @Entity
 @ToString(exclude = "user")
-@Table(name = "ship")
+@NoArgsConstructor
+@Table(name = "sea_ship")
 public class Ship {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +31,19 @@ public class Ship {
     @Column(name = "ship_serial", nullable = false)
     private String shipSerial;
 
-    @Column(name = "ship_like_count", nullable = false)
+    @Column(name = "ship_like_count", nullable = false, columnDefinition = "int default 0")
     private int shipLikeCount;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+
+    //배 수정용 함수
+    public void modifyShipInfo(ShipModifyRequestDTO dto){
+        this.shipSerial = dto.getShipSerial();
+        this.shipDescription = dto.getShipDescription();
+        this.shipLocation = dto.getShipLocation();
+        this.shipName = dto.getShipName();
+    }
 }

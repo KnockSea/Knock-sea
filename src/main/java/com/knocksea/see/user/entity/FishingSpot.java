@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @ToString(exclude = "user")
-@Table(name = "fishing_spot")
+@Table(name = "sea_fishing_spot")
 public class FishingSpot {
 
 
@@ -39,7 +39,7 @@ public class FishingSpot {
     private int spotHeartCount;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
 }

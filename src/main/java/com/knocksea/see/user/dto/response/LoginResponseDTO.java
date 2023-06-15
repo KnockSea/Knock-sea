@@ -11,6 +11,8 @@ import lombok.*;
 @EqualsAndHashCode
 public class LoginResponseDTO {
 
+    private Long userId;
+
     private String email;
     private String userName;
 
@@ -22,7 +24,8 @@ public class LoginResponseDTO {
     public LoginResponseDTO(User user, String token) {
         this.email = user.getUserEmail();
         this.userName = user.getUserName();
-        this.userGrade = user.getUserGrade();
+        this.userGrade = user.getUserGrade().toString();
         this.token = token;
+        this.userId = user.getUserId();
     }
 }
