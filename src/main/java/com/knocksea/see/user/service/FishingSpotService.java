@@ -1,9 +1,13 @@
 package com.knocksea.see.user.service;
 
 
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
+import com.knocksea.see.user.dto.request.FishingModifyRequestDTO;
 import com.knocksea.see.user.dto.request.FishingSpotRegisterRequestDTO;
+import com.knocksea.see.user.dto.response.FishingSpotModifyResponseDTO;
 import com.knocksea.see.user.dto.response.FishingSpotRegisterResponseDto;
+import com.knocksea.see.user.dto.response.ShipModifyResponseDTO;
 import com.knocksea.see.user.entity.FishingSpot;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.FishingSpotRepository;
@@ -12,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @Slf4j
@@ -53,5 +58,8 @@ public class FishingSpotService {
         }
     }
 
+    //낚시터 정보 수정용 함수
+    public FishingSpotModifyResponseDTO modify(FishingModifyRequestDTO dto, TokenUserInfo userInfo) {
 
     }
+}
