@@ -1,17 +1,14 @@
 package com.knocksea.see.review.api;
 
-import com.knocksea.see.inquiry.dto.request.InquiryCreateRequestDTO;
-import com.knocksea.see.inquiry.dto.response.InquiryDetailResponseDTO;
-import com.knocksea.see.inquiry.dto.response.InquiryListResponseDTO;
 import com.knocksea.see.review.dto.page.PageDTO;
 import com.knocksea.see.review.dto.request.ReviewCreateDTO;
-import com.knocksea.see.review.dto.request.ReviewDTO;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.dto.response.ReviewListResponseDTO;
+import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -56,11 +53,11 @@ public class ReviewApiController {
           }
         }
 
-        @GetMapping("/{reviewId}")
-        public ResponseEntity<?> getReviewById(@PathVariable Long reviewId) {
-          ReviewDetailResponseDTO dto = reviewService.getReviewById(reviewId);
+        @GetMapping("/{userId}")
+        public ResponseEntity<?> getReviewById(@PathVariable Long userId, PageDTO pageDTO) {
+          ReviewListResponseDTO userReviewById = reviewService.getUserReviewById(userId, pageDTO);
           try {
-            return ResponseEntity.ok().body(dto);
+            return ResponseEntity.ok().body(userReviewById);
           } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
           }
@@ -81,12 +78,12 @@ public class ReviewApiController {
 
   @DeleteMapping("/{userId}")
   public ResponseEntity<?> delete(
-      @PathVariable Long reviewId
+      @PathVariable Long userId
   ) {
-    log.info("/api/v1/reviews/{}  DELETE!! ", reviewId);
+    log.info("/api/v1/reviews/{}  DELETE!! ", userId);
 
     try {
-      reviewService.deleteReview(reviewId);
+      reviewService.deleteReview(userId);
       return ResponseEntity
           .ok("DEL SUCCESS!!");
     } catch (Exception e) {

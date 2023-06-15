@@ -1,16 +1,12 @@
 package com.knocksea.see.review.service;
 
-import com.knocksea.see.product.repository.ProductRepository;
 import com.knocksea.see.review.dto.page.PageDTO;
 import com.knocksea.see.review.dto.page.PageResponseDTO;
 import com.knocksea.see.review.dto.request.ReviewCreateDTO;
-import com.knocksea.see.review.dto.request.ReviewDTO;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.dto.response.ReviewListResponseDTO;
 import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.repository.ReviewRepository;
-import com.knocksea.see.user.entity.User;
-import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -37,12 +33,26 @@ public class ReviewService {
     return new ReviewDetailResponseDTO(saved);
   }
 
-  public ReviewDetailResponseDTO getReviewById(Long reviewId) {
+  public ReviewListResponseDTO getUserReviewById(Long userId, PageDTO dto) {
 
-    Review review = reviewRepository.findById(reviewId)
-        .orElseThrow(() -> new RuntimeException("Review not found with ID: " + reviewId));
+    PageRequest pageable = PageRequest.of(
+            dto.getPage() - 1,
+            dto.getSize(),
+            Sort.by("inquiryDateTime").descending()
+    );
+    Page<Review> byUserId = reviewRepository.findByUserId(userId, pageable);
+    List<Review> reviewList = byUserId.getContent();
+    List<ReviewDetailResponseDTO> detailList = reviewList.stream()
+            .map(ReviewDetailResponseDTO::new)
+            .collect(Collectors.toList());
 
-    return new ReviewDetailResponseDTO(review);
+
+
+    return ReviewListResponseDTO.builder()
+            .count(reviewList.size())
+            .pageInfo(new PageResponseDTO<Review>(byUserId))
+            .reviews(detailList)
+            .build();
   }
 
   public ReviewListResponseDTO getAllReviews(PageDTO dto) {
@@ -66,8 +76,8 @@ public class ReviewService {
         .build();
   }
 
-  public void deleteReview(Long reviewId) throws RuntimeException, SQLException {
+  public void deleteReview(Long userId) throws RuntimeException, SQLException {
 
-    reviewRepository.deleteById(reviewId);
+    reviewRepository.deleteById(userId);
   }
 }
