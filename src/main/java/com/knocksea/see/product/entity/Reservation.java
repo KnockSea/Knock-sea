@@ -1,10 +1,10 @@
 package com.knocksea.see.product.entity;
 
+import com.knocksea.see.edu.entity.Edu;
+import com.knocksea.see.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "reservation")
+@Table(name = "sea_reservation")
 @Entity
 public class Reservation {
     @Id
@@ -23,9 +23,8 @@ public class Reservation {
 
     private String reservationType;
 
-    private LocalDate reservationDate;
-
-    private LocalDateTime reservationTime;
+    // 시간값 연결 문자열
+    private String reservationDate;
 
     private String reservationAddress;
 
@@ -33,14 +32,22 @@ public class Reservation {
 
     private int reservationPrice;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "product_id")
-//    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "edu_id")
+    private Edu edu;
+
+    // 예약 시간
+    @OneToOne
+    @JoinColumn(name = "time_id", nullable = false)
+    private ReservationTime reservationTime;
 
 
 }

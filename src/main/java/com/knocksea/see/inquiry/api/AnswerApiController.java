@@ -5,7 +5,10 @@ import com.knocksea.see.inquiry.dto.request.AnswerCreateRequestDTO;
 import com.knocksea.see.inquiry.dto.request.AnswerModifyDTO;
 import com.knocksea.see.inquiry.dto.response.AnswerDetailResponseDTO;
 import com.knocksea.see.inquiry.dto.response.AnswerListResponseDTO;
+import com.knocksea.see.inquiry.entity.Inquiry;
+import com.knocksea.see.inquiry.repository.InquiryRepository;
 import com.knocksea.see.inquiry.service.AnswerService;
+import com.knocksea.see.inquiry.service.InquiryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,45 +27,42 @@ import java.util.List;
 public class AnswerApiController {
 
   private final AnswerService answerService;
-
+  private final InquiryService inquiryService;
 
   @GetMapping("/{inquiryId}")
-  public ResponseEntity<?> detail(Long inquiryId) {
-
-    try {
-      AnswerDetailResponseDTO dto = answerService.getDetail(inquiryId);
-      return ResponseEntity.ok().body(dto);
-    } catch (Exception e) {
-      return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
+  public ResponseEntity<?> detail(@PathVariable Long inquiryId) {
+    log.info("inquiryId - {}", inquiryId);
+    AnswerDetailResponseDTO answerInfo = answerService.findByInquiry(inquiryId);
+    log.info("answerInfo - {}", answerInfo);
+    return ResponseEntity.ok().body(answerInfo);
   }
 
-  @PostMapping
+  @PostMapping("/{inquiryId}")
   public ResponseEntity<?>create(
-      @Validated @RequestBody AnswerCreateRequestDTO dto
-      , BindingResult result
-      ) {
+          @PathVariable Long inquiryId,
+          @Validated @RequestBody AnswerCreateRequestDTO dto
+          , BindingResult result
+  ) {
     log.info("AnswerCreateRequestDTO POST!");
 
     if (dto == null) {
       return ResponseEntity
-          .badRequest()
-          .body("등록 답장 정보를 보내주세요!!");
+              .badRequest()
+              .body("등록 답장 정보를 보내주세요!!");
     }
     ResponseEntity<List<FieldError>> fieldErrors = getValidatedResult(result);
     if (fieldErrors != null) return fieldErrors;
 
     try {
-      AnswerDetailResponseDTO responseDTO = answerService.insert(dto);
+      AnswerDetailResponseDTO responseDTO = answerService.insert(inquiryId, dto);
       return ResponseEntity
-          .ok()
-          .body(responseDTO);
+              .ok()
+              .body(responseDTO);
     } catch (RuntimeException e) {
       e.printStackTrace();
       return ResponseEntity
-          .internalServerError()
-          .body("서버 터짐 원인: "+ e.getMessage());
+              .internalServerError()
+              .body("서버 터짐 원인: "+ e.getMessage());
     }
   }
 
@@ -74,47 +74,47 @@ public class AnswerApiController {
       });
 
       return ResponseEntity
-          .badRequest()
-          .body(fieldErrors);
+              .badRequest()
+              .body(fieldErrors);
     }
     return null;
   }
 
   @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
   public ResponseEntity<?> update(
-      @Validated @RequestBody AnswerModifyDTO dto
-      , BindingResult result
-      , HttpServletRequest request
+          @Validated @RequestBody AnswerModifyDTO dto
+          , BindingResult result
+          , HttpServletRequest request
   ) {
 
     log.info("/api/v1/answers {}!! -  modify dto: {}"
-        , request.getMethod(), dto);
+            , request.getMethod(), dto);
 
     try {
       AnswerDetailResponseDTO responseDTO = answerService.modify(dto);
       return ResponseEntity
-          .ok(responseDTO);
+              .ok(responseDTO);
     } catch (Exception e) {
       return ResponseEntity
-          .internalServerError()
-          .body(e.getMessage());
+              .internalServerError()
+              .body(e.getMessage());
     }
   }
   @DeleteMapping("/{answerId}")
   public ResponseEntity<?> delete(
-      @PathVariable Long answerId
+          @PathVariable Long answerId
   ) {
     log.info("/api/v1/inquiries/{}  DELETE!! ", answerId);
 
     try {
       answerService.delete(answerId);
       return ResponseEntity
-          .ok("DEL SUCCESS!!");
+              .ok("DEL SUCCESS!!");
     } catch (Exception e) {
       e.printStackTrace();
       return ResponseEntity
-          .internalServerError()
-          .body(e.getMessage());
+              .internalServerError()
+              .body(e.getMessage());
     }
   }
 }

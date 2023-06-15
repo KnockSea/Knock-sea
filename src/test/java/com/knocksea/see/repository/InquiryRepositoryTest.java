@@ -31,7 +31,6 @@ class InquiryRepositoryTest {
                             Inquiry.builder()
                                     .inquiryDetails("테스트 게시글 " + i)
                                     .inquiryId(i)
-                                    .userId(i)
                                     .build()
             );
         }
@@ -39,22 +38,23 @@ class InquiryRepositoryTest {
 
         //then
     }
-    @Test
-    @DisplayName("dd")
-    void dd() {
-        //given
-        Inquiry inquiry = inquiryRepository.findById(1L).orElseThrow();
 
-        Answer answer = answerRepository.save(
-                Answer.builder()
-                        .answerDetails("답변입니다")
-                        .inquiry(inquiry)
-                        .build()
-        );
-        //when
-        Answer answer1 = inquiry.getAnswer();
-        System.out.println(answer1);
-
-        //then
-    }
+//    @Test
+//    @DisplayName("dd")
+//    void dd() {
+//        //given
+//        Inquiry inquiry = inquiryRepository.findById(1L).orElseThrow();
+//
+//        Answer answer = answerRepository.save(
+//                Answer.builder()
+//                        .answerDetails("답변입니다")
+//                        .inquiry(inquiry)
+//                        .build()
+//        );
+//        //when
+//        Answer answer1 = inquiry.getAnswer();
+//        System.out.println(answer1);
+//
+//        //then
+//    }
 }

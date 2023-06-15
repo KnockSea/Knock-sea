@@ -33,7 +33,7 @@ public class UserModifyresponseDTO {
         this.userPoint = modiftideuser.getUserPoint();
         this.userAddress = modiftideuser.getUserAddress();
         this.userFullAddress = modiftideuser.getUserFullAddress();
-        this.userGrade = modiftideuser.getUserGrade();
+        this.userGrade = modiftideuser.getUserGrade().toString();
         this.userEmail = modiftideuser.getUserEmail();
         this.userName = modiftideuser.getUserName();
         this.userPhone = modiftideuser.getUserPhone();

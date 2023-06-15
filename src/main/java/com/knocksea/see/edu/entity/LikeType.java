@@ -1,4 +1,4 @@
-package com.knocksea.see.entity;
+package com.knocksea.see.edu.entity;
 
 public enum LikeType {
     SHIP,FISHING,CLASS

@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Builder
 @Entity
 @ToString(exclude = "ship")
-@Table(name = "users")
+@Table(name = "sea_user")
 public class User {
 
     @Id
@@ -45,12 +46,14 @@ public class User {
     private String userFullAddress;
 
     @Column(name = "user_grade", nullable = false, columnDefinition = "varchar(20) default 'user'", insertable = false)
-    private String userGrade;
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private UserGrade userGrade = UserGrade.COMMON;
 
     @Column(name = "user_point", nullable = true)
     private int userPoint;
 
-    @Column(name = "user_image",nullable = true)
+    @Column(name = "user_image", nullable = true)
     private String userImage;
 
 
@@ -60,11 +63,8 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private FishingSpot fishingSpot;
 
-    @OneToMany(mappedBy = "user")
-    @Builder.Default
-    private List<Product> product = new ArrayList<>();
-
-
-
+    //    @OneToMany(mappedBy = "user")
+//    @Builder.Default
+//    private List<Product> product = new ArrayList<>();
 
 }

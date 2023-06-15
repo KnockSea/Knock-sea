@@ -1,5 +1,7 @@
 package com.knocksea.see.inquiry.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.knocksea.see.user.entity.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -14,7 +16,7 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode(of = {"inquiryId"})
 @Builder
-@Table(name = "inquiry")
+@Table(name = "sea_inquiry")
 @Entity
 public class Inquiry {
 
@@ -30,14 +32,17 @@ public class Inquiry {
     @CreationTimestamp
     private LocalDateTime inquiryDateTime;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "inquiry", orphanRemoval = true) // 필드명
     private Answer answer;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+
+//    @Column(name = "user_id", nullable = false)
+//    private Long userId;
 
 }
