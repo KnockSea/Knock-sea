@@ -1,5 +1,6 @@
 package com.knocksea.see.inquiry.api;
 
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
 import com.knocksea.see.inquiry.dto.request.AnswerCreateRequestDTO;
 import com.knocksea.see.inquiry.dto.request.AnswerModifyDTO;
@@ -12,6 +13,7 @@ import com.knocksea.see.inquiry.service.InquiryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -30,15 +32,18 @@ public class AnswerApiController {
   private final InquiryService inquiryService;
 
   @GetMapping("/{inquiryId}")
-  public ResponseEntity<?> detail(@PathVariable Long inquiryId) {
+  public ResponseEntity<?> detail(
+      @AuthenticationPrincipal TokenUserInfo userInfo,
+      @PathVariable Long inquiryId) {
     log.info("inquiryId - {}", inquiryId);
-    AnswerDetailResponseDTO answerInfo = answerService.findByInquiry(inquiryId);
+    AnswerDetailResponseDTO answerInfo = answerService.findByInquiry(inquiryId, userInfo.getUserId());
     log.info("answerInfo - {}", answerInfo);
     return ResponseEntity.ok().body(answerInfo);
   }
 
   @PostMapping("/{inquiryId}")
   public ResponseEntity<?>create(
+          @AuthenticationPrincipal TokenUserInfo userInfo,
           @PathVariable Long inquiryId,
           @Validated @RequestBody AnswerCreateRequestDTO dto
           , BindingResult result
@@ -54,7 +59,7 @@ public class AnswerApiController {
     if (fieldErrors != null) return fieldErrors;
 
     try {
-      AnswerDetailResponseDTO responseDTO = answerService.insert(inquiryId, dto);
+      AnswerDetailResponseDTO responseDTO = answerService.insert(inquiryId, dto, userInfo);
       return ResponseEntity
               .ok()
               .body(responseDTO);
@@ -82,6 +87,7 @@ public class AnswerApiController {
 
   @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
   public ResponseEntity<?> update(
+          @AuthenticationPrincipal TokenUserInfo userInfo,
           @Validated @RequestBody AnswerModifyDTO dto
           , BindingResult result
           , HttpServletRequest request
@@ -91,7 +97,7 @@ public class AnswerApiController {
             , request.getMethod(), dto);
 
     try {
-      AnswerDetailResponseDTO responseDTO = answerService.modify(dto);
+      AnswerDetailResponseDTO responseDTO = answerService.modify(dto, userInfo.getUserId());
       return ResponseEntity
               .ok(responseDTO);
     } catch (Exception e) {
@@ -102,12 +108,13 @@ public class AnswerApiController {
   }
   @DeleteMapping("/{answerId}")
   public ResponseEntity<?> delete(
+      @AuthenticationPrincipal TokenUserInfo userInfo,
           @PathVariable Long answerId
   ) {
     log.info("/api/v1/inquiries/{}  DELETE!! ", answerId);
 
     try {
-      answerService.delete(answerId);
+      answerService.delete(answerId, userInfo.getUserId());
       return ResponseEntity
               .ok("DEL SUCCESS!!");
     } catch (Exception e) {

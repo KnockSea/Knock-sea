@@ -1,5 +1,6 @@
 package com.knocksea.see.review.api;
 
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.review.dto.page.PageDTO;
 import com.knocksea.see.review.dto.request.ReviewCreateDTO;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -27,6 +29,7 @@ public class ReviewApiController {
 
         @PostMapping
         public ResponseEntity<?> create(
+            @AuthenticationPrincipal TokenUserInfo userInfo,
             @Validated @RequestBody ReviewCreateDTO dto
             , BindingResult result
         ) {
@@ -41,7 +44,7 @@ public class ReviewApiController {
           if (fieldErrors != null) return fieldErrors;
 
           try {
-            ReviewDetailResponseDTO responseDTO = reviewService.createReview(dto);
+            ReviewDetailResponseDTO responseDTO = reviewService.createReview(dto, userInfo);
             return ResponseEntity
                 .ok()
                 .body(responseDTO);
@@ -54,8 +57,10 @@ public class ReviewApiController {
         }
 
         @GetMapping("/{userId}")
-        public ResponseEntity<?> getReviewById(@PathVariable Long userId, PageDTO pageDTO) {
-          ReviewListResponseDTO userReviewById = reviewService.getUserReviewById(userId, pageDTO);
+        public ResponseEntity<?> getReviewById(
+            @AuthenticationPrincipal TokenUserInfo userInfo,
+            @PathVariable Long userId, PageDTO pageDTO) {
+          ReviewListResponseDTO userReviewById = reviewService.getUserReviewById(userId, pageDTO, userInfo.getUserId());
           try {
             return ResponseEntity.ok().body(userReviewById);
           } catch (Exception e) {
@@ -64,10 +69,10 @@ public class ReviewApiController {
         }
 
   @GetMapping
-  public ResponseEntity<?> list(PageDTO pageDTO) {
+  public ResponseEntity<?> list(@AuthenticationPrincipal TokenUserInfo userInfo, PageDTO pageDTO) {
     log.info("/api/v1/reviews?page={}&size={}", pageDTO.getPage(), pageDTO.getSize());
 
-    ReviewListResponseDTO dto = reviewService.getAllReviews(pageDTO);
+    ReviewListResponseDTO dto = reviewService.getAllReviews(pageDTO, userInfo.getUserId());
 
     log.info("dto - {}", dto);
 
@@ -78,12 +83,13 @@ public class ReviewApiController {
 
   @DeleteMapping("/{userId}")
   public ResponseEntity<?> delete(
+      @AuthenticationPrincipal TokenUserInfo userInfo,
       @PathVariable Long userId
   ) {
     log.info("/api/v1/reviews/{}  DELETE!! ", userId);
 
     try {
-      reviewService.deleteReview(userId);
+      reviewService.deleteReview(userId, userInfo.getUserId());
       return ResponseEntity
           .ok("DEL SUCCESS!!");
     } catch (Exception e) {

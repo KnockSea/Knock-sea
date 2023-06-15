@@ -1,10 +1,14 @@
 package com.knocksea.see.review.repository;
 
 import com.knocksea.see.review.entity.Review;
+import com.knocksea.see.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    Page<Review> findByUserId (Long UserId, PageRequest pageable);
+    @Query("SELECT r FROM Review r WHERE r.user = :user")
+    Page<Review> findByUser (User user, PageRequest pageable);
+
 }
