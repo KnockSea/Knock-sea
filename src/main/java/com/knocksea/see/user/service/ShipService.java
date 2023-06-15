@@ -1,8 +1,11 @@
 package com.knocksea.see.user.service;
 
 
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
+import com.knocksea.see.user.dto.request.ShipModifyRequestDTO;
 import com.knocksea.see.user.dto.request.ShipRegisterRequestDTO;
+import com.knocksea.see.user.dto.response.ShipModifyResponseDTO;
 import com.knocksea.see.user.dto.response.ShipRegisterResponseDTO;
 import com.knocksea.see.user.entity.Ship;
 import com.knocksea.see.user.entity.User;
@@ -10,6 +13,7 @@ import com.knocksea.see.user.repository.ShipRepository;
 import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +57,27 @@ public class ShipService {
             throw new RuntimeException("사장이아니면 등록할 수 없습니다");
         }
 
+
+    }
+
+
+//    배정보 수정 함수
+    public ShipModifyResponseDTO modify(final ShipModifyRequestDTO dto, final TokenUserInfo userInfo) {
+
+        Ship foundByUserId = shipRepository.findByUserUserId(userInfo.getUserId());
+
+        //사장님이 아니라면
+        if(foundByUserId.getUser().getUserGrade().equals("user")) ResponseEntity.badRequest().body("사장님이 아니면 수정할 수없습니다");
+
+        //등록된 배가 있다면
+        if(foundByUserId!=null){
+            foundByUserId.modifyShipInfo(dto);
+            Ship save = shipRepository.save(foundByUserId);
+            return new ShipModifyResponseDTO(save);
+        }else{
+            //등록된 배가없다면
+            throw new RuntimeException("등록된 배가없습니다!.");
+        }
 
     }
 }

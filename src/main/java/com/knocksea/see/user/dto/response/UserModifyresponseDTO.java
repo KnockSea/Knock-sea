@@ -28,10 +28,8 @@ public class UserModifyresponseDTO {
 
     private int userPoint;
 
-    private Ship ship;
 
     public UserModifyresponseDTO(User modiftideuser) {
-        this.ship = modiftideuser.getShip();
         this.userPoint = modiftideuser.getUserPoint();
         this.userAddress = modiftideuser.getUserAddress();
         this.userFullAddress = modiftideuser.getUserFullAddress();
@@ -39,6 +37,5 @@ public class UserModifyresponseDTO {
         this.userEmail = modiftideuser.getUserEmail();
         this.userName = modiftideuser.getUserName();
         this.userPhone = modiftideuser.getUserPhone();
-
     }
 }
