@@ -1,5 +1,6 @@
 package com.knocksea.see.heart.entity;
 
+import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
@@ -33,12 +34,12 @@ public class Heart {
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "class_id")
-    private Class class_id;
+    @JoinColumn(name = "edu_id")
+    private Edu edu;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
-    private Product productId;
+    private Product product;
 
 }
