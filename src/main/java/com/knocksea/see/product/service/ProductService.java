@@ -65,9 +65,10 @@ public class ProductService {
         Product product = getProduct(productId);
 //        List<ReservationTime> timeList = productRepository.findByProductId(productId);
         List<ReservationTimeResponseDTO> timeResponseDTOList
-                = productRepository.findByProductId(productId).stream()
+                = productRepository.findByProductId(product).stream()
                 .map(ReservationTimeResponseDTO::new)
                 .collect(Collectors.toList());
+
         return new ProductDetailResponseDTO(product, timeResponseDTOList);
     }
 
