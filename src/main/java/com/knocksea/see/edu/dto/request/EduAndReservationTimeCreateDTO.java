@@ -2,13 +2,16 @@ package com.knocksea.see.edu.dto.request;
 
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.entity.EduLevel;
+import com.knocksea.see.product.entity.ReservationTime;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalTime;
+import java.util.Date;
+import java.util.List;
 
 @Getter @Setter
 @ToString
@@ -17,7 +20,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder
 @Slf4j
-public class EduCreateDTO {
+public class EduAndReservationTimeCreateDTO {
 
     @NotBlank
     @Size(min=1,max = 2000)
@@ -31,7 +34,16 @@ public class EduCreateDTO {
     private int eduPrice;
 
     @NotNull
-    private int eduMaxUser;
+    private int timeMaxUser; //예약가능인원 //ReservationTime 엔터티
+
+    @NotNull
+    private List<Date> timeDate; //예약일  //ReservationTime 엔터티
+
+    @NotNull
+    private List<LocalTime> timeStart; //시작시간  //ReservationTime 엔터티
+
+    @NotNull
+    private List<LocalTime> timeEnd;//종료시간  //ReservationTime 엔터티
 
     @NotBlank
     @Size(min=1,max = 200)
@@ -49,10 +61,9 @@ public class EduCreateDTO {
     private String eduLocationInfo;
 
     //dto를 entity로 변환
-    public Edu toEntity(){
+    public Edu toEduEntity(){
         return Edu.builder()
                 .eduTitle(this.eduTitle)
-                .eduMaxUser(this.eduMaxUser)
                 .eduPrice(this.eduPrice)
                 .eduLevel(this.eduLevel)
                 .eduService(this.eduService)
@@ -62,4 +73,15 @@ public class EduCreateDTO {
                 .build();
     }
 
+    /*public ReservationTime toReservationTimeEntity(int i){
+        return ReservationTime.builder()
+                .timeLabelType("CLASS")
+                .timeVerify("Y")
+                .timeMaxUser(this.timeMaxUser)
+                .timeDate(this.timeDate.get(i))
+                .timeStart(this.timeStart)
+                .timeEnd(this.timeEnd)
+                .build();
+    }
+*/
 }

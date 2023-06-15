@@ -1,5 +1,7 @@
 package com.knocksea.see.edu.entity;
 
+import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,13 +25,16 @@ public class Like {
     @Enumerated(EnumType.STRING)
     private LikeType heartType;
 
-    @Column(nullable = false, length = 10)
-    private int userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(nullable = false, length = 10)
-    private int productId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "edu_id")
+    private Edu edu;
 
-    @Column(nullable = false, length = 10)
-    private int classId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "productId")
+    private Product product;
 
 }

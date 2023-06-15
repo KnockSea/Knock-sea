@@ -1,12 +1,15 @@
 package com.knocksea.see.edu.entity;
 
 import com.knocksea.see.edu.dto.response.EduModifyDTO;
+import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -35,13 +38,6 @@ public class Edu {
     @Column(nullable = false, length = 7)
     private int eduPrice;
 
-    @Column(nullable = false, length = 5)
-    private int eduMaxUser;
-
-    @Builder.Default
-    @Column(nullable = false, length = 5)
-    private int eduCurrentUser=0;
-
     @Column(nullable = true, length = 200)
     private String eduService;
 
@@ -60,12 +56,19 @@ public class Edu {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "edu", orphanRemoval = true)
+    @Builder.Default
+    private List<Like> like = new ArrayList<>();
+
+    @OneToMany(mappedBy = "edu", orphanRemoval = true)
+    @Builder.Default
+    private List<ReservationTime> reservationTime = new ArrayList<>();
+
     // 수정메서드
     public void update(EduModifyDTO dto) {
         this.eduTitle = dto.getEduTitle();
         this.eduFullAddress=dto.getEduFullAddress();
         this.eduPrice=dto.getEduPrice();
-        this.eduMaxUser=dto.getEduMaxUser();
         this.eduService=dto.getEduService();
         this.eduLevel=dto.getEduLevel();
         this.eduInfo=dto.getEduInfo();

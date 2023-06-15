@@ -1,11 +1,9 @@
 package com.knocksea.see.edu.api;
 
 import com.knocksea.see.edu.dto.response.EduModifyDTO;
-import com.knocksea.see.edu.dto.request.EduCreateDTO;
+import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
 import com.knocksea.see.edu.service.EduService;
-import com.knocksea.see.inquiry.dto.page.PageDTO;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +50,7 @@ public class EduApiController {
     //클래스 등록 - post
     @PostMapping
     public ResponseEntity<?> create(
-            @Validated @RequestBody EduCreateDTO dto, BindingResult result
+            @Validated @RequestBody EduAndReservationTimeCreateDTO dto, BindingResult result
     ){
         log.info("/api/v1/edu POST!! - payload: {}", dto);
 
