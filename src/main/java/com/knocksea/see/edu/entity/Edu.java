@@ -56,13 +56,13 @@ public class Edu {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "edu", orphanRemoval = true)
-    @Builder.Default
-    private List<Like> like = new ArrayList<>();
+//    @OneToMany(mappedBy = "edu", orphanRemoval = true)
+//    @Builder.Default
+//    private List<Like> like = new ArrayList<>();
 
-    @OneToMany(mappedBy = "edu", orphanRemoval = true)
-    @Builder.Default
-    private List<ReservationTime> reservationTime = new ArrayList<>();
+//    @OneToMany(mappedBy = "edu", orphanRemoval = true)
+//    @Builder.Default
+//    private List<ReservationTime> reservationTime = new ArrayList<>();
 
     // 수정메서드
     public void update(EduModifyDTO dto) {

@@ -59,7 +59,7 @@ public class FishingSpotService {
     }
 
     //낚시터 정보 수정용 함수
-    public FishingSpotModifyResponseDTO modify(FishingModifyRequestDTO dto, TokenUserInfo userInfo) {
-
-    }
+//    public FishingSpotModifyResponseDTO modify(FishingModifyRequestDTO dto, TokenUserInfo userInfo) {
+//
+//    }
 }

@@ -83,8 +83,9 @@ public class FishingSpotApiController {
         }
 
         try{
-            ShipModifyResponseDTO modify = fishingSpotService.modify(dto, userInfo);
-            return ResponseEntity.ok().body(modify);
+//            ShipModifyResponseDTO modify = fishingSpotService.modify(dto, userInfo);
+//            return ResponseEntity.ok().body(modify);
+            return null;
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

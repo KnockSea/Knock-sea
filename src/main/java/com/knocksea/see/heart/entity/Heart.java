@@ -14,7 +14,7 @@ import javax.persistence.*;
 @ToString
 @EqualsAndHashCode(of = {"heartId"})
 @Builder
-@Table(name = "like")
+@Table(name = "sea_like")
 @Entity
 public class Heart {
 

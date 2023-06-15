@@ -1,5 +1,5 @@
-package com.knocksea.see.edu.entity;
-
-public enum LikeType {
-    SHIP,FISHING,CLASS
-}
+//package com.knocksea.see.edu.entity;
+//
+//public enum LikeType {
+//    SHIP,FISHING,CLASS
+//}
