@@ -1,13 +1,17 @@
 package com.knocksea.see.heart.api;
 
+import com.knocksea.see.heart.dto.request.HeartCreateDTO;
+import com.knocksea.see.heart.dto.response.HeartDetailResponseDTO;
 import com.knocksea.see.heart.service.HeartService;
+import com.knocksea.see.review.dto.request.ReviewCreateDTO;
+import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +22,51 @@ import java.util.List;
 public class HeartApiController {
     private final HeartService heartService;
 
+    @PostMapping
+    public ResponseEntity<?> create(
+            @Validated @RequestBody HeartCreateDTO dto
+            , BindingResult result
+    ) {
+        log.info("/api/v1/hearts ReviewCreateDTO POST!! - {}", dto);
+
+        if (dto == null) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("후기 정보를 전달해주세요!!");
+        }
+        ResponseEntity<List<FieldError>> fieldErrors = getValidatedResult(result);
+        if (fieldErrors != null) return fieldErrors;
+
+        try {
+            HeartDetailResponseDTO responseDTO = heartService.createHeart(dto);
+            return ResponseEntity
+                    .ok()
+                    .body(responseDTO);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity
+                    .internalServerError()
+                    .body("서버 터짐 원인: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{heartId}")
+    public ResponseEntity<?> delete(
+            @PathVariable Long heartId
+    ) {
+        log.info("/api/v1/hearts/{}  DELETE!! ", heartId);
+
+        try {
+            heartService.deleteHeart(heartId);
+            return ResponseEntity
+                    .ok("DEL SUCCESS!!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity
+                    .internalServerError()
+                    .body(e.getMessage());
+        }
+    }
 
     private static ResponseEntity<List<FieldError>> getValidatedResult(BindingResult result) {
         if (result.hasErrors()) { // 입력값 검증에 걸림
