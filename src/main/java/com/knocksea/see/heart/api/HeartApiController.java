@@ -50,7 +50,7 @@ public class HeartApiController {
         }
     }
 
-    @DeleteMapping("/{heartId}")
+    @DeleteMapping("/{userId}")
     public ResponseEntity<?> delete(
             @PathVariable Long heartId
     ) {

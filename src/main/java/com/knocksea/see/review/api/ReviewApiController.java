@@ -79,7 +79,7 @@ public class ReviewApiController {
 
         // 다른 경로와 관련된 후기 조회 API들을 추가할 수 있습니다.
 
-  @DeleteMapping("/{reviewId}")
+  @DeleteMapping("/{userId}")
   public ResponseEntity<?> delete(
       @PathVariable Long reviewId
   ) {
