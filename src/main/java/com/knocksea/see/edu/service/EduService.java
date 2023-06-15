@@ -1,7 +1,7 @@
 package com.knocksea.see.edu.service;
 
 import com.knocksea.see.edu.dto.response.EduModifyDTO;
-import com.knocksea.see.edu.dto.request.EduCreateDTO;
+import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
@@ -19,6 +19,7 @@ import java.util.List;
 public class EduService {
 
     private final EduRepository eduRepository;
+//    private final ReservationTimeRepository reservationTimeRepository;
 
     //전체 조회
     public void getAllEdu() {
@@ -33,16 +34,23 @@ public class EduService {
     }
 
     //클래스 저장
-    public EduDetailResponseDTO insert(final EduCreateDTO dto) throws RuntimeException{
+    public EduDetailResponseDTO insert(final EduAndReservationTimeCreateDTO dto) throws RuntimeException{
+        //Edu 엔터티랑 ReservationTime엔터티에 저장
         //entity로 변환해서 저장
-        Edu saved = eduRepository.save(dto.toEntity());
+        Edu saveEdu = eduRepository.save(dto.toEduEntity());
+        
+        //등록한 예약시간 개수만큼 save하면 됨.
+        for (int i = 0; i < dto.getTimeStart().size(); i++) {
+//            reservationTimeRepository.save(dto.toReservationTimeEntity(i));
+        }
 
-        return new EduDetailResponseDTO(saved);
+
+//        return new EduDetailResponseDTO(saved);
+        return null;
     }
 
     //클래스 수정
     public EduDetailResponseDTO modify(final EduModifyDTO dto) throws RuntimeException{
-
 
         final Edu eduEntity=getEdu(dto.getEduId());
 

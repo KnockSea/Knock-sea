@@ -2,9 +2,9 @@ package com.knocksea.see.edu.dto.request;
 
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.entity.EduLevel;
+import com.knocksea.see.product.entity.ReservationTime;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Slf4j
-public class EduCreateDTO {
+public class EduAndReservationTimeCreateDTO {
 
     @NotBlank
     @Size(min=1,max = 2000)
@@ -61,7 +61,7 @@ public class EduCreateDTO {
     private String eduLocationInfo;
 
     //dto를 entity로 변환
-    public Edu toEntity(){
+    public Edu toEduEntity(){
         return Edu.builder()
                 .eduTitle(this.eduTitle)
                 .eduPrice(this.eduPrice)
@@ -73,4 +73,15 @@ public class EduCreateDTO {
                 .build();
     }
 
+    /*public ReservationTime toReservationTimeEntity(int i){
+        return ReservationTime.builder()
+                .timeLabelType("CLASS")
+                .timeVerify("Y")
+                .timeMaxUser(this.timeMaxUser)
+                .timeDate(this.timeDate.get(i))
+                .timeStart(this.timeStart)
+                .timeEnd(this.timeEnd)
+                .build();
+    }
+*/
 }

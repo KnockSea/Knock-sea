@@ -25,14 +25,9 @@ public class Like {
     @Enumerated(EnumType.STRING)
     private LikeType heartType;
 
-    @Column(nullable = false, length = 10)
-    private int userId;
-
-    @Column(nullable = false, length = 10)
-    private int productId;
-
-    @Column(nullable = false, length = 10)
-    private int classId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "edu_id")
@@ -41,7 +36,5 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productId")
     private Product product;
-
-
 
 }
