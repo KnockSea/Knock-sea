@@ -90,6 +90,6 @@ public class ReviewService {
 
   public void deleteReview(Long userId, Long TokenUserId) throws RuntimeException, SQLException {
 
-    reviewRepository.deleteById(userId);
+    reviewRepository.deleteById(TokenUserId);
   }
 }
