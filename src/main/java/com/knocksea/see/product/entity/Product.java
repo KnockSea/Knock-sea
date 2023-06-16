@@ -39,6 +39,7 @@ public class Product {
     @Column(name = "product_price", nullable = false)
     private int productPrice;
 
+    @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime productInputDate;
 

@@ -2,6 +2,7 @@ package com.knocksea.see.edu.repository;
 
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.entity.UserGrade;
 import com.knocksea.see.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,11 +28,11 @@ class EduRepositoryTest {
   /*  @BeforeEach
         // 테스트 돌리기 전에 실행
     void insertDummyData() {
+
 *//*        //given
+
         Edu p1 = Edu.builder()
                 .eduTitle("초보자 낚시 클래스 모집합니다.")
-                .eduContent("내용입니다.")
-                .eduMaxUser(5)
                 .eduPrice(10000)
                 .eduLevel(LOWER)
                 .eduService("낚시대 대여해드립니다.")
@@ -41,6 +42,7 @@ class EduRepositoryTest {
                 .build();
         //when
         Edu saved1=eduRepository.save(p1);*//*
+
 
         User user = User.builder()
                 .userEmail("aaa@naver.com")

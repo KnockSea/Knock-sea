@@ -1,5 +1,6 @@
 package com.knocksea.see.inquiry.api;
 
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
 import com.knocksea.see.inquiry.dto.request.InquiryCreateRequestDTO;
 import com.knocksea.see.inquiry.dto.response.InquiryDetailResponseDTO;
@@ -9,6 +10,7 @@ import com.knocksea.see.inquiry.service.InquiryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -25,8 +27,10 @@ public class InquiryApiController {
 
     private final InquiryService inquiryService;
 
+    // 전체 문의
     @GetMapping
-    public ResponseEntity<?> list(PageDTO pageDTO) {
+    public ResponseEntity<?> list(
+        PageDTO pageDTO) {
         log.info("/api/v1/inquiries?page={}&size={}", pageDTO.getPage(), pageDTO.getSize());
 
         InquiryListResponseDTO dto = inquiryService.getInquiries(pageDTO);
@@ -36,12 +40,14 @@ public class InquiryApiController {
         return ResponseEntity.ok().body(dto);
     }
 
-    @GetMapping("/{inquiryId}")
-    public ResponseEntity<?> detail(@PathVariable Long inquiryId) {
-        log.info("/api/v1/inquiries/{} GET", inquiryId);
+    // 자신 문의
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> detail(
+        @PathVariable Long userId) {
+        log.info("/api/v1/inquiries/{} GET", userId);
 
         try {
-            InquiryDetailResponseDTO dto = inquiryService.getDetail(inquiryId);
+            InquiryDetailResponseDTO dto = inquiryService.getDetail(userId);
             return ResponseEntity.ok().body(dto);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -49,8 +55,10 @@ public class InquiryApiController {
 
     }
 
+    // 문의 등록
     @PostMapping
     public ResponseEntity<?> create(
+            @AuthenticationPrincipal TokenUserInfo userInfo,
             @Validated @RequestBody InquiryCreateRequestDTO dto
             , BindingResult result
             ) {
@@ -65,7 +73,7 @@ public class InquiryApiController {
         if (fieldErrors != null) return  fieldErrors;
 
         try {
-            InquiryDetailResponseDTO responseDTO = inquiryService.insert(dto);
+            InquiryDetailResponseDTO responseDTO = inquiryService.insert(dto, userInfo);
             return ResponseEntity
                     .ok()
                     .body(responseDTO);
@@ -93,6 +101,7 @@ public class InquiryApiController {
 
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<?> update(
+            @AuthenticationPrincipal TokenUserInfo userInfo,
             @Validated @RequestBody InquiryModifyDTO dto
             , BindingResult result
             , HttpServletRequest request
@@ -102,7 +111,7 @@ public class InquiryApiController {
                     , request.getMethod(), dto);
 
         try {
-            InquiryDetailResponseDTO responseDTO = inquiryService.modify(dto);
+            InquiryDetailResponseDTO responseDTO = inquiryService.modify(dto, userInfo.getUserId());
             return ResponseEntity
                     .ok(responseDTO);
         } catch (Exception e) {
@@ -112,14 +121,16 @@ public class InquiryApiController {
         }
     }
 
+    // 문의 삭제
     @DeleteMapping("/{inquiryId}")
     public ResponseEntity<?> delete(
-            @PathVariable Long inquiryId
+            @AuthenticationPrincipal TokenUserInfo userInfo
+            , @PathVariable Long inquiryId
     ) {
         log.info("/api/v1/inquiries/{}  DELETE!! ", inquiryId);
 
         try {
-            inquiryService.delete(inquiryId);
+            inquiryService.delete(inquiryId, userInfo.getUserId());
             return ResponseEntity
                     .ok("DEL SUCCESS!!");
         } catch (Exception e) {

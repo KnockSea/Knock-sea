@@ -28,4 +28,10 @@ public class InquiryCreateRequestDTO {
                 .build();
     }
 
+    public Inquiry toEntity(User user) {
+        return Inquiry.builder()
+            .inquiryDetails(this.inquiryDetails)
+            .user(user)
+            .build();
+    }
 }

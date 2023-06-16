@@ -44,7 +44,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 //인가 정보 리스트
                 List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
 
-                authorityList.add(new SimpleGrantedAuthority(tokenUserInfo.getUserGrade()));
+                authorityList.add(new SimpleGrantedAuthority(tokenUserInfo.getUserGrade().toString()));
 
                 //인증완료 처리
                 // - 스프링 시큐리티에게 인증정보를
