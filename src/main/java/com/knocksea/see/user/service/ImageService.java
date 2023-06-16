@@ -4,7 +4,10 @@ import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.product.entity.ProductCategory;
 import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.Ship;
+import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.ShipRepository;
+import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,27 +27,35 @@ import java.util.UUID;
 @Transactional
 public class ImageService {
 
+
+    //배정보 얻기용
     private final ShipRepository shipRepository;
 
+    //이미지 저장용
+    private final ImageRepository imageRepository;
+    private final UserRepository userRepository;
 
     @Value("${upload.path}")
     private String uploadRootPath2;
 
-    public String saveShipImages(List<MultipartFile> shipImages, TokenUserInfo userInfo) throws IOException {
+    public void saveShipImages(List<MultipartFile> shipImages, TokenUserInfo userInfo) throws IOException {
 
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("유저 없어 새꺄"));
+        Ship foundShipByUserId = shipRepository.findByUser(user);
 
-        Ship byUserUserId = shipRepository.findByUserUserId(userInfo.getUserId());
-
-        List<String> strings = uploadProfileImage(byUserUserId, shipImages);
+        List<String> strings = uploadProfileImage(shipImages);
 
         for (String string : strings) {
-            SeaImage.builder().imageType(ProductCategory.SHIP).ship(byUserUserId).build();
+            SeaImage save = imageRepository.save(SeaImage
+                    .builder()
+                    .imageName(string)
+                    .ship(foundShipByUserId)
+                    .imageType(ProductCategory.SHIP).build());
         }
 
-        return "";
     }
 
-    public List<String> uploadProfileImage(Ship byUserUserId, List<MultipartFile> shipImages) throws IOException {
+    public List<String> uploadProfileImage(List<MultipartFile> shipImages) throws IOException {
         //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
         List<String> uniqueFilenames = new ArrayList<>();
 

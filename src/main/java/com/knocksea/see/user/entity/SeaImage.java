@@ -26,6 +26,9 @@ public class SeaImage {
     @Enumerated(EnumType.STRING)
     private ProductCategory imageType;
 
+    @Column(name = "image_name", nullable = false)
+    private String imageName;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ship_id")

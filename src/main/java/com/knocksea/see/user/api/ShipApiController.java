@@ -10,6 +10,7 @@ import com.knocksea.see.user.dto.request.UserModifyRequestDTO;
 import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
 import com.knocksea.see.user.dto.response.ShipModifyResponseDTO;
 import com.knocksea.see.user.dto.response.ShipRegisterResponseDTO;
+import com.knocksea.see.user.service.ImageService;
 import com.knocksea.see.user.service.ShipService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class ShipApiController {
 
     private final ShipService shipService;
 
-//    private final ImageService imageService;
+    private final ImageService imageService;
 
     //배 등록 요청
     //post : /api/v1/ship/register
@@ -46,10 +47,7 @@ public class ShipApiController {
         log.info("/user/register POST! --{}", dto);
 
 
-//        String savePath = null;
-//        if (!profileImage.isEmpty()) {
-//            savePath = FileUtil.uploadFile(dto.getProfileImage(), rootPath);
-//        }
+
 
         if (result.hasErrors()) {
             log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
@@ -57,19 +55,20 @@ public class ShipApiController {
                     .badRequest()
                     .body(result.getFieldError());
         }
+
+
         try {
+
+            ShipRegisterResponseDTO join = shipService.save(dto,userInfo.getUserId());
             String uploadedFilePath =null;
             if(shipImages!=null) {
                 //이미지 파일들이 잘 들어왔다면 원본이름 출력시키기
                 for (MultipartFile shipImage : shipImages) {
                     log.info(shipImage.getOriginalFilename());
                 }
+                //이미지 저장시키기
+                imageService.saveShipImages(shipImages, userInfo);
             }
-
-            //이미지 저장시키기
-//            imageService.saveShipImages(shipImages,userInfo);
-
-            ShipRegisterResponseDTO join = shipService.save(dto,userInfo.getUserId());
             return ResponseEntity.ok().body(join);
         } catch (NoRegisteredArgumentsException e) {
             log.warn("필수 등록 정보를 받지 못했습니다.");
@@ -77,6 +76,8 @@ public class ShipApiController {
         } catch (RuntimeException e) {
             log.warn("이메일이 중복되었습니다");
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
     }
