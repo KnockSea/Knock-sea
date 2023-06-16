@@ -8,9 +8,11 @@ import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
 import com.knocksea.see.product.dto.response.ReservationTimeResponseDTO;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ReservationTime;
+import com.knocksea.see.product.repository.ProductDetailService;
 import com.knocksea.see.product.repository.ProductRepository;
 import com.knocksea.see.product.dto.request.PageDTO;
 import com.knocksea.see.product.repository.ReservationTimeRepository;
+import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.repository.ReviewRepository;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.UserRepository;
@@ -30,7 +32,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Transactional
 @RequiredArgsConstructor
-public class ProductService {
+public class ProductService implements ProductDetailService {
 
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
@@ -44,6 +46,7 @@ public class ProductService {
                 new RuntimeException("상품 정보가 없습니다."));
     }
 
+    // 메인에서 보이는 상품 전체 목록
     public ProductListResponseDTO findAll(PageDTO pageDTO) {
         PageRequest pageable =
                 PageRequest.of(pageDTO.getPage() - 1
@@ -57,6 +60,7 @@ public class ProductService {
                 .map(ProductDetailResponseDTO::new)
                 .collect(Collectors.toList());
 
+
         return ProductListResponseDTO.builder()
                 .count(prodDetailList.size())
                 .pageInfo(new PageResponseDTO(products))
@@ -66,15 +70,19 @@ public class ProductService {
     }
 
     // 상품 상세조회 기능 (예약 가능 시간 정보 포함)
+    @Override
     public ProductDetailResponseDTO getDetail(Long productId) {
         Product product = getProduct(productId);
 
-        List<ReservationTimeResponseDTO> timeResponseDTOList
-                = productRepository.findByProductId(product).stream()
-                .map(ReservationTimeResponseDTO::new)
-                .collect(Collectors.toList());
-//        reviewRepository.findAll(product);
-        return new ProductDetailResponseDTO(product, timeResponseDTOList);
+        // 리뷰 목록(상품번호로 조회)  // null 뜨는지 확인해야댐
+        List<ReviewDetailResponseDTO> reviewResponseList = reviewRepository.findAllByProduct(product).stream()
+                .map(ReviewDetailResponseDTO::new).collect(Collectors.toList());
+
+        // 예약 가능 시간 목록(상품번호로 조회)
+        List<ReservationTimeResponseDTO> timeResponseDTOList = reservationTimeRepository.findAllByProduct(product).stream()
+                .map(ReservationTimeResponseDTO::new).collect(Collectors.toList());
+
+        return new ProductDetailResponseDTO(product, timeResponseDTOList, reviewResponseList);
     }
 
     // 상품 등록 기능
@@ -84,16 +92,14 @@ public class ProductService {
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
         Product saveProduct = productRepository.save(dto.toProductEntity(user));
 
-        List<ReservationTimeResponseDTO> timeList = new ArrayList<>();
         for (int i = 0; i < dto.getTimeDate().size(); i++) {
             for (int j = 0; j < dto.getTimeStart().size(); j++) {
                 ReservationTime reservationTime
                         = reservationTimeRepository.save(
                                 dto.toReservationTimeEntity(i, j, saveProduct));
-                timeList.add(new ReservationTimeResponseDTO(reservationTime));
             }
         }
-        return new ProductDetailResponseDTO(saveProduct, timeList);
+        return getDetail(saveProduct.getProductId());
     }
 
     public void modify(ProductModifyRequestDTO dto) {

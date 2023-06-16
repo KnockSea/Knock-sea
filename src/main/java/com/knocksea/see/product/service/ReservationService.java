@@ -4,10 +4,12 @@ import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.exception.NoProductException;
 import com.knocksea.see.product.dto.request.ReservationRequestDTO;
+import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ProductCategory;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
+import com.knocksea.see.product.repository.ProductDetailService;
 import com.knocksea.see.product.repository.ProductRepository;
 import com.knocksea.see.product.repository.ReservationRepository;
 import com.knocksea.see.product.repository.ReservationTimeRepository;
@@ -29,10 +31,18 @@ public class ReservationService {
     private final EduRepository eduRepository;
     private final ReservationTimeRepository reservationTimeRepository;
 
-    public void createReserve(ReservationRequestDTO dto) throws RuntimeException, NoProductException{
+    private final ProductDetailService productDetailService;
+
+    public ProductDetailResponseDTO createReserve(ReservationRequestDTO dto) throws RuntimeException, NoProductException{
         Reservation reservation = dto.toEntity(dto);
         reservation.setUser(userRepository.findById(dto.getUserId()).orElseThrow(() -> new RuntimeException("회원 정보가 없습니다.")));
-        reservation.setReservationTime(reservationTimeRepository.findById(dto.getReservationTimeId()).orElseThrow(() -> new RuntimeException("예약 불가능한 시간입니다.")));
+        ReservationTime reservationTime = reservationTimeRepository.findById(dto.getReservationTimeId()).orElseThrow(() -> new RuntimeException("예약 불가능한 시간입니다."));
+        reservation.setReservationTime(reservationTime);
+
+        // 신청 인원 수 변경
+        int reserveCount = dto.getReservationUserCount();// 신청 유저 숫자
+        reservationTime.setTimeCurrentUser(reservationTime.getTimeCurrentUser() + reserveCount);
+        reservationTimeRepository.save(reservationTime); // 예약 인원 수 만큼 현재 신청인원 수 증가
 
         if (dto.getReservationType().equals(ProductCategory.SHIP.toString())) {
             reservation.setProduct(
@@ -43,8 +53,13 @@ public class ReservationService {
                     eduRepository.findById(dto.getEduId()).orElseThrow(() -> new RuntimeException("등록되지 않은 클래스 입니다."))
             );
         }
-        Reservation saveReservation = reservationRepository.save(reservation);
+        // 여기서 결제 까지 해야되네 (메서드 빼서 결제 하자)
+
+
+        Reservation saveReservation = reservationRepository.save(reservation); // 마지막에 예약 등록
         // return new ReservationDetailResponseDTO(saveReservation);
+        // 어디로 보내주지?
+        return productDetailService.getDetail(dto.getProductId());
     }
 
     // 예약 취소
