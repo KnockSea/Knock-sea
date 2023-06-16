@@ -1,5 +1,6 @@
 package com.knocksea.see.product.service;
 
+import com.knocksea.see.product.dto.request.ProductModifyRequestDTO;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
 import com.knocksea.see.product.dto.response.PageResponseDTO;
 import com.knocksea.see.product.dto.response.ProductListResponseDTO;
@@ -76,6 +77,7 @@ public class ProductService {
         return new ProductDetailResponseDTO(product, timeResponseDTOList);
     }
 
+    // 상품 등록 기능
     public ProductDetailResponseDTO create(ProductRequestDTO dto) {
         // 상품을 먼저 등록하고 -> 시간 정보를 등록해야 한다.
         User user = userRepository.findById(dto.getUserId()).
@@ -94,5 +96,8 @@ public class ProductService {
         return new ProductDetailResponseDTO(saveProduct, timeList);
     }
 
+    public void modify(ProductModifyRequestDTO dto) {
+
+    }
 
 }
