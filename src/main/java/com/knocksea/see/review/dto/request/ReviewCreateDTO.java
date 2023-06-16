@@ -21,29 +21,20 @@ public class ReviewCreateDTO {
     private String reviewContent; // "이거 재밌어여"
     private String reviewType; // 타입
     // 작성자 정보
-    private Edu edu;
-    // private Long eduId;
-    private Product product;
+    private Long eduId;
+    private Long productId;
 
-    public Review toEntity() {
+
+
+    public Review toEntity(User user, Edu edu, Product product) {
         return Review.builder()
                 .reviewRating(this.reviewRating)
                 .reviewContent(this.reviewContent)
                 .reviewType(ReviewType.valueOf(this.reviewType))
-//                .user(this.user)
-                .edu(this.edu)
-                .product(this.product)
+                .user(user)
+                .edu(edu)
+                .product(product)
                 .build();
     }
 
-    public Review toEntity(User user) {
-        return Review.builder()
-            .reviewRating(this.reviewRating)
-            .reviewContent(this.reviewContent)
-            .reviewType(ReviewType.valueOf(this.reviewType))
-            .user(user)
-            .edu(this.edu)
-            .product(this.product)
-            .build();
-    }
 }
