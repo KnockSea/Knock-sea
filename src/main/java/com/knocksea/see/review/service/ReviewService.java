@@ -39,7 +39,6 @@ public class ReviewService {
         () -> new RuntimeException("회원 정보가 없습니다.")
     );
 
-    if(!foundUser.getUserGrade().equals("user")) ResponseEntity.badRequest().body("유져가 아니면 후기작성을 할 수 없습니다");
     Review saved = reviewRepository.save(reviewDTO.toEntity(foundUser));
     return new ReviewDetailResponseDTO(saved);
   }
@@ -67,7 +66,7 @@ public class ReviewService {
             .build();
   }
 
-  public ReviewListResponseDTO getAllReviews(PageDTO dto, Long userId) {
+  public ReviewListResponseDTO getAllReviews(PageDTO dto) {
 
     PageRequest pageable = PageRequest.of(
         dto.getPage() - 1,
@@ -88,8 +87,8 @@ public class ReviewService {
         .build();
   }
 
-  public void deleteReview(Long userId, Long TokenUserId) throws RuntimeException, SQLException {
+  public void deleteReview(Long reviewId, Long TokenUserId) throws RuntimeException, SQLException {
 
-    reviewRepository.deleteById(TokenUserId);
+    reviewRepository.deleteById(reviewId);
   }
 }

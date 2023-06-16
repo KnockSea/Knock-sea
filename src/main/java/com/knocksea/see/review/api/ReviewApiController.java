@@ -27,6 +27,7 @@ public class ReviewApiController {
 
         private final ReviewService reviewService;
 
+        // 리뷰 후기 등록
         @PostMapping
         public ResponseEntity<?> create(
             @AuthenticationPrincipal TokenUserInfo userInfo,
@@ -56,6 +57,7 @@ public class ReviewApiController {
           }
         }
 
+        // 자신이 쓴 후기
         @GetMapping("/{userId}")
         public ResponseEntity<?> getReviewById(
             @AuthenticationPrincipal TokenUserInfo userInfo,
@@ -68,11 +70,12 @@ public class ReviewApiController {
           }
         }
 
+        // 후기 전체 리스트
   @GetMapping
-  public ResponseEntity<?> list(@AuthenticationPrincipal TokenUserInfo userInfo, PageDTO pageDTO) {
+  public ResponseEntity<?> list(PageDTO pageDTO) {
     log.info("/api/v1/reviews?page={}&size={}", pageDTO.getPage(), pageDTO.getSize());
 
-    ReviewListResponseDTO dto = reviewService.getAllReviews(pageDTO, userInfo.getUserId());
+    ReviewListResponseDTO dto = reviewService.getAllReviews(pageDTO);
 
     log.info("dto - {}", dto);
 
@@ -81,15 +84,16 @@ public class ReviewApiController {
 
         // 다른 경로와 관련된 후기 조회 API들을 추가할 수 있습니다.
 
-  @DeleteMapping("/{userId}")
+  // 삭제 기능
+  @DeleteMapping("/{reviewId}")
   public ResponseEntity<?> delete(
       @AuthenticationPrincipal TokenUserInfo userInfo,
-      @PathVariable Long userId
+      @PathVariable Long reviewId
   ) {
-    log.info("/api/v1/reviews/{}  DELETE!! ", userId);
+    log.info("/api/v1/reviews/{}  DELETE!! ", reviewId);
 
     try {
-      reviewService.deleteReview(userId, userInfo.getUserId());
+      reviewService.deleteReview(reviewId, userInfo.getUserId());
       return ResponseEntity
           .ok("DEL SUCCESS!!");
     } catch (Exception e) {

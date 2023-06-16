@@ -76,6 +76,7 @@ public class InquiryService {
         throws RuntimeException {
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("회원 정보가 없습니다."));
         Inquiry saved = inquiryRepository.save(dto.toEntity(user));
+//        Inquiry saved = inquiryRepository.save(dto.toEntity());
 
 
         return new InquiryDetailResponseDTO(saved);

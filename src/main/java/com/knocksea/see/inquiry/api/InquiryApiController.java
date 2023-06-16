@@ -27,6 +27,7 @@ public class InquiryApiController {
 
     private final InquiryService inquiryService;
 
+    // 전체 문의
     @GetMapping
     public ResponseEntity<?> list(
         @AuthenticationPrincipal TokenUserInfo userInfo,
@@ -40,6 +41,7 @@ public class InquiryApiController {
         return ResponseEntity.ok().body(dto);
     }
 
+    // 문의
     @GetMapping("/{inquiryId}")
     public ResponseEntity<?> detail(
         @AuthenticationPrincipal TokenUserInfo userInfo,
@@ -55,6 +57,7 @@ public class InquiryApiController {
 
     }
 
+    // 문의 등록
     @PostMapping
     public ResponseEntity<?> create(
             @AuthenticationPrincipal TokenUserInfo userInfo,
@@ -120,6 +123,7 @@ public class InquiryApiController {
         }
     }
 
+    // 문의 삭제
     @DeleteMapping("/{inquiryId}")
     public ResponseEntity<?> delete(
             @AuthenticationPrincipal TokenUserInfo userInfo
