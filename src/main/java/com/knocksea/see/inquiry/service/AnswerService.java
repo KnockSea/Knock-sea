@@ -35,7 +35,7 @@ public class AnswerService {
     private final InquiryRepository inquiryRepository;
     private final UserRepository userRepository;
 
-    public AnswerDetailResponseDTO findByInquiry(Long inqyiryId, Long userId) {
+    public AnswerDetailResponseDTO findByInquiry(Long inqyiryId) {
 
         Inquiry inquiry = inquiryRepository.findById(inqyiryId).orElseThrow(() -> new RuntimeException("없는 문의입니다"));
 

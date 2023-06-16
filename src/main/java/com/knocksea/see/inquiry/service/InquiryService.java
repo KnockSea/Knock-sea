@@ -32,7 +32,7 @@ public class InquiryService {
     private final InquiryRepository inquiryRepository;
     private final UserRepository userRepository;
 
-    public InquiryListResponseDTO getInquiries(PageDTO dto, Long userId) {
+    public InquiryListResponseDTO getInquiries(PageDTO dto) {
 
         PageRequest pageable = PageRequest.of(
                 dto.getPage() - 1,
@@ -57,7 +57,7 @@ public class InquiryService {
                 .build();
     }
 
-    public InquiryDetailResponseDTO getDetail(Long inquiryId, Long userId) {
+    public InquiryDetailResponseDTO getDetail(Long inquiryId) {
         Inquiry inquiryEntity = getInquiry(inquiryId);
 
         return new InquiryDetailResponseDTO(inquiryEntity);

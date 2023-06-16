@@ -33,10 +33,9 @@ public class AnswerApiController {
 
   @GetMapping("/{inquiryId}")
   public ResponseEntity<?> detail(
-      @AuthenticationPrincipal TokenUserInfo userInfo,
       @PathVariable Long inquiryId) {
     log.info("inquiryId - {}", inquiryId);
-    AnswerDetailResponseDTO answerInfo = answerService.findByInquiry(inquiryId, userInfo.getUserId());
+    AnswerDetailResponseDTO answerInfo = answerService.findByInquiry(inquiryId);
     log.info("answerInfo - {}", answerInfo);
     return ResponseEntity.ok().body(answerInfo);
   }

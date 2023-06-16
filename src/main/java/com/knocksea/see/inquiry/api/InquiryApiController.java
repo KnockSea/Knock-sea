@@ -30,26 +30,24 @@ public class InquiryApiController {
     // 전체 문의
     @GetMapping
     public ResponseEntity<?> list(
-        @AuthenticationPrincipal TokenUserInfo userInfo,
         PageDTO pageDTO) {
         log.info("/api/v1/inquiries?page={}&size={}", pageDTO.getPage(), pageDTO.getSize());
 
-        InquiryListResponseDTO dto = inquiryService.getInquiries(pageDTO, userInfo.getUserId());
+        InquiryListResponseDTO dto = inquiryService.getInquiries(pageDTO);
 
         log.info("dto - {}", dto);
 
         return ResponseEntity.ok().body(dto);
     }
 
-    // 문의
-    @GetMapping("/{inquiryId}")
+    // 자신 문의
+    @GetMapping("/{userId}")
     public ResponseEntity<?> detail(
-        @AuthenticationPrincipal TokenUserInfo userInfo,
-        @PathVariable Long inquiryId) {
-        log.info("/api/v1/inquiries/{} GET", inquiryId);
+        @PathVariable Long userId) {
+        log.info("/api/v1/inquiries/{} GET", userId);
 
         try {
-            InquiryDetailResponseDTO dto = inquiryService.getDetail(inquiryId, userInfo.getUserId());
+            InquiryDetailResponseDTO dto = inquiryService.getDetail(userId);
             return ResponseEntity.ok().body(dto);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

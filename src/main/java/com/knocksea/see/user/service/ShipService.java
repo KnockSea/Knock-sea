@@ -40,7 +40,7 @@ public class ShipService {
                 new RuntimeException("회원 정보가 없습니다"));
 
         //배는 사장만 등록 할 수 있음
-        if(user.getUserGrade().equals("owner")){
+        if(user.getUserGrade().toString().equals("OWNER")){
             //배 중복등록방지용 유저pk (배는 1인당 1대씩만등록가능)
 
             Ship foundByUserId = shipRepository.findByUserUserId(userId);
