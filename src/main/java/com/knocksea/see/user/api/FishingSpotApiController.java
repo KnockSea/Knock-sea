@@ -1,6 +1,7 @@
 package com.knocksea.see.user.api;
 
 
+import com.knocksea.see.auth.TokenProvider;
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 public class FishingSpotApiController {
 
     private final FishingSpotService fishingSpotService;
+
 
     //낚시터 등록 요청
     //post : /api/v1/fishing/register

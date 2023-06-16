@@ -1,6 +1,7 @@
 package com.knocksea.see.user.service;
 
 
+import com.knocksea.see.auth.TokenProvider;
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.user.dto.request.FishingModifyRequestDTO;
@@ -29,6 +30,7 @@ public class FishingSpotService {
 
     //유저 정보 가져오기용 리파지토리
     private final UserRepository userRepository;
+
 
     public FishingSpotRegisterResponseDto save(FishingSpotRegisterRequestDTO dto, Long userId) {
         log.info("{} 유저 정보 : ",dto);

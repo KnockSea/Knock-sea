@@ -143,6 +143,7 @@ public class UserService {
         return true;
     }
 
+    //이메일 중복검사 코드
     public boolean isDuplicate(String email) {
         return userRepository.existsByUserEmail(email);
     }

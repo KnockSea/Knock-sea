@@ -1,5 +1,6 @@
 package com.knocksea.see.user.api;
 
+import com.knocksea.see.auth.TokenProvider;
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
@@ -19,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,7 +29,10 @@ import java.util.List;
 @RequestMapping("/api/v1/ship")
 public class ShipApiController {
 
+
     private final ShipService shipService;
+
+//    private final ImageService imageService;
 
     //배 등록 요청
     //post : /api/v1/ship/register
@@ -61,9 +66,8 @@ public class ShipApiController {
                 }
             }
 
-
-//                uploadedFilePath = shipService.uploadProfileImage(shipImages);
-
+            //이미지 저장시키기
+//            imageService.saveShipImages(shipImages,userInfo);
 
             ShipRegisterResponseDTO join = shipService.save(dto,userInfo.getUserId());
             return ResponseEntity.ok().body(join);

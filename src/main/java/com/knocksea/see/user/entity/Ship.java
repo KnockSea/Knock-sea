@@ -46,6 +46,11 @@ public class Ship {
     private ProductCategory productCategory = ProductCategory.SHIP;
 
 
+
+
+
+
+
     //배 수정용 함수
     public void modifyShipInfo(ShipModifyRequestDTO dto){
         this.shipSerial = dto.getShipSerial();
