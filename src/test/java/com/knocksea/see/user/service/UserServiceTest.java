@@ -19,11 +19,11 @@ class UserServiceTest {
     @Test
     public void saveUserTest(){
         User saveUser = User.builder()
-                .userEmail("aaa@naver.com")
-                .userPassword("aaaa1234!")
-                .userName("맹구")
-                .userPhone("010-1234-1234")
-                .userAddress("강남구")
+                .userEmail("bbbb@naver.com")
+                .userPassword("bbbb1234!")
+                .userName("짱구")
+                .userPhone("010-1111-1111")
+                .userAddress("마포구")
                 .userFullAddress("어쩌고 저쩌고")
                 .userGrade(COMMON)
                 .userPoint(0)
