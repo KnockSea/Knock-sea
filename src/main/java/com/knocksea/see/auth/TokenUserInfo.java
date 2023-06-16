@@ -1,5 +1,6 @@
 package com.knocksea.see.auth;
 
+import com.knocksea.see.user.entity.UserGrade;
 import lombok.*;
 
 @Getter
@@ -14,6 +15,6 @@ public class TokenUserInfo {
 
     private String userEmail;
 
-    private String userGrade;
+    private UserGrade userGrade;
 
 }

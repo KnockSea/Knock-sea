@@ -33,4 +33,15 @@ public class ReviewCreateDTO {
                 .product(this.product)
                 .build();
     }
+
+    public Review toEntity(User user) {
+        return Review.builder()
+            .reviewRating(this.reviewRating)
+            .reviewContent(this.reviewContent)
+            .reviewType(ReviewType.valueOf(this.reviewType))
+            .user(user)
+            .edu(this.edu)
+            .product(this.product)
+            .build();
+    }
 }

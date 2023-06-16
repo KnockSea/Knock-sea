@@ -34,6 +34,8 @@ public class ReservationTime {
     private LocalTime timeEnd;
     private int timeMaxUser;
     // 한 타임정보에 최대 인원 수만큼 예약을 여러번 받아야 되네?
+    @Builder.Default
+    private int timeCurrentUser = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")

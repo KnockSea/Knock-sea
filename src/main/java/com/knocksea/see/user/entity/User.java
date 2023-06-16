@@ -2,6 +2,7 @@ package com.knocksea.see.user.entity;
 
 
 import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.product.entity.ProductCategory;
 import lombok.*;
 
 import javax.persistence.*;
@@ -45,7 +46,7 @@ public class User {
     @Column(name = "user_full_address", nullable = false)
     private String userFullAddress;
 
-    @Column(name = "user_grade", nullable = false, columnDefinition = "varchar(20) default 'user'", insertable = false)
+    @Column(name = "user_grade", nullable = false, columnDefinition = "varchar(20) default 'COMMON'", insertable = false)
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private UserGrade userGrade = UserGrade.COMMON;
@@ -53,15 +54,19 @@ public class User {
     @Column(name = "user_point", nullable = true)
     private int userPoint;
 
-    @Column(name = "user_image", nullable = true)
-    private String userImage;
-
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Ship ship;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private FishingSpot fishingSpot;
+
+    //프로필 이미지
+    private String profileImg;
+
+
+
+
 
     //    @OneToMany(mappedBy = "user")
 //    @Builder.Default

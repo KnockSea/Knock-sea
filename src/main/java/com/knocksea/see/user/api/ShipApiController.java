@@ -1,5 +1,6 @@
 package com.knocksea.see.user.api;
 
+import com.knocksea.see.auth.TokenProvider;
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
@@ -17,6 +18,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -24,13 +29,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/ship")
 public class ShipApiController {
 
+
     private final ShipService shipService;
+
+//    private final ImageService imageService;
 
     //배 등록 요청
     //post : /api/v1/ship/register
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerShip(@Validated @RequestBody ShipRegisterRequestDTO dto,
+    public ResponseEntity<?> registerShip(@Validated @RequestPart("ship") ShipRegisterRequestDTO dto,
+                                          @RequestPart(value = "shipImage", required = false) List<MultipartFile> shipImages,
                                           @AuthenticationPrincipal TokenUserInfo userInfo
             , BindingResult result) {
         //값 들어오는지 확인
@@ -49,6 +58,17 @@ public class ShipApiController {
                     .body(result.getFieldError());
         }
         try {
+            String uploadedFilePath =null;
+            if(shipImages!=null) {
+                //이미지 파일들이 잘 들어왔다면 원본이름 출력시키기
+                for (MultipartFile shipImage : shipImages) {
+                    log.info(shipImage.getOriginalFilename());
+                }
+            }
+
+            //이미지 저장시키기
+//            imageService.saveShipImages(shipImages,userInfo);
+
             ShipRegisterResponseDTO join = shipService.save(dto,userInfo.getUserId());
             return ResponseEntity.ok().body(join);
         } catch (NoRegisteredArgumentsException e) {
