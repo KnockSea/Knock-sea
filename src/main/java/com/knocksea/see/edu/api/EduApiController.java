@@ -34,7 +34,7 @@ public class EduApiController {
     
     //개별 조회
     @GetMapping("/{eduId}")
-    public ResponseEntity<?> detail(@PathVariable Integer eduId){
+    public ResponseEntity<?> detail(@PathVariable Long eduId){
         log.info("/api/v1/edu/{} GET",eduId);
 
         try {
@@ -70,6 +70,7 @@ public class EduApiController {
                     .ok()
                     .body(responseDTO+" 저장 성공");
         } catch (RuntimeException e) {
+            e.printStackTrace();
             return ResponseEntity
                     .internalServerError()
                     .body("서버 터짐: " + e.getMessage());
@@ -120,7 +121,7 @@ public class EduApiController {
 
     //게시물 삭제
     @DeleteMapping("/{eduId}")
-    public ResponseEntity<?> delete(@PathVariable Integer eduId){
+    public ResponseEntity<?> delete(@PathVariable Long eduId){
         log.info("/api/v1/posts DELETE!! ");
 
         try {

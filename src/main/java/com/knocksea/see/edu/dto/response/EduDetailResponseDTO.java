@@ -9,6 +9,7 @@ import lombok.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -49,6 +50,9 @@ public class EduDetailResponseDTO {
 
 
     public EduDetailResponseDTO(Edu saveEdu, List<ReservationTime> timeList) {
+        timeDate = new ArrayList<>();
+        timeStart = new ArrayList<>();
+        timeEnd = new ArrayList<>();
         this.eduTitle=saveEdu.getEduTitle();
         this.eduFullAddress=saveEdu.getEduFullAddress();
         this.eduPrice=saveEdu.getEduPrice();

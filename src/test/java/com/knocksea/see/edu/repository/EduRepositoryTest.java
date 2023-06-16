@@ -24,10 +24,10 @@ class EduRepositoryTest {
     EduRepository eduRepository;
     UserRepository userRepository;
 
-    @BeforeEach
+  /*  @BeforeEach
         // 테스트 돌리기 전에 실행
     void insertDummyData() {
-/*        //given
+*//*        //given
         Edu p1 = Edu.builder()
                 .eduTitle("초보자 낚시 클래스 모집합니다.")
                 .eduContent("내용입니다.")
@@ -40,21 +40,19 @@ class EduRepositoryTest {
                 .eduLocationInfo("클래스 진행하는 장소 소개입니다.")
                 .build();
         //when
-        Edu saved1=eduRepository.save(p1);*/
+        Edu saved1=eduRepository.save(p1);*//*
 
         User user = User.builder()
                 .userEmail("aaa@naver.com")
                 .userPassword("aaa!")
-                .userBirth(LocalDate.ofEpochDay(20010716))
                 .userName("맹구")
                 .userPhone("010-1111-1111")
                 .userAddress("중앙정보처리학원")
                 .userFullAddress("6층")
-                .userGrade("owner")
                 .userPoint(0)
                 .build();
     }
-
+*/
     @Test
     @DisplayName("클래스 1개를 데이터베이스에 저장해야 한다.")
     void testSave() {

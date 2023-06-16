@@ -6,6 +6,9 @@ import com.sun.istack.NotNull;
 import lombok.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 @Setter
 @Getter
@@ -27,7 +30,17 @@ public class EduModifyDTO {
     private int eduPrice;
 
     @NotNull
-    private int eduMaxUser;
+    private int timeMaxUser;
+
+    //    @DateTimeFormat(pattern = "MM-dd")
+    private List<LocalDate> timeDate; //예약일  //ReservationTime 엔터티
+
+    //    @DateTimeFormat(pattern = "'T'HH:mm")
+    private List<LocalTime> timeStart; //시작시간  //ReservationTime 엔터티
+
+    //    @DateTimeFormat(pattern = "'T'HH:mm")
+    private List<LocalTime> timeEnd;//종료시간  //ReservationTime 엔터티
+
 
     @Size(min = 1, max = 200)
     private String eduService;
@@ -45,5 +58,5 @@ public class EduModifyDTO {
 
     @NotNull
     @Builder.Default
-    private Integer eduId=0;
+    private Long eduId=0L;
 }

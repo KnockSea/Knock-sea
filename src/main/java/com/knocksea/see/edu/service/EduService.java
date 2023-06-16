@@ -33,7 +33,7 @@ public class EduService {
     }
 
     //개별 조회
-    public EduDetailResponseDTO getDetail(Integer eduId) {
+    public EduDetailResponseDTO getDetail(Long eduId) {
         Edu edu = getEdu(eduId);
 
 //        return new EduDetailResponseDTO(edu);
@@ -42,9 +42,15 @@ public class EduService {
 
     //클래스 저장
     public EduDetailResponseDTO insert(final EduAndReservationTimeCreateDTO dto) throws RuntimeException{
+        log.info("dto의 id : " + dto.getUserId());
+        Long userId = dto.getUserId();
         //유저 정보는 토큰을 이용해서 저장. 토큰하기 전까지만 이렇게
-        User user = userRepository.findById(dto.getUserId())
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않은 회원입니다."));
+
+        if (eduRepository.findById(userId)!=null){
+            throw new RuntimeException("이미 등록한 클래스가 있습니다.");
+        }
 
         //Edu 엔터티랑 ReservationTime엔터티에 저장
         //entity로 변환해서 저장
@@ -55,7 +61,7 @@ public class EduService {
         for (int i = 0; i < dto.getTimeDate().size(); i++) {
             for (int j = 0; j < dto.getTimeStart().size(); j++) {
                 ReservationTime savereservationTime
-                        = reservationTimeRepository.save(dto.toReservationTimeEntity(i, j));
+                        = reservationTimeRepository.save(dto.toReservationTimeEntity(i, j, saveEdu));
                 timeList.add(savereservationTime);
             }
         }
@@ -76,7 +82,7 @@ public class EduService {
         return null;
     }
 
-    private Edu getEdu(Integer eduId){
+    private Edu getEdu(Long eduId){
         return eduRepository.findById(eduId)
                 .orElseThrow(
                         () -> new RuntimeException(
@@ -86,7 +92,7 @@ public class EduService {
     }
 
     //삭제
-    public void delete(Integer eduId) throws RuntimeException{
+    public void delete(Long eduId) throws RuntimeException{
         eduRepository.deleteById(eduId);
     }
 }

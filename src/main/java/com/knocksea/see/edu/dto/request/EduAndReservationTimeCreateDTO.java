@@ -33,13 +33,13 @@ public class EduAndReservationTimeCreateDTO {
 
     private int timeMaxUser; //예약가능인원 //ReservationTime 엔터티
 
-    @DateTimeFormat(pattern = "MM-dd")
+//    @DateTimeFormat(pattern = "MM-dd")
     private List<LocalDate> timeDate; //예약일  //ReservationTime 엔터티
 
-    @DateTimeFormat(pattern = "'T'HH:mm")
+//    @DateTimeFormat(pattern = "'T'HH:mm")
     private List<LocalTime> timeStart; //시작시간  //ReservationTime 엔터티
 
-    @DateTimeFormat(pattern = "'T'HH:mm")
+//    @DateTimeFormat(pattern = "'T'HH:mm")
     private List<LocalTime> timeEnd;//종료시간  //ReservationTime 엔터티
 
 
@@ -67,7 +67,7 @@ public class EduAndReservationTimeCreateDTO {
                 .build();
     }
 
-    public ReservationTime toReservationTimeEntity(int i, int j){
+    public ReservationTime toReservationTimeEntity(int i, int j,Edu edu){
 
         return ReservationTime.builder()
                 .timeLabelType("CLASS")
@@ -76,6 +76,7 @@ public class EduAndReservationTimeCreateDTO {
                 .timeDate(this.timeDate.get(i))
                 .timeStart(this.timeStart.get(j))
                 .timeEnd(this.timeEnd.get(j))
+                .edu(edu)
                 .build();
     }
 }
