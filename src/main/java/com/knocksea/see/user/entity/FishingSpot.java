@@ -1,6 +1,7 @@
 package com.knocksea.see.user.entity;
 
 
+import com.knocksea.see.product.entity.ProductCategory;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,6 +38,11 @@ public class FishingSpot {
 
     @Column(name = "spot_heart_count", nullable = false, columnDefinition = "int default 0")
     private int spotHeartCount;
+
+    @Column(name = "product_category" )
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private ProductCategory productCategory = ProductCategory.SPOT;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)

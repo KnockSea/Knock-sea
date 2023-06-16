@@ -93,8 +93,7 @@ public class TokenProvider {
 
         return TokenUserInfo.builder().userId(Long.valueOf(claims.getSubject()))
                 .userEmail(claims.get("userEmail",String.class))
-                .userGrade(String.valueOf(UserGrade.valueOf(claims.get("userGrade", String.class))))
-                .build();
+                .userGrade(UserGrade.valueOf(claims.get("userGrade",String.class))).build();
     }
 
 }

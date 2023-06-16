@@ -67,7 +67,7 @@ public class ShipService {
         Ship foundByUserId = shipRepository.findByUserUserId(userInfo.getUserId());
 
         //사장님이 아니라면
-        if(foundByUserId.getUser().getUserGrade().equals("user")) ResponseEntity.badRequest().body("사장님이 아니면 수정할 수없습니다");
+        if(foundByUserId.getUser().getUserGrade().toString().equals("user")) ResponseEntity.badRequest().body("사장님이 아니면 수정할 수없습니다");
 
         //등록된 배가 있다면
         if(foundByUserId!=null){

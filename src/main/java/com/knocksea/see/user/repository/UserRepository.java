@@ -2,6 +2,7 @@ package com.knocksea.see.user.repository;
 
 import com.knocksea.see.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
@@ -15,5 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUserEmail(String userEmail);
 
 
-
+    // 이메일 중복체크
+//    @Query("select count(*) from User u where u.email=:email")
 }
