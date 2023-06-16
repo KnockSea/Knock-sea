@@ -57,8 +57,9 @@ public class InquiryService {
                 .build();
     }
 
-    public InquiryDetailResponseDTO getDetail(Long inquiryId) {
-        Inquiry inquiryEntity = getInquiry(inquiryId);
+    public InquiryDetailResponseDTO getDetail(Long userId) {
+
+        Inquiry inquiryEntity = getInquiry(userId);
 
         return new InquiryDetailResponseDTO(inquiryEntity);
     }

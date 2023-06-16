@@ -7,6 +7,8 @@ import com.knocksea.see.review.entity.ReviewType;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 @ToString
@@ -15,12 +17,12 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ReviewCreateDTO {
-
-    private Long reviewRating;
-    private String reviewContent;
-    private String reviewType;
-    private User user;
+    private Long reviewRating; // 5L
+    private String reviewContent; // "이거 재밌어여"
+    private String reviewType; // 타입
+    // 작성자 정보
     private Edu edu;
+    // private Long eduId;
     private Product product;
 
     public Review toEntity() {
@@ -28,7 +30,7 @@ public class ReviewCreateDTO {
                 .reviewRating(this.reviewRating)
                 .reviewContent(this.reviewContent)
                 .reviewType(ReviewType.valueOf(this.reviewType))
-                .user(this.user)
+//                .user(this.user)
                 .edu(this.edu)
                 .product(this.product)
                 .build();

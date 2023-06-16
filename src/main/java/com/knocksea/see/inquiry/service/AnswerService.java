@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -82,6 +83,10 @@ public class AnswerService {
     }
 
     public void delete(Long answerId, Long userId) throws RuntimeException, SQLException {
+        Answer byId = answerRepository.findById(answerId).orElseThrow();
+        byId.setUser(null);
+        answerRepository.save(byId);
+
         answerRepository.deleteById(answerId);
     }
 }
