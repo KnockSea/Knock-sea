@@ -1,5 +1,6 @@
 package com.knocksea.see.inquiry.service;
 
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
 import com.knocksea.see.inquiry.dto.page.PageResponseDTO;
 import com.knocksea.see.inquiry.dto.request.AnswerCreateRequestDTO;
@@ -10,6 +11,8 @@ import com.knocksea.see.inquiry.entity.Answer;
 import com.knocksea.see.inquiry.entity.Inquiry;
 import com.knocksea.see.inquiry.repository.AnswerRepository;
 import com.knocksea.see.inquiry.repository.InquiryRepository;
+import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,6 +33,7 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
     private final InquiryRepository inquiryRepository;
+    private final UserRepository userRepository;
 
     public AnswerDetailResponseDTO findByInquiry(Long inqyiryId) {
 
@@ -52,19 +56,22 @@ public class AnswerService {
         return answerEntity;
     }
 
-    public AnswerDetailResponseDTO insert(Long inquiryId, final AnswerCreateRequestDTO dto)
+    public AnswerDetailResponseDTO insert(Long inquiryId, final AnswerCreateRequestDTO dto, TokenUserInfo userInfo)
             throws RuntimeException {
+        User foundUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
+            () -> new RuntimeException("회원 정보가 없습니다.")
+        );
         Inquiry inquiryInfo = inquiryRepository.findById(inquiryId).orElseThrow();
         dto.setInquiry(inquiryInfo);
 
-        Answer saved = answerRepository.save(dto.toEntity());
+        Answer saved = answerRepository.save(dto.toEntity(foundUser));
         log.info("answer saved- {}", saved);
 
         return new AnswerDetailResponseDTO(saved);
 
     }
 
-    public AnswerDetailResponseDTO modify(final AnswerModifyDTO dto) {
+    public AnswerDetailResponseDTO modify(final AnswerModifyDTO dto, Long userId) {
 
         final Answer answerEntity = getAnswer(dto.getAnswerId());
 
@@ -74,7 +81,7 @@ public class AnswerService {
         return new AnswerDetailResponseDTO(modifiedAnswer);
     }
 
-    public void delete(Long answerId) throws RuntimeException, SQLException {
+    public void delete(Long answerId, Long userId) throws RuntimeException, SQLException {
         answerRepository.deleteById(answerId);
     }
 }

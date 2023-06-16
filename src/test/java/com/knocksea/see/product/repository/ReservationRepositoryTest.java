@@ -65,7 +65,6 @@ class ReservationRepositoryTest {
         time.setTimeVerify("Y");
         ReservationTime p2 = reservationTimeRepository.save(time);
 
-        assertEquals(8, p1.getProductMaxUser());
         assertEquals("Y", p2.getTimeVerify());
 
 

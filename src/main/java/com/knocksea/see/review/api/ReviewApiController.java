@@ -1,18 +1,17 @@
 package com.knocksea.see.review.api;
 
-import com.knocksea.see.inquiry.dto.request.InquiryCreateRequestDTO;
-import com.knocksea.see.inquiry.dto.response.InquiryDetailResponseDTO;
-import com.knocksea.see.inquiry.dto.response.InquiryListResponseDTO;
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.review.dto.page.PageDTO;
 import com.knocksea.see.review.dto.request.ReviewCreateDTO;
-import com.knocksea.see.review.dto.request.ReviewDTO;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.dto.response.ReviewListResponseDTO;
+import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -28,8 +27,10 @@ public class ReviewApiController {
 
         private final ReviewService reviewService;
 
+        // 리뷰 후기 등록
         @PostMapping
         public ResponseEntity<?> create(
+            @AuthenticationPrincipal TokenUserInfo userInfo,
             @Validated @RequestBody ReviewCreateDTO dto
             , BindingResult result
         ) {
@@ -44,7 +45,7 @@ public class ReviewApiController {
           if (fieldErrors != null) return fieldErrors;
 
           try {
-            ReviewDetailResponseDTO responseDTO = reviewService.createReview(dto);
+            ReviewDetailResponseDTO responseDTO = reviewService.createReview(dto, userInfo);
             return ResponseEntity
                 .ok()
                 .body(responseDTO);
@@ -56,16 +57,20 @@ public class ReviewApiController {
           }
         }
 
-        @GetMapping("/{reviewId}")
-        public ResponseEntity<?> getReviewById(@PathVariable Long reviewId) {
-          ReviewDetailResponseDTO dto = reviewService.getReviewById(reviewId);
+        // 자신이 쓴 후기
+        @GetMapping("/{userId}")
+        public ResponseEntity<?> getReviewById(
+            @AuthenticationPrincipal TokenUserInfo userInfo,
+            @PathVariable Long userId, PageDTO pageDTO) {
+          ReviewListResponseDTO userReviewById = reviewService.getUserReviewById(userId, pageDTO, userInfo.getUserId());
           try {
-            return ResponseEntity.ok().body(dto);
+            return ResponseEntity.ok().body(userReviewById);
           } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
           }
         }
 
+        // 후기 전체 리스트
   @GetMapping
   public ResponseEntity<?> list(PageDTO pageDTO) {
     log.info("/api/v1/reviews?page={}&size={}", pageDTO.getPage(), pageDTO.getSize());
@@ -79,14 +84,16 @@ public class ReviewApiController {
 
         // 다른 경로와 관련된 후기 조회 API들을 추가할 수 있습니다.
 
-  @DeleteMapping("/{userId}")
+  // 삭제 기능
+  @DeleteMapping("/{reviewId}")
   public ResponseEntity<?> delete(
+      @AuthenticationPrincipal TokenUserInfo userInfo,
       @PathVariable Long reviewId
   ) {
     log.info("/api/v1/reviews/{}  DELETE!! ", reviewId);
 
     try {
-      reviewService.deleteReview(reviewId);
+      reviewService.deleteReview(reviewId, userInfo.getUserId());
       return ResponseEntity
           .ok("DEL SUCCESS!!");
     } catch (Exception e) {

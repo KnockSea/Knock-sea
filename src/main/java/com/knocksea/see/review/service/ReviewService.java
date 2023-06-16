@@ -1,10 +1,9 @@
 package com.knocksea.see.review.service;
 
-import com.knocksea.see.product.repository.ProductRepository;
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.review.dto.page.PageDTO;
 import com.knocksea.see.review.dto.page.PageResponseDTO;
 import com.knocksea.see.review.dto.request.ReviewCreateDTO;
-import com.knocksea.see.review.dto.request.ReviewDTO;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.dto.response.ReviewListResponseDTO;
 import com.knocksea.see.review.entity.Review;
@@ -16,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,20 +29,41 @@ import java.util.stream.Collectors;
 @Transactional
 public class ReviewService {
   private final ReviewRepository reviewRepository;
+  private final UserRepository userRepository;
 
 
 
-  public ReviewDetailResponseDTO createReview(ReviewCreateDTO reviewDTO) throws  RuntimeException{
-    Review saved = reviewRepository.save(reviewDTO.toEntity());
+
+  public ReviewDetailResponseDTO createReview(final ReviewCreateDTO reviewDTO, final TokenUserInfo userInfo) throws  RuntimeException{
+    User foundUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
+        () -> new RuntimeException("회원 정보가 없습니다.")
+    );
+
+    Review saved = reviewRepository.save(reviewDTO.toEntity(foundUser));
     return new ReviewDetailResponseDTO(saved);
   }
 
-  public ReviewDetailResponseDTO getReviewById(Long reviewId) {
+  public ReviewListResponseDTO getUserReviewById(Long userId, PageDTO dto, Long TokenUserId) {
 
-    Review review = reviewRepository.findById(reviewId)
-        .orElseThrow(() -> new RuntimeException("Review not found with ID: " + reviewId));
+    PageRequest pageable = PageRequest.of(
+            dto.getPage() - 1,
+            dto.getSize(),
+            Sort.by("inquiryDateTime").descending()
+    );
+    User user = userRepository.findById(TokenUserId).orElseThrow();
+    Page<Review> byUserId = reviewRepository.findByUser(user, pageable);
+    List<Review> userList = byUserId.getContent();
+    List<ReviewDetailResponseDTO> detailList = userList.stream()
+            .map(ReviewDetailResponseDTO::new)
+            .collect(Collectors.toList());
 
-    return new ReviewDetailResponseDTO(review);
+
+
+    return ReviewListResponseDTO.builder()
+            .count(userList.size())
+            .pageInfo(new PageResponseDTO<Review>(byUserId))
+            .reviews(detailList)
+            .build();
   }
 
   public ReviewListResponseDTO getAllReviews(PageDTO dto) {
@@ -66,7 +87,7 @@ public class ReviewService {
         .build();
   }
 
-  public void deleteReview(Long reviewId) throws RuntimeException, SQLException {
+  public void deleteReview(Long reviewId, Long TokenUserId) throws RuntimeException, SQLException {
 
     reviewRepository.deleteById(reviewId);
   }

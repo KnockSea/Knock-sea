@@ -2,6 +2,7 @@ package com.knocksea.see.auth;
 
 
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.entity.UserGrade;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -54,7 +55,7 @@ public class TokenProvider {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userEntity.getUserId());
         claims.put("userEmail", userEntity.getUserEmail());
-        claims.put("userGrade", userEntity.getUserGrade());
+        claims.put("userGrade", userEntity.getUserGrade().toString());
 
         return Jwts.builder()
                 //token header에 들어갈 서명
@@ -92,8 +93,7 @@ public class TokenProvider {
 
         return TokenUserInfo.builder().userId(Long.valueOf(claims.getSubject()))
                 .userEmail(claims.get("userEmail",String.class))
-                .userGrade(String.valueOf(claims.get("userGrade",String.class)))
-                .build();
+                .userGrade(UserGrade.valueOf(claims.get("userGrade",String.class))).build();
     }
 
 }

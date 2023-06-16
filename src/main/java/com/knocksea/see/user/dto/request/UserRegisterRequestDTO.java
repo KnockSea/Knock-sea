@@ -1,6 +1,7 @@
 package com.knocksea.see.user.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.knocksea.see.user.entity.User;
 import lombok.*;
 
 import javax.validation.constraints.Email;
@@ -18,35 +19,42 @@ import java.time.LocalDate;
 public class UserRegisterRequestDTO {
 
     //유저 이메일
-    @NotBlank
-    @Email
-    private String userEmail;
+    private String UserEmail;
 
     //유저 비밀번호
-    @NotBlank
-    private String userPassword;
+    private String UserPassword;
 
 
     //유저 전화번호
-    @NotBlank
-    private String userPhone;
+    private String UserPhone;
 
     //유저 주소(간략)
-    @NotBlank
-    private String userAddress;
+    private String UserAddress;
 
     //유저 상세 주소
-    @NotBlank
-    private String userFullAddress;
+    private String UserFullAddress;
 
     //유저 이름
-    @NotBlank
-    private String username;
+    private String userName;
 
 
 //    @Nullable
 //    //유저 프로필 이미지
 //    private MultipartFile profileImage;
+
+    // 엔터티로 변경하는 메서드
+    public User toEntity(String uploadedFilePath) {
+        return User.builder()
+                .userName(this.userName)
+                .userPassword(this.UserPassword)
+                .userEmail(this.UserEmail)
+                .profileImg(uploadedFilePath)
+                .userFullAddress(this.UserFullAddress)
+                .userAddress(this.UserAddress)
+                .userPhone(this.UserPhone)
+                .profileImg(uploadedFilePath)
+                .build();
+    }
 
 
 }
