@@ -53,6 +53,9 @@ public class EduService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않은 회원입니다."));
 
+        Optional<Edu> byId = eduRepository.findById(userId);
+        log.info("userId : "+userId);
+
         if (eduRepository.findById(userId)!=null){
             throw new RuntimeException("이미 등록한 클래스가 있습니다.");
         }
@@ -77,20 +80,16 @@ public class EduService {
 
         Long userId = dto.getUserId();
 
-        log.info("asdfkja;sldfj : "+userId);
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("유저 없음"));
 
-        log.info("asdfkja;sldfj2 : "+user);
-
         Edu edu = eduRepository.findByUserUserId(user);
 
-        log.info("a;sldkfj;alskdfj;laskd"+edu);
+
 
         //만약에 time_current_user가 1명 이상이면 수정못하도록
-//        Optional<Reservation> reservation = getReservationTime(edu);
-        Reservation reservation = reservationRepository.findByEduEduId(edu).orElseThrow(() -> new RuntimeException("마"));
+        Optional<Reservation> reservation = getReservationTime(edu);
+
         log.info("alsdkfjlsdkfj");
         if(reservation!= null){
             throw new RuntimeException("신청 인원이 한명 이상이므로 수정할 수 없음");
@@ -98,7 +97,7 @@ public class EduService {
         log.info("1234567890");
         
         //ReservationTime 아예 삭제시키고 다시 등록시킴
-        reservationTimeRepository.deleteByEduEduId(edu);
+        boolean b = reservationTimeRepository.deleteByEduEduId(edu);
 
         //수정한 예약시간 개수만큼 save
         for (int i = 0; i < dto.getTimeDate().size(); i++) {
@@ -123,8 +122,13 @@ public class EduService {
     }
 
     private Optional<Reservation> getReservationTime(Edu edu){
-        log.info("123123 : "+edu);
-        return reservationRepository.findByEduEduId(edu);
+
+        Optional<Reservation> byEduEduId = reservationRepository.findByEduEduId(edu);
+        if(byEduEduId==null){
+            log.info("");
+        }
+        //findByEduEduId가 안찾아짐
+        return byEduEduId;
     }
 
     //삭제

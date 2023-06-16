@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReservationTimeRepository extends JpaRepository<ReservationTime, Long> {
 
-    void deleteByEduEduId(Edu edu);
+    boolean deleteByEduEduId(Edu edu);
 }

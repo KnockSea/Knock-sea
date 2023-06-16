@@ -19,8 +19,8 @@ class UserServiceTest {
     @Test
     public void saveUserTest(){
         User saveUser = User.builder()
-                .userEmail("bbbb@naver.com")
-                .userPassword("bbbb1234!")
+                .userEmail("aaaa@naver.com")
+                .userPassword("aaaa1234!")
                 .userName("짱구")
                 .userPhone("010-1111-1111")
                 .userAddress("마포구")

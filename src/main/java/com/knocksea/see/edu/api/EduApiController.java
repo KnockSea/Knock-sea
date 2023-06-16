@@ -107,7 +107,6 @@ public class EduApiController {
 //        if(fieldErros!=null) return fieldErros;
 
         try {
-            log.info("123dflkgja;oijfo");
             EduDetailResponseDTO responseDTO
                     = eduService.modify(dto);
             log.info("123dflkgja;oijfo222222");
