@@ -50,9 +50,7 @@ public class EduDetailResponseDTO {
 
 
     public EduDetailResponseDTO(Edu saveEdu, List<ReservationTime> timeList) {
-        timeDate = new ArrayList<>();
-        timeStart = new ArrayList<>();
-        timeEnd = new ArrayList<>();
+
         this.eduTitle=saveEdu.getEduTitle();
         this.eduFullAddress=saveEdu.getEduFullAddress();
         this.eduPrice=saveEdu.getEduPrice();

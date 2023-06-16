@@ -1,6 +1,7 @@
 package com.knocksea.see.product.entity;
 
 
+import com.knocksea.see.edu.dto.response.EduModifyDTO;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.dto.request.ReservationTimeRequestDTO;
@@ -44,6 +45,11 @@ public class ReservationTime {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "edu_id")
     private Edu edu;
+
+    //수정
+    public void update(int i, int j, EduModifyDTO dto) {
+        this.timeMaxUser=dto.getTimeMaxUser();
+    }
 
 /*    public ReservationTime(ReservationTimeRequestDTO dto) {
         this.timeLabelType = dto.getTimeLabelType();

@@ -27,7 +27,7 @@ public class ReservationRequestDTO {
     private Long userId;
     // 상품번호
     private Long productId;
-    private int eduId;
+    private Long eduId;
     private Long reservationTimeId;
 
     public Reservation toEntity(ReservationRequestDTO dto) {

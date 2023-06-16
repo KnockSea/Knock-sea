@@ -95,7 +95,7 @@ public class EduApiController {
     //클래스 수정
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<?> update(
-            @Validated @RequestBody EduModifyDTO dto
+            @Validated @RequestBody EduAndReservationTimeCreateDTO dto
             , BindingResult result
             , HttpServletRequest request
     ) {
@@ -103,13 +103,14 @@ public class EduApiController {
         log.info("/api/v1/edu {}!! - dto: {}", request.getMethod(), dto);
 
         //입력값 검증
-        ResponseEntity<List<FieldError>> fieldErros = getValidatedResult(result);
-        if(fieldErros!=null) return fieldErros;
+//        ResponseEntity<List<FieldError>> fieldErros = getValidatedResult(result);
+//        if(fieldErros!=null) return fieldErros;
 
         try {
+            log.info("123dflkgja;oijfo");
             EduDetailResponseDTO responseDTO
                     = eduService.modify(dto);
-
+            log.info("123dflkgja;oijfo222222");
             return ResponseEntity.ok().body(responseDTO);
         }
         catch (Exception e){
