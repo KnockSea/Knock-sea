@@ -1,0 +1,32 @@
+.detail-tap {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    background: #fff;
+    border-top: 1px solid #c9c9c9;
+    position: sticky;
+    top: 1px;
+    overflow-y: auto;
+  
+    li {
+      width: 20%;
+      font-size: 16px;
+      text-align: center;
+      padding: 20px;
+      cursor: pointer;
+  
+      &:hover {
+        color: #004ea7;
+        box-sizing: border-box;
+        font-weight: 700;
+      }
+  
+      &.active {
+        color: #004ea7;
+        box-sizing: border-box;
+        border-bottom: 3px solid #004ea7;
+        font-weight: 700;
+      }
+    }
+  }
+  
