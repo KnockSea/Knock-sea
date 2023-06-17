@@ -63,9 +63,8 @@ public class AnswerService {
             () -> new RuntimeException("회원 정보가 없습니다.")
         );
         Inquiry inquiryInfo = inquiryRepository.findById(inquiryId).orElseThrow();
-        dto.setInquiry(inquiryInfo);
 
-        Answer saved = answerRepository.save(dto.toEntity(foundUser));
+        Answer saved = answerRepository.save(dto.toEntity(foundUser, inquiryInfo));
         log.info("answer saved- {}", saved);
 
         return new AnswerDetailResponseDTO(saved);
@@ -74,18 +73,20 @@ public class AnswerService {
 
     public AnswerDetailResponseDTO modify(final AnswerModifyDTO dto, Long userId) {
 
+        User user = userRepository.findById(userId).orElseThrow();
         final Answer answerEntity = getAnswer(dto.getAnswerId());
-
+        Inquiry inquiry = inquiryRepository.findById(dto.getInquiryId()).orElseThrow();
         answerEntity.setAnswerDetails(dto.getAnswerDetails());
+        answerEntity.setInquiry(inquiry);
         Answer modifiedAnswer = answerRepository.save(answerEntity);
 
         return new AnswerDetailResponseDTO(modifiedAnswer);
     }
 
     public void delete(Long answerId, Long userId) throws RuntimeException, SQLException {
-        Answer byId = answerRepository.findById(answerId).orElseThrow();
-        byId.setUser(null);
-        answerRepository.save(byId);
+        Answer answer = answerRepository.findById(answerId).orElseThrow();
+        answer.setUser(null);
+        answerRepository.save(answer);
 
         answerRepository.deleteById(answerId);
     }

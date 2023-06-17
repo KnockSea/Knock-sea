@@ -57,10 +57,15 @@ public class InquiryService {
                 .build();
     }
 
-    public InquiryDetailResponseDTO getDetail(Long userId) {
 
-        Inquiry inquiryEntity = getInquiry(userId);
+    public InquiryDetailResponseDTO getDetail(Long inquiryId, Long tokenUserId) {
 
+        Inquiry inquiry = inquiryRepository.findById(inquiryId).orElseThrow();
+        if (inquiry.getUser().getUserId().equals(tokenUserId)) {
+        }
+        //----------------------------------------------------@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//        List<Inquiry> userList = inquiryRepository.findAllById(tokenUserId);
+        Inquiry inquiryEntity = getInquiry(tokenUserId);
         return new InquiryDetailResponseDTO(inquiryEntity);
     }
     private Inquiry getInquiry(Long inquiryId) {
@@ -77,16 +82,15 @@ public class InquiryService {
         throws RuntimeException {
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("회원 정보가 없습니다."));
         Inquiry saved = inquiryRepository.save(dto.toEntity(user));
-//        Inquiry saved = inquiryRepository.save(dto.toEntity());
-
 
         return new InquiryDetailResponseDTO(saved);
     }
 
     public  InquiryDetailResponseDTO modify(final InquiryModifyDTO dto, Long userId) {
 
+        User user = userRepository.findById(userId).orElseThrow();
         final Inquiry inquiryEntity = getInquiry(dto.getInquiryId());
-
+        inquiryEntity.setUser(user);
         inquiryEntity.setInquiryDetails(dto.getInquiryDetails());
 
         Inquiry modifiedInquiry = inquiryRepository.save(inquiryEntity);
@@ -97,7 +101,11 @@ public class InquiryService {
     public void delete(Long inquiryId, Long userId) throws RuntimeException, SQLException {
 
         try {
+            User user = userRepository.findById(userId).orElseThrow();
+            Inquiry inquiry = inquiryRepository.findById(inquiryId).orElseThrow();
+            if (inquiry.getInquiryId().equals(user.getUserId())){
             inquiryRepository.deleteById(inquiryId);
+            }
         } catch (Exception e) {
             log.error("id가 존재하지 않아 삭제에 실패했습니다. - ID: {}, err: {}"
                 , inquiryId, e.getMessage());

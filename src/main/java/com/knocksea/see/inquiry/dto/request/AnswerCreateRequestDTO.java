@@ -30,10 +30,10 @@ public class AnswerCreateRequestDTO {
             .user(this.user)
             .build();
   }
-  public Answer toEntity(User user) {
+  public Answer toEntity(User user, Inquiry inquiry) {
     return Answer.builder()
         .answerDetails(this.answerDetails)
-        .inquiry(this.inquiry)
+        .inquiry(inquiry)
         .user(user)
         .build();
   }

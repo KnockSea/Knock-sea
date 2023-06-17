@@ -58,7 +58,7 @@ public class ReviewService {
         return new ReviewDetailResponseDTO(saved);
     }
 
-    public ReviewListResponseDTO getUserReviewById(Long userId, PageDTO dto, Long TokenUserId) {
+    public ReviewListResponseDTO getUserReviewById(PageDTO dto, Long TokenUserId) {
 
         PageRequest pageable = PageRequest.of(
                 dto.getPage() - 1,
