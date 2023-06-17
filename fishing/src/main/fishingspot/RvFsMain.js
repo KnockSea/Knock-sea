@@ -1,38 +1,35 @@
 import React from 'react'
-import './RvScss/RvMain.scss'
-import boat from '../img/boat.jpg'
+import './RvScss/RvFsMain.scss'
+import fs from '../img/fs.jpg'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Bullseye,Calendar2Check,EmojiSmile,PersonVcard, CheckCircleFill } from 'react-bootstrap-icons';
-import RvinnerHeader from './RvinnerHeader';
+import RvFsinnerHeader from './RvFsinnerHeader';
 
 
 import map from '../img/map.png'
-import RvItem from './RvItem';
+import RvFsItem from './RvFsItem';
 import { Route, Routes } from 'react-router-dom';
-import RvBtDetail from './RvBtDetail';
+import RvFsDetail from './RvFsDetail';
 
 
 
-function RvMain() {
+function RvFsMain() {
   return (
     <div>
-    {/* <Routes>
-            <Route path='/detail' element={<RvBtDetail/>}></Route>
-     </Routes> */}
 
         <div className='rvMain'>
 
             <div className='rvContent'>
-                <RvinnerHeader />
+                <RvFsinnerHeader />
                 <div className='x1'>
                     <div>검색결과 1-30 / 총 80개</div>
                     <div>기본정렬순</div>
                 </div>
                      <div className='cardBox'>
 
-            <RvItem />
-            <RvItem />
-            <RvItem />
+            <RvFsItem />
+            <RvFsItem />
+            <RvFsItem />
        
          
         
@@ -55,4 +52,4 @@ function RvMain() {
   )
 }
 
-export default RvMain
+export default RvFsMain

@@ -14,9 +14,10 @@ export const NsHeader = () => {
         <ul>
          
          <li><Link to={'/bt'} > 배낚시</Link></li>
-          <li>낚시터</li>
+          <li><Link to={'/fs'}> 낚시터</Link></li>
           <li>클래스</li>
           <li>커뮤니티</li>
+          <li><Link to={'/my'}>마이페이지</Link></li>
         </ul>
         </div>
    

@@ -103,7 +103,7 @@
 
             .exbox {
                 width: 100%;
-                height: 300px;
+                height: 30px;
                 text-align: left;
                 margin-left: 20px;
                 margin-top: 20px;
@@ -111,6 +111,19 @@
                 font-weight: 700;
                 font-size: 10px;
                 // background: pink;
+            }
+
+            .wtbox {
+                margin-left: 20px;
+                width: 100%;
+                height: 300px;
+                overflow: hidden;
+            
+                img {
+                    width: 100%;
+                    height: 100%;
+                    
+                }
             }
         }
         
