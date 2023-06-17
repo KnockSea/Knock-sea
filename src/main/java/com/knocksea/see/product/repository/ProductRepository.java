@@ -2,6 +2,7 @@ package com.knocksea.see.product.repository;
 
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ReservationTime;
+import com.knocksea.see.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,4 +13,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT t FROM ReservationTime t WHERE t.product = :product")
     List<ReservationTime> findByProductId(@Param("product") Product product);
+
+    @Query("SELECT p FROM Product p WHERE p.user = :user")
+    List<Product> findByUser(@Param("user") User user);
 }

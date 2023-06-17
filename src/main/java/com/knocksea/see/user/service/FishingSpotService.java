@@ -44,7 +44,7 @@ public class FishingSpotService {
         if(user.getUserGrade().toString().equals("OWNER")){
             //낚시터 중복등록방지용 유저pk (배는 1인당 1대씩만등록가능)
 
-            FishingSpot foundByUserId = fishingSpotRepository.findByUserUserId(userId);
+            FishingSpot foundByUserId = fishingSpotRepository.findByUser(user);
             //등록된 낚시터가없다면
             if(foundByUserId==null){
                 //dto를 ship엔티티로 변환
