@@ -92,7 +92,7 @@ public class ProductService implements ProductDetailService {
         User user = userRepository.findById(dto.getUserId()).
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
 
-        if (productRepository.existsByProductTypeAndUserId(dto.getProductLabelType(), dto.getUserId())) {
+        if (productRepository.existsByProductTypeAndUserUserId(dto.getProductLabelType(), dto.getUserId())) {
             throw new RuntimeException("이미 등록된 상품입니다.");
         }
 
@@ -114,13 +114,13 @@ public class ProductService implements ProductDetailService {
         Product targetProduct = productRepository.findByUserUserId(user.getUserId());
         // 이거... findAll 하고 타입으로 필터링해야 되겠는데?
 
-        if (reservationRepository.existsByProductTypeAndProductId(dto.getProductLabelType(), targetProduct.getProductId())) {
+        if (reservationRepository.existsByProductProductTypeAndProductProductId(dto.getProductLabelType(), targetProduct.getProductId())) {
             throw new RuntimeException("예약 정보가 존재하여 수정이 불가능 합니다.");
         }
 
-        boolean flag = reservationTimeRepository.deleteByProductId(targetProduct.getProductId());
+        int deleteCount = reservationTimeRepository.deleteByProductProductId(targetProduct.getProductId());
 
-        if (flag) {
+        if (deleteCount >= 1) {
             System.out.println("삭제 성공");
         }
 
@@ -134,7 +134,7 @@ public class ProductService implements ProductDetailService {
     }
 
     public boolean delete(ProductDeleteRequestDTO dto) {
-        return productRepository.deleteByProductTypeAndId(dto.getProductType(), dto.getProductId());
+        return productRepository.deleteByProductTypeAndProductId(dto.getProductType(), dto.getProductId());
     }
 
 

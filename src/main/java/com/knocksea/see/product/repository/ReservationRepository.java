@@ -9,5 +9,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
 
 
-    boolean existsByProductTypeAndProductId(String productLabelType, Long productId);
+    boolean existsByProductProductTypeAndProductProductId(String productLabelType, Long productId);
 }

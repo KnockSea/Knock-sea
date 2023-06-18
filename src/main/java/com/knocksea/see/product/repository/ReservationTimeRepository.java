@@ -11,5 +11,5 @@ public interface ReservationTimeRepository extends JpaRepository<ReservationTime
     List<ReservationTime> findAllByProduct(Product product);
 
 
-    boolean deleteByProductId(Long productId);
+    int deleteByProductProductId(Long productId);
 }

@@ -41,7 +41,8 @@ public class ReservationService {
 
         productRepository.findById(dto.getProductId());
 
-        ReservationTime reservationTime = reservationTimeRepository.findById(dto.getReservationTimeId()).orElseThrow(() -> new RuntimeException("예약 불가능한 시간입니다."));
+        ReservationTime reservationTime = reservationTimeRepository.findById(dto.getReservationTimeId())
+                .orElseThrow(() -> new RuntimeException("예약 불가능한 시간입니다."));
         reservation.setReservationTime(reservationTime);
 
         if (reservationTime.getTimeCurrentUser() + dto.getReservationUserCount() > reservationTime.getTimeMaxUser()) {

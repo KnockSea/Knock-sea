@@ -48,9 +48,9 @@ public class EduService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않은 회원입니다."));
 
-        if (eduRepository.findById(userId)!=null){
-            throw new RuntimeException("이미 등록한 클래스가 있습니다.");
-        }
+//        if (eduRepository.findById(userId)!=null){
+//            throw new RuntimeException("이미 등록한 클래스가 있습니다.");
+//        }
 
         //Edu 엔터티랑 ReservationTime엔터티에 저장
         //entity로 변환해서 저장

@@ -60,4 +60,13 @@ public class ProductController {
 
         return null;
     }
+
+    @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public ResponseEntity<?> modifyProduct(@RequestBody ProductRequestDTO dto) {
+
+        ProductDetailResponseDTO modify = productService.modify(dto);
+
+        return ResponseEntity.ok().body(modify);
+
+    }
 }
