@@ -110,6 +110,7 @@ public class InquiryService {
             log.error("id가 존재하지 않아 삭제에 실패했습니다. - ID: {}, err: {}"
                 , inquiryId, e.getMessage());
             throw new RuntimeException("id가 존재하지 않아 삭제에 실패했습니다.");
+
         }
     }
 }
