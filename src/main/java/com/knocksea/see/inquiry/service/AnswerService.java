@@ -44,7 +44,6 @@ public class AnswerService {
         AnswerDetailResponseDTO dto = new AnswerDetailResponseDTO(answer);
         log.info("dto - {}", answer);
 
-
         return dto;
     }
 
