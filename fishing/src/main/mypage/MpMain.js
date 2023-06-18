@@ -7,8 +7,15 @@ const MpMain = () => {
   return (
         <section className='MyPageMainBox'>
             <div className='mainbox1'>
-
+                    
+                    <div className='mychoicebox'>
                         <h1>마이페이지</h1>
+                        <h1>배</h1>
+                        <h1>낚시터</h1>
+                        <h1>클래스</h1>
+                    </div>
+                   
+                   
                     <div className='userinfobox'>
                         <div className='profilebox'>
                             <img />

@@ -10,6 +10,7 @@ import map from '../img/map.png'
 import RvFsItem from './RvFsItem';
 import { Route, Routes } from 'react-router-dom';
 import RvFsDetail from './RvFsDetail';
+import RvMap from '../reservation/RvMap';
 
 
 
@@ -42,7 +43,7 @@ function RvFsMain() {
             <div>위치 확인하기</div>
             <div className='mapbox'>
 
-            <img src={map} />
+            <RvMap/>
             </div>
             </div>
         </div>

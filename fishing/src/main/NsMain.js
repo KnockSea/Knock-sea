@@ -90,7 +90,6 @@ const MainContent = ({ isRouteActive }) => {
         <div className='apibox'>
             <div className='exbox'>이번주 날씨 > </div>
             <div className='wtbox'>
-                {/* <img src={wt} /> */}
                 <WeeklyWeather/>
             </div>
         </div>
