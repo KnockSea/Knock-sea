@@ -19,6 +19,7 @@ import MpRvlist from './mypage/MpRvlist'
 import RvFsDetail from './fishingspot/RvFsDetail'
 import RvFsTemplate from './fishingspot/RvFsTemplate'
 import WeeklyWeather from './WeeklyWeather'
+import MpQueryText from './mypage/MpQueryText'
 
 
 const NsMain = () => {
@@ -40,6 +41,7 @@ const NsMain = () => {
             <Route path='/inquire' element={<MpInquire/>}></Route>
             <Route path='/rvlist' element={<MpRvlist/>}></Route>
             <Route path='/fs' element={<RvFsTemplate/>}></Route>
+            <Route path='/myquery' element={<MpQueryText/>}></Route>
         </Routes>
         {/* <div className='banner'><img src={banner} /></div> */}
         {/* <NsBanner />
