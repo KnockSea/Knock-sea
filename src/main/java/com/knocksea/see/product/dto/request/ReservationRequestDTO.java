@@ -37,7 +37,7 @@ public class ReservationRequestDTO {
 
         return Reservation.builder()
                 .reservationType(dto.getReservationType())
-                .reservationPrice(dto.getReservationPrice())
+                .reservationPrice(dto.getReservationPrice() * dto.getReservationUserCount())
                 .reservationAddress(dto.getReservationAddress())
                 .reservationUserCount(dto.getReservationUserCount())
                 .eduLevel(dto.getEduLevel())

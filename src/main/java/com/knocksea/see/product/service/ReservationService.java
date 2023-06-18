@@ -35,16 +35,26 @@ public class ReservationService {
 
     public ProductDetailResponseDTO createReserve(ReservationRequestDTO dto) throws RuntimeException, NoProductException{
         Reservation reservation = dto.toEntity(dto);
-        reservation.setUser(userRepository.findById(dto.getUserId()).orElseThrow(() -> new RuntimeException("회원 정보가 없습니다.")));
+
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new RuntimeException("회원 정보가 없습니다."));
+        reservation.setUser(user);
+
+        productRepository.findById(dto.getProductId());
+
         ReservationTime reservationTime = reservationTimeRepository.findById(dto.getReservationTimeId()).orElseThrow(() -> new RuntimeException("예약 불가능한 시간입니다."));
         reservation.setReservationTime(reservationTime);
+
+        if (reservationTime.getTimeCurrentUser() + dto.getReservationUserCount() > reservationTime.getTimeMaxUser()) {
+            throw new RuntimeException("예약 가능 인원이 초과하였습니다.");
+        }
 
         // 신청 인원 수 변경
         int reserveCount = dto.getReservationUserCount();// 신청 유저 숫자
         reservationTime.setTimeCurrentUser(reservationTime.getTimeCurrentUser() + reserveCount);
-        reservationTimeRepository.save(reservationTime); // 예약 인원 수 만큼 현재 신청인원 수 증가
+        reservationTimeRepository.save(reservationTime); // 예약 인원 수 만큼 현재 신청인원 수 증가 (예약 가능 시간 테이블 업데이트)
 
-        if (dto.getReservationType().equals(ProductCategory.SHIP.toString())) {
+
+        if (dto.getReservationType().equals(ProductCategory.SHIP.toString()) || dto.getReservationType().equals(ProductCategory.SPOT.toString()) ) {
             reservation.setProduct(
                     productRepository.findById(dto.getProductId()).orElseThrow(() -> new NoProductException("등록되지 않은 상품입니다."))
             );

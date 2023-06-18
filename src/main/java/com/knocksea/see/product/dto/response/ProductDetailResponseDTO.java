@@ -47,10 +47,10 @@ public class ProductDetailResponseDTO {
 
 
     public ProductDetailResponseDTO(Product product
-            , List<ReservationTimeResponseDTO> timeList
-            , List<ReviewDetailResponseDTO> reviewList) {
-        timeList = new ArrayList<>();
-        reviewList = new ArrayList<>();
+            , List<ReservationTimeResponseDTO> dtoTimeList
+            , List<ReviewDetailResponseDTO> dtoReviewList) {
+        this.timeList = new ArrayList<>();
+        this.reviewList = new ArrayList<>();
         this.productId = product.getProductId();
         this.title = product.getProductTitle();
         this.price = product.getProductPrice();
@@ -59,7 +59,7 @@ public class ProductDetailResponseDTO {
         this.fullAddress = product.getProductFullAddress();
         this.info = product.getProductInfo();
         this.locationInfo = product.getProductLocationInfo();
-        this.timeList = timeList;
-        this.reviewList = reviewList;
+        this.timeList = dtoTimeList;
+        this.reviewList = dtoReviewList;
     }
 }

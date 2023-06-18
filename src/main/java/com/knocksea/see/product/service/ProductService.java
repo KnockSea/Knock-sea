@@ -1,5 +1,6 @@
 package com.knocksea.see.product.service;
 
+import com.knocksea.see.product.dto.request.ProductDeleteRequestDTO;
 import com.knocksea.see.product.dto.request.ProductModifyRequestDTO;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
 import com.knocksea.see.product.dto.response.PageResponseDTO;
@@ -11,6 +12,7 @@ import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.repository.ProductDetailService;
 import com.knocksea.see.product.repository.ProductRepository;
 import com.knocksea.see.product.dto.request.PageDTO;
+import com.knocksea.see.product.repository.ReservationRepository;
 import com.knocksea.see.product.repository.ReservationTimeRepository;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.repository.ReviewRepository;
@@ -36,10 +38,9 @@ public class ProductService implements ProductDetailService {
 
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
-
     private final ReviewRepository reviewRepository;
-
     private final ReservationTimeRepository reservationTimeRepository;
+    private final ReservationRepository reservationRepository;
 
     public Product getProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(() ->
@@ -90,20 +91,51 @@ public class ProductService implements ProductDetailService {
         // 상품을 먼저 등록하고 -> 시간 정보를 등록해야 한다.
         User user = userRepository.findById(dto.getUserId()).
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
+
+        if (productRepository.existsByProductTypeAndUserId(dto.getProductLabelType(), dto.getUserId())) {
+            throw new RuntimeException("이미 등록된 상품입니다.");
+        }
+
         Product saveProduct = productRepository.save(dto.toProductEntity(user));
 
         for (int i = 0; i < dto.getTimeDate().size(); i++) {
             for (int j = 0; j < dto.getTimeStart().size(); j++) {
-                ReservationTime reservationTime
-                        = reservationTimeRepository.save(
-                                dto.toReservationTimeEntity(i, j, saveProduct));
+                reservationTimeRepository.save(dto.toReservationTimeEntity(i, j, saveProduct));
             }
         }
+
         return getDetail(saveProduct.getProductId());
     }
 
-    public void modify(ProductModifyRequestDTO dto) {
+    public ProductDetailResponseDTO modify(ProductRequestDTO dto) {
 
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new RuntimeException("유저 정보가 잘못되었습니다."));
+
+        Product targetProduct = productRepository.findByUserUserId(user.getUserId());
+        // 이거... findAll 하고 타입으로 필터링해야 되겠는데?
+
+        if (reservationRepository.existsByProductTypeAndProductId(dto.getProductLabelType(), targetProduct.getProductId())) {
+            throw new RuntimeException("예약 정보가 존재하여 수정이 불가능 합니다.");
+        }
+
+        boolean flag = reservationTimeRepository.deleteByProductId(targetProduct.getProductId());
+
+        if (flag) {
+            System.out.println("삭제 성공");
+        }
+
+        for (int i = 0; i < dto.getTimeDate().size(); i++) {
+            for (int j = 0; j < dto.getTimeStart().size(); j++) {
+                reservationTimeRepository.save(dto.toReservationTimeEntity(i, j, targetProduct));
+            }
+        }
+
+        return getDetail(targetProduct.getProductId());
     }
+
+    public boolean delete(ProductDeleteRequestDTO dto) {
+        return productRepository.deleteByProductTypeAndId(dto.getProductType(), dto.getProductId());
+    }
+
 
 }

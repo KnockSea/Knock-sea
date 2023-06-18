@@ -9,4 +9,7 @@ import java.util.List;
 public interface ReservationTimeRepository extends JpaRepository<ReservationTime, Long> {
 
     List<ReservationTime> findAllByProduct(Product product);
+
+
+    boolean deleteByProductId(Long productId);
 }
