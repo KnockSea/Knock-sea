@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 function OwnerCheckHeader() {
   return (
-    <div className="container">
-       <div className="owner-check-wrap">
+    // <div className="container">
+      //  {/* <div className="owner-check-wrap"> */}
         <div className="owner-check-header">
          <div className="head-title">
           <p>KNOCK_SEA 업체 검증</p>
@@ -24,8 +24,8 @@ function OwnerCheckHeader() {
           </ul>
         </div>
       </div>
-      </div>
-    </div>
+      // </div>
+    // </div>
   );
 }
 

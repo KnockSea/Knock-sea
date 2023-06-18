@@ -18,6 +18,7 @@ function SignUpForm(){
   });
 
   const [popup, setPopup] = useState(false);
+  const [profileImage, setProfileImage] = useState(null);
 
   const setAddress = (userAddress) => {
     setUserValue((prevState) => ({
@@ -26,8 +27,6 @@ function SignUpForm(){
     }));
   };
 
-
-    
 
   const [message, setMessage] = useState({
     userEmail: false, 
@@ -235,23 +234,44 @@ function SignUpForm(){
   const handleSignUp = (e) => {
 
     // 이미지 파일과 회원정보 JSON을 하나로 묶어야 함
-
-    
     e.preventDefault();
   
       // 회원가입 서버 요청
       if(isValid()) {
-        // fetchSignUpPost();
-        alert('회원가입 정보를 서버에 전송합니다.')
+        const userData = new FormData();
+        userData.append('userEmail', userValue.userEmail);
+        userData.append('userPassword', userValue.userPassword);
+        userData.append('userAddress', userValue.userAddress);
+        userData.append('userFullAddress', userValue.userFullAddress);
+        userData.append('userName', userValue.userName);
+        userData.append('userPhone', userValue.userPhone);
+        userData.append('profileImage', profileImage);
+    
+        // fetch를 사용하여 회원가입 요청 보내기
+        fetch('account/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userData)
+        })
+          .then(response => response.json())
+          .then(data => {
+            // 회원가입 성공 시 처리할 로직 작성
+            console.log('회원가입 성공:', data);
+            alert('회원가입이 완료되었습니다.');
+            // 회원가입 완료 후 리다이렉트 등을 수행할 수 있습니다.
+          })
+          .catch(error => {
+            // 회원가입 실패 시 처리할 로직 작성
+            console.error('회원가입 실패:', error);
+            alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+          });
       } else {
         alert('입력란을 다시 확인해주세요!');
       }
     };
     
-  // 렌더링 후 실행함수
-  useEffect(()=> {
-
-  }, []);
 
 
   

@@ -32,7 +32,7 @@ function OwnerCheckFishing() {
                 <div>
                   <div className="">
                     <div className="filebox">
-                      <label for="shipConfirm">파일 선택하기</label>
+                      <label htmlFor="shipConfirm">파일 선택하기</label>
                       <input
                       type="file"
                       onChange={handleFileChange}
