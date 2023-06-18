@@ -60,13 +60,14 @@ public class InquiryService {
 
     public InquiryDetailResponseDTO getDetail(Long inquiryId, Long tokenUserId) {
 
-        Inquiry inquiry = inquiryRepository.findById(inquiryId).orElseThrow();
+        Inquiry inquiry = null;
         if (inquiry.getUser().getUserId().equals(tokenUserId)) {
+            inquiry = inquiryRepository.findById(inquiryId).orElseThrow();
         }
         //----------------------------------------------------@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //        List<Inquiry> userList = inquiryRepository.findAllById(tokenUserId);
-        Inquiry inquiryEntity = getInquiry(tokenUserId);
-        return new InquiryDetailResponseDTO(inquiryEntity);
+//        Inquiry inquiryEntity = getInquiry(tokenUserId);
+        return new InquiryDetailResponseDTO(inquiry);
     }
     private Inquiry getInquiry(Long inquiryId) {
         Inquiry inquiryEntity = inquiryRepository.findById(inquiryId)
@@ -92,7 +93,6 @@ public class InquiryService {
         final Inquiry inquiryEntity = getInquiry(dto.getInquiryId());
         inquiryEntity.setUser(user);
         inquiryEntity.setInquiryDetails(dto.getInquiryDetails());
-
         Inquiry modifiedInquiry = inquiryRepository.save(inquiryEntity);
 
         return new InquiryDetailResponseDTO(modifiedInquiry);
@@ -103,7 +103,7 @@ public class InquiryService {
         try {
             User user = userRepository.findById(userId).orElseThrow();
             Inquiry inquiry = inquiryRepository.findById(inquiryId).orElseThrow();
-            if (inquiry.getInquiryId().equals(user.getUserId())){
+            if (inquiry.getUser().getUserId().equals(user.getUserId())){
             inquiryRepository.deleteById(inquiryId);
             }
         } catch (Exception e) {
