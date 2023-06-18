@@ -89,11 +89,15 @@ public class InquiryService {
 
     public  InquiryDetailResponseDTO modify(final InquiryModifyDTO dto, Long userId) {
 
+        Inquiry modifiedInquiry = null;
         User user = userRepository.findById(userId).orElseThrow();
         final Inquiry inquiryEntity = getInquiry(dto.getInquiryId());
+
+        if (inquiryEntity.getUser().getUserId().equals(userId)){
         inquiryEntity.setUser(user);
         inquiryEntity.setInquiryDetails(dto.getInquiryDetails());
-        Inquiry modifiedInquiry = inquiryRepository.save(inquiryEntity);
+        modifiedInquiry = inquiryRepository.save(inquiryEntity);
+        }
 
         return new InquiryDetailResponseDTO(modifiedInquiry);
     }
@@ -101,9 +105,8 @@ public class InquiryService {
     public void delete(Long inquiryId, Long userId) throws RuntimeException, SQLException {
 
         try {
-            User user = userRepository.findById(userId).orElseThrow();
             Inquiry inquiry = inquiryRepository.findById(inquiryId).orElseThrow();
-            if (inquiry.getUser().getUserId().equals(user.getUserId())){
+            if (inquiry.getUser().getUserId().equals(userId)){
             inquiryRepository.deleteById(inquiryId);
             }
         } catch (Exception e) {

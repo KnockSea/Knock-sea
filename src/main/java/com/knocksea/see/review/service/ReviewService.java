@@ -102,7 +102,9 @@ public class ReviewService {
     }
 
     public void deleteReview(Long reviewId, Long TokenUserId) throws RuntimeException, SQLException {
-
+        Review review = reviewRepository.findById(reviewId).orElseThrow();
+        if (review.getUser().getUserId().equals(TokenUserId)){
         reviewRepository.deleteById(reviewId);
+        }
     }
 }

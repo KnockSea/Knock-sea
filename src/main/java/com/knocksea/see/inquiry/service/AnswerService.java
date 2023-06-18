@@ -73,21 +73,27 @@ public class AnswerService {
 
     public AnswerDetailResponseDTO modify(final AnswerModifyDTO dto, Long userId) {
 
+        Answer modifiedAnswer = null;
         User user = userRepository.findById(userId).orElseThrow();
         final Answer answerEntity = getAnswer(dto.getAnswerId());
         Inquiry inquiry = inquiryRepository.findById(dto.getInquiryId()).orElseThrow();
+        Answer answer = answerRepository.findById(dto.getAnswerId()).orElseThrow();
+        if (answer.getUser().getUserId().equals(userId)){
         answerEntity.setAnswerDetails(dto.getAnswerDetails());
         answerEntity.setInquiry(inquiry);
-        Answer modifiedAnswer = answerRepository.save(answerEntity);
+        modifiedAnswer = answerRepository.save(answerEntity);
+        }
 
         return new AnswerDetailResponseDTO(modifiedAnswer);
     }
 
     public void delete(Long answerId, Long userId) throws RuntimeException, SQLException {
         Answer answer = answerRepository.findById(answerId).orElseThrow();
+        if (answer.getUser().getUserId().equals(userId)){
         answer.setUser(null);
         answerRepository.save(answer);
-
         answerRepository.deleteById(answerId);
+        }
+
     }
 }
