@@ -8,11 +8,18 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+
 
     Optional<Reservation> findByEduEduId(Edu edu);
 
     int countByEdu(Edu edu);
 
+    boolean existsByProductProductTypeAndProductProductId(String productLabelType, Long productId);
+
+    Optional<Reservation> findByProductProductId(Long productId);
 
 }

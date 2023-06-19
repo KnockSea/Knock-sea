@@ -1,15 +1,24 @@
 package com.knocksea.see.user.service;
 
 import com.knocksea.see.auth.TokenProvider;
+import com.knocksea.see.auth.TokenUserInfo;
+import com.knocksea.see.heart.entity.Heart;
+import com.knocksea.see.heart.repository.HeartRepository;
+import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.product.repository.ProductRepository;
+import com.knocksea.see.review.entity.Review;
+import com.knocksea.see.review.repository.ReviewRepository;
 import com.knocksea.see.user.dto.request.LoginRequestDTO;
 import com.knocksea.see.user.dto.request.UserDeleteRequest;
 import com.knocksea.see.user.dto.request.UserModifyRequestDTO;
 import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
+import com.knocksea.see.user.dto.response.EntireInfoResponseDTO;
 import com.knocksea.see.user.dto.response.LoginResponseDTO;
 import com.knocksea.see.user.dto.response.UserModifyresponseDTO;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
+import com.knocksea.see.user.repository.ShipRepository;
 import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -36,6 +46,19 @@ public class UserService {
     private final PasswordEncoder encoder;
     //토큰 인증용
     private final TokenProvider tokenProvider;
+
+    //상품 리스트 접근용
+    private final ProductRepository productRepository;
+
+    //후기 리스트 접근용
+    private final ReviewRepository reviewRepository;
+
+    //선박 리스트 접근용
+    private final ShipRepository shipRepository;
+
+    //좋아요 리스트 접근용
+    private final HeartRepository heartRepository;
+
 
     @Value("${upload.path}")
     private String uploadRootPath;
@@ -104,6 +127,7 @@ public class UserService {
         return new UserModifyresponseDTO(modiftideuser);
     }
 
+    //로그인 검증및 토큰발급
     public LoginResponseDTO authenticate(final LoginRequestDTO dto) {
         //이메일을 통해 회원정보 조회
         User user = userRepository.findByUserEmail(dto.getUserEmail()).orElseThrow(
@@ -163,8 +187,74 @@ public class UserService {
 
         return uniqueFileName;
     }
+
+    //파일 저장경로 얻어오기
     public String findProfilePath(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
         return uploadRootPath + "/" + user.getProfileImg();
+    }
+
+    //전체 리뷰/좋아요 리스트 받아오기
+    public EntireInfoResponseDTO getEntireInfo(TokenUserInfo userInfo) {
+        //후기 / 좋아요 리스트 담을 dto선언
+        EntireInfoResponseDTO entireInfoResponseDTO = new EntireInfoResponseDTO();
+
+
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(()
+                -> new RuntimeException("해당 유저는 존재하지않습니다"));
+
+        //유저 객체로 상품리스트 뽑아오기
+        List<Product> findByUser = productRepository.findByUser(user);
+        int shipReviewTotal = 0;
+        int spotReviewTotal = 0;
+        int eduReviewTotal = 0;
+        //상품 리스트만큼 배열 돌아가면서 타입 구분
+        for (Product product : findByUser) {
+            //상품 타입이 선박이라면 ? 선박의 리뷰들만 뽑아온다
+            if (product.getProductType().equals("SHIP")){
+                List<Review> findByShipReviews = reviewRepository.findByProduct(product);
+                entireInfoResponseDTO.setShipReviewList(findByShipReviews);
+                for (Review findByShipReview : findByShipReviews) {
+                    Long reviewRating = findByShipReview.getReviewRating();
+                    shipReviewTotal += reviewRating;
+                }
+                entireInfoResponseDTO.setShipReviewAvgScore((int)shipReviewTotal/findByShipReviews.size());
+                //상품 타입이 낚시터라면 ? 낚시터의 리뷰들만 뽑아온다
+            }else if(product.getProductType().equals("SPOT")){
+                List<Review> findBySpotReviews = reviewRepository.findByProduct(product);
+                entireInfoResponseDTO.setSpotReviewList(findBySpotReviews);
+                for (Review findBySpotReview : findBySpotReviews) {
+                    Long reviewRating = findBySpotReview.getReviewRating();
+                    spotReviewTotal +=reviewRating;
+                }
+                entireInfoResponseDTO.setSpotReviewAvgScore((int)spotReviewTotal/findBySpotReviews.size());
+            }else{
+                //상품 타입이 교육이라면 ? 교육의 리뷰들만 뽑아온다
+                List<Review> findByEduReviews = reviewRepository.findByProduct(product);
+                entireInfoResponseDTO.setEduReviewList(findByEduReviews);
+                for (Review findByEduReview : findByEduReviews) {
+                    Long reviewRating = findByEduReview.getReviewRating();
+                    eduReviewTotal+=reviewRating;
+                }
+                entireInfoResponseDTO.setEduReviewAvgScore((int)eduReviewTotal/findByEduReviews.size());
+            }
+
+        }
+
+        for (Product product : findByUser) {
+             if(product.getProductType().equals("SHIP")){
+                 List<Heart> findByShipHeartList = heartRepository.findByProduct(product);
+                 entireInfoResponseDTO.setHeartListShip(findByShipHeartList);
+             } else if (product.getProductType().equals("SPOT")) {
+                 List<Heart> findBySpotHeartList = heartRepository.findByProduct(product);
+                 entireInfoResponseDTO.setHeartListSpot(findBySpotHeartList);
+             }else{
+                 List<Heart> findByEduHeartList = heartRepository.findByProduct(product);
+                 entireInfoResponseDTO.setHeartListEdu(findByEduHeartList);
+             }
+        }
+
+        return entireInfoResponseDTO;
+
     }
 }
