@@ -60,12 +60,19 @@ public class HeartService {
     }
 
     public boolean checkIfLiked(TokenUserInfo userInfo, HeartCreateDTO dto) {
-        Edu edu = eduRepository.findById(dto.getEduId()).orElseThrow(
-                () -> new EntityNotFoundException("edu를 찾을 수 없습니다.")
-        );
-        Product product = productRepository.findById(dto.getProductId()).orElseThrow(
-                () -> new EntityNotFoundException("product를 찾을 수 없습니다.")
-        );
+        Product product = null;
+        Edu edu = null;
+
+        if (dto.getProductId() != null) {
+            product = productRepository.findById(dto.getProductId()).orElseThrow(
+                    () -> new EntityNotFoundException("product를 찾을 수 없습니다.")
+            );
+        }
+        if (dto.getEduId() != null) {
+            edu = eduRepository.findById(dto.getEduId()).orElseThrow(
+                    () -> new EntityNotFoundException("edu를 찾을 수 없습니다.")
+            );
+        }
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(
                 () -> new EntityNotFoundException("user를 찾을 수 없습니다.")
         );
