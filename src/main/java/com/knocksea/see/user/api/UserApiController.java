@@ -97,20 +97,33 @@ public class UserApiController {
     }
 
     //회원 정보 수정 요청
-    //post : /api/v1/user/modify
+    //put : /api/v1/user/modify
     @RequestMapping(value = "/modify", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public ResponseEntity<?> modifyUser(@Validated @RequestBody UserModifyRequestDTO dto
-            , BindingResult result) {
+    public ResponseEntity<?> modifyUser(
+            @Validated @RequestPart("user")  UserModifyRequestDTO dto,
+            @RequestPart(value = "profileImage", required = false) MultipartFile profileImg,
+            @AuthenticationPrincipal TokenUserInfo userInfo, BindingResult result) {
         //값 들어오는지 확인
-        log.info("/user/modify POST! --{}", dto);
+        log.info("/user/modify PUT! --{}", dto);
         if (result.hasErrors()) {
             log.warn(result.toString());
             return ResponseEntity.badRequest()
                     .body(result.getFieldError());
         }
 
+
         try {
-            UserModifyresponseDTO modify = userService.modify(dto);
+
+            if(profileImg!=null) {
+                log.info("attatched file name : {}", profileImg.getOriginalFilename());
+
+                log.info("userInfo : {}",userInfo);
+
+                userService.modifyProfileImage(profileImg,userInfo.getUserId());
+            }
+
+
+            UserModifyresponseDTO modify = userService.modify(dto,userInfo);
             return ResponseEntity.ok().body(modify);
         } catch (NoRegisteredArgumentsException e) {
             log.warn("필수 가입 정보를 받지 못했습니다.");

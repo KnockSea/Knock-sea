@@ -2,6 +2,7 @@ package com.knocksea.see.user.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -36,5 +37,6 @@ public class UserModifyRequestDTO {
 
     //유저 이름
     @NotBlank
-    private String username;
+    private String userName;
+
 }
