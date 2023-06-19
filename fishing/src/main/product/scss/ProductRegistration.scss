@@ -14,11 +14,6 @@ body {
     /* border: 1px solid #000; */
 }
 
-span[id] {
-    display: block;
-    width: 200px;
-    padding: 5px 0 0 15px;
-}
 
 /* 상품 등록 상단부 */
 hr {
@@ -65,7 +60,7 @@ hr {
     margin-right: 50px;
     cursor: pointer;
 
-    &:hover, &:focus {
+    &:hover, &:active{
         background-color: #123282;
     }
   }
@@ -152,6 +147,7 @@ hr {
 
   .time-box input {
     margin: 7px 15px;
+    height: 50px;
   }
 
 /*  상품 등록 하단부 */
@@ -220,3 +216,17 @@ hr {
         margin-right: 20px;
     }
     }
+
+    .my-time-picker {
+        display: flex;
+        align-items: center;
+      }
+      
+      .my-time-picker__select {
+        width: 80px;
+        margin-right: 16px;
+      }
+      
+      .my-time-picker__select:last-child {
+        margin-right: 0;
+      }

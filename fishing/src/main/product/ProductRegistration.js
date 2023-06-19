@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './scss/ProductRegistration.scss';
-import { Select } from '@mui/material';
+import { NativeSelect, FormControl, InputLabel } from '@mui/material';
 import RegiCalendar from './RegiCalendar';
+import RegiTime from './RegiTime.js';
 
 
 function ProductRegistration() {
@@ -19,6 +20,8 @@ function ProductRegistration() {
   const [step1, setStep1] = useState('');
   const [step2, setStep2] = useState('');
   const [step3, setStep3] = useState('');
+  const [selectedHour, setSelectedHour] = useState('');
+  const [selectedMinute, setSelectedMinute] = useState('');
 
   const handlePhoto1Change = (event) => {
     const file = event.target.files[0];
@@ -30,19 +33,15 @@ function ProductRegistration() {
     setPhoto2(file);
   };
 
-  const hourOptions = [];
-    for (let hour = 0; hour < 24; hour++) {
-      const hourString = hour.toString().padStart(2, '0');
-      const timeLabel = `${hourString}:00`;
-      const option = { value: timeLabel, label: timeLabel };
-      hourOptions.push(option);
-    }
+  const handleHourChange = (event) => {
+    setSelectedHour(event.target.value);
+  };
 
-    const minuteOptions = [
-      { value: '00', label: '00' },
-      { value: '30', label: '30' },
-    ];
-  
+  const handleMinuteChange = (event) => {
+    setSelectedMinute(event.target.value);
+  };
+
+
   const addTimeBox = () => {
     setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
   };
@@ -55,16 +54,6 @@ function ProductRegistration() {
     console.log(photo1, photo2);
   };
 
-  let hour = [];
-  for (let i = 1; i < 25; i++) {
-    let op = {};
-    
-    // 시간을 00시로 나타내기 위해
-    op.value = ('0' + i).slice(-2);
-    op.label = ('0' + i).slice(-2) + '시';
-    
-    hour.push(op);
-  }
 
   return (
     
@@ -200,41 +189,17 @@ function ProductRegistration() {
               </li>
              
               <div>
-              {timeBoxes.map((boxId) => (
-              <li key={boxId}>
+             
+              <li>
                 <div className="regi-title">운영일/운영 시간<span className="imp">*</span></div>
-                <div>
-                    <div class="form-control time-box">
-                   
-                    <div className="time-range">
-                      <Select
-                          value={startTime}
-                          onChange={(e) => setStartTime(e.target.value)}
-                          className="form-select-box"
-                          required
-                          aria-required="true"
-                          name={`start-time-${boxId}`}
-                          options={hourOptions}
-                          getOptionLabel={(option) => option.label} // 추가된 부분
-                          getOptionValue={(option) => option.value} // 추가된 부분
-                        />
-                        <Select
-                          value={endTime}
-                          onChange={(e) => setEndTime(e.target.value)}
-                          className="form-select-box"
-                          required
-                          aria-required="true"
-                          name={`end-time-${boxId}`}
-                          options={minuteOptions}
-                          getOptionLabel={(option) => option.label} // 추가된 부분
-                          getOptionValue={(option) => option.value} // 추가된 부분
-                        />
-                    </div>
-
+                <div className='regi-time-wrap'>
+                {timeBoxes.map((boxId) => (
+                    <div className="time-box"  key={boxId} style={{marginBottom:'15px'}}>
+                   <RegiTime />  
                   </div>
-                  </div>
+                   ))}
+                </div>
               </li>
-              ))}
               </div>
               <li className='plus-btn'>
                 <button onClick={addTimeBox}>+</button>

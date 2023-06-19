@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import ko from 'date-fns/locale/ko';
 import './scss/RegiCalendar.scss';
 import { DateRangePicker } from 'react-date-range';
+import 'react-datepicker/dist/react-datepicker.css';
 import { addDays } from "date-fns"
+
 
 const RegiCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(null);
