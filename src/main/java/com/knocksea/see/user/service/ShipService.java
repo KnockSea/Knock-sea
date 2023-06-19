@@ -7,6 +7,7 @@ import com.knocksea.see.user.dto.request.ShipModifyRequestDTO;
 import com.knocksea.see.user.dto.request.ShipRegisterRequestDTO;
 import com.knocksea.see.user.dto.response.ShipModifyResponseDTO;
 import com.knocksea.see.user.dto.response.ShipRegisterResponseDTO;
+import com.knocksea.see.user.dto.response.ShipInfoResponseDTO;
 import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.Ship;
 import com.knocksea.see.user.entity.User;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -95,7 +97,7 @@ public class ShipService {
     }
 
     //유저 정보로 배정보 가져오기
-    public Ship getShipInfo(TokenUserInfo userInfo) {
+    public ShipInfoResponseDTO getShipInfo(TokenUserInfo userInfo) {
 
         //유저 토큰정보로 해당유저 정보 가져오기
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> {
@@ -103,18 +105,31 @@ public class ShipService {
         });
 
         //가져온 유저로 해당유저가 등록한 배 정보 가져오기
-        Ship findbyUser = shipRepository.findByUser(user);
+        Ship findShipByUser = shipRepository.findByUser(user);
 
-        List<SeaImage> images = findbyUser.getImages();
+        List<SeaImage> byShip = imageRepository.findByShip(findShipByUser);
 
+        List<String> shipLocationList = new ArrayList<>();
+        for (SeaImage seaImage : byShip) {
+            shipLocationList.add(seaImage.getImageName());
+        }
 
+        ShipInfoResponseDTO build = ShipInfoResponseDTO.builder()
+                .shipLikeCount(findShipByUser.getShipLikeCount())
+                .shipId(findShipByUser.getShipId())
+                .shipLocation(findShipByUser.getShipLocation())
+                .shipDescription(findShipByUser.getShipDescription())
+                .shipName(findShipByUser.getShipName())
+                .userName(findShipByUser.getUser().getUserName())
+                .category(findShipByUser.getProductCategory())
+                .shipImageLocation(shipLocationList)
+                .build();
 
-//        build.toList(images);
+        return build;
 
-        return findbyUser;
     }
 
-//    //배 이미지 리스트 경로 반환하는함수
+    //배 이미지 리스트 경로 반환하는함수
 //    public String findShipPath(Long userId,Long typenumber) {
 //        User user = userRepository.findById(userId).orElseThrow();
 //
@@ -124,4 +139,5 @@ public class ShipService {
 //
 //        return byImageTypeAndTypeNumber.getImageName();
 //    }
+
 }

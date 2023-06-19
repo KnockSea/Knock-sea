@@ -1,6 +1,7 @@
 package com.knocksea.see.user.repository;
 
 import com.knocksea.see.product.entity.ProductCategory;
+import com.knocksea.see.user.entity.FishingSpot;
 import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.Ship;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,6 @@ public interface ImageRepository extends JpaRepository<SeaImage,Long> {
     @Query("SELECT s FROM SeaImage s WHERE s.ship = :ship")
     List<SeaImage> findByShip(@Param("ship") Ship ship);
 
-//    @Query("SELECT si FROM SeaImage si WHERE si.imageType = :imageType AND si.typeNumber = :typeNumber")
-//    SeaImage findByImageTypeAndTypeNumber(@Param("ship") Ship ship, @Param("typeNumber") Long typeNumber);
+    @Query("SELECT s FROM SeaImage s WHERE s.spot = :spot")
+    List<SeaImage> findBySpot(@Param("spot")  FishingSpot spot);
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Builder
 @Entity
-@ToString(exclude = "user")
+@ToString(exclude = {"user","images"})
 @NoArgsConstructor
 @Table(name = "sea_ship")
 public class Ship {
