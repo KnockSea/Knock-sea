@@ -1,9 +1,12 @@
 package com.knocksea.see.edu.api;
 
+import com.knocksea.see.edu.dto.response.EduListResponseDTO;
 import com.knocksea.see.edu.dto.response.EduModifyDTO;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
+import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.service.EduService;
+import com.knocksea.see.inquiry.dto.page.PageDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +27,17 @@ public class EduApiController {
     private final EduService eduService;
     
     //전체 조회
-/*    @GetMapping
+    @GetMapping
     public ResponseEntity<?> list(PageDTO pageDTO){
-        log.info("/api/v1/edu GET");
+        log.info("/api/v1/posts?edu={}&size={}",pageDTO.getPage(),pageDTO.getSize());
 
-        eduService.getAllEdu();
+        EduListResponseDTO dto = eduService.getAllEdu(pageDTO);
 
-    }*/
+        return ResponseEntity
+                .ok()
+                .body(dto);
+
+    }
     
     //개별 조회
     @GetMapping("/{eduId}")
@@ -95,7 +102,7 @@ public class EduApiController {
     //클래스 수정
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<?> update(
-            @Validated @RequestBody EduModifyDTO dto
+            @Validated @RequestBody EduAndReservationTimeCreateDTO dto/*EduModifyDTO dto*/
             , BindingResult result
             , HttpServletRequest request
     ) {
@@ -103,13 +110,13 @@ public class EduApiController {
         log.info("/api/v1/edu {}!! - dto: {}", request.getMethod(), dto);
 
         //입력값 검증
-        ResponseEntity<List<FieldError>> fieldErros = getValidatedResult(result);
-        if(fieldErros!=null) return fieldErros;
+//        ResponseEntity<List<FieldError>> fieldErros = getValidatedResult(result);
+//        if(fieldErros!=null) return fieldErros;
 
         try {
             EduDetailResponseDTO responseDTO
                     = eduService.modify(dto);
-
+            log.info("123dflkgja;oijfo222222");
             return ResponseEntity.ok().body(responseDTO);
         }
         catch (Exception e){

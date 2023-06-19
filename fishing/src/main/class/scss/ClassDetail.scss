@@ -1,0 +1,169 @@
+
+* {
+    box-sizing: border-box;
+    font-family: 'Noto Sans', 'Source Sans Pro';
+    list-style: none;
+}
+body{
+    background-color:#ffffff;
+}
+
+.class-detail-container {
+    width: 1136px;
+    min-width: 700px;
+    margin: 80px auto;
+}
+
+
+/* 클래스 상세 상단부 */
+
+.class-detail-wrap span {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+#class-detail-header {
+    display: flex;
+    justify-content: space-between;
+
+    .detail-main-photo1 {
+        width: 50%;
+        height: 320px;
+        background: #c7c7c7;
+         // border: 1px solid #000;
+        border-radius: 16px 0px 0px 16px;
+    }
+
+    .photo {
+        width: 275px;
+        height: 320px;
+        // border: 1px solid #000;
+        background: #cab6b6;
+    }
+
+    .detail-main-photo3 {
+        border-radius: 0px 16px 16px 0px;
+    }
+    
+
+
+}
+
+
+
+/* 클래스 상세 중앙부 */ 
+.detail-content-wrap {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+}
+
+.detail-left-section {
+    width: 69%;
+    height: 5000px;
+
+    span {
+        font-size: 25px;
+        // border: 1px solid #000;
+        display: block;
+        margin-bottom: 60px;
+        }
+
+
+    .detail-content {
+        border: 1px solid #000;
+        margin: 0 auto;
+        padding: 15px;
+    }
+}
+
+.detail-right-section {
+    width: 29%;
+    height: fit-content;
+    position: sticky;
+    top: 10px;
+    overflow-y: auto; 
+    // border: 1px solid #000;
+} 
+
+
+
+/* 클래스 우측 하단부(예약) 영역 */
+.detail-box {
+    // border: 1px solid #000;
+    margin-bottom: 20px;
+
+    .detail-list-title {
+        display: block;
+        font-size: 20px;
+    }
+
+    .detail-section {
+
+        .price {
+            font-size: 24px;
+        }
+    
+
+        .btn {
+            margin: 20px auto;
+            text-align: center;
+            line-height: 40px;
+            width: 80%;
+            height: 40px;
+            color: #fff;
+            background: #123282;
+            border: 1px solid #000;
+            border-radius: 10px;
+        }
+        
+    }
+}
+
+
+/* 하단부 업체 프로필 영역 */
+.detail-list-profile {
+    text-align: center;
+    border: 1px solid #d3d3d3;
+    box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+    .box {
+        margin: 30px auto;
+    }
+
+    .profile-img{
+        height: 100px;
+        width: 100px;
+        border-radius: 50rem;
+        background: url('https://cdn-icons-png.flaticon.com/128/1752/1752787.png');
+        overflow: hidden;
+    }
+
+    .profile-page {
+        cursor: pointer;
+
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+
+    .condition {
+        width: 80%;
+        margin: 20px auto 0;
+        
+        .condition-box { 
+            display: flex;
+            background: #f7faff;
+            justify-content: space-around;
+            padding: 20px;
+            
+            
+        }
+    }
+    
+    
+}
+
+
+

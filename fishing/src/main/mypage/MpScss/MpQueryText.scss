@@ -1,0 +1,128 @@
+.MyPageMainBox {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    // border: 1px solid #000;
+    justify-content: space-around;
+    .mainbox1{
+        // border: 1px solid #000;
+        // background: orange;
+        width: 80%;
+           
+            h1 {
+                width: fit-content;
+                font-size: 25px;
+                padding: 5px;
+                font-weight: 700;
+                border-bottom: 3px solid #123282;
+                
+               
+            }
+            .myquerybigbox {
+                width: 80%;
+                // border: 1px solid #000;
+                margin-left: 150px;
+                margin-top: 30px;
+                // padding: 5px;
+                height: 100%;
+                border-top: 1px solid #123282;
+                .titlebox{
+                 color: white;
+                 font-weight: 700;
+                 display: flex;
+                 text-align: center;
+                //  background: orange;
+                border-bottom: 1px solid #123282;
+
+                 .cltitle {
+                    padding: 10px;
+                    // border-bottom: 1px solid #fff;
+                 }
+                 .clbox {
+                     width: 180px;
+                     height: 40px;
+                     background: #123282;
+                    //  border: 1px solid #000;
+                        border-bottom: 1px solid #fff;
+                }
+                .cltextbox {
+                    margin-left: 20px;
+                    padding: 5px;
+                  input{
+                    width: 600px;
+                    border-radius: 10px;
+                    border: 1px solid #ccc;
+
+                  }
+                }
+             }
+            //  내용 작성부분 
+             .qtbox2 {
+                    // border: 1px solid #000;
+                .exx1 {
+                    height: 300px;
+                }
+                .qttext{
+                    textarea {
+                        width: 600px;
+                        height: 280px;
+                        border: 1px solid #ccc;
+                        resize: none;
+                    }
+                }
+             }
+            //  내용 작성부분 끝
+            .qtfilebox1 {
+                // display: flex;
+           .clbox {
+            border-bottom: 1px solid #fff;
+           }
+                .cltextbox{
+                    display: flex;
+                    text-align: center;
+                    align-items: center;
+                    width: 95.5%;
+                    input{
+                        width: 150px;
+                    }
+                    .qtfilebtn1 {
+                        font-size: 13px;
+                        background: #123282;
+                        border-radius: 10px;
+                        margin-left: 13px;
+                    }
+                    .qtfiletext{
+                        font-size: 13px;
+                        color: #000;
+                    }
+                    .qtfiletext1 {
+                        font-size: 10px;
+                        margin-left: 5px;
+                        color: #ccc;
+                    }
+                }
+            }
+             
+            .qtUpdatebtn{
+                background: #123282;
+                border-radius: 10px;
+                margin-top: 20px;
+            }
+            }
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+}

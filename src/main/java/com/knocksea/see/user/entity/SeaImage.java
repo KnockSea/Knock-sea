@@ -26,6 +26,11 @@ public class SeaImage {
     @Enumerated(EnumType.STRING)
     private ProductCategory imageType;
 
+    @Column(name = "image_name", nullable = false)
+    private String imageName;
+
+    @Column(name = "type_number")
+    private Long typeNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ship_id")
@@ -35,6 +40,8 @@ public class SeaImage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id")
     private FishingSpot spot;
+
+
 
 
 
