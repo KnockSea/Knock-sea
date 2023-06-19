@@ -58,16 +58,32 @@ public class InquiryService {
     }
 
 
-    public InquiryDetailResponseDTO getDetail(Long inquiryId, Long tokenUserId) {
+    public InquiryListResponseDTO getDetail(Long tokenUserId, PageDTO pageDTO) {
 
-        Inquiry inquiry = null;
-        if (inquiry.getUser().getUserId().equals(tokenUserId)) {
-            inquiry = inquiryRepository.findById(inquiryId).orElseThrow();
-        }
-        //----------------------------------------------------@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//        List<Inquiry> userList = inquiryRepository.findAllById(tokenUserId);
-//        Inquiry inquiryEntity = getInquiry(tokenUserId);
-        return new InquiryDetailResponseDTO(inquiry);
+        PageRequest pageable = PageRequest.of(
+                pageDTO.getPage() - 1,
+                pageDTO.getSize(),
+                Sort.by("inquiryDateTime").descending()
+        );
+
+
+
+        User user = userRepository.findById(tokenUserId).orElseThrow(() -> {
+            throw new RuntimeException("해당유저는 존재하지않습니다");
+        });
+
+            Page<Inquiry> byUser = inquiryRepository.findByUser(user, pageable);
+            List<Inquiry> inquiryList = byUser.getContent();
+            List<InquiryDetailResponseDTO> detailList= inquiryList.stream()
+                    .map(InquiryDetailResponseDTO::new)
+                    .collect(Collectors.toList());
+
+
+        return InquiryListResponseDTO.builder()
+                .count(inquiryList.size())
+                .pageInfo(new PageResponseDTO<Inquiry>(byUser))
+                .inquiries(detailList)
+                .build();
     }
     private Inquiry getInquiry(Long inquiryId) {
         Inquiry inquiryEntity = inquiryRepository.findById(inquiryId)
