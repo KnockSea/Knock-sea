@@ -34,7 +34,7 @@ public class Reservation {
     private int reservationPrice;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+//    @ManyToOne(fetch = FetchType.LAZY)
     @Builder.Default
     private EduLevel eduLevel = EduLevel.LOWER;
 
