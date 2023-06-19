@@ -11,9 +11,15 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query("SELECT t FROM ReservationTime t WHERE t.product = :product")
-    List<ReservationTime> findByProductId(@Param("product") Product product);
 
+//    @Query("SELECT t FROM ReservationTime t WHERE t.product = :product") // @Param("productId")
+//    List<ReservationTime> findByProductProductId(Long productId);
+    boolean existsByProductTypeAndUserUserId(String productLabelType, Long userId);
+
+    Product findByUserUserId(Long userId);
+
+//    boolean deleteByProductTypeAndProductId(String productType, Long productId);
     @Query("SELECT p FROM Product p WHERE p.user = :user")
     List<Product> findByUser(@Param("user") User user);
+
 }

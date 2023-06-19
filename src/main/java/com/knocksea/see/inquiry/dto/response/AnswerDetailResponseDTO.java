@@ -24,6 +24,7 @@ public class AnswerDetailResponseDTO {
 
     private Long userId;
     private Long inquiryId;
+    private String userName;
 
     public  AnswerDetailResponseDTO(Answer answer) {
         this.answerId = answer.getAnswerId();
@@ -31,5 +32,6 @@ public class AnswerDetailResponseDTO {
         this.answerDateTime = answer.getAnswerDateTime();
         this.userId = answer.getUser().getUserId();
         this.inquiryId = answer.getInquiry().getInquiryId();
+        this.userName = answer.getUser().getUserName();
     }
 }

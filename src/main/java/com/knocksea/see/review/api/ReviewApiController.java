@@ -62,7 +62,7 @@ public class ReviewApiController {
         public ResponseEntity<?> getReviewById(
             @AuthenticationPrincipal TokenUserInfo userInfo,
             @PathVariable Long userId, PageDTO pageDTO) {
-          ReviewListResponseDTO userReviewById = reviewService.getUserReviewById(userId, pageDTO, userInfo.getUserId());
+          ReviewListResponseDTO userReviewById = reviewService.getUserReviewById(pageDTO, userInfo.getUserId());
           try {
             return ResponseEntity.ok().body(userReviewById);
           } catch (Exception e) {

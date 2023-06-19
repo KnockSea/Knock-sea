@@ -1,5 +1,6 @@
 package com.knocksea.see.review.dto.response;
 
+import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.entity.ReviewType;
 import lombok.*;
@@ -21,13 +22,14 @@ public class ReviewDetailResponseDTO {
     private Long eduId;
     private Long productId;
 
+
     public ReviewDetailResponseDTO(Review review) {
         this.reviewId = review.getReviewId();
         this.reviewRating = review.getReviewRating();
         this.reviewContent = review.getReviewContent();
         this.reviewType = String.valueOf(review.getReviewType());
         this.userId = review.getUser().getUserId();
-        this.eduId = (long) review.getEdu().getEduId();
+        this.eduId = review.getEdu().getEduId();
         this.productId = review.getProduct().getProductId();
     }
 

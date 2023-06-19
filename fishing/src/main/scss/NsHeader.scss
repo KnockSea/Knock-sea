@@ -7,53 +7,66 @@ header {
     left: 0;
     z-index: 999;
     background: #fff;
+
     .header1 {
         display: flex;
         justify-content: space-between;
 
         .hdleft {
-            margin: 5px;
+            display: flex;
+            // margin: 5px 10px;
+            
             img {
                 margin-left: 20px;
                 margin-top: 16px;
-                width: 100px;
+                width: 120px;
             }
+
+            ul {
+                display: flex;
+                // margin-top: 20px;
+                // border: 1px solid #000;
+                li {
+                    //    margin-right: 50px;
+                    // border: 1px solid #000;  
+                    padding: 22px  30px;
+                    display: block;
+                    font-weight: 700;
+                    //    justify-content: center;
+                    
+                
+                    &:hover, &:active {
+                       border-bottom: 2px solid #123282;
+                       color: #0b39af;
+                    }
+                }
+                    
+                }
         }
 
-       ul {
-        display: flex;
-        margin-top: 20px;
-        li {
-               margin-left: 20px;
-                display: block;
-
-                font-weight: 700;
-            //    justify-content: center;
-            }
-            
-        }
-
-        div {
+      
+        
+        .hdright {
             display: flex;
+            justify-content: space-between;
+            line-height: 70px;
             margin-right: 20px;
-            margin-top: 15px;
 
-            img {
-                // margin-left: 20px;
-                // margin-top: 15px;
-                margin: 15px 20px 20px 0;
+            *{
+                margin-right: 10px;
+            }
 
+            .my-profile{
+                width: 40px;
+                height: 40px;
+                background: #fff;
+                border-radius: 50%;
+                // border: 1px solid #000;
+                // margin: 15px 20px 20px 0;
             }
 
             .userLogin{
-                margin-top: 8px;
-                height: fit-content;
-                // border-radius: 15px;
-
-                font-weight: 700;
-                
-                border: none;
-                background: #fff;                
+                font-weight: 700;      
             }
 
         }

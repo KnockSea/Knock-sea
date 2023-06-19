@@ -1,7 +1,9 @@
 package com.knocksea.see.edu.dto.response;
 
 
+import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.entity.EduLevel;
+import com.knocksea.see.product.entity.ReservationTime;
 import com.sun.istack.NotNull;
 import lombok.*;
 import javax.validation.constraints.NotBlank;
@@ -18,21 +20,18 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class EduModifyDTO {
-    @NotBlank
-    @Size(min = 1, max = 300)
+
+    @Builder.Default
+    private Long eduId=0L;
+
     private String eduTitle;
 
-    @NotBlank
-    @Size(min = 1, max = 200)
     private String eduFullAddress;
 
-    @NotNull
     private int eduPrice;
 
-    @NotNull
-    private int timeMaxUser;
+    private int timeMaxUser;  //ReservationTime 엔터티
 
-    //    @DateTimeFormat(pattern = "MM-dd")
     private List<LocalDate> timeDate; //예약일  //ReservationTime 엔터티
 
     //    @DateTimeFormat(pattern = "'T'HH:mm")
@@ -41,22 +40,26 @@ public class EduModifyDTO {
     //    @DateTimeFormat(pattern = "'T'HH:mm")
     private List<LocalTime> timeEnd;//종료시간  //ReservationTime 엔터티
 
-
-    @Size(min = 1, max = 200)
     private String eduService;
 
-    @NotNull
     private EduLevel eduLevel;
 
-    @NotBlank
-    @Size(min = 1, max = 2000)
     private String eduInfo;
 
-    @NotBlank
-    @Size(min = 1, max = 2000)
     private String eduLocationInfo;
 
-    @NotNull
-    @Builder.Default
-    private Long eduId=0L;
+    private Long userId;
+
+    public ReservationTime toReservationTimeEntity(int i, int j, Edu edu){
+
+        return ReservationTime.builder()
+                .timeLabelType("CLASS")
+                .timeVerify("Y")
+                .timeMaxUser(this.timeMaxUser)
+                .timeDate(this.timeDate.get(i))
+                .timeStart(this.timeStart.get(j))
+                .timeEnd(this.timeEnd.get(j))
+                .edu(edu)
+                .build();
+    }
 }

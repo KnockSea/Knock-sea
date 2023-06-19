@@ -23,7 +23,6 @@ public class ProductRequestDTO {
     // 여기 상품 등록 정보 필드 선언
     private String productTitle;
     private int productPrice;
-    private LocalDateTime productInputDate;
     private String productService;
     private String productInfo;
     private String productFullAddress;
@@ -39,7 +38,6 @@ public class ProductRequestDTO {
     private List<LocalTime> timeEnd;
 
     private int timeMaxUser;
-    private int timeCurrentUser;
 
     public Product toProductEntity(User user) {
         return Product.builder()
@@ -50,6 +48,7 @@ public class ProductRequestDTO {
                 .productInfo(this.productInfo)
                 .productFullAddress(this.productFullAddress)
                 .productLocationInfo(this.productLocationInfo)
+                .productType(this.productLabelType)
                 .user(user)
                 .build();
     }
