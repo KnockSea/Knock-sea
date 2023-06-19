@@ -1,5 +1,5 @@
 import React from 'react';
-import './scss/OwnerCheck.scss';
+// import './scss/OwnerCheck.scss';
 import './scss/OwnerCheckHeader.scss';
 import { Link } from 'react-router-dom';
 

@@ -53,8 +53,8 @@ const NsMain = () => {
             <Route path='/class' element={<ClassMain/>}></Route>
             <Route path='/classdetail' element={<ClassDetail/>}></Route>
             <Route path='/ownercheck' element={<OwnerCheckMain/>}></Route>
-            {/* <Route path="/ship" element={<OwnerCheckShip/>} ></Route>
-            <Route path="/fishing" element={<OwnerCheckFishing/>} ></Route>   */}
+            <Route path="/ship" element={<OwnerCheckShip/>} ></Route>
+            <Route path="/fishing" element={<OwnerCheckFishing/>} ></Route> 
             <Route path='/myquery' element={<MpQueryText/>}></Route>
 
         </Routes>
