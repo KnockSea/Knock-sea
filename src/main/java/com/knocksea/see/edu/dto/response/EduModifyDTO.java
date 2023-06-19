@@ -1,7 +1,9 @@
 package com.knocksea.see.edu.dto.response;
 
 
+import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.entity.EduLevel;
+import com.knocksea.see.product.entity.ReservationTime;
 import com.sun.istack.NotNull;
 import lombok.*;
 import javax.validation.constraints.NotBlank;
@@ -18,6 +20,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class EduModifyDTO {
+
+    @Builder.Default
     private Long eduId=0L;
 
     private String eduTitle;
@@ -45,4 +49,17 @@ public class EduModifyDTO {
     private String eduLocationInfo;
 
     private Long userId;
+
+    public ReservationTime toReservationTimeEntity(int i, int j, Edu edu){
+
+        return ReservationTime.builder()
+                .timeLabelType("CLASS")
+                .timeVerify("Y")
+                .timeMaxUser(this.timeMaxUser)
+                .timeDate(this.timeDate.get(i))
+                .timeStart(this.timeStart.get(j))
+                .timeEnd(this.timeEnd.get(j))
+                .edu(edu)
+                .build();
+    }
 }

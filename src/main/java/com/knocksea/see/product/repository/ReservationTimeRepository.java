@@ -4,7 +4,18 @@ import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.product.entity.ReservationTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface ReservationTimeRepository extends JpaRepository<ReservationTime, Long> {
 
-    boolean deleteByEduEduId(Edu edu);
+    void deleteByEduEduId(long eduId);
+
+    void deleteByEdu(Edu edu);
+
+    List<ReservationTime> findAllByEdu(Edu edu);
+
+    Optional<Object> findByEduEduId(Edu edu);
+
+    int countByEdu(Edu edu);
 }

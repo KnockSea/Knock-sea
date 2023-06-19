@@ -48,6 +48,7 @@ public class ReservationTime {
 
     //수정
     public void update(int i, int j, EduModifyDTO dto) {
+
         this.timeMaxUser=dto.getTimeMaxUser();
     }
 

@@ -11,5 +11,8 @@ import org.springframework.stereotype.Repository;
 public interface EduRepository extends JpaRepository<Edu,Long> {
     @Query("SELECT e FROM Edu e WHERE e.user = :user")
     Edu findByUserUserId(@Param("user") User user);
+
+    void deleteByEduId(Long eduId);
+
 //    Optional<Edu> findByUserId(User user);
 }

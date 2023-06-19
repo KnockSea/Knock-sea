@@ -3,7 +3,9 @@ package com.knocksea.see.edu.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.entity.EduLevel;
+import com.knocksea.see.product.dto.response.ReservationTimeResponseDTO;
 import com.knocksea.see.product.entity.ReservationTime;
+import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -72,6 +74,9 @@ public class EduDetailResponseDTO {
             this.timeEnd.add(timeList.get(i).getTimeEnd());
         }
 
+    }
+
+    public EduDetailResponseDTO(Edu edu, List<ReservationTimeResponseDTO> timeResponseDTOList, List<ReviewDetailResponseDTO> reviewResponseList) {
     }
 
 }
