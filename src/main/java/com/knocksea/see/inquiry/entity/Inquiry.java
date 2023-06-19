@@ -33,7 +33,7 @@ public class Inquiry {
     private LocalDateTime inquiryDateTime;
 
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -41,8 +41,5 @@ public class Inquiry {
     @OneToOne(mappedBy = "inquiry", orphanRemoval = true) // 필드명
     private Answer answer;
 
-
-//    @Column(name = "user_id", nullable = false)
-//    private Long userId;
 
 }

@@ -23,9 +23,6 @@ public class AnswerModifyDTO {
   private Long answerId;
 
   @NotNull
-  private Long userId;
-
-  @NotNull
   private Long inquiryId;
 
 

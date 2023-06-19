@@ -20,20 +20,13 @@ public class AnswerCreateRequestDTO {
   @NotBlank
   @Size(min = 1, max = 2000)
   private String answerDetails;
-  private Inquiry inquiry;
-  private User user;
+  private Long inquiryId;
 
-  public Answer toEntity() {
-    return Answer.builder()
-            .answerDetails(this.answerDetails)
-            .inquiry(this.inquiry)
-            .user(this.user)
-            .build();
-  }
-  public Answer toEntity(User user) {
+
+  public Answer toEntity(User user, Inquiry inquiry) {
     return Answer.builder()
         .answerDetails(this.answerDetails)
-        .inquiry(this.inquiry)
+        .inquiry(inquiry)
         .user(user)
         .build();
   }

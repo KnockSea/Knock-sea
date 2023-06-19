@@ -40,10 +40,9 @@ public class AnswerApiController {
     return ResponseEntity.ok().body(answerInfo);
   }
 
-  @PostMapping("/{inquiryId}")
+  @PostMapping("/makeAnswer")
   public ResponseEntity<?>create(
           @AuthenticationPrincipal TokenUserInfo userInfo,
-          @PathVariable Long inquiryId,
           @Validated @RequestBody AnswerCreateRequestDTO dto
           , BindingResult result
   ) {
@@ -58,7 +57,7 @@ public class AnswerApiController {
     if (fieldErrors != null) return fieldErrors;
 
     try {
-      AnswerDetailResponseDTO responseDTO = answerService.insert(inquiryId, dto, userInfo);
+      AnswerDetailResponseDTO responseDTO = answerService.insert(dto, userInfo);
       return ResponseEntity
               .ok()
               .body(responseDTO);

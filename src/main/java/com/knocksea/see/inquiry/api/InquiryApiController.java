@@ -41,14 +41,15 @@ public class InquiryApiController {
     }
 
     // 자신 문의
-    @GetMapping("/{userId}")
+    @GetMapping("/myInquiry")
     public ResponseEntity<?> detail(
-        @PathVariable Long userId) {
-        log.info("/api/v1/inquiries/{} GET", userId);
+            @AuthenticationPrincipal TokenUserInfo userInfo,
+            PageDTO pageDTO) {
+        log.info("userInfo - {}", userInfo);
 
         try {
-            InquiryDetailResponseDTO dto = inquiryService.getDetail(userId);
-            return ResponseEntity.ok().body(dto);
+            InquiryListResponseDTO detail = inquiryService.getDetail(userInfo.getUserId(), pageDTO);
+            return ResponseEntity.ok().body(detail);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
