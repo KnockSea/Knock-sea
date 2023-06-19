@@ -93,6 +93,7 @@ public class AnswerService {
         answer.setUser(null);
         answerRepository.save(answer);
         answerRepository.deleteById(answerId);
+
         }
 
     }
