@@ -36,6 +36,8 @@ jwt:
 
 # 업로드파일 저장 경로
 upload:
-  path : D:/knocksea_upload
+  path: D:/knocksea_upload
 
-
+kakao:
+  admin:
+    key: b0e82271a5b48b26d2e65429c52085c1

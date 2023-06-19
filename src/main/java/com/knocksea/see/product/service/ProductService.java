@@ -81,6 +81,7 @@ public class ProductService implements ProductDetailService {
     @Override
     public ProductDetailResponseDTO getDetail(Long productId) {
         Product product = getProduct(productId);
+        User user = product.getUser();
 
         // 리뷰 목록(상품번호로 조회)  // null 뜨는지 확인해야댐
         List<ReviewDetailResponseDTO> reviewResponseList = reviewRepository.findAllByProduct(product).stream()
@@ -94,9 +95,9 @@ public class ProductService implements ProductDetailService {
     }
 
     // 상품 등록 기능
-    public ProductDetailResponseDTO create(ProductRequestDTO dto) throws Exception{
+    public ProductDetailResponseDTO create(ProductRequestDTO dto, TokenUserInfo userInfo) throws RuntimeException{
         // 상품을 먼저 등록하고 -> 시간 정보를 등록해야 한다.
-        User user = userRepository.findById(dto.getUserId()).
+        User user = userRepository.findById(userInfo.getUserId()).
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
 
         if (shipRepository.findByUser(user) == null && fishingSpotRepository.findByUser(user) == null) {
@@ -105,7 +106,7 @@ public class ProductService implements ProductDetailService {
             // 에러를 다르게해서 배, 낚시터 등록 폼으로 넘겨 버릴까?
         }
 
-        if (productRepository.existsByProductTypeAndUserUserId(dto.getProductLabelType(), dto.getUserId())) {
+        if (productRepository.existsByProductTypeAndUserUserId(dto.getProductLabelType(), user.getUserId())) {
             throw new RuntimeException("이미 등록된 상품입니다.");
         }
 
@@ -146,7 +147,7 @@ public class ProductService implements ProductDetailService {
         return getDetail(targetProduct.getProductId());
     }
 
-    public boolean delete(Long productId, TokenUserInfo userInfo) {
+    public boolean delete(Long productId, TokenUserInfo userInfo) throws RuntimeException, NoneMatchUserException{
 
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("상품 정보가 없습니다."));
 
@@ -154,15 +155,21 @@ public class ProductService implements ProductDetailService {
             throw new NoneMatchUserException("본인의 글만 삭제 가능합니다.");
         }
 
-        List<ReservationTime> productHasTime = reservationTimeRepository.findAllByProduct(product);
+//        List<ReservationTime> productHasTime = reservationTimeRepository.findAllByProduct(product);
 
         if (reservationRepository.findByProductProductId(product.getProductId()).isPresent()) {
             throw new RuntimeException("예약 정보가 존재하여 삭제할 수 없습니다.");
         }
-        productHasTime.forEach(reserve -> productRepository.deleteById(productId));
+        // 해당 상품이 가진 예약 가능 시간 정보 개수
+//        int countByProduct = reservationTimeRepository.countByProduct(product);
 
+        // 예약 가능 시간들 먼저 삭제
+        reservationTimeRepository.deleteByProductProductId(productId);
 
-        return true;
+        // 예약 가능 시간 없으면 상품 삭제
+        productRepository.deleteById(productId);
+
+        return productRepository.findById(productId).isPresent();
     }
 
 
