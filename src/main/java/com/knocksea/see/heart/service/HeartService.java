@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.persistence.EntityNotFoundException;
 import java.sql.SQLException;
@@ -51,12 +52,17 @@ public class HeartService {
         if (!heartOrNot) {
             // 좋아요 추가
             saved = heartRepository.save(heart);
+            // 트랜잭션 커밋
+            TransactionAspectSupport.currentTransactionStatus().flush();
             return new HeartDetailResponseDTO(saved);
         } else {
             // 좋아요 취소
             heartRepository.delete(heart);
+            // 트랜잭션 커밋
+            TransactionAspectSupport.currentTransactionStatus().flush();
+            return null;
         }
-        return null;
+
     }
 
     public boolean checkIfLiked(TokenUserInfo userInfo, HeartCreateDTO dto) {
