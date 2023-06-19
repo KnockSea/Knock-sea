@@ -4,8 +4,10 @@
     import com.knocksea.see.product.entity.Product;
     import com.knocksea.see.user.entity.User;
     import lombok.*;
+    import org.hibernate.annotations.CreationTimestamp;
 
     import javax.persistence.*;
+    import java.time.LocalDateTime;
 
     @Setter
     @Getter
@@ -28,6 +30,10 @@
 
         @Column(name = "review_content", nullable = false)
         private String reviewContent;
+
+        @Column(name = "inquiry_date_time", nullable = false)
+        @CreationTimestamp
+        private LocalDateTime inquiryDateTime;
 
         @Enumerated(EnumType.STRING)
         @Column(name = "review_type", nullable = false)
