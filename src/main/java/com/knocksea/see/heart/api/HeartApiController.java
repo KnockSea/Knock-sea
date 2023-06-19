@@ -32,7 +32,7 @@ public class HeartApiController {
     ) {
         log.info("/api/v1/hearts ReviewCreateDTO POST!! - {}", dto);
         log.info("userInfo - {}", userInfo);
-        boolean isLiked = heartService.checkIfLiked(userInfo, dto);
+
         if (dto == null) {
             return ResponseEntity
                     .badRequest()
@@ -42,10 +42,18 @@ public class HeartApiController {
         if (fieldErrors != null) return fieldErrors;
 
         try {
-            HeartDetailResponseDTO responseDTO = heartService.createAndDeleteHeart(userInfo.getUserId(), dto);
-            return ResponseEntity
-                    .ok()
-                    .body(responseDTO);
+            boolean isLiked = heartService.checkIfLiked(userInfo, dto);
+            heartService.createAndDeleteHeart(userInfo.getUserId(), dto);
+           if (isLiked) {
+               return ResponseEntity
+                       .ok()
+                       .body(isLiked);
+           } else {
+               return ResponseEntity
+                       .ok()
+                       .body(!isLiked);
+           }
+
         } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity
@@ -53,6 +61,7 @@ public class HeartApiController {
                     .body("서버 터짐 원인: " + e.getMessage());
         }
     }
+
 
 
 
