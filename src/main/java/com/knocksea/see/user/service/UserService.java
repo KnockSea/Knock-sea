@@ -187,6 +187,8 @@ public class UserService {
 
         return uniqueFileName;
     }
+
+    //파일 저장경로 얻어오기
     public String findProfilePath(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
         return uploadRootPath + "/" + user.getProfileImg();

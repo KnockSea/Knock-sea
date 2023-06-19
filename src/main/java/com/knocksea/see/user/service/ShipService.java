@@ -7,8 +7,10 @@ import com.knocksea.see.user.dto.request.ShipModifyRequestDTO;
 import com.knocksea.see.user.dto.request.ShipRegisterRequestDTO;
 import com.knocksea.see.user.dto.response.ShipModifyResponseDTO;
 import com.knocksea.see.user.dto.response.ShipRegisterResponseDTO;
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.Ship;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.ShipRepository;
 import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -27,6 +31,9 @@ public class ShipService {
 
     //유저 정보 가져오기용 리파지토리
     private final UserRepository userRepository;
+
+    //이미지 가져오기용 리파지토리
+    private final ImageRepository imageRepository;
 
 
 
@@ -73,7 +80,7 @@ public class ShipService {
         Ship foundByUserId = shipRepository.findByUser(user);
 
         //사장님이 아니라면
-        if(foundByUserId.getUser().getUserGrade().toString().equals("user")) ResponseEntity.badRequest().body("사장님이 아니면 수정할 수없습니다");
+        if(!foundByUserId.getUser().getUserGrade().toString().equals("OWNER")) ResponseEntity.badRequest().body("사장님이 아니면 수정할 수없습니다");
 
         //등록된 배가 있다면
         if(foundByUserId!=null){
@@ -86,4 +93,35 @@ public class ShipService {
         }
 
     }
+
+    //유저 정보로 배정보 가져오기
+    public Ship getShipInfo(TokenUserInfo userInfo) {
+
+        //유저 토큰정보로 해당유저 정보 가져오기
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> {
+            throw new RuntimeException("해당유저는 존재하지않습니다!");
+        });
+
+        //가져온 유저로 해당유저가 등록한 배 정보 가져오기
+        Ship findbyUser = shipRepository.findByUser(user);
+
+        List<SeaImage> images = findbyUser.getImages();
+
+
+
+//        build.toList(images);
+
+        return findbyUser;
+    }
+
+//    //배 이미지 리스트 경로 반환하는함수
+//    public String findShipPath(Long userId,Long typenumber) {
+//        User user = userRepository.findById(userId).orElseThrow();
+//
+//        Ship findShip = shipRepository.findByUser(user);
+//
+//        SeaImage byImageTypeAndTypeNumber = imageRepository.findByImageTypeAndTypeNumber(findShip, typenumber);
+//
+//        return byImageTypeAndTypeNumber.getImageName();
+//    }
 }

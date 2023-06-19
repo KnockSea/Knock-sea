@@ -29,6 +29,8 @@ public class SeaImage {
     @Column(name = "image_name", nullable = false)
     private String imageName;
 
+    @Column(name = "type_number")
+    private Long typeNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ship_id")

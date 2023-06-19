@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -41,6 +43,8 @@ public class ImageService {
     @Value("${upload.path}")
     private String uploadRootPath2;
 
+
+    //DB에 선박 이미지경로 저장함수
     public void saveShipImages(List<MultipartFile> shipImages, TokenUserInfo userInfo) throws IOException {
 
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("유저 없어 새꺄"));
@@ -48,11 +52,14 @@ public class ImageService {
 
         List<String> strings = uploadShipImage(shipImages);
 
+        Long typeNumber = 1L;
+
         for (String string : strings) {
             SeaImage save = imageRepository.save(SeaImage
                     .builder()
-                    .imageName(string)
+                    .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+string)
                     .ship(foundShipByUserId)
+                    .typeNumber(typeNumber++)
                     .imageType(ProductCategory.SHIP).build());
         }
 
@@ -63,23 +70,20 @@ public class ImageService {
         //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
         List<String> uniqueFilenames = new ArrayList<>();
 
-        File rootDir = new File(uploadRootPath2+"/" + "ship");
-            if (!rootDir.exists()) {
-                rootDir.mkdir();
-            }
+        String s = makeDateFormatDirectory(uploadRootPath2);
+
 
         for (MultipartFile shipImage : shipImages) {
             String originalFilename = shipImage.getOriginalFilename();
             String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
 
             // Save the file
-            File uploadFile = new File(uploadRootPath2 +uniqueFileName);
+            File uploadFile = new File(s+"/"+uniqueFileName);
             shipImage.transferTo(uploadFile);
 
             uniqueFilenames.add(uniqueFileName);
 
         }
-
 
         return uniqueFilenames;
 
@@ -88,18 +92,25 @@ public class ImageService {
     //db에 이미지 경로 저장함수
     public void saveSpotImages(List<MultipartFile> spotImages, TokenUserInfo userInfo) throws IOException {
 
-        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("유저 없어 새꺄"));
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("유저가 존재하지않습니다"));
         FishingSpot findBySpot = fishingSpotRepository.findByUser(user);
 
         List<String> strings = uploadSpotImage(spotImages);
+
+        Long typeNumber = 1L;
 
         for (String string : strings) {
             SeaImage save = imageRepository
                     .save(SeaImage.builder()
                     .imageName(string)
                     .spot(findBySpot)
+                            .typeNumber(typeNumber)
                     .imageType(ProductCategory.SPOT).build());
+
         }
+
+
+
     }
 
     //낚시터 실제 이미지 저장함수
@@ -107,16 +118,14 @@ public class ImageService {
         //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
         List<String> uniqueFilenames = new ArrayList<>();
 
-        File rootDir = new File(uploadRootPath2+"/" + "spot");
-        if (!rootDir.exists()) {
-            rootDir.mkdir();
-        }
+        String s = makeDateFormatDirectory(uploadRootPath2);
+
 
         for (MultipartFile spotImage : spotImages) {
             String originalFilename = spotImage.getOriginalFilename();
             String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
 
-            File uploadFile = new File(uploadRootPath2 +uniqueFileName);
+            File uploadFile = new File(s+"/"+uniqueFileName);
             spotImage.transferTo(uploadFile);
 
             uniqueFilenames.add(uniqueFileName);
@@ -126,5 +135,34 @@ public class ImageService {
 
         return uniqueFilenames;
 
+    }
+
+    /*
+     * 루트 경로를 받아서 일자별로 폴더를 생성하 후
+     * 루트경로 + 날짜폴더 경로를 리턴
+     * @param rootPath - 파일 업로드 루트 경로
+     * @return - 날짜 폴더 경로가 포함된 새로운 업로드 경로
+     * */
+    public static String makeDateFormatDirectory(String rootPath){
+        //오늘 연월일 날짜정복 가져오기
+        LocalDateTime now = LocalDateTime.now();
+        int y = now.getYear();
+        int m = now.getMonthValue();
+        int d = now.getDayOfMonth();
+
+        List<String> dateInfo = List.of(String.valueOf(y), len2(m), len2(d));
+
+        String directoryPath = rootPath;
+        for (String s : dateInfo) {
+            directoryPath +="/" + s;
+            File f = new File(directoryPath);
+            if(!f.exists()) f.mkdir();
+        }
+
+        return directoryPath;
+    }
+
+    private static String len2(int n) {
+        return new DecimalFormat("00").format(n);
     }
 }
