@@ -22,8 +22,6 @@ public class InquiryModifyDTO {
     @NotNull
     private Long inquiryId;
 
-    @NotNull
-    private Long userId;
 
 
 }

@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,15 +57,14 @@ public class AnswerService {
         return answerEntity;
     }
 
-    public AnswerDetailResponseDTO insert(Long inquiryId, final AnswerCreateRequestDTO dto, TokenUserInfo userInfo)
+    public AnswerDetailResponseDTO insert(final AnswerCreateRequestDTO dto, TokenUserInfo userInfo)
             throws RuntimeException {
         User foundUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
             () -> new RuntimeException("회원 정보가 없습니다.")
         );
-        Inquiry inquiryInfo = inquiryRepository.findById(inquiryId).orElseThrow();
-        dto.setInquiry(inquiryInfo);
+        Inquiry inquiryInfo = inquiryRepository.findById(dto.getInquiryId()).orElseThrow();
 
-        Answer saved = answerRepository.save(dto.toEntity(foundUser));
+        Answer saved = answerRepository.save(dto.toEntity(foundUser, inquiryInfo));
         log.info("answer saved- {}", saved);
 
         return new AnswerDetailResponseDTO(saved);
@@ -73,15 +73,28 @@ public class AnswerService {
 
     public AnswerDetailResponseDTO modify(final AnswerModifyDTO dto, Long userId) {
 
+        Answer modifiedAnswer = null;
+        User user = userRepository.findById(userId).orElseThrow();
         final Answer answerEntity = getAnswer(dto.getAnswerId());
-
+        Inquiry inquiry = inquiryRepository.findById(dto.getInquiryId()).orElseThrow();
+        Answer answer = answerRepository.findById(dto.getAnswerId()).orElseThrow();
+        if (answer.getUser().getUserId().equals(userId)){
         answerEntity.setAnswerDetails(dto.getAnswerDetails());
-        Answer modifiedAnswer = answerRepository.save(answerEntity);
+        answerEntity.setInquiry(inquiry);
+        modifiedAnswer = answerRepository.save(answerEntity);
+        }
 
         return new AnswerDetailResponseDTO(modifiedAnswer);
     }
 
     public void delete(Long answerId, Long userId) throws RuntimeException, SQLException {
+        Answer answer = answerRepository.findById(answerId).orElseThrow();
+        if (answer.getUser().getUserId().equals(userId)){
+        answer.setUser(null);
+        answerRepository.save(answer);
         answerRepository.deleteById(answerId);
+
+        }
+
     }
 }

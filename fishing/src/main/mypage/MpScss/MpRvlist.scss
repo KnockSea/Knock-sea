@@ -1,0 +1,41 @@
+.rvlistbox {
+    border: 1px solid #000;
+    width: 70%;
+    margin-left: 270px;
+    margin-top: 30px;
+    height: 190px;
+    .rvliststatus{
+        display: flex;
+        font-weight: 700;
+        margin-left: 10px;
+        font-size: 20px;
+    }
+
+    .rvitembox {
+        // border: 1px solid #000;
+        display: flex;
+        align-items: center;
+        height: 65%;
+        .potobox {
+            // margin-top: 5px;
+            margin-left: 10px;
+            border: 1px solid #000;
+            width: 100px;
+            height: 80px;
+        }
+        .minibox {
+            margin-left: 20px;
+            text-align: left;
+        }
+    }
+    .rvlistbtnbox {
+        
+        margin-bottom: 10px;
+        .relist{
+            width: 85%;
+            background: #123282;
+            border: 1px solid #123282;
+        }
+    }
+
+}

@@ -57,10 +57,33 @@ public class InquiryService {
                 .build();
     }
 
-    public InquiryDetailResponseDTO getDetail(Long inquiryId) {
-        Inquiry inquiryEntity = getInquiry(inquiryId);
 
-        return new InquiryDetailResponseDTO(inquiryEntity);
+    public InquiryListResponseDTO getDetail(Long tokenUserId, PageDTO pageDTO) {
+
+        PageRequest pageable = PageRequest.of(
+                pageDTO.getPage() - 1,
+                pageDTO.getSize(),
+                Sort.by("inquiryDateTime").descending()
+        );
+
+
+
+        User user = userRepository.findById(tokenUserId).orElseThrow(() -> {
+            throw new RuntimeException("해당유저는 존재하지않습니다");
+        });
+
+            Page<Inquiry> byUser = inquiryRepository.findByUser(user, pageable);
+            List<Inquiry> inquiryList = byUser.getContent();
+            List<InquiryDetailResponseDTO> detailList= inquiryList.stream()
+                    .map(InquiryDetailResponseDTO::new)
+                    .collect(Collectors.toList());
+
+
+        return InquiryListResponseDTO.builder()
+                .count(inquiryList.size())
+                .pageInfo(new PageResponseDTO<Inquiry>(byUser))
+                .inquiries(detailList)
+                .build();
     }
     private Inquiry getInquiry(Long inquiryId) {
         Inquiry inquiryEntity = inquiryRepository.findById(inquiryId)
@@ -76,19 +99,21 @@ public class InquiryService {
         throws RuntimeException {
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("회원 정보가 없습니다."));
         Inquiry saved = inquiryRepository.save(dto.toEntity(user));
-//        Inquiry saved = inquiryRepository.save(dto.toEntity());
-
 
         return new InquiryDetailResponseDTO(saved);
     }
 
     public  InquiryDetailResponseDTO modify(final InquiryModifyDTO dto, Long userId) {
 
+        Inquiry modifiedInquiry = null;
+        User user = userRepository.findById(userId).orElseThrow();
         final Inquiry inquiryEntity = getInquiry(dto.getInquiryId());
 
+        if (inquiryEntity.getUser().getUserId().equals(userId)){
+        inquiryEntity.setUser(user);
         inquiryEntity.setInquiryDetails(dto.getInquiryDetails());
-
-        Inquiry modifiedInquiry = inquiryRepository.save(inquiryEntity);
+        modifiedInquiry = inquiryRepository.save(inquiryEntity);
+        }
 
         return new InquiryDetailResponseDTO(modifiedInquiry);
     }
@@ -96,11 +121,15 @@ public class InquiryService {
     public void delete(Long inquiryId, Long userId) throws RuntimeException, SQLException {
 
         try {
+            Inquiry inquiry = inquiryRepository.findById(inquiryId).orElseThrow();
+            if (inquiry.getUser().getUserId().equals(userId)){
             inquiryRepository.deleteById(inquiryId);
+            }
         } catch (Exception e) {
             log.error("id가 존재하지 않아 삭제에 실패했습니다. - ID: {}, err: {}"
                 , inquiryId, e.getMessage());
             throw new RuntimeException("id가 존재하지 않아 삭제에 실패했습니다.");
+
         }
     }
 }
