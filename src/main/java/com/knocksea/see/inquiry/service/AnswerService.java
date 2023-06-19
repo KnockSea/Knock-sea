@@ -57,12 +57,12 @@ public class AnswerService {
         return answerEntity;
     }
 
-    public AnswerDetailResponseDTO insert(Long inquiryId, final AnswerCreateRequestDTO dto, TokenUserInfo userInfo)
+    public AnswerDetailResponseDTO insert(final AnswerCreateRequestDTO dto, TokenUserInfo userInfo)
             throws RuntimeException {
         User foundUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
             () -> new RuntimeException("회원 정보가 없습니다.")
         );
-        Inquiry inquiryInfo = inquiryRepository.findById(inquiryId).orElseThrow();
+        Inquiry inquiryInfo = inquiryRepository.findById(dto.getInquiryId()).orElseThrow();
 
         Answer saved = answerRepository.save(dto.toEntity(foundUser, inquiryInfo));
         log.info("answer saved- {}", saved);
