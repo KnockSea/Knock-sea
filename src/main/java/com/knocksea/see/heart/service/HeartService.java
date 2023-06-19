@@ -34,9 +34,17 @@ public class HeartService {
 
     public HeartDetailResponseDTO createAndDeleteHeart(Long tokenUserId, HeartCreateDTO dto) {
 
+        Product product = null;
+        Edu edu = null;
+
+        if (dto.getProductId() != null) {
+            product = productRepository.findById(dto.getProductId()).orElseThrow();
+        }
+
+        if (dto.getEduId() != null) {
+            edu = eduRepository.findById(dto.getEduId()).orElseThrow();
+        }
         User user = userRepository.findById(tokenUserId).orElseThrow();
-        Product product =  productRepository.findById(dto.getProductId()).orElseThrow();
-        Edu edu = eduRepository.findById(dto.getEduId()).orElseThrow();
         Heart saved = null;
         Heart heart = dto.toEntity(user, edu, product);
         Heart heartOrNot = heartRepository.findByUserAndEduAndProduct(user, edu, product);
