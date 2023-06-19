@@ -102,9 +102,9 @@ public class ImageService {
         for (String string : strings) {
             SeaImage save = imageRepository
                     .save(SeaImage.builder()
-                    .imageName(string)
+                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+string)
                     .spot(findBySpot)
-                            .typeNumber(typeNumber)
+                            .typeNumber(typeNumber++)
                     .imageType(ProductCategory.SPOT).build());
 
         }
@@ -125,6 +125,7 @@ public class ImageService {
             String originalFilename = spotImage.getOriginalFilename();
             String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
 
+            // Save the file
             File uploadFile = new File(s+"/"+uniqueFileName);
             spotImage.transferTo(uploadFile);
 
