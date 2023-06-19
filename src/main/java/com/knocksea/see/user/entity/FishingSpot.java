@@ -51,6 +51,7 @@ public class FishingSpot {
     private User user;
 
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<SeaImage> images = new ArrayList<>();
 
 }

@@ -22,7 +22,7 @@ public class HeartDetailResponseDTO {
         this.heartId = heart.getHeartId();
         this.heartType = String.valueOf(heart.getHeartType());
         this.userId = heart.getUser().getUserId();
-        this.eduId = heart.getEdu().getEduId();
-        this.productId = heart.getProduct().getProductId();
+        this.eduId = heart.getEdu() != null ? heart.getEdu().getEduId() : null;
+        this.productId = heart.getProduct() != null ? heart.getProduct().getProductId() : null;
     }
 }

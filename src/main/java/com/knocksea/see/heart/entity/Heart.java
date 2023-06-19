@@ -1,6 +1,7 @@
 package com.knocksea.see.heart.entity;
 
 import com.knocksea.see.edu.entity.Edu;
+import com.knocksea.see.heart.dto.response.HeartDetailResponseDTO;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
@@ -41,5 +42,7 @@ public class Heart {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Product product;
+
+
 
 }

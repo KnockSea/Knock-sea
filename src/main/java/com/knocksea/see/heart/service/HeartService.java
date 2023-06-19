@@ -51,12 +51,12 @@ public class HeartService {
         if (heartOrNot == null) {
             // 좋아요 추가
             saved = heartRepository.save(heart);
+            return new HeartDetailResponseDTO(saved);
         } else {
             // 좋아요 취소
             heartRepository.delete(heart);
         }
-        return new HeartDetailResponseDTO(saved);
-
+        return null;
     }
 
     public boolean checkIfLiked(TokenUserInfo userInfo, HeartCreateDTO dto) {
