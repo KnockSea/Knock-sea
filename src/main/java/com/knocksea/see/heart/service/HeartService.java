@@ -47,8 +47,8 @@ public class HeartService {
         User user = userRepository.findById(tokenUserId).orElseThrow();
         Heart saved = null;
         Heart heart = dto.toEntity(user, edu, product);
-        Heart heartOrNot = heartRepository.findByUserAndEduAndProduct(user, edu, product);
-        if (heartOrNot == null) {
+        boolean heartOrNot = heartRepository.existsByUserAndEduOrProduct(user, edu, product);
+        if (!heartOrNot) {
             // 좋아요 추가
             saved = heartRepository.save(heart);
             return new HeartDetailResponseDTO(saved);
@@ -76,9 +76,9 @@ public class HeartService {
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(
                 () -> new EntityNotFoundException("user를 찾을 수 없습니다.")
         );
-        Heart heartOrNot = heartRepository.findByUserAndEduAndProduct(user, edu, product);
+        boolean heartOrNot = heartRepository.existsByUserAndEduOrProduct(user, edu, product);
         System.out.println("좋아요 여부 = "+ heartOrNot);
-        return heartOrNot != null;
+        return heartOrNot;
     }
 }
 
