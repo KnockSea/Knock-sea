@@ -24,6 +24,8 @@ public class ShipRegisterResponseDTO {
 
     private String username;
 
+
+
     public ShipRegisterResponseDTO(Ship save) {
         this.shipName = save.getShipName();
         this.shipDescription = save.getShipDescription();
