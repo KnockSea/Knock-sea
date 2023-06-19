@@ -1,5 +1,8 @@
 package com.knocksea.see.product.service;
 
+import com.knocksea.see.auth.TokenUserInfo;
+import com.knocksea.see.exception.NoRegisteredArgumentsException;
+import com.knocksea.see.exception.NoneMatchUserException;
 import com.knocksea.see.product.dto.request.ProductDeleteRequestDTO;
 import com.knocksea.see.product.dto.request.ProductModifyRequestDTO;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
@@ -133,8 +136,23 @@ public class ProductService implements ProductDetailService {
         return getDetail(targetProduct.getProductId());
     }
 
-    public boolean delete(ProductDeleteRequestDTO dto) {
-        return productRepository.deleteByProductTypeAndProductId(dto.getProductType(), dto.getProductId());
+    public boolean delete(Long productId, TokenUserInfo userInfo) {
+
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("상품 정보가 없습니다."));
+
+        if (!product.getUser().getUserId().equals(userInfo.getUserId())) {
+            throw new NoneMatchUserException("본인의 글만 삭제 가능합니다.");
+        }
+
+        List<ReservationTime> productHasTime = reservationTimeRepository.findAllByProduct(product);
+
+        if (reservationRepository.findByProductProductId(product.getProductId()).isPresent()) {
+            throw new RuntimeException("예약 정보가 존재하여 삭제할 수 없습니다.");
+        }
+        productHasTime.forEach(reserve -> productRepository.deleteById(productId));
+
+
+        return true;
     }
 
 

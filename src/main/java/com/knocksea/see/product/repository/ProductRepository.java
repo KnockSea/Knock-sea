@@ -16,5 +16,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Product findByUserUserId(Long userId);
 
-    boolean deleteByProductTypeAndProductId(String productType, Long productId);
+//    boolean deleteByProductTypeAndProductId(String productType, Long productId);
+
 }

@@ -3,6 +3,7 @@ package com.knocksea.see.product.service;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.exception.NoProductException;
+import com.knocksea.see.product.dto.request.ReservationCancelDTO;
 import com.knocksea.see.product.dto.request.ReservationRequestDTO;
 import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
 import com.knocksea.see.product.entity.Product;
@@ -30,7 +31,6 @@ public class ReservationService {
     private final ProductRepository productRepository;
     private final EduRepository eduRepository;
     private final ReservationTimeRepository reservationTimeRepository;
-
     private final ProductDetailService productDetailService;
 
     public ProductDetailResponseDTO createReserve(ReservationRequestDTO dto) throws RuntimeException, NoProductException{
@@ -75,8 +75,8 @@ public class ReservationService {
 
     // 예약 취소
     // 예약한 인원수 빼주고, 결제 정보 취소도 필요해?
-    public void cancelReservation(Long ReservationId) {
-        Reservation reservation = reservationRepository.findById(ReservationId).orElseThrow(() -> new RuntimeException("예약 정보가 없습니다."));
+    public boolean cancelReservation(ReservationCancelDTO dto) {
+        Reservation reservation = reservationRepository.findById(dto.getReservationId()).orElseThrow(() -> new RuntimeException("예약 정보가 없습니다."));
 
         // 현재 예약에 신청중인 사람 수
         int reserveCount = reservation.getReservationUserCount();
@@ -86,6 +86,8 @@ public class ReservationService {
         // 인원수 변동 후 업데이트
         ReservationTime savedTime = reservationTimeRepository.save(reservationTime);
 
-        reservationRepository.deleteById(ReservationId);
+        reservationRepository.deleteById(dto.getReservationId());
+
+        return reservationRepository.findById(dto.getReservationId()).isPresent();
     }
 }

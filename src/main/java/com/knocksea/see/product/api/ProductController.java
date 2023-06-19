@@ -1,5 +1,6 @@
 package com.knocksea.see.product.api;
 
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
 import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
 import com.knocksea.see.product.service.ProductService;
@@ -54,7 +55,12 @@ public class ProductController {
     }
 
     @DeleteMapping("/remove/{productId}")
-    public ResponseEntity<?> removeProduct(@PathVariable Long productId) {
+    public ResponseEntity<?> removeProduct(
+            @PathVariable Long productId
+            , @AuthenticationPrincipal TokenUserInfo userInfo)
+    {
+
+//        productService.delete()
 
 
 
