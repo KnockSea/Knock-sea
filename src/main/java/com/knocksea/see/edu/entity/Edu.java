@@ -44,7 +44,8 @@ public class Edu {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private EduLevel eduLevel;
+    @Builder.Default
+    private EduLevel eduLevel = EduLevel.LOWER;
 
     @Column(nullable = false, length = 2000)
     private String eduInfo;

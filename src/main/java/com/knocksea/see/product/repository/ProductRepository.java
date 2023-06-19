@@ -19,6 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findByUserUserId(Long userId);
 
 //    boolean deleteByProductTypeAndProductId(String productType, Long productId);
-
+    @Query("SELECT p FROM Product p WHERE p.user = :user")
+    List<Product> findByUser(@Param("user") User user);
 
 }
