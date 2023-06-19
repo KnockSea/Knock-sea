@@ -24,8 +24,6 @@ function OwnerCheckShip() {
 
   return (
     
-    <div className="container">
-      <div className="owner-check-wrap">
         <div className="owner-check-body">
           <form onSubmit={handleOwnerCheck} encType="multipart/form-data">
             {/* <ul>
@@ -152,8 +150,6 @@ function OwnerCheckShip() {
           </form>
           
         </div>
-      </div>
-    </div>
   );
 }
 

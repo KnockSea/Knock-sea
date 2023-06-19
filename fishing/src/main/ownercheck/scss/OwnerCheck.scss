@@ -3,6 +3,7 @@
     font-family: 'Noto Sans', 'Source Sans Pro';
 }
 
+
 body {
     background-color: #ffffff;
 }
@@ -10,7 +11,7 @@ body {
 .container {
     width: 1136px;
     min-width: 700px;
-    margin: 80px auto 0;
+    margin: 50px auto 0;
     /* border: 1px solid #000; */
 }
 
@@ -19,6 +20,7 @@ span[id] {
     width: 250px;
     padding: 5px 0 0 15px;
 }
+
 
 /* 업체등록 상단부 */
 hr {

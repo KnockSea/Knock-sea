@@ -7,15 +7,19 @@ import OwnerCheckShip from './OwnerCheckShip';
 
 function OwnerCheckMain() {
   return (
-      <div className="container">
-        <div className="owner-check-wrap">
+    <div className="container">
+      <div className="owner-check-wrap">
+      <OwnerCheckHeader />
+    <div className="owner-check-main">
+      <div>
           <Routes>
-          <Route path="/" element={<OwnerCheckHeader />} />
-          <Route path="/ship" element={<OwnerCheckShip />} />
-          <Route path="/fishing" element={<OwnerCheckFishing />} />
+            <Route path="/ship" element={<OwnerCheckShip />} />
+            <Route path="/fishing" element={<OwnerCheckFishing />} />
           </Routes>
-        </div>
-      </div>
+          </div>
+       </div>
+    </div>
+    </div>
   );
 }
 

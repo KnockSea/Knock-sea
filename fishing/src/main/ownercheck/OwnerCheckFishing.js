@@ -21,8 +21,7 @@ function OwnerCheckFishing() {
   };
 
   return (
-    <div className="container">
-      <div className="owner-check-wrap">
+   
          <div className="owner-check-body">
           <form onSubmit={handleOwnerConfirm} encType="multipart/form-data">
               <ul>
@@ -106,8 +105,6 @@ function OwnerCheckFishing() {
             </div>
           </form>
         </div>
-      </div>
-    </div>
   );
 }
 

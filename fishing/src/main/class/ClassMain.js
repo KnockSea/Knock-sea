@@ -23,6 +23,13 @@ function ClassMain() {
         { id: '무꼬기', feedImg: 'https://cdn.pixabay.com/photo/2023/03/02/12/42/fish-7825240_1280.jpg', star: '★★★★★', title: '제목 3', place: '낚시터', price: 30000 },
       ];
 
+      const TopList = [
+        { id: '강태공', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕~', place: '부둣가', price: 10000 },
+        { id: '돔쟁이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
+        { id: '돔쟁이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
+        { id: '돔쟁이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
+      ];
+
       const [filter, setFilter] = useState(''); 
 
       const handleFilterChange = (event) => {
@@ -38,7 +45,25 @@ function ClassMain() {
             <div className='content-wrap'>
                 <div className="class-HOT">
                     <p><span className='class-list-title'>HOT! </span>지금 인기 많은 낚시터</p>
-                    <div>리스투들 와라라락</div>
+                    <div className='lists'>
+                            {TopList.map((t) => (
+                                    <div className="class-list-1" key={t.id}>
+                                    <div className="writer" data-id={t.id}></div>
+                                    <div className="list-img-wrapper">
+                                        <img src={t.feedImg} alt="" id="list-img" />
+                                    </div>
+                                    <div className="list-text">
+                                        <div className='list-title-wrap list-t'>
+                                            <div className="list-star-rating">{t.star}</div>
+                                            <div className="userId">{t.id}</div>
+                                        </div>
+                                        <div className="text-place list-t">위치 : {t.place}</div>
+                                        <div className="text-price">가격 : {t.price}</div>
+                                        <div className="text-title list-t">{t.title}</div>
+                                    </div>
+                                    </div>
+                                ))}
+                        </div>       
                 </div>
                 <hr/>
                 <div className="class-list-wrap">
@@ -54,7 +79,7 @@ function ClassMain() {
                     </div>
 
                     <div className="class-list">
-                        <Link to={"/classdetail"}>
+                        <Link to={"/classdetail"} style={{ color: 'black', textDecoration: 'none' }}>
                         <div className='lists'>
                             {fList.map((f) => (
                                     <div className="class-list-1" key={f.id}>
