@@ -11,10 +11,13 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+import java.util.List;
+
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r FROM Review r WHERE r.user = :user")
     Page<Review> findByUser (User user, PageRequest pageable);
 
-    @Query("SELECT r FROM Review r WHERE r.product = :product")
-    List<Review> findByProduct(@Param("product") Product product);
+
+    List<Review> findAllByProduct(Product product);
+
 }

@@ -1,6 +1,7 @@
 package com.knocksea.see.product.entity;
 
 import com.knocksea.see.edu.entity.Edu;
+import com.knocksea.see.edu.entity.EduLevel;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
 
@@ -31,6 +32,9 @@ public class Reservation {
     private int reservationUserCount;
 
     private int reservationPrice;
+
+    @Builder.Default
+    private EduLevel eduLevel = EduLevel.LOWER;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
