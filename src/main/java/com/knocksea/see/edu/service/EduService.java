@@ -1,17 +1,18 @@
 package com.knocksea.see.edu.service;
 
+import com.knocksea.see.edu.dto.response.EduTopFourResponseDTO;
 import com.knocksea.see.edu.dto.response.EduListResponseDTO;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
+import com.knocksea.see.heart.entity.Heart;
+import com.knocksea.see.heart.repository.HeartRepository;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
-import com.knocksea.see.product.dto.response.ReservationTimeResponseDTO;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.repository.ReservationRepository;
 import com.knocksea.see.product.repository.ReservationTimeRepository;
-import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.repository.ReviewRepository;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.UserRepository;
@@ -23,11 +24,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -40,10 +40,20 @@ public class EduService {
     private final UserRepository userRepository;
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewRepository;
+
+    private final HeartRepository heartRepository;
     public List<ReservationTime> timeList;
 
     //좋아요 상위 4개 조회
-    public void findTopFour(){
+    public EduTopFourResponseDTO findTopFour(){ 
+        //like 테이블에서 좋아요 개수가 제일 높은 4개를 찾아서 그 eduId를 찾음. eduId로 edu테이블에서 찾음
+
+        List<Edu> likeRank = heartRepository.findLikeRank();
+        /*likeRank.setMaxResults(4);
+        List<Heart> resultList = likeRank.getResultList();
+
+        resultList.get(0).getEdu().getEduId();*/
+        return null;
 
     }
 
@@ -84,7 +94,7 @@ public class EduService {
     }
 
 
-    //클래스 저장, 수정, 수정
+    //클래스 저장
     public EduDetailResponseDTO insert(final EduAndReservationTimeCreateDTO dto) throws RuntimeException{
         log.info("dto의 id : " + dto.getUserId());
         Long userId = dto.getUserId();
@@ -125,7 +135,6 @@ public class EduService {
 
         Edu edu = eduRepository.findByUserUserId(user);
 
-
         //만약에 time_current_user가 1명 이상이면 수정못하도록
         int reservationCount = reservationRepository.countByEdu(edu);
         if(reservationCount>0){
@@ -142,6 +151,7 @@ public class EduService {
                         = reservationTimeRepository.save(dto.toReservationTimeEntity(i, j, edu));
             }
         }
+
         edu.update(dto);
         eduRepository.save(edu);
         return getDetail(edu.getEduId());

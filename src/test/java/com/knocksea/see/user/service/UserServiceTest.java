@@ -30,8 +30,6 @@ class UserServiceTest {
                 .userPoint(0)
                 .build();
 
-
-
         User saveUser2 = User.builder()
                 .userEmail("bbbb@naver.com")
                 .userPassword("bbbb1234!")
@@ -65,10 +63,22 @@ class UserServiceTest {
                 .userPoint(0)
                 .build();
 
-        userRepository.save(saveUser);
-        userRepository.save(saveUser2);
+        User saveUser5= User.builder()
+                .userEmail("eeee@naver.com")
+                .userPassword("eeee1234!")
+                .userName("동혁")
+                .userPhone("010-2222-2222")
+                .userAddress("부산")
+                .userFullAddress("어쩌고 저쩌고")
+                .userGrade(OWNER)
+                .userPoint(0)
+                .build();
+
+/*        userRepository.save(saveUser);
+        userRepository.save(saveUser2);*/
         userRepository.save(saveUser3);
         userRepository.save(saveUser4);
+        userRepository.save(saveUser5);
 
     }
 }
