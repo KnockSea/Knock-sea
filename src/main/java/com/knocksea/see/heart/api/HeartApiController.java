@@ -1,5 +1,6 @@
 package com.knocksea.see.heart.api;
 
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.heart.dto.request.HeartCreateDTO;
 import com.knocksea.see.heart.dto.response.HeartDetailResponseDTO;
 import com.knocksea.see.heart.service.HeartService;
@@ -8,6 +9,7 @@ import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +26,7 @@ public class HeartApiController {
 
     @PostMapping
     public ResponseEntity<?> create(
+            @AuthenticationPrincipal TokenUserInfo userInfo,
             @Validated @RequestBody HeartCreateDTO dto
             , BindingResult result
     ) {
@@ -38,7 +41,7 @@ public class HeartApiController {
         if (fieldErrors != null) return fieldErrors;
 
         try {
-            HeartDetailResponseDTO responseDTO = heartService.createHeart(dto);
+            HeartDetailResponseDTO responseDTO = heartService.createHeart(userInfo.getUserId(), dto);
             return ResponseEntity
                     .ok()
                     .body(responseDTO);
@@ -81,4 +84,5 @@ public class HeartApiController {
         }
         return null;
     }
+
 }
