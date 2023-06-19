@@ -20,6 +20,8 @@ import com.knocksea.see.product.repository.ReservationTimeRepository;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.repository.ReviewRepository;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.repository.FishingSpotRepository;
+import com.knocksea.see.user.repository.ShipRepository;
 import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +46,8 @@ public class ProductService implements ProductDetailService {
     private final ReviewRepository reviewRepository;
     private final ReservationTimeRepository reservationTimeRepository;
     private final ReservationRepository reservationRepository;
+    private final ShipRepository shipRepository;
+    private final FishingSpotRepository fishingSpotRepository;
 
     public Product getProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(() ->
@@ -94,6 +98,11 @@ public class ProductService implements ProductDetailService {
         // 상품을 먼저 등록하고 -> 시간 정보를 등록해야 한다.
         User user = userRepository.findById(dto.getUserId()).
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
+
+        if (shipRepository.findByUser(user) == null && fishingSpotRepository.findByUser(user) == null) {
+            throw new RuntimeException("배 또는 낚시터 정보를 등록해 주세요.");
+            // 에러를 다르게해서 배, 낚시터 등록 폼으로 넘겨 버릴까?
+        }
 
         if (productRepository.existsByProductTypeAndUserUserId(dto.getProductLabelType(), dto.getUserId())) {
             throw new RuntimeException("이미 등록된 상품입니다.");
