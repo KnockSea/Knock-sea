@@ -1,6 +1,6 @@
 package com.knocksea.see.edu.service;
 
-import com.knocksea.see.edu.dto.response.EduTopFourResponseDTO;
+import com.knocksea.see.edu.dto.response.EduTopFourListResponseDTO;
 import com.knocksea.see.edu.dto.response.EduListResponseDTO;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
@@ -40,21 +40,17 @@ public class EduService {
     private final UserRepository userRepository;
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewRepository;
-
     private final HeartRepository heartRepository;
     public List<ReservationTime> timeList;
 
     //좋아요 상위 4개 조회
-    public EduTopFourResponseDTO findTopFour(){ 
+    public EduTopFourListResponseDTO findTopFour(){
         //like 테이블에서 좋아요 개수가 제일 높은 4개를 찾아서 그 eduId를 찾음. eduId로 edu테이블에서 찾음
 
-        List<Edu> likeRank = heartRepository.findLikeRank();
-        /*likeRank.setMaxResults(4);
-        List<Heart> resultList = likeRank.getResultList();
+        List<EduTopFourListResponseDTO> likeRank = heartRepository.findLikeRank(); //4개를 찾음
+        log.info("likeRank : "+likeRank);
 
-        resultList.get(0).getEdu().getEduId();*/
         return null;
-
     }
 
     //전체 조회
@@ -106,7 +102,7 @@ public class EduService {
         log.info("userId : "+userId);
         log.info("byId : "+byId);
 
-       if (eduRepository.findByUserUserId(user)!=null){
+        if (eduRepository.findByUserUserId(user)!=null){
             throw new RuntimeException("이미 등록한 클래스가 있습니다.");
         }
 

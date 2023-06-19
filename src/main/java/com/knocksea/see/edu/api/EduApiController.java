@@ -4,9 +4,11 @@ import com.knocksea.see.edu.dto.response.EduListResponseDTO;
 import com.knocksea.see.edu.dto.response.EduModifyDTO;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
+import com.knocksea.see.edu.dto.response.EduTopFourListResponseDTO;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.service.EduService;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,18 @@ import java.util.List;
 public class EduApiController {
 
     private final EduService eduService;
+
+    //좋아요 많은 순 4개 조회
+    @GetMapping("/topFour")
+    public ResponseEntity<?> topFourList(){
+        log.info("/api/v1/edu topFourList");
+
+        EduTopFourListResponseDTO topFourDto = eduService.findTopFour();
+
+        return ResponseEntity
+                .ok()
+                .body(topFourDto);
+    }
     
     //전체 조회
     @GetMapping
