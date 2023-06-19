@@ -1,0 +1,36 @@
+.bg {
+    // margin-top: 150px;
+    background-image: url(../../img/back.jpg);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+    background-attachment: fixed;
+    // height: 500px;
+    width: 100vw;
+    height: 100vh;
+
+    .textbox1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        font-weight: 700;
+        color: white;
+        button {    
+            background: #123282;
+            border: 1px solid #123282;
+            width: 210px;
+            height: 77px;
+            border-radius: 15px;    
+        }
+        
+        .hbtn1 {
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+        }
+    }
+
+
+}
