@@ -1,13 +1,11 @@
 
 .regi-calendar-content {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px;
+    position: relative;
 
 }
 .regi-custom-calendar {
-    width: 450px;
-    height: 300px;
+    width: 400px;
+    height: 250px;
     border: none;
 
     .react-datepicker__triangle {
@@ -15,7 +13,7 @@
     }
     
     .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
-      margin: 10px 21px;
+      margin: 10px 15px;
       font-size: 15px;
     }
   
@@ -31,10 +29,21 @@
     .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range {
       background: #123282;
     }
+
+    .react-datepicker-popper {
+    position: fixed; 
+    inset: 20px auto auto 40px;
+     transform: translate(0px);
+    }
+
+    
 }
 
 .regi-calendar-content input {
-    display: none;
+    // display: none;
 }
 
+.rdrDefinedRangesWrapper {
+  display: none;
+}
   

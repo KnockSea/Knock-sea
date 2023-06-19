@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../scss/ProductRegistration.scss';
+import './scss/ProductRegistration.scss';
 import { Select } from '@mui/material';
 import RegiCalendar from './RegiCalendar';
 
@@ -30,10 +30,24 @@ function ProductRegistration() {
     setPhoto2(file);
   };
 
+  const hourOptions = [];
+    for (let hour = 0; hour < 24; hour++) {
+      const hourString = hour.toString().padStart(2, '0');
+      const timeLabel = `${hourString}:00`;
+      const option = { value: timeLabel, label: timeLabel };
+      hourOptions.push(option);
+    }
+
+    const minuteOptions = [
+      { value: '00', label: '00' },
+      { value: '30', label: '30' },
+    ];
+  
   const addTimeBox = () => {
     setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
   };
 
+ 
 
   const handleOwnerCheck = (e) => {
     e.preventDefault();
@@ -177,14 +191,14 @@ function ProductRegistration() {
                 </div>
               </li>
               <li>
-                <div className="regi-title">날짜선택<span className="imp">*</span></div>
-                
-              </li>
-              <div className='calendar'>
-                <section className='calendar'>
+                <div className="regi-title" style={{alignContent:'baseLine'}}>날짜선택<span className="imp">*</span></div>
+                <div className='calendar'>
+                <section className='calendar-box'>
                   <RegiCalendar className='datePicker'/>
                 </section>
                 </div>
+              </li>
+             
               <div>
               {timeBoxes.map((boxId) => (
               <li key={boxId}>
@@ -192,29 +206,30 @@ function ProductRegistration() {
                 <div>
                     <div class="form-control time-box">
                    
-                        <Select
-                          type="time"
+                    <div className="time-range">
+                      <Select
                           value={startTime}
                           onChange={(e) => setStartTime(e.target.value)}
-                          id="shipConfirm"
-                          className="form-time-box"
+                          className="form-select-box"
                           required
                           aria-required="true"
-                          accept="image/*"
-                          name="shipConfirmImage-${boxId}"
-                          options={hour}
-                        />~
-                        <input
-                          type="time"
+                          name={`start-time-${boxId}`}
+                          options={hourOptions}
+                          getOptionLabel={(option) => option.label} // 추가된 부분
+                          getOptionValue={(option) => option.value} // 추가된 부분
+                        />
+                        <Select
                           value={endTime}
                           onChange={(e) => setEndTime(e.target.value)}
-                          id="shipConfirm"
-                          className="form-time-box"
+                          className="form-select-box"
                           required
                           aria-required="true"
-                          accept="image/*"
-                          name="shipConfirmImage-${boxId}"
+                          name={`end-time-${boxId}`}
+                          options={minuteOptions}
+                          getOptionLabel={(option) => option.label} // 추가된 부분
+                          getOptionValue={(option) => option.value} // 추가된 부분
                         />
+                    </div>
 
                   </div>
                   </div>

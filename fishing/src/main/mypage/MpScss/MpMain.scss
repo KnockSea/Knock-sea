@@ -94,9 +94,24 @@
             margin-top: 10px;
             // float: left;
             text-align: left;
+            display: flex;
+            justify-content: space-between;
+
             h2 {
                 font-weight: 700;
             }
+
+            .isbtn {
+                height: fit-content;
+                width: 150px;
+                background: #123282;
+                color: white;
+                font-weight: 700;
+               border-radius: 10px;
+               border: #123282;
+               }
+
+
         }
     }
 
