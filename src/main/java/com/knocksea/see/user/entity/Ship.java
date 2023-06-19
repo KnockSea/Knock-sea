@@ -5,6 +5,8 @@ import com.knocksea.see.user.dto.request.ShipModifyRequestDTO;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -46,7 +48,8 @@ public class Ship {
     private ProductCategory productCategory = ProductCategory.SHIP;
 
 
-
+    @OneToMany(mappedBy = "ship", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SeaImage> images = new ArrayList<>();
 
 
 

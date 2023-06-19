@@ -1,5 +1,6 @@
 package com.knocksea.see.edu.entity;
 
+import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.dto.response.EduModifyDTO;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.user.entity.User;
@@ -65,7 +66,7 @@ public class Edu {
 //    private List<ReservationTime> reservationTime = new ArrayList<>();
 
     // 수정메서드
-    public void update(EduModifyDTO dto) {
+    public void update(EduAndReservationTimeCreateDTO dto) {
         this.eduTitle = dto.getEduTitle();
         this.eduFullAddress=dto.getEduFullAddress();
         this.eduPrice=dto.getEduPrice();

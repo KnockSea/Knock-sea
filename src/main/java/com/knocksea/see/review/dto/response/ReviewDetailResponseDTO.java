@@ -1,5 +1,6 @@
 package com.knocksea.see.review.dto.response;
 
+import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.entity.ReviewType;
 import lombok.*;
