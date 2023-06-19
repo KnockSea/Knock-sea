@@ -27,4 +27,6 @@ public interface HeartRepository extends JpaRepository<Heart, Long> {
     @Query("SELECT h FROM Heart h WHERE h.product = :product")
     List<Heart> findByProduct(Product product);
 
+    Heart findByUserAndEduAndProduct(User user,Edu edu,Product product);
+
 }

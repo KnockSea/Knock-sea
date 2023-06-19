@@ -31,7 +31,8 @@ public class HeartApiController {
             , BindingResult result
     ) {
         log.info("/api/v1/hearts ReviewCreateDTO POST!! - {}", dto);
-
+        log.info("userInfo - {}", userInfo);
+        boolean isLiked = heartService.checkIfLiked(userInfo, dto);
         if (dto == null) {
             return ResponseEntity
                     .badRequest()
@@ -41,7 +42,7 @@ public class HeartApiController {
         if (fieldErrors != null) return fieldErrors;
 
         try {
-            HeartDetailResponseDTO responseDTO = heartService.createHeart(userInfo.getUserId(), dto);
+            HeartDetailResponseDTO responseDTO = heartService.createAndDeleteHeart(userInfo.getUserId(), dto);
             return ResponseEntity
                     .ok()
                     .body(responseDTO);
@@ -53,23 +54,7 @@ public class HeartApiController {
         }
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> delete(
-            @PathVariable Long heartId
-    ) {
-        log.info("/api/v1/hearts/{}  DELETE!! ", heartId);
 
-        try {
-            heartService.deleteHeart(heartId);
-            return ResponseEntity
-                    .ok("DEL SUCCESS!!");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity
-                    .internalServerError()
-                    .body(e.getMessage());
-        }
-    }
 
     private static ResponseEntity<List<FieldError>> getValidatedResult(BindingResult result) {
         if (result.hasErrors()) { // 입력값 검증에 걸림
