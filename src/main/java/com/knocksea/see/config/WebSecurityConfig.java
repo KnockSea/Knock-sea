@@ -41,8 +41,9 @@ public class WebSecurityConfig {
                 .antMatchers("/api/v1/edu/**").permitAll()
                 .antMatchers("/api/v1/user/load-profile").authenticated()
                 .antMatchers("/api/v1/ship/register").authenticated()
-                .antMatchers("/","/api/v1/user/**").permitAll()
-                .antMatchers("/","/api/v1/ship/getshipinfo").authenticated()
+                .antMatchers("/api/v1/user/**").permitAll()
+                .antMatchers("/api/v1/ship/getshipinfo").authenticated()
+                .antMatchers("/api/v1/fishing/getspotinfo").authenticated()
                 .anyRequest().authenticated()
         ;
 
