@@ -16,7 +16,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Builder
 @Entity
-@ToString(exclude = "user")
+@ToString(exclude = {"user","images"})
 @Table(name = "sea_fishing_spot")
 public class FishingSpot {
 
