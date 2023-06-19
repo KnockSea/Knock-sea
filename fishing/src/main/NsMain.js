@@ -26,6 +26,7 @@ import ClassDetail from './class/ClassDetail'
 import OwnerCheckMain from './ownercheck/OwnerCheckMain'
 import OwnerCheckShip from './ownercheck/OwnerCheckShip'
 import OwnerCheckFishing from './ownercheck/OwnerCheckFishing'
+import MpQueryText from './mypage/MpQueryText'
 
 
 const NsMain = () => {
@@ -54,6 +55,8 @@ const NsMain = () => {
             <Route path='/ownercheck' element={<OwnerCheckMain/>}></Route>
             {/* <Route path="/ship" element={<OwnerCheckShip/>} ></Route>
             <Route path="/fishing" element={<OwnerCheckFishing/>} ></Route>   */}
+            <Route path='/myquery' element={<MpQueryText/>}></Route>
+
         </Routes>
         {/* <div className='banner'><img src={banner} /></div> */}
         {/* <NsBanner />
@@ -102,9 +105,8 @@ const MainContent = ({ isRouteActive }) => {
 
             </div>
         <div className='apibox'>
-            <div className='exbox'>이번주 날씨 > </div>
+            {/* <div className='exbox'>이번주 날씨 > </div> */}
             <div className='wtbox'>
-                {/* <img src={wt} /> */}
                 <WeeklyWeather/>
             </div>
         </div>

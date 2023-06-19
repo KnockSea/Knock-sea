@@ -10,6 +10,7 @@ import map from '../img/map.png'
 import RvItem from './RvItem';
 import { Route, Routes } from 'react-router-dom';
 import RvBtDetail from './RvBtDetail';
+import RvMap from './RvMap';
 
 
 
@@ -45,7 +46,8 @@ function RvMain() {
             <div>위치 확인하기</div>
             <div className='mapbox'>
 
-            <img src={map} />
+           <RvMap/>
+
             </div>
             </div>
         </div>

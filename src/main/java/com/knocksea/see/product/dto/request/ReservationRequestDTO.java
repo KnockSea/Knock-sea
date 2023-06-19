@@ -1,5 +1,6 @@
 package com.knocksea.see.product.dto.request;
 
+import com.knocksea.see.edu.entity.EduLevel;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
@@ -23,20 +24,23 @@ public class ReservationRequestDTO {
     private int reservationUserCount;
     private int reservationPrice;
 
+    private EduLevel eduLevel;
+
     // 유저번호(예약자)
     private Long userId;
     // 상품번호
     private Long productId;
-    private int eduId;
+    private Long eduId;
     private Long reservationTimeId;
 
     public Reservation toEntity(ReservationRequestDTO dto) {
 
         return Reservation.builder()
                 .reservationType(dto.getReservationType())
-                .reservationPrice(dto.getReservationPrice())
+                .reservationPrice(dto.getReservationPrice() * dto.getReservationUserCount())
                 .reservationAddress(dto.getReservationAddress())
                 .reservationUserCount(dto.getReservationUserCount())
+                .eduLevel(dto.getEduLevel())
                 .build();
     }
 

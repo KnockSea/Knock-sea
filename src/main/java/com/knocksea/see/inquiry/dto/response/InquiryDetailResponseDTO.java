@@ -22,11 +22,15 @@ public class InquiryDetailResponseDTO {
     private LocalDateTime inquiryDateTime;
 
     private Long userId;
+
+    private String userName;
+
     public InquiryDetailResponseDTO(Inquiry inquiry) {
         this.inquiryId = inquiry.getInquiryId();
         this.inquiryDetails = inquiry.getInquiryDetails();
         this.inquiryDateTime = inquiry.getInquiryDateTime();
         this.userId = inquiry.getUser().getUserId();
+        this.userName = inquiry.getUser().getUserName();
     }
 }
 

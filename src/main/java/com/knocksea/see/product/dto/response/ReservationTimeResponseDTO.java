@@ -1,5 +1,6 @@
 package com.knocksea.see.product.dto.response;
 
+import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ReservationTime;
 import lombok.*;

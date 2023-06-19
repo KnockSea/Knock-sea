@@ -7,8 +7,15 @@ const MpMain = () => {
   return (
         <section className='MyPageMainBox'>
             <div className='mainbox1'>
-
+                    
+                    <div className='mychoicebox'>
                         <h1>마이페이지</h1>
+                        <h1>배</h1>
+                        <h1>낚시터</h1>
+                        <h1>클래스</h1>
+                    </div>
+                   
+                   
                     <div className='userinfobox'>
                         <div className='profilebox'>
                             <img />
@@ -18,7 +25,7 @@ const MpMain = () => {
                             <div>업체정보를 입력하세요</div>
                         </div>
                         <div className='btbox'>
-                        <button className='isbtn'>글 등록하기</button>
+                        <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
                         <button><Link to={'/myinfo'}>개인 정보 수정</Link></button>
                         </div>
                     </div>

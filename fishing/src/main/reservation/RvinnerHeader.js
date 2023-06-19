@@ -5,16 +5,28 @@ import "react-datepicker/dist/react-datepicker.css";
 import { addMonths } from 'date-fns';
 import { ko } from 'date-fns/esm/locale';
 import Multiselect from 'multiselect-react-dropdown';
-
-
+import { Dropdown } from 'primereact/dropdown';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.css';
+import 'primeicons/primeicons.css';
 const RvinnerHeader = () => {
  
     const [startDate, setStartDate] = useState(null);
 
-//    this.state = {
-//     options: [{name: 'Option 1️⃣', id: 1},{name: 'Option 2️⃣', id: 2}]
-// };
+  const [selectedCity, setSelectedCity] = useState(null);
 
+  const cities = [
+
+      { name: '전체', code: 'A11' },
+      { name: '강원', code: 'A1' },
+      { name: '경기/인천', code: 'A2' },
+      { name: '광주/전라', code: 'A3' },
+      { name: '대구/울산/경북', code: 'A4' },
+      { name: '대전/충청', code: 'A5' },
+      { name: '부산/경남', code: 'A6' },
+      { name: '서울', code: 'A7' },
+      { name: '제주', code: 'A8' }
+  ];
     return (
 
     <div className='rvChoice'>
@@ -35,60 +47,19 @@ const RvinnerHeader = () => {
     </div>
 
     <div>지역선택
-    <div>
-    <Multiselect
-    placeholder="선택하세요"
-  displayValue="key"
-  onKeyPressFn={function noRefCheck(){}}
-  onRemove={function noRefCheck(){}}
-  onSearch={function noRefCheck(){}}
-  onSelect={function noRefCheck(){}}
-  options={[
-    {
-      cat: 'Group 1',
-      key: '강원'
-    },
-    {
-      cat: 'Group 1',
-      key: '경기/인천'
-    },
-    {
-      cat: 'Group 1',
-      key: '광주/전라'
-    },
-    {
-      cat: 'Group 2',
-      key: '대구/울산/경북'
-    },
-    {
-      cat: 'Group 2',
-      key: '대전/충청'
-    },
-    {
-      cat: 'Group 2',
-      key: '부산/경남'
-    },
-    {
-      cat: 'Group 2',
-      key: '서울'
-    },
-    {
-      cat: 'Group 2',
-      key: '제주'
-    }
-  ]}
-  showCheckbox
-/>
+        <div className="card flex justify-content-center">
+            <Dropdown value={selectedCity} onChange={(e) => setSelectedCity(e.value)} options={cities} optionLabel="name" 
+                placeholder="" className="w-full md:w-14rem" />
         </div>
+   
+        
     </div>
+
+
+
     <div>세부검색
     <div>
         <input />
-        {/* <select>
-            <option>06-08</option>
-            <option>06-09</option>
-            <option>06-10</option>
-        </select> */}
         </div>
     </div>
     </div>

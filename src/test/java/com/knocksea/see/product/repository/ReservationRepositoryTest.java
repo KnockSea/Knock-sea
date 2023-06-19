@@ -49,7 +49,7 @@ class ReservationRepositoryTest {
 
         Reservation reserve = Reservation.builder()
                 .reservationType("ship")
-                .reservationDate("날짜: " + time.getTimeDate() + "/시간: " + time.getTimeStart() + ":" + time.getTimeEnd())
+                //.reservationDate("날짜: " + time.getTimeDate() + "/시간: " + time.getTimeStart() + ":" + time.getTimeEnd())
                 .reservationAddress("집합장소")
 //                .reservationUserCount(2)
                 .reservationPrice(product.getProductPrice() * BASE_PRICE)
