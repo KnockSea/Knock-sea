@@ -19,6 +19,13 @@ import MpRvlist from './mypage/MpRvlist'
 import RvFsDetail from './fishingspot/RvFsDetail'
 import RvFsTemplate from './fishingspot/RvFsTemplate'
 import WeeklyWeather from './WeeklyWeather'
+import SignUpForm from './account/SignUpForm'
+import Login from './account/Login'
+import ClassMain from './class/ClassMain'
+import ClassDetail from './class/ClassDetail'
+import OwnerCheckMain from './ownercheck/OwnerCheckMain'
+import OwnerCheckShip from './ownercheck/OwnerCheckShip'
+import OwnerCheckFishing from './ownercheck/OwnerCheckFishing'
 import MpQueryText from './mypage/MpQueryText'
 
 
@@ -41,7 +48,15 @@ const NsMain = () => {
             <Route path='/inquire' element={<MpInquire/>}></Route>
             <Route path='/rvlist' element={<MpRvlist/>}></Route>
             <Route path='/fs' element={<RvFsTemplate/>}></Route>
+            <Route path='/join' element={<SignUpForm/>}></Route>
+            <Route path='/login' element={<Login/>}></Route>
+            <Route path='/class' element={<ClassMain/>}></Route>
+            <Route path='/classdetail' element={<ClassDetail/>}></Route>
+            <Route path='/ownercheck' element={<OwnerCheckMain/>}></Route>
+            {/* <Route path="/ship" element={<OwnerCheckShip/>} ></Route>
+            <Route path="/fishing" element={<OwnerCheckFishing/>} ></Route>   */}
             <Route path='/myquery' element={<MpQueryText/>}></Route>
+
         </Routes>
         {/* <div className='banner'><img src={banner} /></div> */}
         {/* <NsBanner />
