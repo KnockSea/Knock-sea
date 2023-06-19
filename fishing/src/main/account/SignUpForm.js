@@ -1,20 +1,25 @@
-import React, { useState,useEffect  } from 'react';
+import React, { useState,useEffect, useRef  } from 'react';
 import './scss/SignUpForm.scss';
 import { Route, Routes } from 'react-router-dom';
 import Post from './Post';
 import ProfileUpload from './ProfileUpload';
+import { API_BASE_URL as BASE, USER } from '../config/host-config';
 
 
 function SignUpForm(){
 
+  const API_BASE_URL = BASE + USER;
+
+  const $fileTag = useRef();
+
   // 상태변수 관리들
   const [userValue, setUserValue] = useState({
-    userEmail: false, 
-    userPassword: false, 
-    userAddress: "주소 검색을 클릭해주세요",
-    userFullAddress: false,
-    userName: false,
-    userPhone: false
+    userEmail: '', 
+    userPassword: '', 
+    userAddress: '',
+    userFullAddress: '',
+    userName: '',
+    userPhone: ''
   });
 
   const [popup, setPopup] = useState(false);
@@ -29,12 +34,13 @@ function SignUpForm(){
 
 
   const [message, setMessage] = useState({
-    userEmail: false, 
-    userPassword: false,
-    userPasswordChk: false,
-    userFullAddress: false,
-    userName: false,
-    userPhone: false
+    userEmail: '', 
+    userPassword: '',
+    userPasswordChk: '',
+    userAddress: '',
+    userFullAddress: '',
+    userName: '',
+    userPhone: ''
   });
 
     // 검증 완료 체크에 대한 상태변수 관리
@@ -42,29 +48,31 @@ function SignUpForm(){
       userEmail: false, 
       userPassword: false, 
       userPasswordChk: false,
+      userAddress: false,
+      userFullAddress: false,
       userName: false,
       userPhone: false
   });
   
 
 // 검증데이터를 상태변수에 저장하는 함수
-  const saveInputState=({
-    key, inputVal, flag, msg})=>{
+  const saveInputState=({key, inputVal, flag, msg})=>{
+    
     inputVal !== 'pass' && setUserValue({
-    ...userValue,
-    [key]: inputVal
-  });
+      ...userValue,
+      [key]: inputVal
+    });
 
-  setMessage({
-    ...message,
-    [key] : msg
-  });
+    setMessage({
+      ...message,
+      [key] : msg
+    });
 
-  setCorrect({
-    ...correct,
-    [key]: flag
-  });
-}
+    setCorrect({
+      ...correct,
+      [key]: flag
+    });
+  }
 
   // 회원가입페이지 입력 검증
   // 이메일 입력
@@ -74,6 +82,7 @@ function SignUpForm(){
     const emailRegex = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     let msg;
     let flag;
+    
     if(!inputVal) {
       msg = '이메일(ID로 사용)을 작성해주세요.';
       flag = false;
@@ -245,13 +254,13 @@ function SignUpForm(){
         userData.append('userFullAddress', userValue.userFullAddress);
         userData.append('userName', userValue.userName);
         userData.append('userPhone', userValue.userPhone);
-        userData.append('profileImage', profileImage);
+        userData.append('profileImage', $fileTag.current.files[0]);
     
         // fetch를 사용하여 회원가입 요청 보내기
-        fetch('account/signup', {
+        fetch(API_BASE_URL + "/" + 'register', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'content-Type': 'application/json'
           },
           body: JSON.stringify(userData)
         })
@@ -303,7 +312,7 @@ function SignUpForm(){
                     name="userEmail"
                     onChange={emailHandler}
                     className="form-control"
-                    maxLength="15"
+                    maxLength="30"
                     required
                     aria-required="true"
                     placeholder="계정으로 사용할 이메일 입력"
