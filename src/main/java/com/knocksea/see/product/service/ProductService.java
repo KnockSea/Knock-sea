@@ -101,7 +101,8 @@ public class ProductService implements ProductDetailService {
 
         if (shipRepository.findByUser(user) == null && fishingSpotRepository.findByUser(user) == null) {
             throw new RuntimeException("배 또는 낚시터 정보를 등록해 주세요.");
-            // 에러를 다르게
+
+            // 에러를 다르게해서 배, 낚시터 등록 폼으로 넘겨 버릴까?
         }
 
         if (productRepository.existsByProductTypeAndUserUserId(dto.getProductLabelType(), dto.getUserId())) {
