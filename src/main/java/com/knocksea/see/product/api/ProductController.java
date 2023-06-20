@@ -1,6 +1,7 @@
 package com.knocksea.see.product.api;
 
 import com.knocksea.see.auth.TokenUserInfo;
+import com.knocksea.see.exception.NoneMatchUserException;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
 import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
 import com.knocksea.see.product.service.ProductService;
@@ -23,7 +24,10 @@ public class ProductController {
     // 상품 등록
     @PostMapping
     public ResponseEntity<?> createProduct(
-            @Validated @RequestBody ProductRequestDTO dto, BindingResult result) throws Exception {
+
+            @Validated @RequestBody ProductRequestDTO dto, BindingResult result
+    , @AuthenticationPrincipal TokenUserInfo userInfo) throws RuntimeException {
+
 //        유저 정보 dto에서 빼서 토큰에서 뜯어 와야 된당
 //        @AuthenticationPrincipal TokenUserInfo userInfo
 //        이미지도 받아서 @RequestPart로 바꾸고 dto도 body-> part로 변경 해야됌
@@ -36,10 +40,10 @@ public class ProductController {
         }
 
         try {
-            ProductDetailResponseDTO productDetailResponseDTO = productService.create(dto);
+            ProductDetailResponseDTO productDetailResponseDTO = productService.create(dto, userInfo);
             return ResponseEntity.ok().body(productDetailResponseDTO);
         } catch (RuntimeException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -59,14 +63,18 @@ public class ProductController {
     @DeleteMapping("/remove/{productId}")
     public ResponseEntity<?> removeProduct(
             @PathVariable Long productId
-            , @AuthenticationPrincipal TokenUserInfo userInfo)
+            , @AuthenticationPrincipal TokenUserInfo userInfo) throws RuntimeException, NoneMatchUserException
     {
+        try {
+            boolean flag = productService.delete(productId, userInfo);
+            if (flag) {
+                return ResponseEntity.internalServerError().body("상품 삭제에 실패하였습니다.");
+            }
+            return ResponseEntity.ok().body("삭제가 완료되었습니다.");
 
-//        productService.delete()
-
-
-
-        return null;
+        } catch (RuntimeException e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
@@ -77,4 +85,13 @@ public class ProductController {
         return ResponseEntity.ok().body(modify);
 
     }
+
+    @GetMapping("/main")
+    public ResponseEntity<?> mainPage() {
+
+        productService.showMainList();
+
+        return null;
+    }
+
 }
