@@ -49,6 +49,7 @@ public class Ship {
 
 
     @OneToMany(mappedBy = "ship", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<SeaImage> images = new ArrayList<>();
 
 

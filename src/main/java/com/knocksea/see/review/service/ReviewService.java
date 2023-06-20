@@ -65,6 +65,7 @@ public class ReviewService {
                 dto.getSize(),
                 Sort.by("inquiryDateTime").descending()
         );
+        log.info("TokenUserId - {}", TokenUserId);
         User user = userRepository.findById(TokenUserId).orElseThrow();
         Page<Review> byUserId = reviewRepository.findByUser(user, pageable);
         List<Review> userList = byUserId.getContent();
@@ -72,6 +73,8 @@ public class ReviewService {
                 .map(ReviewDetailResponseDTO::new)
                 .collect(Collectors.toList());
 
+        log.info("byUserId - {}", byUserId);
+        log.info("detailList - {}", detailList);
 
         return ReviewListResponseDTO.builder()
                 .count(userList.size())
@@ -104,7 +107,7 @@ public class ReviewService {
     public void deleteReview(Long reviewId, Long TokenUserId) throws RuntimeException, SQLException {
         Review review = reviewRepository.findById(reviewId).orElseThrow();
         if (review.getUser().getUserId().equals(TokenUserId)){
-        reviewRepository.deleteById(reviewId);
+            reviewRepository.deleteById(reviewId);
         }
     }
 }

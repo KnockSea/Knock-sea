@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import DaumPostcode from "react-daum-postcode";
 
-const Post = (props) => {
-  const userAddress = props.userAddress;
-  const setAddress = props.setAddress;
-  const [isMounted, setIsMounted] = useState(false);
+const Post = ({getAddress}) => {
+  // const userAddress = props.userAddress;
+  // const setAddress = props.setAddress;
+
+  const [address, setAddress] = useState('');
+    const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -15,8 +17,8 @@ const Post = (props) => {
   }, []);
 
   const onCompletePost = (data) => {
-    console.log("com", data.address);
-    setAddress(data.address);
+    // console.log("com", data.address);
+    getAddress(data.address);
   };
 
   const postCodeStyle = {

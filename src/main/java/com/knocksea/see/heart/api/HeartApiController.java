@@ -1,5 +1,6 @@
 package com.knocksea.see.heart.api;
 
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.heart.dto.request.HeartCreateDTO;
 import com.knocksea.see.heart.dto.response.HeartDetailResponseDTO;
 import com.knocksea.see.heart.service.HeartService;
@@ -8,6 +9,7 @@ import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -24,10 +26,12 @@ public class HeartApiController {
 
     @PostMapping
     public ResponseEntity<?> create(
+            @AuthenticationPrincipal TokenUserInfo userInfo,
             @Validated @RequestBody HeartCreateDTO dto
             , BindingResult result
     ) {
         log.info("/api/v1/hearts ReviewCreateDTO POST!! - {}", dto);
+        log.info("userInfo - {}", userInfo);
 
         if (dto == null) {
             return ResponseEntity
@@ -38,11 +42,15 @@ public class HeartApiController {
         if (fieldErrors != null) return fieldErrors;
 
         try {
-            HeartDetailResponseDTO responseDTO = heartService.createHeart(dto);
+//            boolean isLiked = heartService.checkIfLiked(userInfo, dto);
+            boolean heart = heartService.createAndDeleteHeart(userInfo.getUserId(), dto);
+
             return ResponseEntity
-                    .ok()
-                    .body(responseDTO);
-        } catch (RuntimeException e) {
+                       .ok()
+                       .body(heart);
+
+
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity
                     .internalServerError()
@@ -50,23 +58,8 @@ public class HeartApiController {
         }
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> delete(
-            @PathVariable Long heartId
-    ) {
-        log.info("/api/v1/hearts/{}  DELETE!! ", heartId);
 
-        try {
-            heartService.deleteHeart(heartId);
-            return ResponseEntity
-                    .ok("DEL SUCCESS!!");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity
-                    .internalServerError()
-                    .body(e.getMessage());
-        }
-    }
+
 
     private static ResponseEntity<List<FieldError>> getValidatedResult(BindingResult result) {
         if (result.hasErrors()) { // 입력값 검증에 걸림
@@ -81,4 +74,5 @@ public class HeartApiController {
         }
         return null;
     }
+
 }
