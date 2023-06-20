@@ -2,26 +2,32 @@
 .calendar-content {
     display: flex;
     justify-content: space-between;
-    margin: 20px;
+    margin: 10px;
 
     input {
         display: none;
     }
 
+    h2 {
+      font-size: 20px;
+    }
+    
+
 }
 .custom-calendar {
     position: relative;
-    transform: translate(-98%, -10%);
+    transform: translate(-68%, -50px);
     width: 500px;
-    height: 340px;
-    border: none;
+    height: 265px;
+    border: 1px solid #e9e9e9;
+    // border: none;
 
     .react-datepicker__triangle {
       display: none;
     }
     
     .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
-      margin: 10px 21px;
+      margin: 5px 21px;
       font-size: 15px;
     }
   

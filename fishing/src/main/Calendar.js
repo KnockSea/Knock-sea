@@ -4,11 +4,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ko from 'date-fns/locale/ko';
 import './scss/Calendar.scss';
 
-const Calendar = () => {
+const Calendar = ({  handleDateChange }) => {
   const [selectedDate, setSelectedDate] = useState(null);
 
-  const handleDateChange = (date) => {
+  const handleChange = (date) => {
     setSelectedDate(date);
+    handleDateChange(date); 
   };
 
   return (
@@ -24,7 +25,7 @@ const Calendar = () => {
      
       <DatePicker
         selected={selectedDate}
-        onChange={handleDateChange}
+        onChange={handleChange}
         dateFormat="yyyy년 MM월 dd일"
         open 
         calendarClassName="custom-calendar"

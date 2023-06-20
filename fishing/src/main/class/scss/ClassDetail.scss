@@ -11,7 +11,7 @@ body{
 .class-detail-container {
     width: 1136px;
     min-width: 700px;
-    margin: 80px auto;
+    margin: 50px auto;
 }
 
 
@@ -56,41 +56,42 @@ body{
     display: flex;
     justify-content: space-between;
     margin: 30px 0;
-}
 
-.detail-left-section {
-    width: 69%;
-    height: 5000px;
 
-    span {
-        font-size: 25px;
-        // border: 1px solid #000;
-        display: block;
-        margin-bottom: 60px;
+    .detail-left-section {
+        width: 69%;
+        height: 5000px;
+        position: sticky;
+
+        span {
+            font-size: 25px;
+            // border: 1px solid #000;
+            display: block;
+            margin-bottom: 60px;
+            }
+
+
+        .detail-content {
+            border: 1px solid #000;
+            margin: 0 auto;
+            padding: 15px;
         }
-
-
-    .detail-content {
-        border: 1px solid #000;
-        margin: 0 auto;
-        padding: 15px;
     }
+
+    .detail-right-section {
+        width: 29%;
+        height: fit-content;
+        position: sticky;
+        top: 80px;
+        overflow-y: auto; 
+        // border: 1px solid #000;
+    } 
+
 }
-
-.detail-right-section {
-    width: 29%;
-    height: fit-content;
-    position: sticky;
-    top: 10px;
-    overflow-y: auto; 
-    // border: 1px solid #000;
-} 
-
-
 
 /* 클래스 우측 하단부(예약) 영역 */
 .detail-box {
-    // border: 1px solid #000;
+    // border: 1px solid #000;ㅡ
     margin-bottom: 20px;
 
     .detail-list-title {
@@ -108,7 +109,6 @@ body{
         .btn {
             margin: 20px auto;
             text-align: center;
-            line-height: 40px;
             width: 80%;
             height: 40px;
             color: #fff;
@@ -124,7 +124,7 @@ body{
 /* 하단부 업체 프로필 영역 */
 .detail-list-profile {
     text-align: center;
-    border: 1px solid #d3d3d3;
+    border: 1px solid #cccccc;
     box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 
@@ -154,7 +154,8 @@ body{
         
         .condition-box { 
             display: flex;
-            background: #f7faff;
+            background: #eef2fa;
+            border-radius: 5px;
             justify-content: space-around;
             padding: 20px;
             
