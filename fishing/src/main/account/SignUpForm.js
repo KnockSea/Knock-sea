@@ -1,11 +1,27 @@
-import React, { useState,useEffect  } from 'react';
+import React, { useState,useEffect, useRef  } from 'react';
 import './scss/SignUpForm.scss';
 import { Route, Routes } from 'react-router-dom';
 import Post from './Post';
 import ProfileUpload from './ProfileUpload';
 
 
+// 리다이렉트 사용하기
+
+import { useNavigate, Link } from 'react-router-dom';
+import { API_BASE_URL as BASE , USER } from '../../config/host-config';
 function SignUpForm(){
+
+
+  // useRef로 태그 참조하기
+  const $fileTag = useRef();
+
+  // 리다이렉트 사용하기
+  const redirection = useNavigate();
+
+  const API_BASE_URL = BASE + USER;
+  // console.log(API_BASE_URL);
+
+
 
   // 상태변수 관리들
   const [userValue, setUserValue] = useState({
@@ -248,31 +264,46 @@ function SignUpForm(){
         userData.append('profileImage', profileImage);
     
         // fetch를 사용하여 회원가입 요청 보내기
-        fetch('account/signup', {
+        fetch(API_BASE_URL , {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(userData)
         })
-          .then(response => response.json())
-          .then(data => {
-            // 회원가입 성공 시 처리할 로직 작성
-            console.log('회원가입 성공:', data);
-            alert('회원가입이 완료되었습니다.');
-            // 회원가입 완료 후 리다이렉트 등을 수행할 수 있습니다.
-          })
-          .catch(error => {
-            // 회원가입 실패 시 처리할 로직 작성
-            console.error('회원가입 실패:', error);
-            alert('회원가입에 실패했습니다. 다시 시도해주세요.');
-          });
+        .then(response => response.json())
+        .then(data => {
+          // 회원가입 성공 시 처리할 로직 작성
+          console.log('회원가입 성공:', data);
+          alert('회원가입이 완료되었습니다.');
+          // 회원가입 완료 후 리다이렉트 등을 수행할 수 있습니다.
+        })
+        .catch(error => {
+          // 회원가입 실패 시 처리할 로직 작성
+          console.error('회원가입 실패:', error);
+          alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+        });
       } else {
         alert('입력란을 다시 확인해주세요!');
       }
     };
-    
 
+
+    
+// 회원가입 버튼 클릭 이벤트 핸들러
+const joinButtonClickHandler = e => {
+
+  e.preventDefault();
+
+  // 회원가입 서버 요청
+  if(isValid()){
+    handleSignUp();
+    alert(`회원가입 정보를 서버에 전송합니다`)
+  }else {
+    alert(`입력란을 다시 확인해주세요`)
+  }
+
+};
 
   
   
@@ -419,7 +450,10 @@ function SignUpForm(){
 
             </ul>
             <div className="sign-up-btn">
-              <button type="submit" className="btn">
+              <button 
+              type="submit" 
+              className="btn"
+              onClick={joinButtonClickHandler}>
                 회원가입
               </button>
             </div>
