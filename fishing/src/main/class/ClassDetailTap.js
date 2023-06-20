@@ -7,9 +7,9 @@ const ClassDetailTap = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     scroller.scrollTo(tab, {
-      duration: 500,
+      duration: 200,
       smooth: 'easeInOutQuart',
-      offset: -100, // 스크롤 위치의 오프셋 (필요에 따라 조정)
+      offset: -150, // 스크롤 위치의 오프셋 (필요에 따라 조정)
     });
   };
 
@@ -22,7 +22,7 @@ const ClassDetailTap = () => {
             to='소개'
             spy={true}
             smooth={true}
-            duration={500}
+            duration={100}
             onClick={() => handleTabClick('소개')}
           >
             클래스 소개
@@ -34,8 +34,9 @@ const ClassDetailTap = () => {
             to='장소'
             spy={true}
             smooth={true}
-            duration={500}
+            duration={100}
             onClick={() => handleTabClick('장소')}
+            className='custom-link'
           >
             장소 소개
           </Link>
@@ -46,8 +47,9 @@ const ClassDetailTap = () => {
             to='후기'
             spy={true}
             smooth={true}
-            duration={500}
+            duration={100}
             onClick={() => handleTabClick('후기')}
+            className='custom-link'
           >
             수강 후기
           </Link>

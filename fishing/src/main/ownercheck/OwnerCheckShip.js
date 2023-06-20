@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './scss/OwnerCheck.scss';
+import OwnerCheckHeader from './OwnerCheckHeader';
 
 function OwnerCheckShip() {
   const [shipConfirmImage1, setShipConfirmImage1] = useState(null);
@@ -51,6 +52,7 @@ function OwnerCheckShip() {
                   />
                 </div>
               </li> */}
+              <OwnerCheckHeader />
               <li>
                 <div>선박 등록증<span className="imp">*</span></div>
                 <div>

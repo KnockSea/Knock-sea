@@ -1,6 +1,7 @@
 package com.knocksea.see.edu.service;
 
-import com.knocksea.see.edu.dto.response.EduTopFourResponseDTO;
+import com.knocksea.see.edu.dto.response.EduListDataResponseDTO;
+import com.knocksea.see.edu.dto.response.EduTopFourListResponseDTO;
 import com.knocksea.see.edu.dto.response.EduListResponseDTO;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
@@ -13,6 +14,7 @@ import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.repository.ReservationRepository;
 import com.knocksea.see.product.repository.ReservationTimeRepository;
+import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.repository.ReviewRepository;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.UserRepository;
@@ -26,8 +28,10 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -40,25 +44,23 @@ public class EduService {
     private final UserRepository userRepository;
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewRepository;
-
     private final HeartRepository heartRepository;
     public List<ReservationTime> timeList;
 
     //좋아요 상위 4개 조회
-    public EduTopFourResponseDTO findTopFour(){ 
+    public EduTopFourListResponseDTO findTopFour(){
         //like 테이블에서 좋아요 개수가 제일 높은 4개를 찾아서 그 eduId를 찾음. eduId로 edu테이블에서 찾음
+        //정 안되면 Edu 테이블에 좋아요 칼럼 만들기
+        List<EduTopFourListResponseDTO> likeRank = heartRepository.findLikeRank(); //4개를 찾음
+        log.info("likeRank : "+likeRank);
 
-        List<Edu> likeRank = heartRepository.findLikeRank();
-        /*likeRank.setMaxResults(4);
-        List<Heart> resultList = likeRank.getResultList();
-
-        resultList.get(0).getEdu().getEduId();*/
         return null;
-
     }
 
     //전체 조회
-    public EduListResponseDTO getAllEdu(PageDTO dto) {
+    public List<EduListDataResponseDTO> getAllEdu(PageDTO dto) {
+        //유저이름, 리뷰 평점, 위치, 가격, 제목
+        //User,heart
         //Pageable 객체 생성
         Pageable pageable = PageRequest.of(
                 dto.getPage()-1,
@@ -68,13 +70,42 @@ public class EduService {
 
         //데이터베이스에서 게시물 목록 조회
         Page<Edu> allEdu = eduRepository.findAll(pageable);
-        log.info("allEdu: "+allEdu);
+        // 유저이름 - 유저
+        // 리뷰평점 - 리뷰
+        // 위치, 가격, 제목 - 에듀
+        List<Edu> content = allEdu.getContent();
+        log.info("content : "+content);
 
-        Page<ReservationTime> allReservationTimeRepository = reservationTimeRepository.findAll(pageable);
-        log.info("allReservationTimeRepository : "+allReservationTimeRepository);
+        List<EduListDataResponseDTO> list = content.stream().map( edu -> {
+            EduListDataResponseDTO edus = new EduListDataResponseDTO(edu);
+            double reviewTotal = 0;
+            User user = userRepository.findById(edu.getUser().getUserId()).get();
+            edus.setUserName(user.getUserName());
+            List<Review> reviews = edu.getReviews();
+
+            for (Review review : reviews) {
+                reviewTotal += review.getReviewRating();
+            }
+            log.info("리뷰 토탈~ : {}", reviews.size());
+            double reviewAverage = reviewTotal / reviews.size();
+            if(reviewAverage>0) {
+                edus.setReviewAverage(reviewAverage);
+            }else {
+                edus.setReviewAverage(0);
+            }
+            return edus;
+        }).collect(Collectors.toList());
+
+//        List<EduDetailResponseDTO> eduList = allEdu.stream()
+//                .map(edu -> new EduDetailResponseDTO(edu))
+//                .collect(Collectors.toList());
+
+//
+//        log.info("eduList : "+eduList.size());
+//        log.info("eduList : "+eduList.get(0).getEduTitle());
 
 
-        return null;
+        return list;
     }
 
     // 상품 상세조회 기능 (예약 가능 시간 정보 포함)
@@ -107,7 +138,7 @@ public class EduService {
         log.info("userId : "+userId);
         log.info("byId : "+byId);
 
-       if (eduRepository.findByUserUserId(user)!=null){
+        if (eduRepository.findByUserUserId(user)!=null){
             throw new RuntimeException("이미 등록한 클래스가 있습니다.");
         }
 

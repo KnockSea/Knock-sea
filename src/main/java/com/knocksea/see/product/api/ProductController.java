@@ -24,8 +24,10 @@ public class ProductController {
     // 상품 등록
     @PostMapping
     public ResponseEntity<?> createProduct(
+
             @Validated @RequestBody ProductRequestDTO dto, BindingResult result
     , @AuthenticationPrincipal TokenUserInfo userInfo) throws RuntimeException {
+
 //        유저 정보 dto에서 빼서 토큰에서 뜯어 와야 된당
 //        @AuthenticationPrincipal TokenUserInfo userInfo
 //        이미지도 받아서 @RequestPart로 바꾸고 dto도 body-> part로 변경 해야됌
@@ -43,6 +45,8 @@ public class ProductController {
         } catch (RuntimeException e) {
 //            e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

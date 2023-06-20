@@ -38,6 +38,10 @@ jwt:
 upload:
   path: D:/knocksea_upload
 
+#마이바티스
+mybatis:
+  config-location: classpath:mybatis-config.xml
+
 kakao:
   admin:
     key: b0e82271a5b48b26d2e65429c52085c1
