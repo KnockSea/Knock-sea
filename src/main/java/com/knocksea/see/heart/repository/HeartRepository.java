@@ -11,13 +11,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.persistence.TypedQuery;
+
 import java.util.List;
 
 public interface HeartRepository extends JpaRepository<Heart, Long> {
     boolean existsByUserAndHeartTypeAndEduOrProduct(User user, HeartType heartType, Edu edu, Product product);
 
+
 /*    @Query(value = "SELECT edu_id FROM sea_like GROUP BY edu_id ORDER BY COUNT(edu_id) DESC)", nativeQuery = true)
     TypedQuery<Heart> findLikeRank();*/
+    //제품으로 좋아요 리스트 뽑아오는 기능
+    @Query("SELECT h FROM Heart h WHERE h.product = :product")
+    List<Heart> findByProduct(Product product);
 
 
 //    @Query(value = "SELECT distinct * FROM sea_like e JOIN sea_product_edu h GROUP BY e.edu_id ORDER BY COUNT(e.edu_id) desc limit 0,4", nativeQuery = true)

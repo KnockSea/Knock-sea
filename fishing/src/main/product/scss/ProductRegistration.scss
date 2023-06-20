@@ -1,0 +1,214 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Noto Sans', 'Source Sans Pro';
+}
+
+body {
+    background-color: #ffffff;
+}
+
+.container {
+    width: 1136px;
+    min-width: 700px;
+    margin: 100px auto 0;
+    /* border: 1px solid #000; */
+}
+
+span[id] {
+    display: block;
+    width: 200px;
+    padding: 5px 0 0 15px;
+}
+
+/* 상품 등록 상단부 */
+hr {
+    margin-top: 40px;
+}
+.product-regi-header {
+    padding: 30px 0 0;
+    text-align: center;
+    background: #ffffff;
+}
+
+.product-regi-header .head-title {
+    font-size: 25px;
+    font-weight: 700;
+
+    img {
+        margin: 20px;
+        width: 80px;
+        height: 80px;
+    }
+}
+
+
+/*  상품 등록 중앙부 */
+.product-regi-body {
+    position: relative;
+}
+
+.product-regi-body ul li .category {
+    display: flex;
+    width: 450px;
+    margin-top: 30px;
+}
+
+.product-regi-body ul li .category-select {
+    background-color: #b9b9b9;
+    border-radius: 20px;
+    color: #ffffff;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    line-height: 40px;
+    margin-right: 50px;
+    cursor: pointer;
+
+    &:hover, &:focus {
+        background-color: #123282;
+    }
+  }
+
+.product-regi-body ul {
+    padding: 0;
+    width: 680px;
+    margin: 0 auto;
+    padding: 30px auto;
+}
+
+.product-regi-body li {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 30px;
+    /* margin-left: 140px; */
+    list-style: none;
+}
+.calendar {
+    position: sticky;
+    right: -50px;
+    transform: translate(14%, -8%);
+}
+
+.product-regi-body li .regi-title, .category div {
+    font-size: 15px;
+    width: 200px;
+    text-align: left;
+}
+.product-regi-body ul li span{
+    width: 320px;
+}
+
+.product-regi-body li .form-control {
+    width: 450px;
+    height: 40px;
+    padding-left: 10px;
+    border: 1px solid #d9d9de;
+    border-radius: 5px;
+}
+
+.filebox label {
+    width: 130px;
+    color: #123282;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 7px;
+    background: #fff;
+    border: 1px solid #123282;
+    cursor: pointer;
+    -webkit-transition: background-color 0.2s;
+    transition: background-color 0.2s;    
+  }
+  
+  .filebox label:hover {
+    background-color: #5a73b4;
+    border: 1px solid #5a73b4;
+    color: #FFF;
+  }
+  
+  .filebox .filebox-upload {
+    display: flex;
+    justify-content: space-between;
+  }
+  .filebox-upload p {
+    margin-left: 30px;
+    margin-top: 10px;
+    width: 300px;
+    font-size: 13px;
+  }
+
+  .filebox-upload div .form-control {
+    height: 30px;
+  }
+
+  .time-box input {
+    margin: 7px 15px;
+  }
+
+/*  상품 등록 하단부 */
+.product-regi-footer {
+    /* border: 1px solid #000; */
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.product-regi-footer .btn {
+    background:#123282;
+    margin: 20px;
+
+    width: 200px;
+    height: 40px;
+    border-style: none;
+    border-radius: 10px;
+
+    font-size: 1em;
+    color: white;
+
+    cursor: pointer;
+}
+
+.product-regi-footer .btn:hover {
+    background: #fff;
+    border: 1px solid #123282;
+    color : #123282;
+}
+
+/* 기타 */
+.imp {
+    color: red;
+    font-weight: 700;
+}
+
+.plus-btn button {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+    padding-bottom: 5px;
+    background-color: #123282;
+    color: #ffffff;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover {
+        background: #5a73b4;
+        border: 1px solid #5a73b4;
+        color : #ffffff;
+        -webkit-transition: background-color 0.2s;
+        transition: background-color 0.2s;  
+    }
+      
+}
+
+.difficulty .category {
+
+    label{
+        margin-left: 3px;
+        margin-right: 20px;
+    }
+    }

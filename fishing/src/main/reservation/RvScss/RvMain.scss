@@ -1,45 +1,61 @@
-
 .rvMain {
-    width: 90%;
-    border: 1px solid #000;
+    width: 95%;
+    // border: 1px solid #000;
     margin: 0 auto;
-    height: 600px;
+    height: 800px;
+    margin-top: 30px;
 
     display: flex;
+    justify-content: space-between;
     .rvContent {
-        width: 70%;
-        height: 600px;
-        background: rebeccapurple;
-        
-        
-        .rvChoice {
-           
-            
-           border-bottom: 1px solid #DDDDDD;
+        width: 79%;
+        // height: 800px;
+        // background: rebeccapurple;
+        // display: flex;
+        // justify-content: space-around;
 
-            height: 100px;
-            
-            .rvbox {
 
-                 display: flex;
-            text-align: center;
-            align-items: center;
+        .x1 {
+            font-size: 7px;
+            color: #DDDDDD;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .cardBox {
+            display: flex;
             justify-content: space-around;
 
-            }
-            button {
-                float: left;
-                margin-top: 10px;
-                margin-left: 126px;
-            }
-  
+           
+
+
         }
+
+
+
     }
 
     .rvApibox {
-        width: 30%;
-        height: 600px;
-        background: green;
+        width: 20%;
+        height: 800px;
+        // background: green;
+        div {
+            font-weight: 700;
+        }
+        .mapbox {
+            
+            margin-top: 50px;
+
+            width: 100%;
+            height: 50%;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+  
     }
 
 }

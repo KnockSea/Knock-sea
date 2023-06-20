@@ -5,6 +5,7 @@ import com.knocksea.see.user.dto.request.LoginRequestDTO;
 import com.knocksea.see.user.dto.request.UserDeleteRequest;
 import com.knocksea.see.user.dto.request.UserModifyRequestDTO;
 import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
+import com.knocksea.see.user.dto.response.EntireInfoResponseDTO;
 import com.knocksea.see.user.dto.response.LoginResponseDTO;
 import com.knocksea.see.user.dto.response.UserModifyresponseDTO;
 import com.knocksea.see.exception.DuplicatedEmailException;
@@ -186,6 +187,7 @@ public class UserApiController {
     }
 
 
+    //파일 이미지 검증
     private MediaType findExtensionAndGetMediaType(String filePath) {
         //파일 경로에서 확장자 추출하기
         //D:/todo_upload/kfasdasdsa_abc.jpg
@@ -202,6 +204,25 @@ public class UserApiController {
                 return null;
         }
     }
+
+    @GetMapping("/load-myList")
+    public ResponseEntity<?> loadEntireInfo(
+            @AuthenticationPrincipal TokenUserInfo userInfo
+    ){
+
+        try {
+            EntireInfoResponseDTO entireInfo = userService.getEntireInfo(userInfo);
+            return ResponseEntity.ok().body(entireInfo);
+
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("좋아요/리뷰 리스트를 얻어오는데 실패했습니다");
+        }
+
+
+    }
+
+
+
 
 
 

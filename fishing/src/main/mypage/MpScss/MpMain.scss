@@ -1,0 +1,125 @@
+.MyPageMainBox {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    // border: 1px solid #000;
+    justify-content: space-around;
+    .mainbox1{
+        // border: 1px solid #000;
+        // background: orange;
+        width: 80%;
+        .mychoicebox {
+            display: flex;
+            // justify-content: space-evenly;
+            // margin-right: 600px;
+            :nth-child(2){
+                margin-left: 50px;
+            }
+            :nth-child(3){
+                margin-left: 50px;
+            }
+            :nth-child(4){
+                margin-left: 50px;
+            }
+            h1 {
+                width: fit-content;
+                font-size: 25px;
+                padding: 5px;
+                font-weight: 700;
+                border-bottom: 3px solid #123282;
+                
+               
+            }
+            
+        }
+        .userinfobox {
+            // width: 100%;
+            display: flex;
+           height: 300px;
+            justify-content: space-between;
+            // background: gray;
+            // border-right: 1px solid #000;
+            border-bottom: 1px solid #DDDDDD;
+            .profilebox {
+                width: 120px;
+                height: 100px;
+                border: 1px solid #000;
+                border-radius: 55%;
+            }
+
+            .namebox{
+                border: 1px solid #000;
+                // background: red;
+                margin-top: 20px;
+                margin-right: 250px;
+                height: fit-content;
+                .nickName {
+                    font-weight: 700;
+                    font-size: 18px;
+                }
+                div {
+                    font-size: 10px;
+                }
+            }
+
+            .btbox {
+                position: relative;
+                bottom: -200px;
+               margin-right: 20px;
+            //    background: #123282;
+               .isbtn {
+                margin-right: 20px;
+               }
+               button {
+                background: #123282;
+                color: white;
+                font-weight: 700;
+               border-radius: 10px;
+               border: #123282;
+                
+               }
+            }
+        }
+        .rvbox {
+            margin-top: 10px;            height: 300px;
+            // float: left;
+            text-align: left;
+            border-bottom: 1px solid #DDDDDD;
+            h2 {
+                font-weight: 700;
+            }
+        }
+        .rvbox2 {
+            height: 300px;
+            margin-top: 10px;
+            // float: left;
+            text-align: left;
+            h2 {
+                font-weight: 700;
+            }
+        }
+    }
+
+    .list {
+        width: 11%;
+        background: #123282;
+        padding: 10px;
+        border-radius: 0px 15px 15px 0px;
+        height: fit-content;
+
+        list-style-type: none;
+        color: white;
+
+        padding-bottom: 80px;
+        position: relative;
+        top: -70px;
+        li {
+            margin-top: 10px;
+            text-align: left;
+        }
+        .my {
+            margin-bottom: 60px;
+        }
+
+    }
+}
