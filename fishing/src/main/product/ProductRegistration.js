@@ -6,22 +6,24 @@ import RegiTime from './RegiTime.js';
 
 
 function ProductRegistration() {
+  const [labelType, setLabelType] = useState('');
+
   const [title, setTitle] = useState('');
-  const [place, setPlace] = useState('');
+  const [locationInfo, setLocationInfo] = useState('');
   const [photo1, setPhoto1] = useState('');
   const [photo2, setPhoto2] = useState('');
   const [price, setPrice] = useState('');
-  const [people, setPeople] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [date, setDate] = useState('');
-  const [detailExp, setDetailExp] = useState('');
+  const [maxUser, setMaxUser] = useState('');
+  const [service, setService] = useState('');
   const [timeBoxes, setTimeBoxes] = useState([1]);
   const [step1, setStep1] = useState('');
   const [step2, setStep2] = useState('');
   const [step3, setStep3] = useState('');
+  const [dateRange, setDateRange] = useState('');
+
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
+
 
   const handlePhoto1Change = (event) => {
     const file = event.target.files[0];
@@ -46,12 +48,16 @@ function ProductRegistration() {
     setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
   };
 
+   const handleGetDateRange = (dateRange) => {
+    setDateRange(dateRange);
+};
  
 
-  const handleOwnerCheck = (e) => {
+  const handleProductRegi = (e) => {
     e.preventDefault();
     // 등록 처리 로직
     console.log(photo1, photo2);
+    console.log(dateRange);
   };
 
 
@@ -67,10 +73,10 @@ function ProductRegistration() {
         </div>
         <hr/>
         <div className="product-regi-body">
-          <form onSubmit={handleOwnerCheck} encType="multipart/form-data">
+          <form onSubmit={handleProductRegi} encType="multipart/form-data">
             <ul>
               <li>
-                <div className="regi-title">카테고리<span className="imp">*</span></div>
+                <div className="regi-title">카테고리 선택<span className="imp">*</span></div>
                 <div className='category'>
                   <div className="category-select">선박</div>
                   <div className="category-select">낚시터</div>
@@ -137,8 +143,8 @@ function ProductRegistration() {
                 <div>
                   <input
                     type="text"
-                    value={place}
-                    onChange={(e) => setPlace(e.target.value)}
+                    value={locationInfo}
+                    onChange={(e) => setLocationInfo(e.target.value)}
                     size="30"
                     className="form-control"
                     required
@@ -148,10 +154,10 @@ function ProductRegistration() {
                 </div>
               </li>
               <li>
-                <div className="regi-title">가격<span className="imp">*</span></div>
+                <div className="regi-title">가격(원)<span className="imp">*</span></div>
                 <div>
                   <input
-                    type="text"
+                    type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     className="form-control"
@@ -160,16 +166,15 @@ function ProductRegistration() {
                     aria-required="true"
                     placeholder="숫자만 입력"
                   />
-                  <span id="nameChk"></span>
                 </div>
               </li>
               <li>
-                <div className="regi-title">인원<span className="imp" >*</span></div>
+                <div className="regi-title">인원(명)<span className="imp" >*</span></div>
                 <div>
                   <input
-                    type="text"
-                    value={people}
-                    onChange={(e) => setPeople(e.target.value)}
+                    type="number"
+                    value={maxUser}
+                    onChange={(e) => setMaxUser(e.target.value)}
                     className="form-control"
                     maxLength="6"
                     required
@@ -180,12 +185,13 @@ function ProductRegistration() {
                 </div>
               </li>
               <li>
-                <div className="regi-title" style={{alignContent:'baseLine'}}>날짜선택<span className="imp">*</span></div>
+                <div className="regi-title" >날짜선택<span className="imp">*</span></div>
                 <div className='calendar'>
                 <section className='calendar-box'>
-                  <RegiCalendar className='datePicker'/>
+                  <RegiCalendar className='datePicker' getDateRange={handleGetDateRange}  />
                 </section>
                 </div>
+                <span>fnnfkfk{setDateRange}</span>
               </li>
              
               <div>
@@ -209,8 +215,8 @@ function ProductRegistration() {
                 <div>
                   <input
                     type="text"
-                    value={detailExp}
-                    onChange={(e) => setDetailExp(e.target.value)}
+                    value={service}
+                    onChange={(e) => setService(e.target.value)}
                     className="form-control"
                     required
                     aria-required="true"
