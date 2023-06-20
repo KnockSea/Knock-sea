@@ -7,9 +7,11 @@ import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.dto.request.ReservationTimeRequestDTO;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Setter
@@ -37,6 +39,11 @@ public class ReservationTime {
     // 한 타임정보에 최대 인원 수만큼 예약을 여러번 받아야 되네?
     @Builder.Default
     private int timeCurrentUser = 0;
+
+    @Column(updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createDate;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")

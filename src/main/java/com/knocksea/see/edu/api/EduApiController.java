@@ -1,10 +1,7 @@
 package com.knocksea.see.edu.api;
 
-import com.knocksea.see.edu.dto.response.EduListResponseDTO;
-import com.knocksea.see.edu.dto.response.EduModifyDTO;
+import com.knocksea.see.edu.dto.response.*;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
-import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
-import com.knocksea.see.edu.dto.response.EduTopFourListResponseDTO;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.service.EduService;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
@@ -45,11 +42,10 @@ public class EduApiController {
     public ResponseEntity<?> list(PageDTO pageDTO){
         log.info("/api/v1/posts?page={}&size={}",pageDTO.getPage(),pageDTO.getSize());
 
-        EduListResponseDTO dto = eduService.getAllEdu(pageDTO);
-
+        List<EduListDataResponseDTO> allEdu = eduService.getAllEdu(pageDTO);
         return ResponseEntity
                 .ok()
-                .body(dto);
+                .body(allEdu);
 
     }
     
