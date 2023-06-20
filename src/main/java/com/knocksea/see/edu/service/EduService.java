@@ -49,10 +49,8 @@ public class EduService {
 
     //좋아요 상위 4개 조회
     public EduTopFourListResponseDTO findTopFour(){
-        //like 테이블에서 좋아요 개수가 제일 높은 4개를 찾아서 그 eduId를 찾음. eduId로 edu테이블에서 찾음
         //정 안되면 Edu 테이블에 좋아요 칼럼 만들기
-        List<EduTopFourListResponseDTO> likeRank = heartRepository.findLikeRank(); //4개를 찾음
-        log.info("likeRank : "+likeRank);
+        //리뷰테이블에서 평점이 높은 topFour를 찾아서 그 eduId를 찾음. eduId로 edu테이블에서 찾음
 
         return null;
     }
@@ -70,9 +68,7 @@ public class EduService {
 
         //데이터베이스에서 게시물 목록 조회
         Page<Edu> allEdu = eduRepository.findAll(pageable);
-        // 유저이름 - 유저
-        // 리뷰평점 - 리뷰
-        // 위치, 가격, 제목 - 에듀
+
         List<Edu> content = allEdu.getContent();
         log.info("content : "+content);
 
@@ -86,7 +82,7 @@ public class EduService {
             for (Review review : reviews) {
                 reviewTotal += review.getReviewRating();
             }
-            log.info("리뷰 토탈~ : {}", reviews.size());
+
             double reviewAverage = reviewTotal / reviews.size();
             if(reviewAverage>0) {
                 edus.setReviewAverage(reviewAverage);
@@ -95,15 +91,6 @@ public class EduService {
             }
             return edus;
         }).collect(Collectors.toList());
-
-//        List<EduDetailResponseDTO> eduList = allEdu.stream()
-//                .map(edu -> new EduDetailResponseDTO(edu))
-//                .collect(Collectors.toList());
-
-//
-//        log.info("eduList : "+eduList.size());
-//        log.info("eduList : "+eduList.get(0).getEduTitle());
-
 
         return list;
     }

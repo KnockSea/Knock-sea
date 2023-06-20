@@ -46,7 +46,6 @@ public class EduApiController {
         return ResponseEntity
                 .ok()
                 .body(allEdu);
-
     }
     
     //개별 조회
