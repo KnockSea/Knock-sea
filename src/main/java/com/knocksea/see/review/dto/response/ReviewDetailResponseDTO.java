@@ -29,8 +29,9 @@ public class ReviewDetailResponseDTO {
         this.reviewContent = review.getReviewContent();
         this.reviewType = String.valueOf(review.getReviewType());
         this.userId = review.getUser().getUserId();
-        this.eduId = review.getEdu().getEduId();
-        this.productId = review.getProduct().getProductId();
+        this.eduId = review.getEdu() != null ? review.getEdu().getEduId() : null;
+        this.productId = review.getProduct() != null ? review.getProduct().getProductId() : null;
+
     }
 
 }

@@ -1,18 +1,25 @@
 package com.knocksea.see.heart.service;
 
+import com.knocksea.see.auth.TokenUserInfo;
+import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.heart.dto.request.HeartCreateDTO;
 import com.knocksea.see.heart.dto.response.HeartDetailResponseDTO;
 import com.knocksea.see.heart.entity.Heart;
 import com.knocksea.see.heart.entity.HeartType;
 import com.knocksea.see.heart.repository.HeartRepository;
+import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.repository.ProductRepository;
+import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.EntityNotFoundException;
 import java.sql.SQLException;
 
 @Service
@@ -26,28 +33,33 @@ public class HeartService {
     private final ProductRepository productRepository;
     private final EduRepository eduRepository;
 
-    public HeartDetailResponseDTO createHeart(HeartCreateDTO heartDTO) {
+    public boolean createAndDeleteHeart(Long tokenUserId, HeartCreateDTO dto) {
 
-        // 중복 체크: 유저와 타입, 클래스 또는 제품 ID를 기준으로 이미 좋아요를 한 경우
-        boolean isDuplicateHeart = heartRepository.existsByUserAndHeartTypeAndEduOrProduct(
-                userRepository.findById(heartDTO.getUser().getUserId()).orElseThrow(() -> new IllegalArgumentException("User not found")),
-                HeartType.valueOf(heartDTO.getHeartType()),
-                heartDTO.getEdu(),
-                heartDTO.getProduct()
-        );
+        Product product = null;
+        Edu edu = null;
 
-        if (isDuplicateHeart) {
-            throw new IllegalArgumentException("Duplicate heart"); // 중복된 좋아요인 경우 예외 처리
+        if (dto.getProductId() != null) {
+            product = productRepository.findById(dto.getProductId()).orElseThrow();
         }
 
-        Heart saved = heartRepository.save(heartDTO.toEntity());
+        if (dto.getEduId() != null) {
+            edu = eduRepository.findById(dto.getEduId()).orElseThrow();
+        }
+        User user = userRepository.findById(tokenUserId).orElseThrow();
+        Heart saved = null;
+        boolean heartOrNot = heartRepository.existsByUserAndHeartType(user, HeartType.valueOf(dto.getHeartType()));
+        if (!heartOrNot) {
+            // 좋아요 추가
+            Heart heart = dto.toEntity(user, edu, product);
+            saved = heartRepository.save(heart);
 
-        return new HeartDetailResponseDTO(saved);
+        } else {
+            // 좋아요 취소
+            heartRepository.deleteById(dto.getHeartId());
+        }
+        return !heartOrNot;
     }
 
-    public void deleteHeart(Long heartId) throws RuntimeException, SQLException {
-        heartRepository.deleteById(heartId);
-    }
 }
 
 

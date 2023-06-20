@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Setter
@@ -50,6 +51,8 @@ public class EduDetailResponseDTO {
 
     private String eduLocationInfo;
 
+    private List<ReviewDetailResponseDTO> reviews;
+
 
     public EduDetailResponseDTO(Edu saveEdu, List<ReservationTime> timeList) {
 
@@ -76,7 +79,13 @@ public class EduDetailResponseDTO {
 
     }
 
-    public EduDetailResponseDTO(Edu edu, List<ReservationTimeResponseDTO> timeResponseDTOList, List<ReviewDetailResponseDTO> reviewResponseList) {
-    }
+//    public EduDetailResponseDTO(Edu edu) {
+//        //유저이름, 리뷰 평점, 위치, 가격, 제목
+//        this.
+//
+//        this.reviews = edu.getReviews().stream()
+//                .map(r -> new ReviewDetailResponseDTO(r))
+//                .collect(Collectors.toList());
+//    }
 
 }

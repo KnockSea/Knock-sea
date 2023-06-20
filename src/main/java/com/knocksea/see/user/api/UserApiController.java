@@ -168,7 +168,6 @@ public class UserApiController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
     }
 
 
