@@ -81,4 +81,13 @@ public class ProductController {
         return ResponseEntity.ok().body(modify);
 
     }
+
+    @GetMapping("/main")
+    public ResponseEntity<?> mainPage() {
+
+        productService.showMainList();
+
+        return null;
+    }
+
 }

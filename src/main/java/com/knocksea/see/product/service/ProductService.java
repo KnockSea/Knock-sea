@@ -1,15 +1,14 @@
 package com.knocksea.see.product.service;
 
 import com.knocksea.see.auth.TokenUserInfo;
+import com.knocksea.see.edu.entity.Edu;
+import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.exception.NoneMatchUserException;
 import com.knocksea.see.product.dto.request.ProductDeleteRequestDTO;
 import com.knocksea.see.product.dto.request.ProductModifyRequestDTO;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
-import com.knocksea.see.product.dto.response.PageResponseDTO;
-import com.knocksea.see.product.dto.response.ProductListResponseDTO;
-import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
-import com.knocksea.see.product.dto.response.ReservationTimeResponseDTO;
+import com.knocksea.see.product.dto.response.*;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.repository.ProductDetailService;
@@ -48,6 +47,7 @@ public class ProductService implements ProductDetailService {
     private final ReservationRepository reservationRepository;
     private final ShipRepository shipRepository;
     private final FishingSpotRepository fishingSpotRepository;
+    private final EduRepository eduRepository;
 
     public Product getProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(() ->
@@ -173,4 +173,14 @@ public class ProductService implements ProductDetailService {
     }
 
 
+    public mainListResponseDTO showMainList() {
+        List<Product> productsShip = productRepository.findTop3ByProductTypeOrderByProductInputDateDesc("SHIP");
+
+        List<Product> productsSpot = productRepository.findTop3ByProductTypeOrderByProductInputDateDesc("SPOT");
+
+        List<Edu> edu = eduRepository.findTop3ByCreateDateAtDesc();
+
+
+        return new mainListResponseDTO(productsShip, productsSpot, edu);
+    }
 }
