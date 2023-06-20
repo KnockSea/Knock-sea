@@ -16,7 +16,7 @@ public interface EduRepository extends JpaRepository<Edu,Long> {
 
     void deleteByEduId(Long eduId);
 
-    List<Edu> findTop3ByCreateDateAtDesc();
+    List<Edu> findTop3ByOrderByCreateDate();
 
 //    Optional<Edu> findByUserId(User user);
 }

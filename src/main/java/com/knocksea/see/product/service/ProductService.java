@@ -178,7 +178,7 @@ public class ProductService implements ProductDetailService {
 
         List<Product> productsSpot = productRepository.findTop3ByProductTypeOrderByProductInputDateDesc("SPOT");
 
-        List<Edu> edu = eduRepository.findTop3ByCreateDateAtDesc();
+        List<Edu> edu = eduRepository.findTop3ByOrderByCreateDate();
 
 
         return new mainListResponseDTO(productsShip, productsSpot, edu);
