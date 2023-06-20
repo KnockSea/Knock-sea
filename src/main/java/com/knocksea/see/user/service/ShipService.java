@@ -7,9 +7,11 @@ import com.knocksea.see.user.dto.request.ShipModifyRequestDTO;
 import com.knocksea.see.user.dto.request.ShipRegisterRequestDTO;
 import com.knocksea.see.user.dto.response.ShipModifyResponseDTO;
 import com.knocksea.see.user.dto.response.ShipRegisterResponseDTO;
+import com.knocksea.see.user.dto.response.ShipInfoResponseDTO;
 import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.Ship;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.entity.UserGrade;
 import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.ShipRepository;
 import com.knocksea.see.user.repository.UserRepository;
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -82,11 +85,16 @@ public class ShipService {
         //사장님이 아니라면
         if(!foundByUserId.getUser().getUserGrade().toString().equals("OWNER")) ResponseEntity.badRequest().body("사장님이 아니면 수정할 수없습니다");
 
+        List<String> modifyShipImagesSaveLocation = new ArrayList<>();
         //등록된 배가 있다면
         if(foundByUserId!=null){
             foundByUserId.modifyShipInfo(dto);
             Ship save = shipRepository.save(foundByUserId);
-            return new ShipModifyResponseDTO(save);
+            List<SeaImage> images = save.getImages();
+            for (SeaImage image : images) {
+                modifyShipImagesSaveLocation.add(image.getImageName());
+            }
+            return new ShipModifyResponseDTO(save,modifyShipImagesSaveLocation);
         }else{
             //등록된 배가없다면
             throw new RuntimeException("등록된 배가없습니다!.");
@@ -95,7 +103,7 @@ public class ShipService {
     }
 
     //유저 정보로 배정보 가져오기
-    public Ship getShipInfo(TokenUserInfo userInfo) {
+    public ShipInfoResponseDTO getShipInfo(TokenUserInfo userInfo) {
 
         //유저 토큰정보로 해당유저 정보 가져오기
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> {
@@ -103,18 +111,54 @@ public class ShipService {
         });
 
         //가져온 유저로 해당유저가 등록한 배 정보 가져오기
-        Ship findbyUser = shipRepository.findByUser(user);
+        Ship findShipByUser = shipRepository.findByUser(user);
 
-        List<SeaImage> images = findbyUser.getImages();
+        List<SeaImage> byShip = imageRepository.findByShip(findShipByUser);
 
+        List<String> shipLocationList = new ArrayList<>();
+        for (SeaImage seaImage : byShip) {
+            shipLocationList.add(seaImage.getImageName());
+        }
 
+        ShipInfoResponseDTO build = ShipInfoResponseDTO.builder()
+                .shipLikeCount(findShipByUser.getShipLikeCount())
+                .shipId(findShipByUser.getShipId())
+                .shipLocation(findShipByUser.getShipLocation())
+                .shipDescription(findShipByUser.getShipDescription())
+                .shipName(findShipByUser.getShipName())
+                .userName(findShipByUser.getUser().getUserName())
+                .category(findShipByUser.getProductCategory())
+                .shipImageLocation(shipLocationList)
+                .build();
 
-//        build.toList(images);
+        return build;
 
-        return findbyUser;
     }
 
-//    //배 이미지 리스트 경로 반환하는함수
+    //배 정보 삭제하는 함수
+    public boolean deleteSpot(TokenUserInfo userInfo) {
+
+        //토큰 정보값으로 유저 얻기
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("해당 유저정보가 존재하지않습니다"));
+
+        if(!user.getUserGrade().equals(UserGrade.OWNER)){
+            throw new RuntimeException("해당 선박의 사장이아니므로 삭제할 수없습니다");
+        }
+
+        Ship findShipByUser = shipRepository.findByUser(user);
+
+        if (findShipByUser != null) {
+
+            shipRepository.deleteById(findShipByUser.getShipId());
+
+            return true;
+        }
+
+        return false;
+
+    }
+
+    //배 이미지 리스트 경로 반환하는함수
 //    public String findShipPath(Long userId,Long typenumber) {
 //        User user = userRepository.findById(userId).orElseThrow();
 //
@@ -124,4 +168,5 @@ public class ShipService {
 //
 //        return byImageTypeAndTypeNumber.getImageName();
 //    }
+
 }

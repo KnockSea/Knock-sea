@@ -16,7 +16,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Builder
 @Entity
-@ToString(exclude = "user")
+@ToString(exclude = {"user","images"})
 @Table(name = "sea_fishing_spot")
 public class FishingSpot {
 
@@ -50,7 +50,7 @@ public class FishingSpot {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "spot", orphanRemoval = true)
     private List<SeaImage> images = new ArrayList<>();
 
 }

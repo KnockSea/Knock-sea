@@ -16,6 +16,7 @@ import MpUserDrop from './mypage/MpUserDrop'
 import MpDrop from './mypage/MpDrop'
 import MpInquire from './mypage/MpInquire'
 import MpRvlist from './mypage/MpRvlist'
+import ProductRegistration from './product/ProductRegistration'
 import RvFsDetail from './fishingspot/RvFsDetail'
 import RvFsTemplate from './fishingspot/RvFsTemplate'
 import WeeklyWeather from './WeeklyWeather'
@@ -67,6 +68,7 @@ const NsMain = () => {
             <Route path='/my' element={<MpMain/>}> </Route>
             <Route path='/myinfo' element={<Myinfo/>}></Route>
             <Route path='/mypassword' element={<Mypassword/>}></Route>
+            <Route path='/product' element={<ProductRegistration/>}></Route>
             <Route path='/userDrop' element={<MpUserDrop/>}></Route>
             <Route path='/drop' element={<MpDrop/>}></Route>
             <Route path='/inquire' element={<MpInquire/>}></Route>
@@ -77,8 +79,8 @@ const NsMain = () => {
             <Route path='/class' element={<ClassMain/>}></Route>
             <Route path='/classdetail' element={<ClassDetail/>}></Route>
             <Route path='/ownercheck' element={<OwnerCheckMain/>}></Route>
-            {/* <Route path="/ship" element={<OwnerCheckShip/>} ></Route>
-            <Route path="/fishing" element={<OwnerCheckFishing/>} ></Route>   */}
+            <Route path="/ship" element={<OwnerCheckShip/>} ></Route>
+            <Route path="/fishing" element={<OwnerCheckFishing/>} ></Route> 
             <Route path='/myquery' element={<MpQueryText/>}></Route>
             {/* 업체 정보 */}
             <Route path='/mpbt' element={<MpBtInfo/>}></Route>

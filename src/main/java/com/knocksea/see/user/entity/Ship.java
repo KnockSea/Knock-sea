@@ -13,7 +13,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Builder
 @Entity
-@ToString(exclude = "user")
+@ToString(exclude = {"user","images"})
 @NoArgsConstructor
 @Table(name = "sea_ship")
 public class Ship {
@@ -49,6 +49,7 @@ public class Ship {
 
 
     @OneToMany(mappedBy = "ship", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<SeaImage> images = new ArrayList<>();
 
 

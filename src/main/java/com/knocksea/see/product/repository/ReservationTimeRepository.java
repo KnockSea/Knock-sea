@@ -27,4 +27,5 @@ public interface ReservationTimeRepository extends JpaRepository<ReservationTime
 
     int deleteByProductProductId(Long productId);
 
+    int countByProduct(Product product);
 }

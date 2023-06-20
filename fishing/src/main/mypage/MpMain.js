@@ -34,8 +34,11 @@ const MpMain = () => {
                 </div> */}
 
                 <div className='rvbox2'>
-                    <h2>예약 현황</h2>
-                    <p>아직 작성된 글이 없습니다</p>
+                    <div>
+                        <h2>예약 현황</h2>
+                        <p>아직 작성된 글이 없습니다</p>
+                    </div>
+                    <button className='isbtn'><Link to={'/product'}>NEW 예약 등록</Link></button>
                 </div>
             </div>
         
