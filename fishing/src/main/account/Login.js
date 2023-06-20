@@ -3,7 +3,6 @@ import './scss/Login.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import naverbtn from '../img/naverbtn1.png';
 import kakaobtn from '../img/kakaobtn.png';
-import RegistCalendar from '../product/RegistCalendar';
 import { setLoginUserInfo} from '../util/login-util';
 
 function Login() {
