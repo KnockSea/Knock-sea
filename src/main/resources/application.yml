@@ -38,4 +38,8 @@ jwt:
 upload:
   path : D:/knocksea_upload
 
+#마이바티스
+mybatis:
+  config-location: classpath:mybatis-config.xml
+
 
