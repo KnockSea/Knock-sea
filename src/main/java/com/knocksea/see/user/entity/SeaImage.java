@@ -35,7 +35,7 @@ public class SeaImage {
     private Ship ship;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "spot_id")
     private FishingSpot spot;
 

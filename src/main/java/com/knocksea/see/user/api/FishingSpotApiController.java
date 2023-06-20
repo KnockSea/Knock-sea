@@ -97,8 +97,10 @@ public class FishingSpotApiController {
     //낚시터 정보 수정 요청
     //post : /api/v1/fishing/modify
     @RequestMapping(value = "/modify", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public ResponseEntity<?> modifyUser(@Validated @RequestBody FishingModifyRequestDTO dto
-            ,@AuthenticationPrincipal TokenUserInfo userInfo, BindingResult result){
+    public ResponseEntity<?> modifySpot(
+            @Validated @RequestPart("spot") FishingModifyRequestDTO dto,
+            @RequestPart(value = "spotImage", required = false) List<MultipartFile> spotImages
+            ,@AuthenticationPrincipal TokenUserInfo userInfo, BindingResult result) throws IOException {
 
         //값 들어오는지 확인
         log.info("/user/register PUT! --{}", dto);
@@ -110,10 +112,17 @@ public class FishingSpotApiController {
                     .body(result.getFieldError());
         }
 
+        if(spotImages!=null){
+            for (MultipartFile spotImage : spotImages) {
+                log.info("shipImages : {}",spotImage);
+            }
+            imageService.modifySpotImages(spotImages,userInfo);
+        }
+
         try{
-//            ShipModifyResponseDTO modify = fishingSpotService.modify(dto, userInfo);
-//            return ResponseEntity.ok().body(modify);
-            return null;
+            FishingSpotModifyResponseDTO modify = fishingSpotService.modify(dto, userInfo);
+            return ResponseEntity.ok().body(modify);
+
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -193,6 +202,28 @@ public class FishingSpotApiController {
             default:
                 return null;
         }
+    }
+
+
+    //낚시터 정보 삭제하는 함수
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deletespot(
+            @AuthenticationPrincipal TokenUserInfo userInfo
+    ){
+        log.info("Spot Delete DELETE - {} ",userInfo);
+
+        try {
+
+            boolean result = fishingSpotService.deleteSpot(userInfo);
+            if(result){
+                return ResponseEntity.ok().body(result);
+            }
+            return ResponseEntity.badRequest().body("삭제실패!");
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
 

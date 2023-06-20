@@ -12,11 +12,13 @@ import com.knocksea.see.user.dto.response.ShipModifyResponseDTO;
 import com.knocksea.see.user.entity.FishingSpot;
 import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.entity.UserGrade;
 import com.knocksea.see.user.repository.FishingSpotRepository;
 import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -74,8 +76,31 @@ public class FishingSpotService {
    // 낚시터 정보 수정용 함수
     public FishingSpotModifyResponseDTO modify(FishingModifyRequestDTO dto, TokenUserInfo userInfo) {
 
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> {
+            throw new RuntimeException("해당 유저가 존재하지않습니다");
+        });
 
-        return null;
+        FishingSpot findSpotByUser = fishingSpotRepository.findByUser(user);
+        if(!findSpotByUser.getUser().getUserGrade().toString().equals("OWNER")) ResponseEntity.badRequest().body("사장님이 아니면 수정할 수없습니다");
+
+        findSpotByUser.setSpotName(dto.getSpotName());
+        findSpotByUser.setSpotDescription(dto.getSpotDescription());
+        findSpotByUser.setSpotLocation(dto.getSpotLocation());
+        findSpotByUser.setSpotSerialNumber(dto.getSpotSerialNumber());
+
+        FishingSpot save = fishingSpotRepository.save(findSpotByUser);
+
+        List<SeaImage> bySpot = imageRepository.findBySpot(save);
+
+        List<String> spotImageLocation = new ArrayList<>();
+        FishingSpotModifyResponseDTO fishingSpotModifyResponseDTO  = new FishingSpotModifyResponseDTO(save);
+        for (SeaImage seaImage : bySpot) {
+            spotImageLocation.add(seaImage.getImageName());
+        }
+        fishingSpotModifyResponseDTO.setSaveImageLocation(spotImageLocation);
+
+        return fishingSpotModifyResponseDTO;
+
     }
 
 
@@ -108,5 +133,34 @@ public class FishingSpotService {
                 .build();
 
         return fishingSpotInfoResponseDTO;
+    }
+
+    //낚시터 정보 삭제하는 함수
+    public boolean deleteSpot(TokenUserInfo userInfo) throws Exception {
+        User user = userRepository.findById(userInfo.getUserId())
+                .orElseThrow(() -> new RuntimeException("해당 유저가 존재하지 않습니다"));
+
+
+        if(!user.getUserGrade().equals(UserGrade.OWNER)){
+            throw new RuntimeException("해당 낚시터의 사장이아니므로 삭제할 수없습니다");
+        }
+
+        FishingSpot findSpotByUser = fishingSpotRepository.findByUser(user);
+
+        log.info("findSpotByUser : {}",findSpotByUser);
+
+        if (findSpotByUser != null) {
+
+            log.info("findSpotByUser is not null ");
+//            List<SeaImage> images = findSpotByUser.getImages();
+//            for (SeaImage image : images) {
+//                System.out.println("image = " + image);
+//                imageRepository.delete(image);
+//            }
+            fishingSpotRepository.deleteById(findSpotByUser.getSpotId()); // FishingSpot 엔티티를 삭제
+            log.info("after delete from spot");
+            return true;
+        }
+        return false;
     }
 }

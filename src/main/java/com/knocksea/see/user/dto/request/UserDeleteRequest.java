@@ -13,7 +13,8 @@ import javax.validation.constraints.NotBlank;
 @Builder
 public class UserDeleteRequest {
 
-    private Long userId;
+    @NotBlank
+    private String userEmail;
 
     @NotBlank
     private String userPassword;

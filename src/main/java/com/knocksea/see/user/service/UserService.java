@@ -162,9 +162,9 @@ public class UserService {
     }
 
     //회원탈퇴 기능 구현
-    public boolean deleteUser(UserDeleteRequest dto) {
+    public boolean deleteUser(UserDeleteRequest dto, TokenUserInfo userInfo) {
 
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(
                 () -> new RuntimeException("가입된 회원이 아닙니다.")
         );
 
@@ -173,7 +173,7 @@ public class UserService {
             throw new RuntimeException("비밀번호가 일치하지않아 회원탈퇴를 진행할 수 없습니다");
         }
 
-        userRepository.deleteById(dto.getUserId());
+        userRepository.deleteById(userInfo.getUserId());
         return true;
     }
 

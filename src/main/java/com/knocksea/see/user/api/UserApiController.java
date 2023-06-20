@@ -148,12 +148,23 @@ public class UserApiController {
 
     //회원탈퇴 요청
     @DeleteMapping("/userDelete")
-    public ResponseEntity<?> removeUser(@Validated @RequestBody UserDeleteRequest dto){
+    public ResponseEntity<?> removeUser(
+            @Validated @RequestBody UserDeleteRequest dto,
+            @AuthenticationPrincipal TokenUserInfo userInfo, BindingResult result
+            ){
+        //값 들어오는지 확인
+        log.info("/user/modify DELETE! --{}", dto);
 
-        log.info("UserDeleteRequest dto : {}",dto);
+        if (result.hasErrors()) {
+            log.warn(result.toString());
+            return ResponseEntity.badRequest()
+                    .body(result.getFieldError());
+        }
+
+
         try {
-            boolean result = userService.deleteUser(dto);
-            return ResponseEntity.ok().body(result);
+            boolean deleteResult = userService.deleteUser(dto,userInfo);
+            return ResponseEntity.ok().body(deleteResult);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -218,6 +229,7 @@ public class UserApiController {
         }
     }
 
+    //내 상품들에 붙은 후기 평점 평균 모두 가져오기
     @GetMapping("/load-myList")
     public ResponseEntity<?> loadEntireInfo(
             @AuthenticationPrincipal TokenUserInfo userInfo
