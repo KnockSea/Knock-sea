@@ -14,7 +14,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public interface HeartRepository extends JpaRepository<Heart, Long> {
-    boolean existsByUserAndHeartTypeAndEduOrProduct(User user, HeartType heartType, Edu edu, Product product);
+    boolean existsByUserAndEduOrProduct(User user, Edu edu, Product product);
 
 
 /*    @Query(value = "SELECT edu_id FROM sea_like GROUP BY edu_id ORDER BY COUNT(edu_id) DESC)", nativeQuery = true)
@@ -27,4 +27,7 @@ public interface HeartRepository extends JpaRepository<Heart, Long> {
     @Query("SELECT h FROM Heart h WHERE h.product = :product")
     List<Heart> findByProduct(Product product);
 
+    Heart findByUserAndEduAndProduct(User user,Edu edu,Product product);
+
+    boolean existsByUserAndHeartType(User user, HeartType heartType);
 }

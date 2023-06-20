@@ -15,18 +15,17 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class HeartCreateDTO {
-
+    private Long heartId;
     private String heartType;
-    private User user;
-    private Edu edu;
-    private Product product;
+    private Long eduId;
+    private Long productId;
 
-    public Heart toEntity() {
+    public Heart toEntity(User user, Edu edu, Product product) {
         return Heart.builder()
                 .heartType(HeartType.valueOf(this.heartType))
-                .user(this.user)
-                .edu(this.edu)
-                .product(this.product)
+                .user(user)
+                .edu(edu)
+                .product(product)
                 .build();
     }
 }
