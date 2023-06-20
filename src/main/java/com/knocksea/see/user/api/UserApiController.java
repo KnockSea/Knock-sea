@@ -97,20 +97,33 @@ public class UserApiController {
     }
 
     //회원 정보 수정 요청
-    //post : /api/v1/user/modify
+    //put : /api/v1/user/modify
     @RequestMapping(value = "/modify", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public ResponseEntity<?> modifyUser(@Validated @RequestBody UserModifyRequestDTO dto
-            , BindingResult result) {
+    public ResponseEntity<?> modifyUser(
+            @Validated @RequestPart("user")  UserModifyRequestDTO dto,
+            @RequestPart(value = "profileImage", required = false) MultipartFile profileImg,
+            @AuthenticationPrincipal TokenUserInfo userInfo, BindingResult result) {
         //값 들어오는지 확인
-        log.info("/user/modify POST! --{}", dto);
+        log.info("/user/modify PUT! --{}", dto);
         if (result.hasErrors()) {
             log.warn(result.toString());
             return ResponseEntity.badRequest()
                     .body(result.getFieldError());
         }
 
+
         try {
-            UserModifyresponseDTO modify = userService.modify(dto);
+
+            if(profileImg!=null) {
+                log.info("attatched file name : {}", profileImg.getOriginalFilename());
+
+                log.info("userInfo : {}",userInfo);
+
+                userService.modifyProfileImage(profileImg,userInfo.getUserId());
+            }
+
+
+            UserModifyresponseDTO modify = userService.modify(dto,userInfo);
             return ResponseEntity.ok().body(modify);
         } catch (NoRegisteredArgumentsException e) {
             log.warn("필수 가입 정보를 받지 못했습니다.");
@@ -135,12 +148,23 @@ public class UserApiController {
 
     //회원탈퇴 요청
     @DeleteMapping("/userDelete")
-    public ResponseEntity<?> removeUser(@Validated @RequestBody UserDeleteRequest dto){
+    public ResponseEntity<?> removeUser(
+            @Validated @RequestBody UserDeleteRequest dto,
+            @AuthenticationPrincipal TokenUserInfo userInfo, BindingResult result
+            ){
+        //값 들어오는지 확인
+        log.info("/user/modify DELETE! --{}", dto);
 
-        log.info("UserDeleteRequest dto : {}",dto);
+        if (result.hasErrors()) {
+            log.warn(result.toString());
+            return ResponseEntity.badRequest()
+                    .body(result.getFieldError());
+        }
+
+
         try {
-            boolean result = userService.deleteUser(dto);
-            return ResponseEntity.ok().body(result);
+            boolean deleteResult = userService.deleteUser(dto,userInfo);
+            return ResponseEntity.ok().body(deleteResult);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -204,6 +228,7 @@ public class UserApiController {
         }
     }
 
+    //내 상품들에 붙은 후기 평점 평균 모두 가져오기
     @GetMapping("/load-myList")
     public ResponseEntity<?> loadEntireInfo(
             @AuthenticationPrincipal TokenUserInfo userInfo

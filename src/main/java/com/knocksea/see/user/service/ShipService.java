@@ -11,6 +11,7 @@ import com.knocksea.see.user.dto.response.ShipInfoResponseDTO;
 import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.Ship;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.entity.UserGrade;
 import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.ShipRepository;
 import com.knocksea.see.user.repository.UserRepository;
@@ -84,11 +85,16 @@ public class ShipService {
         //사장님이 아니라면
         if(!foundByUserId.getUser().getUserGrade().toString().equals("OWNER")) ResponseEntity.badRequest().body("사장님이 아니면 수정할 수없습니다");
 
+        List<String> modifyShipImagesSaveLocation = new ArrayList<>();
         //등록된 배가 있다면
         if(foundByUserId!=null){
             foundByUserId.modifyShipInfo(dto);
             Ship save = shipRepository.save(foundByUserId);
-            return new ShipModifyResponseDTO(save);
+            List<SeaImage> images = save.getImages();
+            for (SeaImage image : images) {
+                modifyShipImagesSaveLocation.add(image.getImageName());
+            }
+            return new ShipModifyResponseDTO(save,modifyShipImagesSaveLocation);
         }else{
             //등록된 배가없다면
             throw new RuntimeException("등록된 배가없습니다!.");
@@ -126,6 +132,29 @@ public class ShipService {
                 .build();
 
         return build;
+
+    }
+
+    //배 정보 삭제하는 함수
+    public boolean deleteSpot(TokenUserInfo userInfo) {
+
+        //토큰 정보값으로 유저 얻기
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("해당 유저정보가 존재하지않습니다"));
+
+        if(!user.getUserGrade().equals(UserGrade.OWNER)){
+            throw new RuntimeException("해당 선박의 사장이아니므로 삭제할 수없습니다");
+        }
+
+        Ship findShipByUser = shipRepository.findByUser(user);
+
+        if (findShipByUser != null) {
+
+            shipRepository.deleteById(findShipByUser.getShipId());
+
+            return true;
+        }
+
+        return false;
 
     }
 
