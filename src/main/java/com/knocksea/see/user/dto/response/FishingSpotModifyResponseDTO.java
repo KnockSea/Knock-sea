@@ -28,9 +28,9 @@ public class FishingSpotModifyResponseDTO {
 
     public FishingSpotModifyResponseDTO(FishingSpot save) {
 
-        this.spotName = save.getSpotName();
-        this.spotDescription = save.getSpotDescription();
-        this.spotLocation = save.getSpotLocation();
+//        this.spotName = save.getSpotName();
+//        this.spotDescription = save.getSpotDescription();
+//        this.spotLocation = save.getSpotLocation();
         this.spotSerialNumber = save.getSpotSerialNumber();
     }
 }

@@ -11,12 +11,12 @@ import lombok.*;
 @Builder
 public class FishingSpotRegisterRequestDTO {
 
-    private String spotName;
+//    private String spotName;
 
-    private String spotLocation;
+//    private String spotLocation;
 
 
-    private String spotDescription;
+//    private String spotDescription;
 
 
     private String spotSerialNumber;

@@ -60,7 +60,7 @@ public class FishingSpotService {
             //등록된 낚시터가없다면
             if(foundByUserId==null){
                 //dto를 ship엔티티로 변환
-                FishingSpot saveship = FishingSpot.builder().spotName(dto.getSpotName()).spotSerialNumber(dto.getSpotSerialNumber()).spotDescription(dto.getSpotDescription()).spotLocation(dto.getSpotLocation()).user(user).build();
+                FishingSpot saveship = FishingSpot.builder().spotSerialNumber(dto.getSpotSerialNumber()).user(user).build();
                 FishingSpot save = fishingSpotRepository.save(saveship);
                 return new FishingSpotRegisterResponseDto(save);
             }else{
@@ -83,9 +83,9 @@ public class FishingSpotService {
         FishingSpot findSpotByUser = fishingSpotRepository.findByUser(user);
         if(!findSpotByUser.getUser().getUserGrade().toString().equals("OWNER")) ResponseEntity.badRequest().body("사장님이 아니면 수정할 수없습니다");
 
-        findSpotByUser.setSpotName(dto.getSpotName());
-        findSpotByUser.setSpotDescription(dto.getSpotDescription());
-        findSpotByUser.setSpotLocation(dto.getSpotLocation());
+//        findSpotByUser.setSpotName(dto.getSpotName());
+//        findSpotByUser.setSpotDescription(dto.getSpotDescription());
+//        findSpotByUser.setSpotLocation(dto.getSpotLocation());
         findSpotByUser.setSpotSerialNumber(dto.getSpotSerialNumber());
 
         FishingSpot save = fishingSpotRepository.save(findSpotByUser);
@@ -123,13 +123,13 @@ public class FishingSpotService {
 
         FishingSpotInfoResponseDTO fishingSpotInfoResponseDTO = FishingSpotInfoResponseDTO.builder()
                 .spotImageLocation(spotLocationList)
-                .spotDescription(findSpotByUser.getSpotDescription())
+//                .spotDescription(findSpotByUser.getSpotDescription())
                 .spotId(findSpotByUser.getSpotId())
-                .spotName(findSpotByUser.getSpotName())
+//                .spotName(findSpotByUser.getSpotName())
                 .userName(findSpotByUser.getUser().getUserName())
                 .category(findSpotByUser.getProductCategory())
                 .spotLikeCount(findSpotByUser.getSpotHeartCount())
-                .spotLocation(findSpotByUser.getSpotLocation())
+//                .spotLocation(findSpotByUser.getSpotLocation())
                 .build();
 
         return fishingSpotInfoResponseDTO;
