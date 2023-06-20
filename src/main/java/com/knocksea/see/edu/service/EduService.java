@@ -46,7 +46,7 @@ public class EduService {
     //좋아요 상위 4개 조회
     public EduTopFourListResponseDTO findTopFour(){
         //like 테이블에서 좋아요 개수가 제일 높은 4개를 찾아서 그 eduId를 찾음. eduId로 edu테이블에서 찾음
-
+        //정 안되면 Edu 테이블에 좋아요 칼럼 만들기
         List<EduTopFourListResponseDTO> likeRank = heartRepository.findLikeRank(); //4개를 찾음
         log.info("likeRank : "+likeRank);
 
@@ -55,6 +55,8 @@ public class EduService {
 
     //전체 조회
     public EduListResponseDTO getAllEdu(PageDTO dto) {
+        //유저이름, 좋아요 개수, 위치, 가격
+        //User,heart
         //Pageable 객체 생성
         Pageable pageable = PageRequest.of(
                 dto.getPage()-1,
@@ -64,7 +66,10 @@ public class EduService {
 
         //데이터베이스에서 게시물 목록 조회
         Page<Edu> allEdu = eduRepository.findAll(pageable);
-        log.info("allEdu: "+allEdu);
+        log.info("allEdu: "+allEdu.getContent());
+        List<Edu> content = allEdu.getContent();
+
+
 
         Page<ReservationTime> allReservationTimeRepository = reservationTimeRepository.findAll(pageable);
         log.info("allReservationTimeRepository : "+allReservationTimeRepository);

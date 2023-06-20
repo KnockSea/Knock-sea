@@ -17,7 +17,6 @@
         <typeAlias alias="self" type="com.spring.mvc.self.entity.Self" />
         <typeAlias alias="reply" type="com.spring.mvc.chap05.entity.Reply" />
         <typeAlias alias="member" type="com.spring.mvc.chap05.entity.Member" />
-
     </typeAliases>
 
     <mappers>

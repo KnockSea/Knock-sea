@@ -14,7 +14,7 @@ import java.time.LocalTime;
 
 @Setter
 @Getter
-@ToString
+@ToString(exclude = {"product", "edu"})
 @EqualsAndHashCode(of = "timeId")
 @NoArgsConstructor
 @AllArgsConstructor

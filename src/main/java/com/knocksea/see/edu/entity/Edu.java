@@ -2,6 +2,7 @@ package com.knocksea.see.edu.entity;
 
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.dto.response.EduModifyDTO;
+import com.knocksea.see.heart.entity.Heart;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Setter
 @Getter
-@ToString
+@ToString(exclude = {"like", "reservationTime","user"})
 @EqualsAndHashCode(of = "eduId")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -57,13 +58,13 @@ public class Edu {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @OneToMany(mappedBy = "edu", orphanRemoval = true)
-//    @Builder.Default
-//    private List<Like> like = new ArrayList<>();
+    @OneToMany(mappedBy = "edu", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<Heart> like = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "edu", orphanRemoval = true)
-//    @Builder.Default
-//    private List<ReservationTime> reservationTime = new ArrayList<>();
+    @OneToMany(mappedBy = "edu", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<ReservationTime> reservationTime = new ArrayList<>();
 
     // 수정메서드
     public void update(EduAndReservationTimeCreateDTO dto) {

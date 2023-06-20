@@ -43,7 +43,7 @@ public class EduApiController {
     //전체 조회
     @GetMapping
     public ResponseEntity<?> list(PageDTO pageDTO){
-        log.info("/api/v1/posts?edu={}&size={}",pageDTO.getPage(),pageDTO.getSize());
+        log.info("/api/v1/posts?page={}&size={}",pageDTO.getPage(),pageDTO.getSize());
 
         EduListResponseDTO dto = eduService.getAllEdu(pageDTO);
 
