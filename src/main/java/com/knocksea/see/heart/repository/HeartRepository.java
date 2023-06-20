@@ -29,5 +29,5 @@ public interface HeartRepository extends JpaRepository<Heart, Long> {
 
     Heart findByUserAndEduAndProduct(User user,Edu edu,Product product);
 
-    boolean existsByUserAndHeartType(User user, String heartType);
+    boolean existsByUserAndHeartType(User user, HeartType heartType);
 }

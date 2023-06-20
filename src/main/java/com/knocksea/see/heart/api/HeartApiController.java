@@ -42,19 +42,15 @@ public class HeartApiController {
         if (fieldErrors != null) return fieldErrors;
 
         try {
-            boolean isLiked = heartService.checkIfLiked(userInfo, dto);
-            heartService.createAndDeleteHeart(userInfo.getUserId(), dto);
-           if (isLiked) {
-               return ResponseEntity
-                       .ok()
-                       .body(isLiked);
-           } else {
-               return ResponseEntity
-                       .ok()
-                       .body(!isLiked);
-           }
+//            boolean isLiked = heartService.checkIfLiked(userInfo, dto);
+            boolean heart = heartService.createAndDeleteHeart(userInfo.getUserId(), dto);
 
-        } catch (RuntimeException e) {
+            return ResponseEntity
+                       .ok()
+                       .body(heart);
+
+
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity
                     .internalServerError()

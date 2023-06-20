@@ -33,7 +33,7 @@ public class HeartService {
     private final ProductRepository productRepository;
     private final EduRepository eduRepository;
 
-    public HeartDetailResponseDTO createAndDeleteHeart(Long tokenUserId, HeartCreateDTO dto) {
+    public boolean createAndDeleteHeart(Long tokenUserId, HeartCreateDTO dto) {
 
         Product product = null;
         Edu edu = null;
@@ -47,47 +47,19 @@ public class HeartService {
         }
         User user = userRepository.findById(tokenUserId).orElseThrow();
         Heart saved = null;
-        Heart heart = dto.toEntity(user, edu, product);
-        boolean heartOrNot = heartRepository.existsByUserAndHeartType(user, dto.getHeartType());
+        boolean heartOrNot = heartRepository.existsByUserAndHeartType(user, HeartType.valueOf(dto.getHeartType()));
         if (!heartOrNot) {
             // 좋아요 추가
+            Heart heart = dto.toEntity(user, edu, product);
             saved = heartRepository.save(heart);
-            // 트랜잭션 커밋
-            TransactionAspectSupport.currentTransactionStatus().flush();
-            return new HeartDetailResponseDTO(saved);
+
         } else {
             // 좋아요 취소
-            heartRepository.delete(heart);
-            // 트랜잭션 커밋
-            TransactionAspectSupport.currentTransactionStatus().flush();
-            return null;
+            heartRepository.deleteById(dto.getHeartId());
         }
-
+        return !heartOrNot;
     }
 
-    public boolean checkIfLiked(TokenUserInfo userInfo, HeartCreateDTO dto) {
-//        Product product = null;
-//        Edu edu = null;
-//
-//        if (dto.getProductId() != null) {
-//            product = productRepository.findById(dto.getProductId()).orElseThrow(
-//                    () -> new EntityNotFoundException("product를 찾을 수 없습니다.")
-//            );
-//        }
-//        if (dto.getEduId() != null) {
-//            edu = eduRepository.findById(dto.getEduId()).orElseThrow(
-//                    () -> new EntityNotFoundException("edu를 찾을 수 없습니다.")
-//            );
-//        }
-        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(
-                () -> new EntityNotFoundException("user를 찾을 수 없습니다.")
-        );
-
-//        boolean heartOrNot = heartRepository.existsByUserAndEduOrProduct(user, edu, product);
-        boolean heartOrNot = heartRepository.existsByUserAndHeartType(user, dto.getHeartType());
-        System.out.println("좋아요 여부 = "+ heartOrNot);
-        return heartOrNot;
-    }
 }
 
 
