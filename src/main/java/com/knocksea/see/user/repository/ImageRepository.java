@@ -19,4 +19,8 @@ public interface ImageRepository extends JpaRepository<SeaImage,Long> {
 
     @Query("SELECT s FROM SeaImage s WHERE s.spot = :spot")
     List<SeaImage> findBySpot(@Param("spot")  FishingSpot spot);
+
+    void deleteByShip(Ship ship);
+
+    void deleteBySpot(FishingSpot findSpotByUser);
 }

@@ -1,40 +1,56 @@
 
-.regi-calendar-content {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px;
-
+.rdrDefinedRangesWrapper {
+  display: none;
 }
-.regi-custom-calendar {
-    width: 450px;
-    height: 300px;
-    border: none;
-
-    .react-datepicker__triangle {
-      display: none;
-    }
-    
-    .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
-      margin: 10px 21px;
-      font-size: 15px;
-    }
   
-    .react-datepicker__header {
-      background: #e5f1ff;
-      border: none;
-    }
-  
-    .react-datepicker__day--today, .react-datepicker__month-text--today, .react-datepicker__quarter-text--today, .react-datepicker__year-text--today {
-      background: #e5f1ff;
-    }
-  
-    .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range {
-      background: #123282;
-    }
+.button {
+  display: inline-block;
+  background-color: #61dafb;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.regi-calendar-content input {
-    display: none;
+.button:hover {
+  // background-color: #1d7186;
 }
 
-  
+.button:active {
+  background-color: #1e9ab5;
+}
+.rdrDateDisplayWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.rdrDateDisplay {
+  display: flex;
+  align-items: center;
+  background-color: #f7f7f7;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.rdrDateInput {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.rdrDateDisplayItem {
+  color: #dab6b6;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.rdrDateDisplayItemActive {
+  width: 40px;
+  background-color: rgb(164, 181, 202);
+  color: #fff;
+}
+

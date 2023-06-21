@@ -26,8 +26,8 @@ public class FishingSpotInfoResponseDTO {
     //좋아요 개수
     private int spotLikeCount;
 
-    //선착장 위치
-    private String spotLocation;
+//    //선착장 위치
+//    private String spotLocation;
 
     //배 이름
     private String spotName;

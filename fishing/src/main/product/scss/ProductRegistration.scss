@@ -10,15 +10,10 @@ body {
 .container {
     width: 1136px;
     min-width: 700px;
-    margin: 100px auto 0;
+    margin: 50px auto 0;
     /* border: 1px solid #000; */
 }
 
-span[id] {
-    display: block;
-    width: 200px;
-    padding: 5px 0 0 15px;
-}
 
 /* 상품 등록 상단부 */
 hr {
@@ -65,7 +60,7 @@ hr {
     margin-right: 50px;
     cursor: pointer;
 
-    &:hover, &:focus {
+    &:hover, &:active{
         background-color: #123282;
     }
   }
@@ -85,9 +80,17 @@ hr {
     list-style: none;
 }
 .calendar {
-    position: sticky;
-    right: -50px;
-    transform: translate(14%, -8%);
+    position: relative;
+    // right: -50px;
+    // transform: translate(14%, -8%);
+
+    .calendar-box{
+        margin-left: 50px;
+        padding: 0;
+        width: 400px;
+        height: fit-content;
+        // border: 1px solid #000;
+    }
 }
 
 .product-regi-body li .regi-title, .category div {
@@ -96,7 +99,8 @@ hr {
     text-align: left;
 }
 .product-regi-body ul li span{
-    width: 320px;
+    width: 180px;
+    border:none;
 }
 
 .product-regi-body li .form-control {
@@ -130,20 +134,24 @@ hr {
   .filebox .filebox-upload {
     display: flex;
     justify-content: space-between;
-  }
-  .filebox-upload p {
-    margin-left: 30px;
-    margin-top: 10px;
-    width: 300px;
-    font-size: 13px;
-  }
 
-  .filebox-upload div .form-control {
-    height: 30px;
-  }
+    
+    p {
+        margin-top: -8px;
+        font-size: 13px;
+      }
+    
+    label {
+        // height: 30px;
+        margin-bottom: 20px;
+      }
 
+
+  }
+  
   .time-box input {
     margin: 7px 15px;
+    height: 50px;
   }
 
 /*  상품 등록 하단부 */
@@ -212,3 +220,17 @@ hr {
         margin-right: 20px;
     }
     }
+
+    .my-time-picker {
+        display: flex;
+        align-items: center;
+      }
+      
+      .my-time-picker__select {
+        width: 80px;
+        margin-right: 16px;
+      }
+      
+      .my-time-picker__select:last-child {
+        margin-right: 0;
+      }
