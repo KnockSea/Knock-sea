@@ -11,22 +11,22 @@ import lombok.*;
 @EqualsAndHashCode
 public class FishingSpotRegisterResponseDto {
 
-    private String spotName;
+     private String spotName;
 
-    private String spotLocation;
+//    private String spotLocation;
 
     private String spotDescription;
 
-    private String spotSerial;
+//    private String spotSerial;
 
     private int spotHeartCount;
 
     private String username;
 
     public FishingSpotRegisterResponseDto(FishingSpot save) {
-        this.spotName = save.getSpotName();
-        this.spotSerial = save.getSpotSerialNumber();
-        this.spotLocation = save.getSpotLocation();
+        this.spotName = save.getSpotTitle();
+//        this.spotSerial = save.getSpotSerialNumber();
+//        this.spotLocation = save.getSpotLocation();
         this.spotDescription = save.getSpotDescription();
         this.spotHeartCount = save.getSpotHeartCount();
         this.username = save.getUser().getUserName();

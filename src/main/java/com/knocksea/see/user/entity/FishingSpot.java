@@ -26,17 +26,17 @@ public class FishingSpot {
     @Column(name = "spot_id")
     private Long spotId;
 
-    @Column(name = "spot_name", nullable = false)
-    private String spotName;
+    @Column(name = "spot_title", nullable = false)
+    private String spotTitle;
 
-    @Column(name = "spot_location", nullable = false)
-    private String spotLocation;
+//    @Column(name = "spot_location", nullable = false)
+//    private String spotLocation;
 
     @Column(name = "spot_description", nullable = false)
     private String spotDescription;
 
-    @Column(name = "spot_serial_number", nullable = false)
-    private String spotSerialNumber;
+//    @Column(name = "spot_serial_number", nullable = false)
+//    private String spotSerialNumber;
 
     @Column(name = "spot_heart_count", nullable = false, columnDefinition = "int default 0")
     private int spotHeartCount;

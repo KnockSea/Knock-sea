@@ -19,7 +19,6 @@ import java.util.List;
 @Table(name = "sea_product")
 @Entity
 public class Product {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
