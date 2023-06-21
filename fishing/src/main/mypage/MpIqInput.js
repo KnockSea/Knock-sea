@@ -7,18 +7,21 @@ const MpIqInput = () => {
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
+    console.log(event.target.value);
   };
 
   const handleContentChange = (event) => {
     setContent(event.target.value);
+    console.log(event.target.value);
   };
 
   const handleSubmit = () => {
     const data = {
-      inquiryDetails: content
+      inquiryDetails: content,
+      inquiryTitle: title
     };
 
-    fetch('/api/v1/inquiries', {
+    fetch('http://localhost:8012/api/v1/inquiries', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
