@@ -11,15 +11,21 @@ import { getLoginUserInfo } from '../util/login-util';
 
 
 function Myinfo () {
-
-  const [userInfo, setUserInfo] = useState({
-    token: '', // Set default value for name
-    userEmail: '', // Set default value for email
-    userName : '',
+  
+  //
+  const [newuserInfo, setnewUserInfo] = useState({
+    token : '',
+    userEmail : '',
     userGrade : '',
-    userId : ''
+    userId : '',
+    userName : '',
+    userPhone : ''
   });
-    console.log(userInfo);
+
+
+
+ 
+    console.log(newuserInfo);
     const handleAddressSearch = () => {
         new window.daum.Postcode({
           onComplete: function(data) {
@@ -30,13 +36,27 @@ function Myinfo () {
         }).open();
 
       };
+      
+      //새로입력받는 이름 세팅해주기
+      const handleNameChange = (e) => {
+        setnewUserInfo({ ...newuserInfo, userName: e.target.value });
+        console.log(newuserInfo.userName);
+      };
+
+      //새로입력받는 이메일 세팅해주기 
+      const handleEmailChange = (e) =>{
+        setnewUserInfo({...newuserInfo, userEmail : e.target.value});
+        console.log(newuserInfo.userEmail);
+      }
+
+      //새로 입력받는 전화번호 세팅해주기
     
 
 
      
   useEffect(() => {
-    const user = getLoginUserInfo();
-    setUserInfo(user);
+    setnewUserInfo(getLoginUserInfo());
+    console.log(getLoginUserInfo());
   }, []);
 
 
@@ -49,16 +69,23 @@ function Myinfo () {
             <div className='userbox'>
             <div className='name'>
                 <div className='title'>이름</div>
-              <div className='inputbox'>  <input
+              <div className='inputbox'>  
+              <input
                 placeholder="이름"
-                value={userInfo.userName} // userInfo에서 이름값 가져오기
-              /> </div>
+                onChange={handleNameChange}
+                value={newuserInfo.userName}
+              />
+              </div>
                 <button className='btn1'>변경하기</button> 
             </div>
 
             <div className='email'>
             <div className='title'>이메일</div>
-                <div className='em'>abc@abcd.com</div>
+            <input
+                placeholder="이메일"
+                onChange={handleEmailChange}
+                value={newuserInfo.userEmail}
+              />
                 <button className='btn1'><Link to={'/mypassword'}>비밀번호 변경</Link></button> 
 
             </div>

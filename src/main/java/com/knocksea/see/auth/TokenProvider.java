@@ -56,6 +56,7 @@ public class TokenProvider {
         claims.put("userId", userEntity.getUserId());
         claims.put("userEmail", userEntity.getUserEmail());
         claims.put("userGrade", userEntity.getUserGrade().toString());
+        claims.put("userPhone",userEntity.getUserPhone());
 
         return Jwts.builder()
                 //token header에 들어갈 서명
@@ -93,6 +94,7 @@ public class TokenProvider {
 
         return TokenUserInfo.builder().userId(Long.valueOf(claims.getSubject()))
                 .userEmail(claims.get("userEmail",String.class))
+                .userPhone(claims.get("userPhone",String.class))
                 .userGrade(UserGrade.valueOf(claims.get("userGrade",String.class))).build();
     }
 
