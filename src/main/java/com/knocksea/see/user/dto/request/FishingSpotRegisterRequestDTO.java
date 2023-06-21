@@ -13,14 +13,7 @@ public class FishingSpotRegisterRequestDTO {
 
     private String spotName;
 
-    private String spotLocation;
-
 
     private String spotDescription;
-
-
-    private String spotSerialNumber;
-
-
 
 }

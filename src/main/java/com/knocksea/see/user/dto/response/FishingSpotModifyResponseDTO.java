@@ -17,20 +17,20 @@ public class FishingSpotModifyResponseDTO {
 
     private String spotName;
 
-    private String spotLocation;
+//    private String spotLocation;
 
     private String spotDescription;
 
-    private String spotSerialNumber;
+//    private String spotSerialNumber;
 
     private List<String> saveImageLocation;
 
 
     public FishingSpotModifyResponseDTO(FishingSpot save) {
 
-        this.spotName = save.getSpotName();
-        this.spotDescription = save.getSpotDescription();
-        this.spotLocation = save.getSpotLocation();
-        this.spotSerialNumber = save.getSpotSerialNumber();
+//        this.spotName = save.getSpotName();
+//        this.spotDescription = save.getSpotDescription();
+//        this.spotLocation = save.getSpotLocation();
+//        this.spotSerialNumber = save.getSpotSerialNumber();
     }
 }

@@ -59,7 +59,7 @@ public class ShipService {
             //등록된 배가 없다면
             if(foundByUserId==null){
                 //dto를 ship엔티티로 변환
-                Ship saveship = Ship.builder().shipDescription(dto.getShipDescription()).shipSerial(dto.getShipSerial()).shipLocation(dto.getShipLocation()).shipName(dto.getShipName()).user(user).build();
+                Ship saveship = Ship.builder().shipDescription(dto.getShipDescription()).shipName(dto.getShipName()).user(user).build();
                 Ship save = shipRepository.save(saveship);
                 return new ShipRegisterResponseDTO(save);
             }else{
@@ -123,7 +123,7 @@ public class ShipService {
         ShipInfoResponseDTO build = ShipInfoResponseDTO.builder()
                 .shipLikeCount(findShipByUser.getShipLikeCount())
                 .shipId(findShipByUser.getShipId())
-                .shipLocation(findShipByUser.getShipLocation())
+//                .shipLocation(findShipByUser.getShipLocation())
                 .shipDescription(findShipByUser.getShipDescription())
                 .shipName(findShipByUser.getShipName())
                 .userName(findShipByUser.getUser().getUserName())
