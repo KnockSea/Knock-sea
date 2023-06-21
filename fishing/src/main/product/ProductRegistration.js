@@ -3,13 +3,13 @@ import './scss/ProductRegistration.scss';
 import { NativeSelect, FormControl, InputLabel } from '@mui/material';
 import RegiCalendar from './RegiCalendar';
 import RegiTime from './RegiTime.js';
-
+import Post from '../account/Post';
 
 function ProductRegistration() {
   const [labelType, setLabelType] = useState('');
-
   const [title, setTitle] = useState('');
-  const [locationInfo, setLocationInfo] = useState('');
+  const [userAddress, setuserAddress] = useState('');
+  const [userFullAddress, setuserFullAddress] = useState('');
   const [photo1, setPhoto1] = useState('');
   const [photo2, setPhoto2] = useState('');
   const [price, setPrice] = useState('');
@@ -20,10 +20,11 @@ function ProductRegistration() {
   const [step2, setStep2] = useState('');
   const [step3, setStep3] = useState('');
   const [dateRange, setDateRange] = useState('');
-
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
 
+  const [popup, setPopup] = useState(false);
+  const [isPopupVisible, setPopupVisible] = useState(false);
 
   const handlePhoto1Change = (event) => {
     const file = event.target.files[0];
@@ -43,26 +44,31 @@ function ProductRegistration() {
     setSelectedMinute(event.target.value);
   };
 
-
   const addTimeBox = () => {
     setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
   };
 
-   const handleGetDateRange = (dateRange) => {
+  const handleGetDateRange = (dateRange) => {
     setDateRange(dateRange);
-};
- 
+  };
 
+ 
+  // 주소 검색 팝업 
+  const getAddress = (userAddress) => {
+    setuserAddress(userAddress);
+    console.log('getAddr:', userAddress);
+  };
+
+
+  // form 등록
   const handleProductRegi = (e) => {
     e.preventDefault();
-    // 등록 처리 로직
+
     console.log(photo1, photo2);
     console.log(dateRange);
   };
 
-
   return (
-    
     <div className="container">
       <div className="product-regi-wrap">
         <div className="product-regi-header">
@@ -140,18 +146,34 @@ function ProductRegistration() {
               </li>
               <li>
                 <div className="regi-title">장소<span className="imp">*</span></div>
-                <div>
-                  <input
+                <div className='form-control' style={{display:"flex", justifyContent:"space-between"}}>
+                   <span className='postSee'>{userAddress}</span>
+                    <div
+                      className="postSearch"
+                      style={{width:"100px", height:"25px", lineHeight:"25px", marginLeft:"30px"}}
+                      onClick={()=>{
+                        setPopup(!popup)
+                      }}
+                      >
+                        🔍︎ 주소 검색
+                        {popup && 
+                          <Post getAddress={getAddress}/>
+                        } 
+                      </div>
+                </div>
+                 
+              </li>
+              <li>
+              <input
                     type="text"
-                    value={locationInfo}
-                    onChange={(e) => setLocationInfo(e.target.value)}
-                    size="30"
+                    name="userFullAddress"
                     className="form-control"
+                    onChange={(e) => setuserFullAddress(e.target.value)}
                     required
                     aria-required="true"
-                    placeholder="ex) 서울특별시 강남구 역삼로 17길 24"
+                    placeholder="ex) '345번지' 혹은 '동-호수'"
+                    style={{marginLeft : "200px"}}
                   />
-                </div>
               </li>
               <li>
                 <div className="regi-title">가격(원)<span className="imp">*</span></div>
