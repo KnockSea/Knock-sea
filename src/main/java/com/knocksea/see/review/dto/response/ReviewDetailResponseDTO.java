@@ -21,6 +21,7 @@ public class ReviewDetailResponseDTO {
     private Long userId;
     private Long eduId;
     private Long productId;
+    private String profileImg;
 
 
     public ReviewDetailResponseDTO(Review review) {
@@ -31,6 +32,7 @@ public class ReviewDetailResponseDTO {
         this.userId = review.getUser().getUserId();
         this.eduId = review.getEdu() != null ? review.getEdu().getEduId() : null;
         this.productId = review.getProduct() != null ? review.getProduct().getProductId() : null;
+        this.profileImg = review.getUser().getProfileImg();
 
     }
 
