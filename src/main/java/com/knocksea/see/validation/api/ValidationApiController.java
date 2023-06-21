@@ -1,9 +1,12 @@
 package com.knocksea.see.validation.api;
 
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
+import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
 import com.knocksea.see.validation.dto.ValidationCreateDTO;
+import com.knocksea.see.validation.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -22,6 +25,9 @@ import java.util.List;
 @RequestMapping("/api/v1/validation")
 public class ValidationApiController {
 
+    @Autowired
+    ValidationService validationService;
+
     @PostMapping
     public ResponseEntity<?> create(
             @Validated @RequestBody ValidationCreateDTO dto, BindingResult result
@@ -38,7 +44,17 @@ public class ValidationApiController {
         ResponseEntity<List<FieldError>> fieldErros = getValidatedResult(result);
         if(fieldErros!=null) return fieldErros;
 
-        return null;
+        try {
+            EduDetailResponseDTO responseDTO = validationService.insert(dto);
+            return ResponseEntity
+                    .ok()
+                    .body(responseDTO+" 저장 성공");
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity
+                    .internalServerError()
+                    .body("서버 터짐: " + e.getMessage());
+        }
     }
 
     //입력값 검증
