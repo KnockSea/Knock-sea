@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 const MpList = () => {
   return (
     <ul className='list'>
-      <li>업체정보</li>
+      <li><Link to={'/my'}>내 정보</Link></li>
+      <li><Link to={'/host'}>업체정보</Link></li>
       <li>리뷰게시판</li>
       <li className='my'>예약현황</li>
       <li><Link to={'/myinfo'}>정보 수정하기</Link></li>

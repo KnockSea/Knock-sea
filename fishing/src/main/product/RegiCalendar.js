@@ -18,7 +18,7 @@ const [dateRange, setDateRange] = useState([
     },
   ]);
 
-  const handleGetDateRange = (dateRange) => {
+  const handleDateChange = (dateRange) => {
     setDateRange(dateRange);
   };
   
@@ -34,15 +34,6 @@ const [dateRange, setDateRange] = useState([
               className="datePicker"
               />
 
-
-              {/* <DatePicker
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    dateFormat="yyyy년 MM월 dd일"
-                    calendarClassName="regi-custom-calendar"
-                    open
-                    locale={ko}
-                  /> */}
           </div>
           {selectedDate && (
             <div className="regi-selected-date">

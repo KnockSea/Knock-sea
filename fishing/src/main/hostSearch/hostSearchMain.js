@@ -1,6 +1,7 @@
 import React from 'react'
 import './scss/hostSearchMain.scss'
 import HostPhotoCarousel from './hostPhotoCarousel'
+import MpList from '../mypage/MpList'
 
 const HostSearchMain = () => {
   return (
@@ -19,18 +20,17 @@ const HostSearchMain = () => {
                         </div>
 
                         <div className='user-info-box'>
-                            <div>
+                            <div  className='user-info-page'>
                                 <div className='nickName'>
                                     <p>LOVETMORROW</p>
                                     <p>★★★★★</p>
                                 </div>
-                                <div>
-                                    프사프사
+                                <div className='profile'>
                                 </div>
                             </div>
-                            <div>
-                                <span>제목입니둥</span>
-                                <span>소개소개소개</span>
+                            <div className='user-content-page'>
+                                <p>제목입니둥</p>
+                                <p>소개소개소개</p>
                             </div>
                         </div>
                     </div>
@@ -46,9 +46,10 @@ const HostSearchMain = () => {
                         <h2>이 업체의 글</h2>
                         <p>아직 작성된 글이 없습니다</p>
                     </div>
-                    <button className='isbtn'></button>
                 </div>
             </div>
+            
+            <MpList />
         </section>
     )
 }

@@ -4,87 +4,58 @@ import { Link, useNavigate } from 'react-router-dom';
 import naverbtn from '../img/naverbtn1.png';
 import kakaobtn from '../img/kakaobtn.png';
 // import RegistCalendar from '../product/RegistCalendar';
-import { setLoginUserInfo} from '../util/login-util';
+import { setLoginUserInfo, isLogin } from '../util/login-util';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const redirection = useNavigate();
 
-  const fetchLogin = async() => {
+  // if (isLogin()) {
+    //   alert('이미 로그인 중입니다.');
+    //   window.history.back();
+    //   return;
+    // }
 
-     const res = await fetch('http://localhost:8012/api/v1/user/signin', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        userEmail: email,
-        userPassword: password
-      })
-    });
-
-    if (res.status === 400) { // 가입이 안되어있거나, 비번틀린 경우
-      const text = await res.text(); // 서버에서 온 문자열 읽기
-      alert(text);
-      return;
+  const fetchLogin = async () => {
+    try {
+      const res = await fetch('http://localhost:8012/api/v1/user/signin', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          userEmail: email,
+          userPassword: password
+        })
+      });
+  
+      if (res.status === 400) {
+        const text = await res.text();
+        alert('🤔 이메일 또는 비밀번호를 확인해주세요!');
+        return;
+      }
+  
+      const userInfo = await res.json();
+      setLoginUserInfo(userInfo);
+      alert('🐟🐠환영합니다!!!🦑🐡');
+      redirection('/');
+      
+    } catch (error) {
+      console.error('로그인 실패:', error);
+      alert('로그인에 실패했습니다😓 다시 시도해주세요!');
     }
-
-    const userInfo = await res.json();
-
-    setLoginUserInfo(userInfo);
-
-    console.log('성공했닝?');
-    console.log(userInfo);
-
-    // 홈으로 리다이렉트
-    redirection('/');
   };
 
 
-  // 로그인 요청 핸들러
+  
+  // 로그인 요청
   const handleLogin = e => {
     e.preventDefault();
-
+  
     // 서버에 로그인 요청 전송
     fetchLogin();
 
+   
   };
-
-  // const handleLogin = (e) => {
-  //   e.preventDefault();
-
-  //   // 로그인 서버 요청
-  //   if (email && password) {
-  //     const userData = {
-  //       email,
-  //       password
-  //     };
-  //     console.log(userData);
-
-  //     // fetch를 사용하여 로그인 요청 보내기
-  //     fetch('http://localhost:8012/api/v1/user/signin', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify(userData)
-  //     })
-  //       .then(response => response.json())
-  //       .then(data => {
-  //         // 로그인 성공 시 처리할 로직 작성
-  //         console.log('로그인 성공:', data);
-  //         alert('로그인에 성공했습니다!🤗🎀');
-  //         // 로그인 성공 후 리다이렉트 등을 수행할 수 있습니다.
-  //         redirection('/');
-  //       })
-  //       .catch(error => {
-  //         // 로그인 실패 시 처리할 로직 작성
-  //         console.error('로그인 실패:', error);
-  //         alert('로그인에 실패했습니다😓 다시 시도해주세요!');
-  //       });
-  //   } else {
-  //     alert('이메일과 비밀번호를 입력해주세요.');
-  //   }
-  // };
 
   return (
     <div className="container">

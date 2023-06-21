@@ -8,7 +8,7 @@ import Post from '../account/Post';
 function ProductRegistration() {
   const [labelType, setLabelType] = useState('');
   const [title, setTitle] = useState('');
-  const [userAddress, setuserAddress] = useState('');
+  const [userAddress, setuserAddress] = useState('주소 검색 클릭');
   const [userFullAddress, setuserFullAddress] = useState('');
   const [photo1, setPhoto1] = useState('');
   const [photo2, setPhoto2] = useState('');
@@ -55,7 +55,7 @@ function ProductRegistration() {
  
   // 주소 검색 팝업 
   const getAddress = (userAddress) => {
-    setuserAddress(userAddress);
+    setuserAddress(userAddress)
     console.log('getAddr:', userAddress);
   };
 
@@ -147,10 +147,13 @@ function ProductRegistration() {
               <li>
                 <div className="regi-title">장소<span className="imp">*</span></div>
                 <div className='form-control' style={{display:"flex", justifyContent:"space-between"}}>
-                   <span className='postSee'>{userAddress}</span>
+                   <span className='postSee'  style={{width:"250px", textAlign:"left", fontSize:"16px",
+                        whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{userAddress}</span>
                     <div
                       className="postSearch"
-                      style={{width:"100px", height:"25px", lineHeight:"25px", marginLeft:"30px"}}
+                      style={{
+                        width:"100px", height:"25px", lineHeight:"25px", marginLeft:"30px"
+                      }}
                       onClick={()=>{
                         setPopup(!popup)
                       }}

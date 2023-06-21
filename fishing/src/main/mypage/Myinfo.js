@@ -7,6 +7,7 @@ import MpList from './MpList';
 import { useEffect } from 'react'
 import { useState } from 'react';
 import { getLoginUserInfo } from '../util/login-util';
+import Post from '../account/Post';
 
 
 
@@ -19,6 +20,14 @@ function Myinfo () {
     userGrade : '',
     userId : ''
   });
+
+  const [userAddress, setuserAddress] = useState('');
+  const [userFullAddress, setuserFullAddress] = useState('');
+  const [popup, setPopup] = useState(false);
+  const [isPopupVisible, setPopupVisible] = useState(false);
+
+
+
     console.log(userInfo);
     const handleAddressSearch = () => {
         new window.daum.Postcode({
@@ -31,7 +40,10 @@ function Myinfo () {
 
       };
     
-
+      const getAddress = (userAddress) => {
+        setuserAddress(userAddress);
+        console.log('getAddr:', userAddress);
+      };
 
      
   useEffect(() => {
@@ -70,9 +82,39 @@ function Myinfo () {
 
             <div className='addr'>
             <div className='title'>주소</div>
-         <button className='btn1'
-         onClick={handleAddressSearch}>주소찾기</button> 
-
+            <div className='post-form'>
+              <div style={{display:"flex"}}>
+                   
+                    <div
+                      className="postSearch"
+                      style={{width:"100px", height:"25px", lineHeight:"25px", marginLeft:"10px"}}
+                      onClick={()=>{
+                        setPopup(!popup)
+                      }}
+                      >
+                        🔍︎ 주소 검색
+                        {popup && 
+                          <Post getAddress={getAddress}/>
+                        } 
+                       
+                      </div>
+                      <span 
+                          className='postSee' 
+                          style={{marginLeft:"10px", fontSize:"15px"}}>
+                            {userAddress}
+                      </span>
+                      </div>
+                      <input
+                          type="text"
+                          name="userFullAddress"
+                          className="post-form"
+                          onChange={(e) => setuserFullAddress(e.target.value)}
+                          required
+                          aria-required="true"
+                          placeholder="ex) '345번지' 혹은 '동-호수'"
+                          style={{margin:"10px", width:"400px"}}
+                        />
+                </div>
 
             </div>
 
