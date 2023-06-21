@@ -27,6 +27,7 @@ public class ProductDetailResponseDTO {
     private String fullAddress;
     private String info;
     private String locationInfo;
+    private Long userId;
 
     // 예약 가능 시간 list있어야함
     // -> 예약 가능 시간 dto만들어서 그걸 list화 해야 되겠는데?
@@ -43,6 +44,7 @@ public class ProductDetailResponseDTO {
         this.fullAddress = product.getProductFullAddress();
         this.info = product.getProductInfo();
         this.locationInfo = product.getProductLocationInfo();
+        this.userId = product.getUser().getUserId();
     }
 
 
@@ -59,6 +61,7 @@ public class ProductDetailResponseDTO {
         this.fullAddress = product.getProductFullAddress();
         this.info = product.getProductInfo();
         this.locationInfo = product.getProductLocationInfo();
+        this.userId = product.getUser().getUserId();
         this.timeList = dtoTimeList;
         this.reviewList = dtoReviewList;
     }

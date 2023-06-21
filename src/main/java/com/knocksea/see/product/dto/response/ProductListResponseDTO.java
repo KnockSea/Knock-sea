@@ -1,5 +1,6 @@
 package com.knocksea.see.product.dto.response;
 
+import com.knocksea.see.product.entity.ViewProduct;
 import lombok.*;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public class ProductListResponseDTO {
     private int count;
     private PageResponseDTO pageInfo;
     private List<ProductDetailResponseDTO> products;
+
+    private List<ViewProduct> allAddress;
 }

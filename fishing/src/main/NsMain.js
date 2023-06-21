@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import './scss/NsMain.scss'
 import wt from './img/wt.png'
-
 import NsItem from './NsItem'
 import NsBanner from './NsBanner'
 import { Route, Routes } from 'react-router-dom'
@@ -29,16 +28,43 @@ import OwnerCheckShip from './ownercheck/OwnerCheckShip'
 import OwnerCheckFishing from './ownercheck/OwnerCheckFishing'
 import MpQueryText from './mypage/MpQueryText'
 
+import MpBtInfo from './mypage/MpBtInfo'
+import MpFsInfo from './mypage/MpFsInfo'
+import MpClassInfo from './mypage/MpClassInfo'
+import { API_BASE_URL, SHIP } from '../config/host-config';
+import MpAdmin from './mypage/MpAdmin';
+import MpIqInput from './mypage/MpIqInput';
+import MpAdminFS from './mypage/MpAdminFS';
+import MpAdminCS from './mypage/MpAdminCS';
+import HostSearchMain from './hostSearch/hostSearchMain'
+
+
 
 const NsMain = () => {
 
+    const [shipInfo, setShipInfo] = useState(null);
+
+    useEffect(() => {
+      // 배 정보를 가져오는 함수
+      const fetchShipInfo = async () => {
+        try {
+          const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
+          const data = await response.json();
+          setShipInfo(data);
+        } catch (error) {
+          console.error('Error fetching ship info:', error);
+        }
+      };
+  
+      fetchShipInfo();
+    }, []);
 
 
   return (
     <section>
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
-            <Route path='/' element ={<MainContent />} />
+            <Route path='/' element ={<MainContent shipInfo={shipInfo} />} />
             <Route path='/detail' element={<RvBtDetail/>}> </Route>
             <Route path='/fsdetail' element={<RvFsDetail/>}> </Route>
             <Route path='/my' element={<MpMain/>}> </Route>
@@ -47,8 +73,14 @@ const NsMain = () => {
             <Route path='/product' element={<ProductRegistration/>}></Route>
             <Route path='/userDrop' element={<MpUserDrop/>}></Route>
             <Route path='/drop' element={<MpDrop/>}></Route>
+            {/* 문의하기 */}
+            <Route path='/iqinput' element={<MpIqInput/>}></Route>
+            {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
+            
             <Route path='/rvlist' element={<MpRvlist/>}></Route>
+            
+            
             <Route path='/fs' element={<RvFsTemplate/>}></Route>
             <Route path='/join' element={<SignUpForm/>}></Route>
             <Route path='/login' element={<Login/>}></Route>
@@ -58,40 +90,23 @@ const NsMain = () => {
             <Route path="/ship" element={<OwnerCheckShip/>} ></Route>
             <Route path="/fishing" element={<OwnerCheckFishing/>} ></Route> 
             <Route path='/myquery' element={<MpQueryText/>}></Route>
-
+            {/* 업체 정보 */}
+            <Route path='/mpbt' element={<MpBtInfo/>}></Route>
+            <Route path='/mpfs' element={<MpFsInfo/>}></Route>
+            <Route path='/mpclass' element={<MpClassInfo/>}></Route>
+            {/* 관리자 */}
+            <Route path='/admin' element={<MpAdmin/>}></Route>
+            <Route path='/adminFs' element={<MpAdminFS/>}></Route>
+            <Route path='/adminCS' element={<MpAdminCS/>}></Route>     
+            <Route path='/host' element={<HostSearchMain/>}></Route>
         </Routes>
-        {/* <div className='banner'><img src={banner} /></div> */}
-        {/* <NsBanner />
-
-       <div className='mainbox'>
-
-        <div className='contentbox'>
-            <NsItem />
-            <NsItem />
-            <NsItem /> */}
-            {/* <div className='ship'>
-                <div className='title'>
-                    <p className='t1'>오늘의 배낚시 > </p>
-                    <p className='t2'>더보기</p>
-                </div>
-                <div className='shipboxs'>
-                    <div><img src={ex} /></div>
-                    <div><img src={ex} /></div>
-                    <div><img src={ex} /></div>
-                </div>
-            </div> */}
-
-           
-
-        {/* </div>
-        <div className='apibox'>
-            <div className='exbox'>이번주 날씨 > </div>
-        </div>
-       </div> */}
+            
+                {/* MainContent 컴포넌트에 shipInfo prop 전달 */}
+      {/* <MainContent shipInfo={shipInfo} /> */}
     </section>
   )
 }
-const MainContent = ({ isRouteActive }) => {
+const MainContent = ({ isRouteActive , shipInfo}) => {
     return (
         <>
            {!isRouteActive && (
@@ -100,14 +115,15 @@ const MainContent = ({ isRouteActive }) => {
 
             <div className='mainbox'>
             <div className='contentbox'>
-            <NsItem />
+            <NsItem 
+            shipInfo={shipInfo}
+            />
             <NsFishingSpot />
             <NsClass />
 
 
             </div>
         <div className='apibox'>
-            {/* <div className='exbox'>이번주 날씨 > </div> */}
             <div className='wtbox'>
                 <WeeklyWeather/>
             </div>
