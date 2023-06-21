@@ -25,6 +25,9 @@ public class Inquiry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long inquiryId;
 
+    @Column(name = "inquiry_title", nullable = false)
+    private String inquiryTitle;
+
     @Column(name = "inquiry_details", nullable = false)
     private String inquiryDetails;
 
