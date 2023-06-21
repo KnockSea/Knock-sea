@@ -51,8 +51,8 @@ public class EduService {
     public EduTopFourListResponseDTO findTopFour(){
         //like 테이블에서 좋아요 개수가 제일 높은 4개를 찾아서 그 eduId를 찾음. eduId로 edu테이블에서 찾음
         //정 안되면 Edu 테이블에 좋아요 칼럼 만들기
-        List<EduTopFourListResponseDTO> likeRank = heartRepository.findLikeRank(); //4개를 찾음
-        log.info("likeRank : "+likeRank);
+//        List<EduTopFourListResponseDTO> likeRank = heartRepository.findLikeRank(); //4개를 찾음
+//        log.info("likeRank : "+likeRank);
 
         return null;
     }
