@@ -1,5 +1,8 @@
-package com.knocksea.see.validation.dto;
+package com.knocksea.see.validation.dto.request;
 
+import com.knocksea.see.edu.entity.Edu;
+import com.knocksea.see.user.entity.User;
+import com.knocksea.see.validation.entity.Validation;
 import com.knocksea.see.validation.entity.ValidationStatus;
 import com.knocksea.see.validation.entity.ValidationType;
 import lombok.*;
@@ -23,4 +26,14 @@ public class ValidationCreateDTO {
     private String validationShipLicense; //선박면허증 번호 //배 등록때만 사용
     private String validationBusinessRegi; //사업자 등록증 번호 //낚시터 등록때만 사용
 
+    public Validation toValidationEntity(User user) {
+
+        return Validation.builder()
+                .validationType(this.validationType)
+                .validationShipRegi(this.validationShipRegi)
+                .validationShipLicense(this.validationShipLicense)
+                .validationBusinessRegi(this.validationBusinessRegi)
+                .user(user)
+                .build();
+    }
 }

@@ -1,24 +1,19 @@
 package com.knocksea.see.validation.api;
 
-import com.knocksea.see.auth.TokenUserInfo;
-import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
-import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
-import com.knocksea.see.validation.dto.ValidationCreateDTO;
+import com.knocksea.see.user.service.ImageService;
+import com.knocksea.see.validation.dto.request.ValidationCreateDTO;
+import com.knocksea.see.validation.dto.response.ValidationRegisterResponseDTO;
 import com.knocksea.see.validation.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,18 +22,19 @@ import java.util.List;
 @RequestMapping("/api/v1/validation")
 public class ValidationApiController {
 
-    @Autowired
-    ValidationService validationService;
 
+    private final ValidationService validationService;
+    private final ImageService imageService;
+
+    /*  private MultipartFile validationShipRegiImg; //선박 등록증 이미지
+        private MultipartFile validationShipLicenseImg; //선박 면허증 이미지
+        private MultipartFile validationBusinessRegiImg; //사업자 등록증 이미지*/
     @PostMapping
     public ResponseEntity<?> create(
-/*            private MultipartFile validationShipRegiImg; //선박 등록증 이미지
 
-    private MultipartFile validationShipLicenseImg; //선박 면허증 이미지
-    private MultipartFile validationBusinessRegiImg; //사업자 등록증 이미지*/
             @Validated @RequestPart("validation") ValidationCreateDTO dto,
             @RequestPart(value = "validationImage", required = false) List<MultipartFile> validationImg
-            , @AuthenticationPrincipal TokenUserInfo userInfo
+//            , @AuthenticationPrincipal TokenUserInfo userInfo
             , BindingResult result
     ) {
         log.info("/api/v1/validation POST!!: --{}", dto);
@@ -58,8 +54,18 @@ public class ValidationApiController {
 
         try {
 
-            validationService.insert(dto,userInfo);
+//            validationService.insert(dto,userInfo); 토큰 사용시
+            ValidationRegisterResponseDTO insertValidation = validationService.insert(dto);
 
+            if(validationImg!=null){
+                log.info("ggggg");
+                //이미지 파일들이 잘 들어왔다면 원본이름 출력시키기
+                for (MultipartFile validationImage : validationImg) {
+                    log.info("validationImage : "+validationImage.getOriginalFilename());
+                }
+                //이미지 저장시키기
+                imageService.saveValidationImg(validationImg,dto);
+            }
 
             /*return ResponseEntity.ok().body();*/
 
