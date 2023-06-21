@@ -4,14 +4,16 @@ import { Route, Routes } from 'react-router-dom';
 import { useNavigate, Link } from 'react-router-dom';
 import Post from './Post';
 import ProfileUpload from './ProfileUpload';
+
 // import { API_BASE_URL as BASE, USER } from '../config/host-config';
 
-
 function SignUpForm(){
+
 
   // const API_BASE_URL = BASE + USER;
 
   const redirection = useNavigate();
+
   const [userValue, setUserValue] = useState({
     userEmail: '', 
     userPassword: '', 

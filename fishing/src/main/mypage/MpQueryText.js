@@ -7,6 +7,7 @@ const MpQueryText = () => {
     const [shipConfirmImage1, setShipConfirmImage1] = useState(null);
   const [shipConfirmImage2, setShipConfirmImage2] = useState(null);
 
+
   const handleShipConfirmImage1Change = (event) => {
     const file = event.target.files[0];
     setShipConfirmImage1(file);

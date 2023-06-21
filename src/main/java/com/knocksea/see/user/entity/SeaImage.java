@@ -2,10 +2,7 @@ package com.knocksea.see.user.entity;
 
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.product.entity.ProductCategory;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "sea_image")
+@ToString(exclude = {"ship","spot"})
 public class SeaImage {
 
     @Id
@@ -37,7 +35,7 @@ public class SeaImage {
     private Ship ship;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "spot_id")
     private FishingSpot spot;
 

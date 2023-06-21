@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--mybatis에서 사용될 DB를 연동하기 위한 설정값들과 mapper.xml을 등록하기 위한 xml-->
+
+<configuration>
+    <settings>
+        <!--   자동 카멜케이스 to 스네이크 케이스 변환 설정     -->
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+    </settings>
+
+    <typeAliases>
+        <!--  entity 클래스 별칭 설정 com.spring.mvc.chap04.entity.Score를 score로 부를거야      -->
+        <typeAlias alias="score" type="com.spring.mvc.chap04.entity.Score" />
+        <typeAlias alias="board" type="com.spring.mvc.chap05.entity.Board" />
+        <typeAlias alias="self" type="com.spring.mvc.self.entity.Self" />
+        <typeAlias alias="reply" type="com.spring.mvc.chap05.entity.Reply" />
+        <typeAlias alias="member" type="com.spring.mvc.chap05.entity.Member" />
+    </typeAliases>
+
+    <mappers>
+        <!-- Mapper XML files -->
+        <!-- 이렇게 하면 xml파일 하나의 폴더에 모아서 관리가능 namespace보고 찾아감  -->
+        <mapper resource="mappers/ScoreMapper.xml" />
+        <mapper resource="mappers/PersonMapper.xml" />
+        <mapper resource="mappers/BoardMapper.xml" />
+        <mapper resource="mappers/SelfMapper.xml" />
+        <mapper resource="mappers/ReplyMapper.xml" />
+        <mapper resource="mappers/MemberMapper.xml" />
+    </mappers>
+</configuration>

@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/knocksea
+    url: jdbc:mariadb://localhost:3307/knocksea
     username: root
     password: 1234
     driver-class-name: org.mariadb.jdbc.Driver
@@ -13,7 +13,7 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.MariaDB106Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
@@ -36,6 +36,12 @@ jwt:
 
 # 업로드파일 저장 경로
 upload:
-  path : D:/knocksea_upload
+  path: D:/knocksea_upload
 
+#마이바티스
+mybatis:
+  config-location: classpath:mybatis-config.xml
 
+kakao:
+  admin:
+    key: b0e82271a5b48b26d2e65429c52085c1
