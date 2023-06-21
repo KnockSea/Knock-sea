@@ -9,8 +9,9 @@ const MyTimePicker = () => {
 
   const selectStyle = {
     width: '70px',
-    height: '50px',
+    height: '30px',
     marginRight: '5px',
+    fontSize: '13px'
   };
 
   const handleStartHourChange = (event) => {
@@ -107,7 +108,7 @@ const MyTimePicker = () => {
           <MenuItem value="30">30</MenuItem>
         </Select>
       </FormControl>
-      <span>{formatTime(startHour, startMinute, endHour, endMinute)}</span>
+      <span style={{fontSize:"12px"}}>{formatTime(startHour, startMinute, endHour, endMinute)}</span>
       </div>
     
     </div>
