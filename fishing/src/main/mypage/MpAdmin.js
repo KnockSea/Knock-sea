@@ -21,7 +21,7 @@ const MpAdmin = () => {
         </div>
     </div>
         <div className='mgcontentbox'>
-            <div className='ctntitle'>KNOCK_SEA 관리자 화면</div>
+            <div className='ctntitle'>KNOCK_SEA 관리자 화면 (배)</div>
 
             {/* 본문내용 */}
             <div className='ctntext'>
