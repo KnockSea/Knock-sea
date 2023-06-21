@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './scss/OwnerCheck.scss';
+import OwnerCheckHeader from './OwnerCheckHeader';
 
 function OwnerCheckFishing() {
   const [accountId, setAccountId] = useState('');
@@ -25,7 +26,7 @@ function OwnerCheckFishing() {
          <div className="owner-check-body">
           <form onSubmit={handleOwnerConfirm} encType="multipart/form-data">
               <ul>
-             
+              <OwnerCheckHeader />
               <li>
                 <div>사업자 등록증<span className="imp">*</span></div>
                 <div>

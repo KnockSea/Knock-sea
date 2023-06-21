@@ -88,16 +88,97 @@
             h2 {
                 font-weight: 700;
             }
+            .MpReFormItem{
+                margin-top: 20px;
+                display: flex;
+                align-items: center;
+                .mprebox1{
+                    width: 100px;
+                    height: 100px;
+                    border: 1px solid #000;
+                }
+                .mprebox2{
+                    margin-left: 10px;
+                   
+                    
+                    .mpreAutohr{
+                        display: flex;
+                        :nth-child(1){
+                            // border: 1px solid #000;
+                            border-right: 1px solid #ccc;
+                            width: 80px;
+                        }
+                     :nth-child(2){
+                        margin-left: 40px;
+                     }
+                    }
+                    .mpstar{
+                        margin-top: 10px;
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+
+
+
+
         }
         .rvbox2 {
             height: 300px;
             margin-top: 10px;
             // float: left;
             text-align: left;
+            display: flex;
+            justify-content: space-between;
+
             h2 {
                 font-weight: 700;
             }
+
+            .isbtn {
+                height: fit-content;
+                width: 150px;
+                background: #123282;
+                color: white;
+                font-weight: 700;
+               border-radius: 10px;
+               border: #123282;
+               }
+
+
         }
+
+
+
+// 예약 from 시작
+        .MpRvFromInfo {
+
+            .mprvbox1{
+                display: flex;
+                font-weight: 700;
+                justify-content: space-around;
+                align-items: center;
+                border-top: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+                height: 50px;
+                font-size: 18px;
+            }
+            .mprvbox2{
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                height: 60px;
+                font-size: 12px;
+                border-bottom: 1px solid #ccc;
+                .mprvid{
+                    width: 40px;
+                }
+
+            }
+        }
+// 예약 from 끝 
+
+
     }
 
     .list {

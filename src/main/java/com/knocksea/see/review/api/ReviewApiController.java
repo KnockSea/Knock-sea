@@ -58,10 +58,10 @@ public class ReviewApiController {
         }
 
         // 자신이 쓴 후기
-        @GetMapping("/{userId}")
+        @GetMapping("/myReview")
         public ResponseEntity<?> getReviewById(
-            @AuthenticationPrincipal TokenUserInfo userInfo,
-            @PathVariable Long userId, PageDTO pageDTO) {
+            @AuthenticationPrincipal TokenUserInfo userInfo
+            , PageDTO pageDTO) {
           ReviewListResponseDTO userReviewById = reviewService.getUserReviewById(pageDTO, userInfo.getUserId());
           try {
             return ResponseEntity.ok().body(userReviewById);

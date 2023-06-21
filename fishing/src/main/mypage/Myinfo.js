@@ -1,11 +1,25 @@
-import React from 'react'
+import React from 'react';
 import './MpScss/Myinfo.scss'
 import DaumPostcode from 'react-daum-postcode';
 import { Link } from 'react-router-dom';
 import Mypassword from './Mypassword';
 import MpList from './MpList';
+import { useEffect } from 'react'
+import { useState } from 'react';
+import { getLoginUserInfo } from '../util/login-util';
 
-const Myinfo = () => {
+
+
+function Myinfo () {
+
+  const [userInfo, setUserInfo] = useState({
+    token: '', // Set default value for name
+    userEmail: '', // Set default value for email
+    userName : '',
+    userGrade : '',
+    userId : ''
+  });
+    console.log(userInfo);
     const handleAddressSearch = () => {
         new window.daum.Postcode({
           onComplete: function(data) {
@@ -14,9 +28,20 @@ const Myinfo = () => {
             // 주소 데이터를 원하는 방식으로 처리하고 상태에 저장할 수 있습니다.
           }
         }).open();
+
       };
     
+
+
+     
+  useEffect(() => {
+    const user = getLoginUserInfo();
+    setUserInfo(user);
+  }, []);
+
+
   return (
+    <>
     <section className='MyPageBox'>
     <div className='box1'>
 
@@ -24,7 +49,10 @@ const Myinfo = () => {
             <div className='userbox'>
             <div className='name'>
                 <div className='title'>이름</div>
-              <div className='inputbox'>  <input placeholder='이름'/> </div>
+              <div className='inputbox'>  <input
+                placeholder="이름"
+                value={userInfo.userName} // userInfo에서 이름값 가져오기
+              /> </div>
                 <button className='btn1'>변경하기</button> 
             </div>
 
@@ -73,6 +101,7 @@ const Myinfo = () => {
     </ul> */}
     <MpList/>
 </section>
+</>
 
   )
 }

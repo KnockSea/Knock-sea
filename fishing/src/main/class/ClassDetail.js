@@ -51,14 +51,17 @@ function ClassDetail() {
                         <div className='detail-section'>
                             <div className="detail-box detail-list-profile">
                                 <div className='lists'>
+                                     <Link to={"/host"}> 
                                     <div className='box profile-img'>
                                         <img src='https://cdn-icons-png.flaticon.com/128/1752/1752787.png'/>
                                     </div>
-                                    <span className='box profile-page'>뉴정환호 ></span>
+                                    <span className='box profile-page'>뉴정환호 >
+                                    </span>
+                                    </Link>
                                     <div className='condition'>
                                         <ul className='condition-box'>
-                                            <li>난이도</li>
-                                            <li>소요시간</li>
+                                            <li>난이도 |</li>
+                                            <li>소요시간 |</li>
                                             <li>수업인원</li>
                                         </ul>
                                     </div>

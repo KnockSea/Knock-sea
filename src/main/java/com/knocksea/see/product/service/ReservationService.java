@@ -1,12 +1,11 @@
 package com.knocksea.see.product.service;
 
-import com.knocksea.see.edu.entity.Edu;
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.exception.NoProductException;
 import com.knocksea.see.product.dto.request.ReservationCancelDTO;
 import com.knocksea.see.product.dto.request.ReservationRequestDTO;
 import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
-import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ProductCategory;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
@@ -39,13 +38,13 @@ public class ReservationService {
         User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new RuntimeException("회원 정보가 없습니다."));
         reservation.setUser(user);
 
-        productRepository.findById(dto.getProductId());
+//        productRepository.findById(dto.getProductId());
 
         ReservationTime reservationTime = reservationTimeRepository.findById(dto.getReservationTimeId())
-                .orElseThrow(() -> new RuntimeException("예약 불가능한 시간입니다."));
+                .orElseThrow(() -> new RuntimeException("예약 상품이 존재하지 않습니다."));
         reservation.setReservationTime(reservationTime);
 
-        if (reservationTime.getTimeCurrentUser() + dto.getReservationUserCount() > reservationTime.getTimeMaxUser()) {
+        if ((reservationTime.getTimeCurrentUser() + dto.getReservationUserCount()) > reservationTime.getTimeMaxUser()) {
             throw new RuntimeException("예약 가능 인원이 초과하였습니다.");
         }
 
@@ -75,8 +74,12 @@ public class ReservationService {
 
     // 예약 취소
     // 예약한 인원수 빼주고, 결제 정보 취소도 필요해?
-    public boolean cancelReservation(ReservationCancelDTO dto) {
+    public boolean cancelReservation(ReservationCancelDTO dto, TokenUserInfo userInfo) throws RuntimeException {
         Reservation reservation = reservationRepository.findById(dto.getReservationId()).orElseThrow(() -> new RuntimeException("예약 정보가 없습니다."));
+
+        if (!reservation.getUser().getUserId().equals(userInfo.getUserId())) {
+            throw new RuntimeException("본인의 예약만 취소할 수 있습니다.");
+        }
 
         // 현재 예약에 신청중인 사람 수
         int reserveCount = reservation.getReservationUserCount();

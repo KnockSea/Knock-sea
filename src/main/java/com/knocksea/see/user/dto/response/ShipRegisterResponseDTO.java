@@ -14,11 +14,11 @@ public class ShipRegisterResponseDTO {
 
     private String shipName;
 
-    private String shipLocation;
+//    private String shipLocation;
 
     private String shipDescription;
 
-    private String shipSerial;
+//    private String shipSerial;
 
     private int shipLikeCount;
 
@@ -29,8 +29,8 @@ public class ShipRegisterResponseDTO {
     public ShipRegisterResponseDTO(Ship save) {
         this.shipName = save.getShipName();
         this.shipDescription = save.getShipDescription();
-        this.shipLocation = save.getShipLocation();
-        this.shipSerial = save.getShipSerial();
+//        this.shipLocation = save.getShipLocation();
+//        this.shipSerial = save.getShipSerial();
         this.shipLikeCount = save.getShipLikeCount();
         this.username = save.getUser().getUserName();
     }

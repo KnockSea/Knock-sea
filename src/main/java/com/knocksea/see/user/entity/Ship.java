@@ -25,14 +25,14 @@ public class Ship {
     @Column(name = "ship_name", nullable = false)
     private String shipName;
 
-    @Column(name = "ship_location", nullable = false)
-    private String shipLocation;
+//    @Column(name = "ship_location", nullable = false)
+//    private String shipLocation;
 
     @Column(name = "ship_description", nullable = false, length = 2000)
     private String shipDescription;
 
-    @Column(name = "ship_serial", nullable = false)
-    private String shipSerial;
+//    @Column(name = "ship_serial", nullable = false)
+//    private String shipSerial;
 
     @Column(name = "ship_like_count", nullable = false, columnDefinition = "int default 0")
     private int shipLikeCount;
@@ -49,6 +49,7 @@ public class Ship {
 
 
     @OneToMany(mappedBy = "ship", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<SeaImage> images = new ArrayList<>();
 
 
@@ -56,9 +57,10 @@ public class Ship {
 
     //배 수정용 함수
     public void modifyShipInfo(ShipModifyRequestDTO dto){
-        this.shipSerial = dto.getShipSerial();
+//        this.shipSerial = dto.getShipSerial();
         this.shipDescription = dto.getShipDescription();
-        this.shipLocation = dto.getShipLocation();
         this.shipName = dto.getShipName();
+//        this.shipLocation = dto.getShipLocation();
+//        this.shipName = dto.getShipName();
     }
 }

@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 
-const ProfileUpload = () => {
+const ProfileUpload = ({getFile}) => {
+
+  
   const [profileImg, setProfileImg] = useState(
     'https://cdn-icons-png.flaticon.com/128/5599/5599433.png'
   );
@@ -10,13 +12,15 @@ const ProfileUpload = () => {
   };
 
   const handleFileChange = (e) => {
-    const fileData = e.target.files[0];
-    const reader = new FileReader();
+    const files = e.target.files[0];
 
-    reader.readAsDataURL(fileData);
+    const reader = new FileReader();
+    reader.readAsDataURL(files);
 
     reader.onloadend = () => {
       setProfileImg(reader.result);
+
+      getFile(files);
     };
   };
 
