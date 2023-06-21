@@ -55,7 +55,7 @@ public class ProductService implements ProductDetailService {
                     , pageDTO.getSize()
                     , Sort.by("productInputDate").descending()
                 );
-
+//        type, keyword
         Page<Product> products = productRepository.findAll(pageable);
 
         List<ProductDetailResponseDTO> prodDetailList = products.stream()

@@ -54,10 +54,8 @@ public class ReservationController {
         }
         log.info("/api/v1/reservation DELETE! - {}", dto);
 
-        boolean flag = false;
         try {
-            flag = reservationService.cancelReservation(dto, userInfo);
-            if (flag) {
+            if (reservationService.cancelReservation(dto, userInfo)) {
                 return ResponseEntity.internalServerError().body("예약 취소에 실패하였습니다. \n서버와 통신이 원활하지 않습니다.");
             }
             return ResponseEntity.ok().body("예약이 취소되었습니다.");
@@ -67,5 +65,6 @@ public class ReservationController {
         }
 
     }
+
 
 }
