@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './scss/NsMain.scss'
 import wt from './img/wt.png'
-
 import NsItem from './NsItem'
 import NsBanner from './NsBanner'
 import { Route, Routes } from 'react-router-dom'
@@ -32,8 +31,8 @@ import MpBtInfo from './mypage/MpBtInfo'
 import MpFsInfo from './mypage/MpFsInfo'
 import MpClassInfo from './mypage/MpClassInfo'
 import { API_BASE_URL, SHIP } from '../config/host-config';
-
-
+import MpAdmin from './mypage/MpAdmin';
+import MpIqInput from './mypage/MpIqInput';
 
 
 
@@ -62,7 +61,7 @@ const NsMain = () => {
     <section>
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
-            <Route path='/' element ={<MainContent />} />
+            <Route path='/' element ={<MainContent shipInfo={shipInfo} />} />
             <Route path='/detail' element={<RvBtDetail/>}> </Route>
             <Route path='/fsdetail' element={<RvFsDetail/>}> </Route>
             <Route path='/my' element={<MpMain/>}> </Route>
@@ -71,8 +70,14 @@ const NsMain = () => {
             <Route path='/product' element={<ProductRegistration/>}></Route>
             <Route path='/userDrop' element={<MpUserDrop/>}></Route>
             <Route path='/drop' element={<MpDrop/>}></Route>
+            {/* 문의하기 */}
+            <Route path='/iqinput' element={<MpIqInput/>}></Route>
+            {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
+            
             <Route path='/rvlist' element={<MpRvlist/>}></Route>
+            
+            
             <Route path='/fs' element={<RvFsTemplate/>}></Route>
             <Route path='/join' element={<SignUpForm/>}></Route>
             <Route path='/login' element={<Login/>}></Route>
@@ -86,10 +91,12 @@ const NsMain = () => {
             <Route path='/mpbt' element={<MpBtInfo/>}></Route>
             <Route path='/mpfs' element={<MpFsInfo/>}></Route>
             <Route path='/mpclass' element={<MpClassInfo/>}></Route>
+            {/* 관리자 */}
+            <Route path='/admin' element={<MpAdmin/>}></Route>
         </Routes>
             
                 {/* MainContent 컴포넌트에 shipInfo prop 전달 */}
-      <MainContent shipInfo={shipInfo} />
+      {/* <MainContent shipInfo={shipInfo} /> */}
     </section>
   )
 }
