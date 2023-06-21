@@ -1,22 +1,24 @@
 package com.knocksea.see.validation.api;
 
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
+import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.validation.dto.ValidationCreateDTO;
 import com.knocksea.see.validation.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -30,48 +32,47 @@ public class ValidationApiController {
 
     @PostMapping
     public ResponseEntity<?> create(
-            @Validated @RequestBody ValidationCreateDTO dto, BindingResult result
-    ){
-        log.info("/api/v1/validation POST!!: {}", dto);
+/*            private MultipartFile validationShipRegiImg; //선박 등록증 이미지
 
-        if(dto==null){
+    private MultipartFile validationShipLicenseImg; //선박 면허증 이미지
+    private MultipartFile validationBusinessRegiImg; //사업자 등록증 이미지*/
+            @Validated @RequestPart("validation") ValidationCreateDTO dto,
+            @RequestPart(value = "validationImage", required = false) List<MultipartFile> validationImg
+            , @AuthenticationPrincipal TokenUserInfo userInfo
+            , BindingResult result
+    ) {
+        log.info("/api/v1/validation POST!!: --{}", dto);
+
+        if (dto == null) {
             return ResponseEntity
                     .badRequest()
-                    .body("검증 정보가 없습니다. 검증 정보를 전달해주세요!");
+                    .body("검증 정보가 없습니다. 검증 정보를 전달해주세요!" + result.getFieldError());
         }
 
-        //입력값 검증
-        ResponseEntity<List<FieldError>> fieldErros = getValidatedResult(result);
-        if(fieldErros!=null) return fieldErros;
+        if (result.hasErrors()) {
+            log.warn(result.toString());
+            return ResponseEntity
+                    .badRequest()
+                    .body(result.getFieldError());
+        }
 
         try {
-            EduDetailResponseDTO responseDTO = validationService.insert(dto);
-            return ResponseEntity
-                    .ok()
-                    .body(responseDTO+" 저장 성공");
-        } catch (RuntimeException e) {
+
+            validationService.insert(dto,userInfo);
+
+
+            /*return ResponseEntity.ok().body();*/
+
+        } catch (NoRegisteredArgumentsException e) {
+            log.warn("필수 등록 정보를 받지 못했습니다.");
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.warn("기타 예외가 발생했습니다.");
             e.printStackTrace();
-            return ResponseEntity
-                    .internalServerError()
-                    .body("서버 터짐: " + e.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
-    }
 
-    //입력값 검증
-    private static ResponseEntity<List<FieldError>> getValidatedResult(BindingResult result){
-        if(result.hasErrors()){
-            List<FieldError> fieldErrors = result.getFieldErrors();
-            fieldErrors.forEach(err->{
-                log.warn("입력값 검증에 걸림. 클라이언트 데이터 유효하지 않음 - {}", err.toString());
-            });
-
-            return ResponseEntity
-                    .badRequest()
-                    .body(fieldErrors);
-        }
         return null;
+
     }
-
-
-
 }
