@@ -282,12 +282,10 @@ public class UserService {
         //기존에 저장되어있던 이미지 경로
         String savedFilePath = findProfilePath(userId);
 
-        //파일 객체만들기!
-        File imageFile = new File(savedFilePath, user.getProfileImg());
-
-        if (imageFile.exists()){
-            imageFile.delete();
+        if (savedFilePath==null){
+            File imageFile = new File(uniqueFileName, user.getProfileImg());
         }
+
 
 
         File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
