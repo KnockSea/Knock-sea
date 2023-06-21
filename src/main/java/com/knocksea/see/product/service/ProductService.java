@@ -3,19 +3,13 @@ package com.knocksea.see.product.service;
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
-import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.exception.NoneMatchUserException;
-import com.knocksea.see.product.dto.request.ProductDeleteRequestDTO;
-import com.knocksea.see.product.dto.request.ProductModifyRequestDTO;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
 import com.knocksea.see.product.dto.response.*;
 import com.knocksea.see.product.entity.Product;
-import com.knocksea.see.product.entity.ReservationTime;
-import com.knocksea.see.product.repository.ProductDetailService;
-import com.knocksea.see.product.repository.ProductRepository;
+import com.knocksea.see.product.entity.ViewProduct;
+import com.knocksea.see.product.repository.*;
 import com.knocksea.see.product.dto.request.PageDTO;
-import com.knocksea.see.product.repository.ReservationRepository;
-import com.knocksea.see.product.repository.ReservationTimeRepository;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.repository.ReviewRepository;
 import com.knocksea.see.user.entity.User;
@@ -30,7 +24,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +41,7 @@ public class ProductService implements ProductDetailService {
     private final ShipRepository shipRepository;
     private final FishingSpotRepository fishingSpotRepository;
     private final EduRepository eduRepository;
+    private final ViewProductRepository viewProductRepository;
 
     public Product getProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(() ->
@@ -68,11 +62,14 @@ public class ProductService implements ProductDetailService {
                 .map(ProductDetailResponseDTO::new)
                 .collect(Collectors.toList());
 
+        List<ViewProduct> allAddress = viewProductRepository.findAll();
+        // 이러면.. 페이지 넘길때마다 지도 다시 뿌리는건데 어쩌지
 
         return ProductListResponseDTO.builder()
                 .count(prodDetailList.size())
                 .pageInfo(new PageResponseDTO(products))
                 .products(prodDetailList)
+                .allAddress(allAddress)
                 .build();
 
     }
@@ -102,8 +99,6 @@ public class ProductService implements ProductDetailService {
 
         if (shipRepository.findByUser(user) == null && fishingSpotRepository.findByUser(user) == null) {
             throw new RuntimeException("배 또는 낚시터 정보를 등록해 주세요.");
-
-            // 에러를 다르게해서 배, 낚시터 등록 폼으로 넘겨 버릴까?
         }
 
         if (productRepository.existsByProductTypeAndUserUserId(dto.getProductLabelType(), user.getUserId())) {
@@ -121,7 +116,11 @@ public class ProductService implements ProductDetailService {
         return getDetail(saveProduct.getProductId());
     }
 
-    public ProductDetailResponseDTO modify(ProductRequestDTO dto) {
+    public ProductDetailResponseDTO modify(ProductRequestDTO dto, TokenUserInfo userInfo) throws RuntimeException{
+
+        if(!dto.getUserId().equals(userInfo.getUserId())) {
+            throw new RuntimeException("본인의 상품만 수정 가능합니다.");
+        }
 
         User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new RuntimeException("유저 정보가 잘못되었습니다."));
 
@@ -173,6 +172,7 @@ public class ProductService implements ProductDetailService {
     }
 
 
+    // 메인페이지 3개만 보여주기 -> 3개씩 보여주기 만들어야 되나?
     public mainListResponseDTO showMainList() {
         List<Product> productsShip = productRepository.findTop3ByProductTypeOrderByProductInputDateDesc("SHIP");
 
