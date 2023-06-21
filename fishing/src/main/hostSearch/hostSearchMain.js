@@ -1,5 +1,6 @@
 import React from 'react'
 import './scss/hostSearchMain.scss'
+import HostPhotoCarousel from './hostPhotoCarousel'
 
 const HostSearchMain = () => {
   return (
@@ -10,17 +11,27 @@ const HostSearchMain = () => {
                         <h1>호스트 조회</h1>
                     </div>
                                       
-                    <div className='userinfobox'>
-                        <div className='thumnail-box'>
-                            <div> </div>
+                    <div className='user-search-box'>
+                        <div className='user-photo-box'>
+                            <div>
+                                <HostPhotoCarousel/>    
+                            </div>
                         </div>
-                        <div className='namebox'>
-                            <div className='nickName'>LOVETMORROW</div>
-                            <div>업체정보를 입력하세요</div>
-                        </div>
-                        <div className='btbox'>
-                        <button className='isbtn'></button>
-                        <button></button>
+
+                        <div className='user-info-box'>
+                            <div>
+                                <div className='nickName'>
+                                    <p>LOVETMORROW</p>
+                                    <p>★★★★★</p>
+                                </div>
+                                <div>
+                                    프사프사
+                                </div>
+                            </div>
+                            <div>
+                                <span>제목입니둥</span>
+                                <span>소개소개소개</span>
+                            </div>
                         </div>
                     </div>
 
