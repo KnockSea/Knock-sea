@@ -33,6 +33,8 @@ import MpClassInfo from './mypage/MpClassInfo'
 import { API_BASE_URL, SHIP } from '../config/host-config';
 import MpAdmin from './mypage/MpAdmin';
 import MpIqInput from './mypage/MpIqInput';
+import MpAdminFS from './mypage/MpAdminFS';
+import MpAdminCS from './mypage/MpAdminCS';
 
 
 
@@ -93,6 +95,9 @@ const NsMain = () => {
             <Route path='/mpclass' element={<MpClassInfo/>}></Route>
             {/* 관리자 */}
             <Route path='/admin' element={<MpAdmin/>}></Route>
+            <Route path='/adminFs' element={<MpAdminFS/>}></Route>
+            <Route path='/adminCS' element={<MpAdminCS/>}></Route>
+       
         </Routes>
             
                 {/* MainContent 컴포넌트에 shipInfo prop 전달 */}

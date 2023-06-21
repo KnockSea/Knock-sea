@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import MpList from './MpList'
 
 const MpMain = () => {
+
   return (
         <section className='MyPageMainBox'>
             <div className='mainbox1'>
