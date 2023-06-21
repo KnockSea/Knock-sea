@@ -7,20 +7,20 @@ export const setLoginUserInfo = ({ token, userEmail, userGrade, userId, userName
     localStorage.setItem('LOGIN_USERNAME', userName);
     localStorage.setItem('LOGIN_USEREMAIL', userEmail);
     localStorage.setItem('USER_GRADE', userGrade);
-    // localStorage.setItem('USER_ID', userId);
+    localStorage.setItem('USER_ID', userId);
 };
 
 
 // 로그인한 유저의 데이터객체를 반환하는 함수
-// export const getLoginUserInfo = () => {
-//   return {
-//     token: localStorage.getItem('ACCESS_TOKEN'),
-//     userEmail: localStorage.getItem('LOGIN_USEREMAIL'),
-//     userName: localStorage.getItem('LOGIN_USERNAME'),
-//     userGrade: localStorage.getItem('USER_GRADE')
-//     // userId: localStorage.getItem('USER_ID')
-//   };
-// };
+export const getLoginUserInfo = () => {
+  return {
+    token: localStorage.getItem('ACCESS_TOKEN'),
+    userEmail: localStorage.getItem('LOGIN_USEREMAIL'),
+    userName: localStorage.getItem('LOGIN_USERNAME'),
+    userGrade: localStorage.getItem('USER_GRADE'),
+    userId: localStorage.getItem('USER_ID')
+  };
+};
 
 // export const getLoginUserInfo = ({userPassword}) => {
 //   return {
