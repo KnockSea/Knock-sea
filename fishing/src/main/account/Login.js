@@ -28,12 +28,8 @@ function Login() {
       return;
     }
 
-    const userInfo = await res.json(); // 서버에서 온 json 읽기
-    // alert(json.userName);
+    const userInfo = await res.json();
 
-    // json에 담긴 인증정보를 클라이언트에 보관
-    // 1. 로컬 스토리지 - 브라우저가 종료되어도 보관됨
-    // 2. 세션 스토리지 - 브라우저가 종료되면 사라짐
     setLoginUserInfo(userInfo);
 
     console.log('성공했닝?');
@@ -112,7 +108,7 @@ function Login() {
                       name="account"
                       id="accound-id"
                       className="form-control"
-                      maxLength="15"
+                      maxLength="20"
                       required="required"
                       aria-required="true"
                       placeholder="이메일 입력"

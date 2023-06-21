@@ -57,15 +57,18 @@
         }
         .ctntext {
             margin-top: 20px;
-            .ctntextbox1{
-            padding: 5px;
+          
+            .ctntextbox11{
+                padding: 5px;
                 margin-top: 7px;
             margin-bottom: 7px;
+            border: 1px solid #CCC;
+            height: 50px;
             display: flex;
-            border: 1px solid #000;
             justify-content: space-around;
-            }
+            align-items: center;
+           }
+        }
         }
     }
 
-}

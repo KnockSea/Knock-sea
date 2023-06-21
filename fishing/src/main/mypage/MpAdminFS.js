@@ -1,11 +1,9 @@
 import React from 'react'
-import './MpScss/MpAdmin.scss'
 import { Link } from 'react-router-dom'
 
-
-const MpAdmin = () => {
+const MpAdminFS = () => {
   return (
-<section>
+    <section>
 
     <div className='adminbox'>
 
@@ -21,13 +19,13 @@ const MpAdmin = () => {
         </div>
     </div>
         <div className='mgcontentbox'>
-            <div className='ctntitle'>KNOCK_SEA 관리자 화면 (배)</div>
+            <div className='ctntitle'>KNOCK_SEA 관리자 화면 (낚시터)</div>
 
             {/* 본문내용 */}
             <div className='ctntext'>
                 <div className='ctntextbox1'>
                 <div>dasdas</div>
-                <div>선박등록이미지</div>
+                <div>사업자등록증이미지</div>
                 <div>12-**-1213</div>
                 <div>75-454-44577-45</div>
                 <div>대기</div>
@@ -40,4 +38,4 @@ const MpAdmin = () => {
   )
 }
 
-export default MpAdmin
+export default MpAdminFS

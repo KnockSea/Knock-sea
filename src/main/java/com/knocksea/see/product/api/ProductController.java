@@ -4,6 +4,7 @@ import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.NoneMatchUserException;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
 import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
+import com.knocksea.see.product.dto.response.mainListResponseDTO;
 import com.knocksea.see.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,7 @@ public class ProductController {
         }
     }
 
-    // 상품 상세 조회
+    // 상품 상세 조회 -> 비로그인도 조회 가능
     @GetMapping("/{productId}")
     public ResponseEntity<?> detailProduct(@PathVariable Long productId) {
 
@@ -63,7 +64,7 @@ public class ProductController {
     @DeleteMapping("/remove/{productId}")
     public ResponseEntity<?> removeProduct(
             @PathVariable Long productId
-            , @AuthenticationPrincipal TokenUserInfo userInfo) throws RuntimeException, NoneMatchUserException
+            , @AuthenticationPrincipal TokenUserInfo userInfo)
     {
         try {
             boolean flag = productService.delete(productId, userInfo);
@@ -78,20 +79,28 @@ public class ProductController {
     }
 
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public ResponseEntity<?> modifyProduct(@RequestBody ProductRequestDTO dto) {
+    public ResponseEntity<?> modifyProduct(
+            @RequestBody ProductRequestDTO dto
+            , @AuthenticationPrincipal TokenUserInfo userInfo
+    ) {
 
-        ProductDetailResponseDTO modify = productService.modify(dto);
-
-        return ResponseEntity.ok().body(modify);
+        try {
+            ProductDetailResponseDTO modify = productService.modify(dto, userInfo);
+            return ResponseEntity.ok().body(modify);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
 
     }
 
+    // 메인 페이지 배, 낚시터, 에듀 3개씩 가져옴 (아직 페이징 처리 없음)
     @GetMapping("/main")
     public ResponseEntity<?> mainPage() {
 
-        productService.showMainList();
+        mainListResponseDTO mainListResponseDTO = productService.showMainList();
 
-        return null;
+        return ResponseEntity.ok().body(mainListResponseDTO);
     }
 
 }

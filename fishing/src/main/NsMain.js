@@ -27,13 +27,16 @@ import OwnerCheckMain from './ownercheck/OwnerCheckMain'
 import OwnerCheckShip from './ownercheck/OwnerCheckShip'
 import OwnerCheckFishing from './ownercheck/OwnerCheckFishing'
 import MpQueryText from './mypage/MpQueryText'
+
 import MpBtInfo from './mypage/MpBtInfo'
 import MpFsInfo from './mypage/MpFsInfo'
 import MpClassInfo from './mypage/MpClassInfo'
 import { API_BASE_URL, SHIP } from '../config/host-config';
 import MpAdmin from './mypage/MpAdmin';
 import MpIqInput from './mypage/MpIqInput';
-
+import MpAdminFS from './mypage/MpAdminFS';
+import MpAdminCS from './mypage/MpAdminCS';
+import HostSearchMain from './hostSearch/hostSearchMain'
 
 
 
@@ -93,6 +96,9 @@ const NsMain = () => {
             <Route path='/mpclass' element={<MpClassInfo/>}></Route>
             {/* 관리자 */}
             <Route path='/admin' element={<MpAdmin/>}></Route>
+            <Route path='/adminFs' element={<MpAdminFS/>}></Route>
+            <Route path='/adminCS' element={<MpAdminCS/>}></Route>     
+            <Route path='/host' element={<HostSearchMain/>}></Route>
         </Routes>
             
                 {/* MainContent 컴포넌트에 shipInfo prop 전달 */}

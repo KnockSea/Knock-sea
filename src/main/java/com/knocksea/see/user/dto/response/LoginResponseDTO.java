@@ -13,7 +13,8 @@ public class LoginResponseDTO {
 
     private Long userId;
 
-    private String email;
+    private String userEmail;
+
     private String userName;
 
     private String userGrade;
@@ -22,7 +23,7 @@ public class LoginResponseDTO {
 
 
     public LoginResponseDTO(User user, String token) {
-        this.email = user.getUserEmail();
+        this.userEmail = user.getUserEmail();
         this.userName = user.getUserName();
         this.userGrade = user.getUserGrade().toString();
         this.token = token;

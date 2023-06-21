@@ -7,31 +7,29 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { addDays } from "date-fns"
 
 
-const RegiCalendar = () => {
+const RegiCalendar = ({getDateRange}) => {
   const [selectedDate, setSelectedDate] = useState(null);
 
-const [state, setState] = useState([
+const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
-      endDate: addDays(new Date(), 1),
+      endDate: addDays(new Date(), 7),
       key: "selection",
     },
-  ])
+  ]);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const handleGetDateRange = (dateRange) => {
+    setDateRange(dateRange);
   };
-
+  
   return (
     <div>
       <div className='regi-calendar-content'>
           <div className="regi-selected-calendar">
               <DateRangePicker
               editableDateInputs={true}
-              onChange={(item) => setState([item.selection])}
-              // moveRangeOnFirstSelection={false}
-              ranges={state}
-              // direction="horizontal"
+              onChange={(item) => getDateRange([item.selection])}
+              ranges={dateRange}
               locale={ko}
               className="datePicker"
               />
