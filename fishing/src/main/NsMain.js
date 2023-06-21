@@ -28,6 +28,7 @@ import OwnerCheckMain from './ownercheck/OwnerCheckMain'
 import OwnerCheckShip from './ownercheck/OwnerCheckShip'
 import OwnerCheckFishing from './ownercheck/OwnerCheckFishing'
 import MpQueryText from './mypage/MpQueryText'
+import HostSearchMain from './hostSearch/hostSearchMain'
 
 
 const NsMain = () => {
@@ -58,7 +59,7 @@ const NsMain = () => {
             <Route path="/ship" element={<OwnerCheckShip/>} ></Route>
             <Route path="/fishing" element={<OwnerCheckFishing/>} ></Route> 
             <Route path='/myquery' element={<MpQueryText/>}></Route>
-
+            <Route path='/host' element={<HostSearchMain/>}></Route>
         </Routes>
         {/* <div className='banner'><img src={banner} /></div> */}
         {/* <NsBanner />

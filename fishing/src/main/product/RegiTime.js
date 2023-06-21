@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { FormControl, MenuItem, Select } from '@mui/material';
 
 const MyTimePicker = () => {
   const [startHour, setStartHour] = useState('');
   const [startMinute, setStartMinute] = useState('');
   const [endHour, setEndHour] = useState('');
   const [endMinute, setEndMinute] = useState('');
+
   const selectStyle = {
     width: '70px',
     height: '50px',
@@ -39,11 +40,14 @@ const MyTimePicker = () => {
     }
   };
 
-  const formatTime = (hour, minute) => {
-    const formattedHour = hour.toString().padStart(2, '0');
-    const formattedMinute = minute.toString().padStart(2, '0');
-    return `${formattedHour} 시 ${formattedMinute} 분`;
+  const formatTime = (startHour, startMinute, endHour, endMinute) => {
+    const formattedStartHour = startHour.toString().padStart(2, '0');
+    const formattedStartMinute = startMinute.toString().padStart(2, '0');
+    const formattedEndHour = endHour.toString().padStart(2, '0');
+    const formattedEndMinute = endMinute.toString().padStart(2, '0');
+    return `${formattedStartHour} 시 ${formattedStartMinute} 분 ~ ${formattedEndHour} 시 ${formattedEndMinute} 분`;
   };
+  console.log(formatTime);
 
   return (
     <div className='regi-time-form' style={{display:'flex', justifyContent:'spaceBetween'}}>
@@ -55,7 +59,7 @@ const MyTimePicker = () => {
           value={startHour}
           onChange={handleStartHourChange}
           style={selectStyle}
-        >시
+        >
           {Array.from(Array(24).keys()).map((hour) => (
             <MenuItem key={hour} value={hour}>
               {hour.toString().padStart(2, '0')}
@@ -103,6 +107,7 @@ const MyTimePicker = () => {
           <MenuItem value="30">30</MenuItem>
         </Select>
       </FormControl>
+      <span>{formatTime(startHour, startMinute, endHour, endMinute)}</span>
       </div>
     
     </div>

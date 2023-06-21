@@ -1,4 +1,4 @@
-import React, { useState,useEffect, useRef  } from 'react';
+import React, { useState } from 'react';
 import './scss/SignUpForm.scss';
 import { Route, Routes } from 'react-router-dom';
 import { useNavigate, Link } from 'react-router-dom';
