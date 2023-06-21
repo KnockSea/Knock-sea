@@ -3,6 +3,7 @@ import ex from './img/ex.jpg'
 import './scss/NsItem.scss'
 
 const NsItem = () => {
+  
   return (
 
     <div className='ship'>
