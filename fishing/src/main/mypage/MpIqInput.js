@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MpList from './MpList';
+import { getLoginUserInfo } from '../util/login-util';
 
 const MpIqInput = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [token, setToken] = useState('');
 
+  
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
     console.log(event.target.value);
+    console.log(token);
   };
 
   const handleContentChange = (event) => {
@@ -24,7 +28,8 @@ const MpIqInput = () => {
     fetch('http://localhost:8012/api/v1/inquiries', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify(data)
     })
@@ -38,6 +43,18 @@ const MpIqInput = () => {
         console.error(error);
       });
   };
+
+  // 토큰을 얻어오는 함수 (예시: 로그인 후 토큰 저장)
+  const fetchToken = () => {
+
+    const token = getLoginUserInfo().token; 
+    setToken(token);
+  };
+
+  // 컴포넌트가 마운트될 때 토큰을 얻어오도록 useEffect를 사용하여 호출
+  useEffect(() => {
+    fetchToken();
+  }, []);
 
   return (
     <section className='MyPageMainBox'>
