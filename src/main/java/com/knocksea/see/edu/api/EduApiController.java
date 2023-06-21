@@ -2,10 +2,8 @@ package com.knocksea.see.edu.api;
 
 import com.knocksea.see.edu.dto.response.*;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
-import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.service.EduService;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
