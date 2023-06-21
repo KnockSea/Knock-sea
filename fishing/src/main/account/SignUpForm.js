@@ -1,40 +1,41 @@
-import React, { useState,useEffect  } from 'react';
+import React, { useState,useEffect, useRef  } from 'react';
 import './scss/SignUpForm.scss';
 import { Route, Routes } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Post from './Post';
 import ProfileUpload from './ProfileUpload';
 
+// import { API_BASE_URL as BASE, USER } from '../config/host-config';
 
 function SignUpForm(){
 
-  // 상태변수 관리들
+
+  // const API_BASE_URL = BASE + USER;
+
+  const redirection = useNavigate();
+
   const [userValue, setUserValue] = useState({
-    userEmail: false, 
-    userPassword: false, 
-    userAddress: "주소 검색을 클릭해주세요",
-    userFullAddress: false,
-    userName: false,
-    userPhone: false
+    userEmail: '',
+    userPassword: '',
+    userAddress: '',
+    userFullAddress: '',
+    userName: '',
+    userPhone: ''
   });
+
+  // const [postAddress, setPostAddress] = useState('');
 
   const [popup, setPopup] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
 
-  const setAddress = (userAddress) => {
-    setUserValue((prevState) => ({
-      ...prevState,
-      userAddress: userAddress
-    }));
-  };
-
-
   const [message, setMessage] = useState({
-    userEmail: false, 
-    userPassword: false,
-    userPasswordChk: false,
-    userFullAddress: false,
-    userName: false,
-    userPhone: false
+    userEmail: '',
+    userPassword: '',
+    userPasswordChk: '',
+    userAddress: '',
+    userFullAddress: '',
+    userName: '',
+    userPhone: ''
   });
 
     // 검증 완료 체크에 대한 상태변수 관리
@@ -42,29 +43,61 @@ function SignUpForm(){
       userEmail: false, 
       userPassword: false, 
       userPasswordChk: false,
+      userAddress: false,
+      userFullAddress: false,
       userName: false,
       userPhone: false
   });
-  
+
+  // 프로필파일 데이터 가져오기
+  const getProfileFile = (fileData) => {
+      setProfileImage(fileData);
+  };
+
+
+  const getAddress = (userAddress) => {
+
+    console.log('getAddr:', userAddress);
+    // setPostAddress(userAddress);
+
+    let msg; // 검증 메시지를 저장할 변수
+    let flag; // 입력 검증 체크 변수
+
+    if(!userAddress) {
+      msg = '주소을 작성해주세요.'
+      flag = false;
+    } else{
+      msg = '🙆🏻‍♂️'
+      flag = true;
+    }
+
+    saveInputState({
+      key: 'userAddress',
+      inputVal: userAddress,
+      msg,
+      flag
+    });
+
+  };
 
 // 검증데이터를 상태변수에 저장하는 함수
-  const saveInputState=({
-    key, inputVal, flag, msg})=>{
+  const saveInputState=({key, inputVal, flag, msg})=>{
+
     inputVal !== 'pass' && setUserValue({
-    ...userValue,
-    [key]: inputVal
-  });
+      ...userValue,
+      [key]: inputVal
+    });
 
-  setMessage({
-    ...message,
-    [key] : msg
-  });
+    setMessage({
+      ...message,
+      [key] : msg
+    });
 
-  setCorrect({
-    ...correct,
-    [key]: flag
-  });
-}
+    setCorrect({
+      ...correct,
+      [key]: flag
+    });
+  }
 
   // 회원가입페이지 입력 검증
   // 이메일 입력
@@ -74,6 +107,7 @@ function SignUpForm(){
     const emailRegex = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     let msg;
     let flag;
+
     if(!inputVal) {
       msg = '이메일(ID로 사용)을 작성해주세요.';
       flag = false;
@@ -153,13 +187,12 @@ function SignUpForm(){
 
   // 이름 입력창 체인지 이벤트 핸들러
   const nameHandler = e => {
-    // console.log(e.target.value);
     const nameRegex = /^[가-힣]{2,10}$/;
     
     // 입력값 검증
     const inputVal = e.target.value;
-    let msg; // 검증 메시지를 저장할 변수
-    let flag; // 입력 검증 체크 변수
+    let msg;
+    let flag;
 
     if(!inputVal) {
       msg = '이름을 작성해주세요.'
@@ -206,21 +239,24 @@ function SignUpForm(){
   const userFullAddressHandler = e => {
     const nameRegex = /^[가-힣][0-9]{5}$/;
     const inputVal = e.target.value;
-    let msg; 
+    let msg;
+    let flag;
 
     if(!inputVal) {
-      msg = '상세주소를 작성해주세요.'
+      msg = '상세주소를 작성해주세요.';
+      flag = false;
     } else{
-      msg = '🙆🏻‍♂️'
+      msg = '🙆🏻‍♂️';
+      flag = true;
     }
 
     saveInputState({  
       key: 'userFullAddress',
       inputVal,
-      msg
+      msg,
+      flag
     });
   };
-      
 
     // 4개의 입력칸이 모두 검증에 통과했는지 여부 검사
     const isValid = () => {
@@ -235,47 +271,54 @@ function SignUpForm(){
 
     // 이미지 파일과 회원정보 JSON을 하나로 묶어야 함
     e.preventDefault();
-  
+    // console.log("여기 오지?", userValue);
+
       // 회원가입 서버 요청
       if(isValid()) {
+
+
+        const userJsonBlob = new Blob(
+          [JSON.stringify(userValue)],
+          { type: 'application/json' }
+        );
+
+
         const userData = new FormData();
-        userData.append('userEmail', userValue.userEmail);
-        userData.append('userPassword', userValue.userPassword);
-        userData.append('userAddress', userValue.userAddress);
-        userData.append('userFullAddress', userValue.userFullAddress);
-        userData.append('userName', userValue.userName);
-        userData.append('userPhone', userValue.userPhone);
+        userData.append('user', userJsonBlob);
         userData.append('profileImage', profileImage);
-    
+
+        console.log(userData);
+
         // fetch를 사용하여 회원가입 요청 보내기
-        fetch('account/signup', {
+        fetch('http://localhost:8012/api/v1/user/register', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(userData)
+          body: userData
         })
-          .then(response => response.json())
-          .then(data => {
-            // 회원가입 성공 시 처리할 로직 작성
-            console.log('회원가입 성공:', data);
-            alert('회원가입이 완료되었습니다.');
-            // 회원가입 완료 후 리다이렉트 등을 수행할 수 있습니다.
+          .then(res => {
+            if (res.stats === 200) {
+              alert('회원가입이 완료되었습니다.');
+              redirection('/login');
+              console.log(userData);
+
+            } else {
+              alert('서버와의 통신이 원활하지 않습니다.');
+            }
           })
-          .catch(error => {
-            // 회원가입 실패 시 처리할 로직 작성
-            console.error('회원가입 실패:', error);
-            alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+          .then(flag => {
+            // 회원가입 성공 시 처리할 로직 작성
+            // 굳이 여기서 뭘 해야 되나
+
           });
+          // .catch(error => {
+          //   // 회원가입 실패 시 처리할 로직 작성
+          //   console.error('회원가입 실패:', error);
+          //   alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+          // });
       } else {
         alert('입력란을 다시 확인해주세요!');
       }
     };
     
-
-
-  
-  
 
   return (
     <div className="container">
@@ -291,7 +334,7 @@ function SignUpForm(){
         <div className="sign-up-body">
           <form onSubmit={handleSignUp} encType="multipart/form-data">
             <div className="profile">
-             <ProfileUpload/>
+             <ProfileUpload getFile={getProfileFile} />
             </div>
 
             <ul className='sign-up-input'>
@@ -303,7 +346,7 @@ function SignUpForm(){
                     name="userEmail"
                     onChange={emailHandler}
                     className="form-control"
-                    maxLength="15"
+                    maxLength="30"
                     required
                     aria-required="true"
                     placeholder="계정으로 사용할 이메일 입력"
@@ -379,7 +422,7 @@ function SignUpForm(){
                     >
                       🔍︎ 주소 검색
                       {popup && 
-                        <Post userAddress={userValue.userAddress} setAddress={setAddress}/>
+                        <Post getAddress={getAddress}/>
                         } 
                       </div>
                 </div>

@@ -28,7 +28,7 @@ const RvItem = () => {
      총 6명
     </div>
     <div className='calendar'>
-    <Calendar2Check style={{color:'#3974D9'}}/> 130,000원
+    <Calendar2Check style={{color:'#3974D9', float:'left',marginTop:'5'}}/> 130,000원
     </div>
       </Link>
 </div>

@@ -66,7 +66,6 @@ public class ShipApiController {
         try {
 
             ShipRegisterResponseDTO join = shipService.save(dto,userInfo.getUserId());
-            String uploadedFilePath =null;
             if(shipImages!=null) {
                 //이미지 파일들이 잘 들어왔다면 원본이름 출력시키기
                 for (MultipartFile shipImage : shipImages) {
@@ -83,7 +82,7 @@ public class ShipApiController {
             log.warn("이메일이 중복되었습니다");
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
 
     }
@@ -91,8 +90,10 @@ public class ShipApiController {
 //    //배 정보 수정 요청
     //post : /api/v1/ship/modify
     @RequestMapping(value = "/modify", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public ResponseEntity<?> modifyUser(@Validated @RequestBody ShipModifyRequestDTO dto
-    ,@AuthenticationPrincipal TokenUserInfo userInfo, BindingResult result){
+    public ResponseEntity<?> modifyShip(
+            @Validated @RequestPart("ship") ShipModifyRequestDTO dto,
+            @RequestPart(value = "shipImage", required = false) List<MultipartFile> shipImages
+    ,@AuthenticationPrincipal TokenUserInfo userInfo, BindingResult result) throws IOException {
 
         //값 들어오는지 확인
         log.info("/user/register PUT! --{}", dto);
@@ -102,6 +103,12 @@ public class ShipApiController {
             return ResponseEntity
                     .badRequest()
                     .body(result.getFieldError());
+        }
+        if(shipImages!=null){
+            for (MultipartFile shipImage : shipImages) {
+                log.info("shipImages : {}",shipImage);
+            }
+            imageService.modifyShipImages(shipImages,userInfo);
         }
 
         try{
@@ -188,6 +195,27 @@ public class ShipApiController {
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    //배 정보 삭제하기
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> shipDelete(
+            @AuthenticationPrincipal TokenUserInfo userInfo
+    ){
+
+        log.info("Ship Delete DELETE - {} ",userInfo);
+
+        try{
+            boolean result = shipService.deleteSpot(userInfo);
+            if(result){
+                return ResponseEntity.ok().body(result);
+            }
+            return ResponseEntity.badRequest().body("삭제실패!");
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
 
