@@ -1,5 +1,5 @@
 package com.knocksea.see.edu.entity;
 
-public enum     EduLevel {
+public enum EduLevel {
     UPPER,MIDDLE,LOWER
 }

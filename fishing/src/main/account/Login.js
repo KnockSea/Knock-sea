@@ -3,6 +3,7 @@ import './scss/Login.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import naverbtn from '../img/naverbtn1.png';
 import kakaobtn from '../img/kakaobtn.png';
+// import RegistCalendar from '../product/RegistCalendar';
 import { setLoginUserInfo} from '../util/login-util';
 
 function Login() {
@@ -107,7 +108,7 @@ function Login() {
                       name="account"
                       id="accound-id"
                       className="form-control"
-                      maxLength="15"
+                      maxLength="20"
                       required="required"
                       aria-required="true"
                       placeholder="이메일 입력"

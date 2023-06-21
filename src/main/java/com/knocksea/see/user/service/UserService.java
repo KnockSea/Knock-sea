@@ -18,6 +18,7 @@ import com.knocksea.see.user.dto.response.UserModifyresponseDTO;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
+import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.ShipRepository;
 import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,12 @@ public class UserService {
 
     //좋아요 리스트 접근용
     private final HeartRepository heartRepository;
+
+    //이미지 객체 접근용 리파지토리
+    private final ImageRepository imageRepository;
+    
+    //이미지 저장 서비스
+    private final ImageService imageService;
 
 
     @Value("${upload.path}")
@@ -103,7 +110,8 @@ public class UserService {
     }
 
     //유저정보를 수정할 수 있다.
-    public UserModifyresponseDTO modify(UserModifyRequestDTO dto) throws Exception {
+    public UserModifyresponseDTO modify(final UserModifyRequestDTO dto, final TokenUserInfo userInfo) throws Exception {
+
         if(dto==null){
             throw new NoRegisteredArgumentsException("가입 정보가 없습니다");
         }
@@ -112,20 +120,22 @@ public class UserService {
         //dto에서 이메일 값 받아오기
         String email = dto.getUserEmail();
 
+        boolean byUserEmail = userRepository.existsByUserEmail(dto.getUserEmail());
+        if(byUserEmail){
+           throw new RuntimeException("이메일 중복입니다!");
+        }
 
-        //이메일로 유저정보 얻기 (이메일은 유일값이기때문에 ..)
-        User founduser = userRepository.findByUserEmail(email).orElseThrow(() -> new Exception("회원정보 수정에 실패했습니다!"));
+            User user = userRepository.findById(userInfo.getUserId()).orElseThrow();
+            user.setUserEmail(dto.getUserEmail());
+            user.setUserPhone(dto.getUserPhone());
+            user.setUserAddress(dto.getUserAddress());
+            user.setUserFullAddress(dto.getUserFullAddress());
+            user.setUserName(dto.getUserName());
+            User modiftideuser = userRepository.save(user);
+            log.info("modiftideuser ; {}",modiftideuser);
+            return new UserModifyresponseDTO(modiftideuser);
+        }
 
-        //이메일로 찾은 객체에 dto에 수정하고자 하는 정보들을 뽑아서 새로 집어넣고 다시 저장해준다
-        founduser.setUserAddress(dto.getUserAddress());
-        founduser.setUserFullAddress(dto.getUserFullAddress());
-        founduser.setUserPhone(dto.getUserPhone());
-        founduser.setUserName(dto.getUsername());
-
-        User modiftideuser = userRepository.save(founduser);
-
-        return new UserModifyresponseDTO(modiftideuser);
-    }
 
     //로그인 검증및 토큰발급
     public LoginResponseDTO authenticate(final LoginRequestDTO dto) {
@@ -152,9 +162,9 @@ public class UserService {
     }
 
     //회원탈퇴 기능 구현
-    public boolean deleteUser(UserDeleteRequest dto) {
+    public boolean deleteUser(UserDeleteRequest dto, TokenUserInfo userInfo) {
 
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(
                 () -> new RuntimeException("가입된 회원이 아닙니다.")
         );
 
@@ -163,7 +173,7 @@ public class UserService {
             throw new RuntimeException("비밀번호가 일치하지않아 회원탈퇴를 진행할 수 없습니다");
         }
 
-        userRepository.deleteById(dto.getUserId());
+        userRepository.deleteById(userInfo.getUserId());
         return true;
     }
 
@@ -172,6 +182,7 @@ public class UserService {
         return userRepository.existsByUserEmail(email);
     }
 
+    //프로필 사진 업로드 기능
     public String uploadProfileImage(MultipartFile originalFile) throws IOException {
         //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
         File rootDir = new File(uploadRootPath);
@@ -255,6 +266,37 @@ public class UserService {
         }
 
         return entireInfoResponseDTO;
+
+    }
+
+    
+    //프로필 사진 변경 함수
+    public void modifyProfileImage(MultipartFile profileImg, Long userId) throws IOException {
+
+        //토큰값에 해당하는 유저 정보 가져오기!
+        User user = userRepository.findById(userId).orElseThrow(()-> new RuntimeException("해당 유저는 존재하지않습니다"));
+
+        //새로 입력받은 이미지 이름 만들기!
+        String uniqueFileName = UUID.randomUUID() + "_" + profileImg.getOriginalFilename();
+
+        //기존에 저장되어있던 이미지 경로
+        String savedFilePath = findProfilePath(userId);
+
+        //파일 객체만들기!
+        File imageFile = new File(savedFilePath, user.getProfileImg());
+
+        if (imageFile.exists()){
+            imageFile.delete();
+        }
+
+
+        File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
+
+        profileImg.transferTo(uploadFile);
+
+        user.setProfileImg(uniqueFileName);
+
+        userRepository.save(user);
 
     }
 }

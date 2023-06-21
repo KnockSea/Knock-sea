@@ -46,13 +46,13 @@ public class Product {
     private String productService;
 
     @Column(name = "product_full_address", nullable = false)
-    private String productFullAddress;
+    private String productFullAddress; // 상세 주소 ( 몇동 몇호 )
 
     @Column(name = "product_info", nullable = false)
     private String productInfo;
 
     @Column(name = "product_location_info", nullable = false)
-    private String productLocationInfo;
+    private String productLocationInfo; // 주소 입력 받는 곳 ( 주소 폼 )
 
     private String productType;
 

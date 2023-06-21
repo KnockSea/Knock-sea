@@ -7,12 +7,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 public interface EduRepository extends JpaRepository<Edu,Long> {
     @Query("SELECT e FROM Edu e WHERE e.user = :user")
     Edu findByUserUserId(@Param("user") User user);
 
     void deleteByEduId(Long eduId);
+
+    List<Edu> findTop3ByOrderByCreateDate();
 
 //    Optional<Edu> findByUserId(User user);
 }

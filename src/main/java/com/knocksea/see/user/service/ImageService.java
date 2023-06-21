@@ -102,9 +102,9 @@ public class ImageService {
         for (String string : strings) {
             SeaImage save = imageRepository
                     .save(SeaImage.builder()
-                    .imageName(string)
+                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+string)
                     .spot(findBySpot)
-                            .typeNumber(typeNumber)
+                            .typeNumber(typeNumber++)
                     .imageType(ProductCategory.SPOT).build());
 
         }
@@ -125,6 +125,7 @@ public class ImageService {
             String originalFilename = spotImage.getOriginalFilename();
             String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
 
+            // Save the file
             File uploadFile = new File(s+"/"+uniqueFileName);
             spotImage.transferTo(uploadFile);
 
@@ -164,5 +165,93 @@ public class ImageService {
 
     private static String len2(int n) {
         return new DecimalFormat("00").format(n);
+    }
+
+
+
+    //수정할 사진경로 이미지 DB에 저장하는 함수
+    public void modifyShipImages(List<MultipartFile> shipImages, TokenUserInfo userInfo) throws IOException {
+
+        //유저 정보가져오기
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> {
+            throw new RuntimeException("해당 유저는존재하지않습니다");
+        });
+        //유저 정보로 배 가져오기
+        Ship findSHipByUser = shipRepository.findByUser(user);
+
+        //유저정보로 가져온 배 정보로 이미지 삭제하기
+        imageRepository.deleteByShip(findSHipByUser);
+
+        List<String> uniqueFilenames = new ArrayList<>();
+
+        String s = makeDateFormatDirectory(uploadRootPath2);
+
+
+        for (MultipartFile shipImage : shipImages) {
+            String originalFilename = shipImage.getOriginalFilename();
+            String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
+
+            // Save the file
+            File uploadFile = new File(s+"/"+uniqueFileName);
+            shipImage.transferTo(uploadFile);
+
+            uniqueFilenames.add(uniqueFileName);
+
+        }
+
+
+        Long typeNumber = 1L;
+
+        for (String string : uniqueFilenames) {
+            SeaImage save = imageRepository.save(SeaImage
+                    .builder()
+                    .imageName(s+"/"+string)
+                    .ship(findSHipByUser)
+                    .typeNumber(typeNumber++)
+                    .imageType(ProductCategory.SHIP).build());
+        }
+
+    }
+
+    //수정할 낚시터 사진경로 db에 저장하는함수
+    public void modifySpotImages(List<MultipartFile> spotImages, TokenUserInfo userInfo) throws IOException {
+        //유저 정보가져오기
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> {
+            throw new RuntimeException("해당 유저는존재하지않습니다");
+        });
+        //유저 정보로 낚시터 가져오기
+        FishingSpot findSpotByUser = fishingSpotRepository.findByUser(user);
+
+        //유저 정보로 찾은 낚시터 정보로 이미지 삭제하기
+        imageRepository.deleteBySpot(findSpotByUser);
+
+        List<String> uniqueFilenames = new ArrayList<>();
+
+        String s = makeDateFormatDirectory(uploadRootPath2);
+
+
+        for (MultipartFile spotImage : spotImages) {
+            String originalFilename = spotImage.getOriginalFilename();
+            String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
+
+            // Save the file
+            File uploadFile = new File(s+"/"+uniqueFileName);
+            spotImage.transferTo(uploadFile);
+
+            uniqueFilenames.add(uniqueFileName);
+
+        }
+
+        Long typeNumber = 1L;
+
+        for (String string : uniqueFilenames) {
+            SeaImage save = imageRepository.save(SeaImage
+                    .builder()
+                    .imageName(s+"/"+string)
+                    .spot(findSpotByUser)
+                    .typeNumber(typeNumber++)
+                    .imageType(ProductCategory.SPOT).build());
+        }
+
     }
 }

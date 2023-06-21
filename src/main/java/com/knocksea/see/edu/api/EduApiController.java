@@ -1,10 +1,7 @@
 package com.knocksea.see.edu.api;
 
-import com.knocksea.see.edu.dto.response.EduListResponseDTO;
-import com.knocksea.see.edu.dto.response.EduModifyDTO;
+import com.knocksea.see.edu.dto.response.*;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
-import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
-import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.service.EduService;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
 import lombok.RequiredArgsConstructor;
@@ -25,18 +22,28 @@ import java.util.List;
 public class EduApiController {
 
     private final EduService eduService;
+
+    //좋아요 많은 순 4개 조회
+    @GetMapping("/topFour")
+    public ResponseEntity<?> topFourList(){
+        log.info("/api/v1/edu topFourList");
+
+        EduTopFourListResponseDTO topFourDto = eduService.findTopFour();
+
+        return ResponseEntity
+                .ok()
+                .body(topFourDto);
+    }
     
     //전체 조회
     @GetMapping
     public ResponseEntity<?> list(PageDTO pageDTO){
-        log.info("/api/v1/posts?edu={}&size={}",pageDTO.getPage(),pageDTO.getSize());
+        log.info("/api/v1/posts?page={}&size={}",pageDTO.getPage(),pageDTO.getSize());
 
-        EduListResponseDTO dto = eduService.getAllEdu(pageDTO);
-
+        List<EduListDataResponseDTO> allEdu = eduService.getAllEdu(pageDTO);
         return ResponseEntity
                 .ok()
-                .body(dto);
-
+                .body(allEdu);
     }
     
     //개별 조회

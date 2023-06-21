@@ -4,17 +4,19 @@ import { Route, Routes } from 'react-router-dom';
 import { useNavigate, Link } from 'react-router-dom';
 import Post from './Post';
 import ProfileUpload from './ProfileUpload';
+
 // import { API_BASE_URL as BASE, USER } from '../config/host-config';
 
-
 function SignUpForm(){
+
 
   // const API_BASE_URL = BASE + USER;
 
   const redirection = useNavigate();
+
   const [userValue, setUserValue] = useState({
-    userEmail: '', 
-    userPassword: '', 
+    userEmail: '',
+    userPassword: '',
     userAddress: '',
     userFullAddress: '',
     userName: '',
@@ -27,7 +29,7 @@ function SignUpForm(){
   const [profileImage, setProfileImage] = useState(null);
 
   const [message, setMessage] = useState({
-    userEmail: '', 
+    userEmail: '',
     userPassword: '',
     userPasswordChk: '',
     userAddress: '',
@@ -54,10 +56,10 @@ function SignUpForm(){
 
 
   const getAddress = (userAddress) => {
-    
+
     console.log('getAddr:', userAddress);
     // setPostAddress(userAddress);
-    
+
     let msg; // 검증 메시지를 저장할 변수
     let flag; // 입력 검증 체크 변수
 
@@ -69,7 +71,7 @@ function SignUpForm(){
       flag = true;
     }
 
-    saveInputState({  
+    saveInputState({
       key: 'userAddress',
       inputVal: userAddress,
       msg,
@@ -80,7 +82,7 @@ function SignUpForm(){
 
 // 검증데이터를 상태변수에 저장하는 함수
   const saveInputState=({key, inputVal, flag, msg})=>{
-    
+
     inputVal !== 'pass' && setUserValue({
       ...userValue,
       [key]: inputVal
@@ -105,7 +107,7 @@ function SignUpForm(){
     const emailRegex = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     let msg;
     let flag;
-    
+
     if(!inputVal) {
       msg = '이메일(ID로 사용)을 작성해주세요.';
       flag = false;
@@ -189,7 +191,7 @@ function SignUpForm(){
     
     // 입력값 검증
     const inputVal = e.target.value;
-    let msg; 
+    let msg;
     let flag;
 
     if(!inputVal) {
@@ -270,26 +272,26 @@ function SignUpForm(){
     // 이미지 파일과 회원정보 JSON을 하나로 묶어야 함
     e.preventDefault();
     // console.log("여기 오지?", userValue);
-  
+
       // 회원가입 서버 요청
       if(isValid()) {
 
 
         const userJsonBlob = new Blob(
-          [JSON.stringify(userValue)], 
+          [JSON.stringify(userValue)],
           { type: 'application/json' }
         );
-    
+
 
         const userData = new FormData();
         userData.append('user', userJsonBlob);
         userData.append('profileImage', profileImage);
 
         console.log(userData);
-    
+
         // fetch를 사용하여 회원가입 요청 보내기
         fetch('http://localhost:8012/api/v1/user/register', {
-          method: 'POST',          
+          method: 'POST',
           body: userData
         })
           .then(res => {
@@ -297,7 +299,7 @@ function SignUpForm(){
               alert('회원가입이 완료되었습니다.');
               redirection('/login');
               console.log(userData);
-              
+
             } else {
               alert('서버와의 통신이 원활하지 않습니다.');
             }
@@ -305,7 +307,7 @@ function SignUpForm(){
           .then(flag => {
             // 회원가입 성공 시 처리할 로직 작성
             // 굳이 여기서 뭘 해야 되나
-           
+
           });
           // .catch(error => {
           //   // 회원가입 실패 시 처리할 로직 작성
@@ -317,7 +319,7 @@ function SignUpForm(){
       }
     };
     
-    
+
   return (
     <div className="container">
       <div className="sign-up-wrap">
