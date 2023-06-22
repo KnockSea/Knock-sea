@@ -24,7 +24,7 @@ public class ReviewDetailResponseDTO {
     private String profileImg;
     private String productTitle;
     private String eduTitle;
-
+    private String userName;
     private String title;
 
 
@@ -40,6 +40,7 @@ public class ReviewDetailResponseDTO {
         this.productTitle = review.getProduct() != null ? review.getProduct().getProductTitle() : null;
         this.eduTitle = review.getEdu() != null ? review.getEdu().getEduTitle() : null;
         this.title = review.getEdu().getEduTitle() != null ? review.getEdu().getEduTitle() : review.getProduct().getProductTitle();
+        this.userName = review.getUser().getUserName();
     }
 
 }

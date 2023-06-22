@@ -39,14 +39,15 @@ function MpReviewList() {
         <>
         {reviews.length > 0 && reviews.map(review => (
     <div className='MpReFormItem'>
-        <div className='mprebox1'>이미지</div>
+        <div className='numbox'></div>
+        <div className='mprebox1'>{review.profileImg}</div>
         <div className='mprebox2'>
                 <div className='mpreAutohr'>
-                    <div>{review.user}</div>
-                    <div>Dbsd***</div>
+                    <div>{review.userName}</div>
+                    <div>{review.title}</div>
                 </div>
-                <div className='mpstar'>별점구간</div>
-            <div>리뷰입니다 하하하하하하하하하하하</div>
+                <div className='mpstar'>{review.reviewRating}</div>
+            <div>{review.reviewContent}</div>
         </div>
         </div> 
     ))}   
