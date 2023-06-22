@@ -28,6 +28,7 @@ function Myinfo () {
   const [userFullAddress, setuserFullAddress] = useState('');
   const [popup, setPopup] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
+  console.log(userInfo);
   const [username ,setusername] = useState('');
   const [userphone,setuserphone] = useState('');
   const [useremail,setuseremail] = useState('');
@@ -46,8 +47,7 @@ function Myinfo () {
         }).open();
 
       };
-      
-      
+    
 
       const redirection = useNavigate();
       
@@ -139,10 +139,6 @@ function Myinfo () {
         return ;
       }
 
-      
-
-      
-
      
   useEffect(() => {
     const user = getLoginUserInfo();
@@ -205,10 +201,12 @@ function Myinfo () {
                       </div>
                       <span 
                           className='postSee' 
-                          style={{marginLeft:"10px", fontSize:"15px"}}
-                          onChange={(e) => setuserAddress(e.target.value)}>
+                          style={{marginLeft:"10px", fontSize:"15px"}}>
                             {userAddress}
-                           
+//                           style={{marginLeft:"10px", fontSize:"15px"}}
+//                           onChange={(e) => setuserAddress(e.target.value)}>
+//                             {userAddress}
+    
                       </span>
                       </div>
                       <input

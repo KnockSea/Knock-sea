@@ -31,13 +31,15 @@ const Post = ({getAddress}) => {
 
   return (
     <>
+      <div>
       {isMounted && (
         <DaumPostcode
           style={postCodeStyle}
           onComplete={onCompletePost}
           autoClose
         />
-      )}
+        )}
+        </div>
     </>
   );
 };

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import './scss/ProductRegistration.scss';
-import { NativeSelect, FormControl, InputLabel } from '@mui/material';
-import RegiCalendar from './RegiCalendar';
 import RegiTime from './RegiTime.js';
 import Post from '../account/Post';
+import "react-date-range/dist/styles.css"; 
+import 'react-date-range/dist/theme/default.css'; 
+import Calendar from './RegiCalendar';
+
 
 function ProductRegistration() {
   const [labelType, setLabelType] = useState('');
   const [title, setTitle] = useState('');
-  const [userAddress, setuserAddress] = useState('');
+  const [userAddress, setuserAddress] = useState('주소 검색 클릭');
   const [userFullAddress, setuserFullAddress] = useState('');
   const [photo1, setPhoto1] = useState('');
   const [photo2, setPhoto2] = useState('');
@@ -55,18 +57,114 @@ function ProductRegistration() {
  
   // 주소 검색 팝업 
   const getAddress = (userAddress) => {
-    setuserAddress(userAddress);
+    setuserAddress(userAddress)
     console.log('getAddr:', userAddress);
   };
 
 
-  // form 등록
-  const handleProductRegi = (e) => {
+  const handleProductRegi = async (e) => {
     e.preventDefault();
 
     console.log(photo1, photo2);
     console.log(dateRange);
+
+    // FormData 객체 생성
+    const formData = new FormData();
+    formData.append('photo1', photo1);
+    formData.append('photo2', photo2);
+    formData.append('address', userAddress);
+    formData.append('fullAddress', userFullAddress);
+    formData.append('title', title);
+    formData.append('price', price);
+    formData.append('maxUser', maxUser);
+    formData.append('service', service);
+    formData.append('step1', step1);
+    formData.append('step2', step2);
+    formData.append('step3', step3);
+    formData.append('dateRange', JSON.stringify(dateRange));
+    formData.append('selectedHour', selectedHour);
+    formData.append('selectedMinute', selectedMinute);
+    formData.append('times', JSON.stringify(timeBoxes));
+    
+
+    try {
+      // fetch를 사용하여 서버로 데이터 전송
+      const response = await fetch('서버 주소', {
+        method: 'POST',
+        body: formData,
+      });
+
+      // 응답 결과 확인
+      if (response.ok) {
+        // 성공적으로 데이터가 전송되었을 때 처리할 내용
+        console.log('데이터 전송 성공!');
+      } else {
+        // 데이터 전송 실패 시 처리할 내용
+        console.error('데이터 전송 실패!');
+      }
+    } catch (error) {
+      // 에러 처리
+      console.error('데이터 전송 중 오류 발생:', error);
+    }
   };
+
+
+  /*
+  // ProductRegistration 컴포넌트
+
+// 주소를 담을 상태값
+const [address, setAddress] = useState('');
+// dateRange 값을 담을 상태값
+const [dateRange, setDateRange] = useState([]);
+// timeBoxes 값을 담을 상태값
+const [timeBoxes, setTimeBoxes] = useState([]);
+
+// 자식 컴포넌트에서 주소를 받아와서 address 상태값 업데이트
+const handleAddressChange = (userAddress) => {
+  setAddress(userAddress);
+};
+
+// 자식 컴포넌트에서 dateRange 값을 받아와서 dateRange 상태값 업데이트
+const handleDateRangeChange = (selectedDateRange) => {
+  setDateRange(selectedDateRange);
+};
+
+// 자식 컴포넌트에서 timeBoxes 값을 받아와서 timeBoxes 상태값 업데이트
+const handleTimeBoxesChange = (selectedTimeBoxes) => {
+  setTimeBoxes(selectedTimeBoxes);
+};
+
+// form 등록
+const handleProductRegi = (e) => {
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append('photo1', photo1);
+  formData.append('photo2', photo2);
+  formData.append('address', address);
+  formData.append('dateRange', JSON.stringify(dateRange));
+  formData.append('times', JSON.stringify(timeBoxes));
+  // 나머지 필요한 값들도 formData에 추가
+
+  // formData 사용하여 서버로 데이터 전송
+};
+
+// ...
+
+// 주소 선택 시 address 상태값 업데이트
+<Post onAddressChange={handleAddressChange} />
+
+// dateRange 선택 시 dateRange 상태값 업데이트
+<DateRangePicker onChange={handleDateRangeChange} />
+
+// timeBoxes 선택 시 timeBoxes 상태값 업데이트
+<TimeBoxSelector onChange={handleTimeBoxesChange} />
+
+// ...
+
+  
+  */
+
 
   return (
     <div className="container">
@@ -83,11 +181,18 @@ function ProductRegistration() {
             <ul>
               <li>
                 <div className="regi-title">카테고리 선택<span className="imp">*</span></div>
-                <div className='category'>
-                  <div className="category-select">선박</div>
-                  <div className="category-select">낚시터</div>
-                  <div className="category-select">클래스</div>
-                </div>
+                <select
+                    value={labelType}
+                    onChange={(e) => setLabelType(e.target.value)}
+                    required
+                    aria-required="true"
+                    className="category-custom-select"
+                  >
+                    <option value="">카테고리 선택</option>
+                    <option value="선박">선박</option>
+                    <option value="낚시터">낚시터</option>
+                    <option value="클래스">클래스</option>
+                  </select>
               </li>
               <li>
                 <div className="regi-title">메인 사진 추가<span className="imp">*</span></div>
@@ -147,10 +252,13 @@ function ProductRegistration() {
               <li>
                 <div className="regi-title">장소<span className="imp">*</span></div>
                 <div className='form-control' style={{display:"flex", justifyContent:"space-between"}}>
-                   <span className='postSee'>{userAddress}</span>
+                   <span className='postSee'  style={{width:"250px", textAlign:"left", fontSize:"16px",
+                        whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{userAddress}</span>
                     <div
                       className="postSearch"
-                      style={{width:"100px", height:"25px", lineHeight:"25px", marginLeft:"30px"}}
+                      style={{
+                        width:"100px", height:"25px", lineHeight:"25px", marginLeft:"30px"
+                      }}
                       onClick={()=>{
                         setPopup(!popup)
                       }}
@@ -203,21 +311,18 @@ function ProductRegistration() {
                     aria-required="true"
                     placeholder="숫자만 입력(최대인원)"
                   />
-                  <span id="nameChk"></span>
                 </div>
               </li>
+              
               <li>
                 <div className="regi-title" >날짜선택<span className="imp">*</span></div>
                 <div className='calendar'>
                 <section className='calendar-box'>
-                  <RegiCalendar className='datePicker' getDateRange={handleGetDateRange}  />
+                  <Calendar className='datePicker' getDateRange={handleGetDateRange}  />
                 </section>
                 </div>
-                <span>fnnfkfk{setDateRange}</span>
               </li>
-             
-              <div>
-             
+             <br/>
               <li>
                 <div className="regi-title">운영일/운영 시간<span className="imp">*</span></div>
                 <div className='regi-time-wrap'>
@@ -228,7 +333,6 @@ function ProductRegistration() {
                    ))}
                 </div>
               </li>
-              </div>
               <li className='plus-btn'>
                 <button onClick={addTimeBox}>+</button>
               </li>
