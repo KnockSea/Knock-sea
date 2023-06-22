@@ -102,12 +102,10 @@ public class ProductController {
 
 //        log.info("/api/v1/products GET ! - {} ", );
 
-        mainListResponseDTO mainListResponseDTO = productService.showMainList();
-
-        return ResponseEntity.ok().body(mainListResponseDTO);
+        return ResponseEntity.ok().body(productService.shipMainList());
     }
 
-    @GetMapping("product-list")
+    @GetMapping("/product-list")
     public ResponseEntity<?> productList(PageDTO pageDTO) {
 
         log.info("/api/v1/products/product-list GET ! - {} ", pageDTO);

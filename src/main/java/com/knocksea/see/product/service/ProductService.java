@@ -173,14 +173,27 @@ public class ProductService implements ProductDetailService {
 
 
     // 메인페이지 3개만 보여주기 -> 3개씩 보여주기 만들어야 되나?
-    public mainListResponseDTO showMainList() {
-        List<Product> productsShip = productRepository.findTop3ByProductTypeOrderByProductInputDateDesc("SHIP");
+    public List<mainListResponseDTO> shipMainList() {
+        List<Product> productsShip = productRepository.findTop9ByProductTypeOrderByProductInputDateDesc("SHIP");
+//
+//        List<Product> productsSpot = productRepository.findTop3ByProductTypeOrderByProductInputDateDesc("SPOT");
+//
+//        List<Edu> edu = eduRepository.findTop3ByOrderByCreateDate();
 
-        List<Product> productsSpot = productRepository.findTop3ByProductTypeOrderByProductInputDateDesc("SPOT");
-
-        List<Edu> edu = eduRepository.findTop3ByOrderByCreateDate();
-
-
-        return new mainListResponseDTO(productsShip, productsSpot, edu);
+        return productsShip.stream()
+                .map(mainListResponseDTO::new).collect(Collectors.toList());
     }
+
+    public List<mainListResponseDTO> spotMainList() {
+        List<Product> productsShip = productRepository.findTop9ByProductTypeOrderByProductInputDateDesc("SHIP");
+//
+//        List<Product> productsSpot = productRepository.findTop3ByProductTypeOrderByProductInputDateDesc("SPOT");
+//
+//        List<Edu> edu = eduRepository.findTop3ByOrderByCreateDate();
+
+        return productsShip.stream()
+                .map(mainListResponseDTO::new).collect(Collectors.toList());
+    }
+
+//    public autoTrans
 }
