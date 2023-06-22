@@ -8,25 +8,36 @@ const MpInquire = () => {
   const [inquiries, setInquiries] = useState([]);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
-  // const [token, setToken] = useState('');
+  const [token, setToken] = useState('');
+  
+  const fetchToken = () => {
+  
+    const token = getLoginUserInfo().token; 
+    setToken(token);
+  };
 
   useEffect(() => {
+    fetchToken();
+    console.log('kjhhhjhjjhjhjhjhjhjhjhjhjhjh');
     fetchData();
   }, [page, size]);
 
+
   const fetchData = () => {
-    // fetchToken();
-    fetch('http://localhost:8012/api/v1/inquiries', {
+    fetchToken();
+    console.log('kjjjhdhh-----------------------ghgxc', token);
+    fetch('http://localhost:8012/api/v1/inquiries/myInquiry', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        // 'Authorization': 'Bearer ' + token
+        'Authorization': 'Bearer ' + token
       }
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
+      console.log("1111112222222222data", data);
       if (data) {
+        console.log("data2222222222222222222@@@@@@@", data);
         setInquiries(data.inquiries);
       } else {
         console.error('Invalid response data:', data);
@@ -38,11 +49,6 @@ const MpInquire = () => {
   };
 
 
-  // const fetchToken = () => {
-
-  //   const token = getLoginUserInfo().token; 
-  //   setToken(token);
-  // };
 
   return (
     <section className='MyPageMainBox'>
@@ -50,11 +56,11 @@ const MpInquire = () => {
         <h1>문의 현황</h1>
        
           {inquiries.length > 0 && inquiries.map(inquiry => (
-             <div className='inbox'>
-            <div key={inquiry.id} className='initembox'>
-              <div className='innumbox'>{inquiry.id}</div>
-              <div className='intitle'>{inquiry.title}</div>
-              <div className='indate'>{inquiry.date}</div>
+             <div key={inquiry.inquiryId} className='inbox'>
+            <div className='initembox'>
+              <div className='innumbox'>{inquiry.inquiryId}</div>
+              <div className='intitle'>{inquiry.inquiryTitle}</div>
+              <div className='indate'>{inquiry.inquiryDateTime}</div>
             </div>
             <div className='inbtnbox'>
               <button className='indetailbtn'>상세보기</button>
