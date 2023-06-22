@@ -2,8 +2,10 @@ package com.knocksea.see.product.api;
 
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.NoneMatchUserException;
+import com.knocksea.see.product.dto.request.PageDTO;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
 import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
+import com.knocksea.see.product.dto.response.ProductListResponseDTO;
 import com.knocksea.see.product.dto.response.mainListResponseDTO;
 import com.knocksea.see.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -98,9 +100,18 @@ public class ProductController {
     @GetMapping("/main")
     public ResponseEntity<?> mainPage() {
 
-        mainListResponseDTO mainListResponseDTO = productService.showMainList();
+//        log.info("/api/v1/products GET ! - {} ", );
 
-        return ResponseEntity.ok().body(mainListResponseDTO);
+        return ResponseEntity.ok().body(productService.shipMainList());
+    }
+
+    @GetMapping("/product-list")
+    public ResponseEntity<?> productList(PageDTO pageDTO) {
+
+        log.info("/api/v1/products/product-list GET ! - {} ", pageDTO);
+        ProductListResponseDTO listResponseDTO = productService.findAll(pageDTO);
+
+        return ResponseEntity.ok().body(listResponseDTO);
     }
 
 }

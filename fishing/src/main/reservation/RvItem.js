@@ -5,15 +5,36 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Bullseye, Calendar2Check, EmojiSmile, PersonVcard, CheckCircleFill } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import RvBtDetail from './RvBtDetail';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { API_BASE_URL, SHIP } from '../../config/host-config';
 
 
-const RvItem = () => {
+const RvItem = ( {shipInfo}) => {
+    
+  
+
+
+
+    // 배 이미지 가져오가
+    const [shipimg , setshipimg] = useState("");
+
+    useEffect(()=> {
+      fetch(`${API_BASE_URL}${SHIP}/getshipinfo`)
+      .then(reponse => reponse.text())
+      .then(shipimg => {
+        setshipimg(shipimg);
+      });
+    },[]);
+    // 이미지 가져오기 끝 
+
+
   return (
     <div className='contentCard'>
       <Link to={"/detail"}>
 
     <div className='imgbox'>
-        <img src={boat} />
+        <img src={setshipimg} />
     
     </div>
     <div className='cardTitle'>
