@@ -23,7 +23,7 @@ function RvTemplate() {
       }
     };
 
-    fetchShipInfo();
+    // fetchShipInfo();
   }, []);
 
 
