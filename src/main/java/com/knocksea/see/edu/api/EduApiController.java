@@ -4,6 +4,7 @@ import com.knocksea.see.edu.dto.response.*;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.service.EduService;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
+import com.knocksea.see.user.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -22,6 +25,7 @@ import java.util.List;
 public class EduApiController {
 
     private final EduService eduService;
+    private final ImageService imageService;
 
     //좋아요 많은 순 4개 조회
     @GetMapping("/topFour")
@@ -64,7 +68,9 @@ public class EduApiController {
     //클래스 등록 - post
     @PostMapping
     public ResponseEntity<?> create(
-            @Validated @RequestBody EduAndReservationTimeCreateDTO dto, BindingResult result
+            @Validated @RequestPart(value = "edu") EduAndReservationTimeCreateDTO dto
+            ,@RequestPart(value = "EduImage", required = false) List<MultipartFile> EduImg
+            , BindingResult result
     ){
         log.info("/api/v1/edu POST!! - payload: {}", dto);
 
@@ -80,6 +86,17 @@ public class EduApiController {
 
         try {
             EduDetailResponseDTO responseDTO = eduService.insert(dto);
+
+            if(EduImg!=null){
+                log.info("ggggg");
+                //이미지 파일들이 잘 들어왔다면 원본이름 출력시키기
+                for (MultipartFile validationImage : EduImg) {
+                    log.info("validationImage : "+validationImage.getOriginalFilename());
+                }
+                //이미지 저장시키기
+                imageService.saveEduImg(EduImg,dto);
+            }
+
             return ResponseEntity
                     .ok()
                     .body(responseDTO+" 저장 성공");
@@ -88,6 +105,10 @@ public class EduApiController {
             return ResponseEntity
                     .internalServerError()
                     .body("서버 터짐: " + e.getMessage());
+        } catch (Exception e) {
+            log.warn("기타 예외가 발생했습니다.");
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -109,7 +130,8 @@ public class EduApiController {
     //클래스 수정
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<?> update(
-            @Validated @RequestBody EduAndReservationTimeCreateDTO dto/*EduModifyDTO dto*/
+            @Validated @RequestPart(value = "Edu") EduAndReservationTimeCreateDTO dto
+            ,@RequestPart(value = "EduImage", required = false) List<MultipartFile> EduImg
             , BindingResult result
             , HttpServletRequest request
     ) {
@@ -122,7 +144,7 @@ public class EduApiController {
 
         try {
             EduDetailResponseDTO responseDTO
-                    = eduService.modify(dto);
+                    = eduService.modify(dto,EduImg);
             return ResponseEntity.ok().body(responseDTO);
         }
         catch (Exception e){

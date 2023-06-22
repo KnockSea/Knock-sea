@@ -1,5 +1,6 @@
 package com.knocksea.see.user.repository;
 
+import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.product.entity.ProductCategory;
 import com.knocksea.see.user.entity.FishingSpot;
 import com.knocksea.see.user.entity.SeaImage;
@@ -23,4 +24,8 @@ public interface ImageRepository extends JpaRepository<SeaImage,Long> {
     void deleteByShip(Ship ship);
 
     void deleteBySpot(FishingSpot findSpotByUser);
+
+    void deleteByEduEduId(Long eduId);
+
+    void deleteByEdu(Edu edu);
 }

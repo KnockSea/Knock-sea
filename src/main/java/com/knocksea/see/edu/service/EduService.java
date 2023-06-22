@@ -17,7 +17,9 @@ import com.knocksea.see.product.repository.ReservationTimeRepository;
 import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.repository.ReviewRepository;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.UserRepository;
+import com.knocksea.see.user.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -46,6 +49,8 @@ public class EduService {
     private final ReviewRepository reviewRepository;
     private final HeartRepository heartRepository;
     public List<ReservationTime> timeList;
+    private final ImageRepository imageRepository;
+    ImageService imageService;
 
     //좋아요 상위 4개 조회
     public EduTopFourListResponseDTO findTopFour(){
@@ -146,8 +151,7 @@ public class EduService {
     }
 
     //클래스 수정
-    public EduDetailResponseDTO modify(EduAndReservationTimeCreateDTO dto) throws RuntimeException{
-
+    public EduDetailResponseDTO modify(EduAndReservationTimeCreateDTO dto, List<MultipartFile> eduImg) throws RuntimeException{
         Long userId = dto.getUserId();
 
         User user = userRepository.findById(userId)
@@ -163,6 +167,7 @@ public class EduService {
 
         //ReservationTime 아예 삭제시키고 다시 등록시킴
          reservationTimeRepository.deleteByEduEduId(edu.getEduId());
+         imageRepository.deleteByEduEduId(edu.getEduId());
 
         //수정한 예약시간 개수만큼 save
         for (int i = 0; i < dto.getTimeDate().size(); i++) {
@@ -171,6 +176,8 @@ public class EduService {
                         = reservationTimeRepository.save(dto.toReservationTimeEntity(i, j, edu));
             }
         }
+
+//        imageService.saveEduImg(eduImg,);
 
         edu.update(dto);
         eduRepository.save(edu);
@@ -209,6 +216,7 @@ public class EduService {
             throw new RuntimeException("예약이 존재하여 삭제할 수 없습니다.");
         } else {
            log.info("삭제중!! "+i);
+            imageRepository.deleteByEdu(edu);
             reservationTimeRepository.deleteByEduEduId(eduId);
             log.info("reservationTime 삭제 : ");
             eduRepository.deleteByEduId(eduId);
