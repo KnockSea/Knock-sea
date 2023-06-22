@@ -29,6 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.knocksea.see.validation.entity.ValidationType.SHIP;
+import static com.knocksea.see.validation.entity.ValidationType.SPOT;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -76,32 +79,37 @@ public class ImageService {
                 .orElseThrow(() -> new RuntimeException("ImageService : 존재하지 않는 유저입니다."));
         log.info("ImageService user : " + user);
 
-        Validation byUserAndValidationType = validationRepository.findByUserAndValidationType(user, dto.getValidationType());
-        log.info("byUserAndValidationType : "+byUserAndValidationType);
+        List<Validation> fondByUserAndValidationType = validationRepository.findByUserAndValidationType(user, dto.getValidationType());
+        log.info("fondByUserAndValidationType : "+fondByUserAndValidationType);
 
         List<String> listValidationImg = uploadValidationImage(validationImg);
-        if(dto.getValidationType().equals("SHIP")){ //이미지 2장 0번 인덱스가 선박 등록증, 1번 인덱스가 선박 면허증
-            for(String listValidationImage :listValidationImg){
+        log.info("listValidationImg : "+listValidationImg);
+        log.info("dto.getValidationType()"+dto.getValidationType());
+        if(dto.getValidationType().equals(SHIP)){ //이미지 2장 0번 인덱스가 선박 등록증, 1번 인덱스가 선박 면허증
+            log.info("SHIP 들어옴");
+            imageRepository.save(
+                    SeaImage.builder()
+                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(0))
+                            .validation(fondByUserAndValidationType.get(0))
+                            .imageType(ProductCategory.VALIDATIONSHIPREGI)
+                            .build());
 
-            }
+            imageRepository.save(
+                    SeaImage.builder()
+                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(1))
+                            .validation(fondByUserAndValidationType.get(0))
+                            .imageType(ProductCategory.VALIDATIONSHIPLICENSE)
+                            .build());
 
-        }else if(dto.getValidationType().equals("SPOT")){//0번 인덱스가 사업자 등록증 번호
-
+        }else if(dto.getValidationType().equals(SPOT)){//0번 인덱스가 사업자 등록증 번호
+            log.info("SPOT 들어옴");
+           imageRepository.save(
+                    SeaImage.builder()
+                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(0))
+                            .validation(fondByUserAndValidationType.get(0))
+                            .imageType(ProductCategory.VALIDATIONBUSINESSREGI)
+                            .build());
         }
-
-        /*
-
-        Long typeNumber = 1L; //필요 없음
-
-        for (String string : strings) {
-            SeaImage save = validationRepository.save(
-                    SeaImage
-                    .builder()
-                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+string)
-                            .ship()
-                            .typeNumber(typeNumber++)
-                            .imageType(ProductCategory.SHIP).build());
-        }*/
 
     }
     //검증 실제 이미지 저장함수
@@ -110,7 +118,6 @@ public class ImageService {
         List<String> uniqueFilenames = new ArrayList<>();
 
         String s = makeDateFormatDirectory(uploadRootPath2);
-
 
         for (MultipartFile validationImage : validationImg) {
             String originalFilename = validationImage.getOriginalFilename();
@@ -121,7 +128,6 @@ public class ImageService {
             validationImage.transferTo(uploadFile);
 
             uniqueFilenames.add(uniqueFileName);
-
         }
         return uniqueFilenames;
     }

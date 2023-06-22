@@ -1,9 +1,15 @@
 package com.knocksea.see.validation.api;
 
+import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
+import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.user.service.ImageService;
 import com.knocksea.see.validation.dto.request.ValidationCreateDTO;
+import com.knocksea.see.validation.dto.response.ValidationListResponseDTO;
 import com.knocksea.see.validation.dto.response.ValidationRegisterResponseDTO;
+import com.knocksea.see.validation.entity.Validation;
+import com.knocksea.see.validation.entity.ValidationStatus;
+import com.knocksea.see.validation.entity.ValidationType;
 import com.knocksea.see.validation.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -53,9 +60,9 @@ public class ValidationApiController {
         }
 
         try {
-
 //            validationService.insert(dto,userInfo); 토큰 사용시
             ValidationRegisterResponseDTO insertValidation = validationService.insert(dto);
+            log.info("insertValidation : "+insertValidation);
 
             if(validationImg!=null){
                 log.info("ggggg");
@@ -67,10 +74,10 @@ public class ValidationApiController {
                 imageService.saveValidationImg(validationImg,dto);
             }
 
-            /*return ResponseEntity.ok().body();*/
+            return ResponseEntity.ok().body(insertValidation);
 
         } catch (NoRegisteredArgumentsException e) {
-            log.warn("필수 등록 정보를 받지 못했습니다.");
+            log.warn(e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             log.warn("기타 예외가 발생했습니다.");
@@ -78,7 +85,34 @@ public class ValidationApiController {
             return ResponseEntity.internalServerError().build();
         }
 
-        return null;
+    }
 
+    //타입별 전체조회
+    @GetMapping("/{validationType}")
+    public ResponseEntity<?> list(@PathVariable ValidationType validationType/*, @PathVariable Long userId*/){
+        log.info("/api/v1/validation {} GET",validationType);
+
+        List<ValidationListResponseDTO> allByType = validationService.findAllByType(validationType);
+        return ResponseEntity.ok().body(allByType);
+    }
+
+    //검증 상태 변경
+    @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public ResponseEntity<?> update(
+            @Validated @RequestBody String userName, ValidationStatus validationStatus
+            , BindingResult result
+            , HttpServletRequest request
+    ){
+        log.info("검증 상태 수정 "+userName + " "+ validationStatus);
+        try {
+            EduDetailResponseDTO responseDTO
+                    = validationService.modifyStatus(userName,validationStatus);
+            return ResponseEntity.ok().body(responseDTO);
+        }
+        catch (Exception e){
+            return ResponseEntity
+                    .internalServerError()
+                    .body(e.getMessage());
+        }
     }
 }
