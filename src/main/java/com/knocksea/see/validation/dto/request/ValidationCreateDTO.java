@@ -1,5 +1,8 @@
-package com.knocksea.see.validation.dto;
+package com.knocksea.see.validation.dto.request;
 
+import com.knocksea.see.edu.entity.Edu;
+import com.knocksea.see.user.entity.User;
+import com.knocksea.see.validation.entity.Validation;
 import com.knocksea.see.validation.entity.ValidationStatus;
 import com.knocksea.see.validation.entity.ValidationType;
 import lombok.*;
@@ -17,18 +20,20 @@ import static com.knocksea.see.validation.entity.ValidationStatus.WAIT;
 @NoArgsConstructor
 @Builder @Slf4j
 public class ValidationCreateDTO {
+    private Long userId;
     private ValidationType validationType; //SHIP/SPOT
-
-    private MultipartFile validationShipRegiImg; //선박 등록증 이미지
-
     private String validationShipRegi; //선박등록증 번호 //배 등록때만 사용
-
-    private MultipartFile validationShipLicenseImg; //선박 면허증 이미지 
-
     private String validationShipLicense; //선박면허증 번호 //배 등록때만 사용
-
-    private MultipartFile validationBusinessRegiImg; //사업자 등록증 이미지
-
     private String validationBusinessRegi; //사업자 등록증 번호 //낚시터 등록때만 사용
 
+    public Validation toValidationEntity(User user) {
+
+        return Validation.builder()
+                .validationType(this.validationType)
+                .validationShipRegi(this.validationShipRegi)
+                .validationShipLicense(this.validationShipLicense)
+                .validationBusinessRegi(this.validationBusinessRegi)
+                .user(user)
+                .build();
+    }
 }

@@ -64,13 +64,21 @@ const NsMain = () => {
     <section>
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
-            <Route path='/' element ={<MainContent />} />
+            <Route path='/' element ={<MainContent shipInfo={shipInfo} />} />
+            {/* 배낚시 탭 */}            
             <Route path='/detail' element={<RvBtDetail/>}> </Route>
+            {/* 낚시터 탭 */}            
             <Route path='/fsdetail' element={<RvFsDetail/>}> </Route>
+            {/* 클래스 탭 */}
+            <Route path='/class' element={<ClassMain/>}></Route>
+            <Route path='/classdetail' element={<ClassDetail/>}></Route>
+            {/* 마이페이지 */}                        
             <Route path='/my' element={<MpMain/>}> </Route>
             <Route path='/myinfo' element={<Myinfo/>}></Route>
             <Route path='/mypassword' element={<Mypassword/>}></Route>
+            {/* 상품등록 */}
             <Route path='/product' element={<ProductRegistration/>}></Route>
+            
             <Route path='/userDrop' element={<MpUserDrop/>}></Route>
             <Route path='/drop' element={<MpDrop/>}></Route>
             {/* 문의하기 */}
@@ -79,16 +87,16 @@ const NsMain = () => {
             <Route path='/inquire' element={<MpInquire/>}></Route>
             
             <Route path='/rvlist' element={<MpRvlist/>}></Route>
-            
-            
-            <Route path='/fs' element={<RvFsTemplate/>}></Route>
+           
+             {/* 로그인, 회원가입 */}
             <Route path='/join' element={<SignUpForm/>}></Route>
             <Route path='/login' element={<Login/>}></Route>
-            <Route path='/class' element={<ClassMain/>}></Route>
-            <Route path='/classdetail' element={<ClassDetail/>}></Route>
+            {/* 업체 등록 */}
             <Route path='/ownercheck' element={<OwnerCheckMain/>}></Route>
             <Route path="/ship" element={<OwnerCheckShip/>} ></Route>
             <Route path="/fishing" element={<OwnerCheckFishing/>} ></Route> 
+
+            <Route path='/fs' element={<RvFsTemplate/>}></Route>
             <Route path='/myquery' element={<MpQueryText/>}></Route>
             {/* 업체 정보 */}
             <Route path='/mpbt' element={<MpBtInfo/>}></Route>

@@ -27,6 +27,7 @@ public class UserModifyRequestDTO {
     @NotBlank
     private String userPhone;
 
+
     //유저 주소(간략)
     @NotBlank
     private String userAddress;
@@ -38,5 +39,6 @@ public class UserModifyRequestDTO {
     //유저 이름
     @NotBlank
     private String userName;
+
 
 }
