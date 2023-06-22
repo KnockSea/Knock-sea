@@ -1,5 +1,6 @@
 package com.knocksea.see.product.entity;
 
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -69,5 +70,7 @@ public class Product {
 //    @Builder.Default
 //    private List<ReservationTime> timeList = new ArrayList<>();
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private SeaImage seaImage;
 }

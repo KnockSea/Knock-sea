@@ -123,7 +123,6 @@ public class EduApiController {
         try {
             EduDetailResponseDTO responseDTO
                     = eduService.modify(dto);
-            log.info("123dflkgja;oijfo222222");
             return ResponseEntity.ok().body(responseDTO);
         }
         catch (Exception e){

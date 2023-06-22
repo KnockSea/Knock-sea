@@ -1,5 +1,7 @@
 import React from 'react'
 import './scss/hostSearchMain.scss'
+import HostPhotoCarousel from './hostPhotoCarousel'
+import MpList from '../mypage/MpList'
 
 const HostSearchMain = () => {
   return (
@@ -10,17 +12,26 @@ const HostSearchMain = () => {
                         <h1>호스트 조회</h1>
                     </div>
                                       
-                    <div className='userinfobox'>
-                        <div className='thumnail-box'>
-                            <div> </div>
+                    <div className='user-search-box'>
+                        <div className='user-photo-box'>
+                            <div>
+                                <HostPhotoCarousel/>    
+                            </div>
                         </div>
-                        <div className='namebox'>
-                            <div className='nickName'>LOVETMORROW</div>
-                            <div>업체정보를 입력하세요</div>
-                        </div>
-                        <div className='btbox'>
-                        <button className='isbtn'></button>
-                        <button></button>
+
+                        <div className='user-info-box'>
+                            <div  className='user-info-page'>
+                                <div className='nickName'>
+                                    <p>LOVETMORROW</p>
+                                    <p>★★★★★</p>
+                                </div>
+                                <div className='profile'>
+                                </div>
+                            </div>
+                            <div className='user-content-page'>
+                                <p>제목입니둥</p>
+                                <p>소개소개소개</p>
+                            </div>
                         </div>
                     </div>
 
@@ -35,9 +46,10 @@ const HostSearchMain = () => {
                         <h2>이 업체의 글</h2>
                         <p>아직 작성된 글이 없습니다</p>
                     </div>
-                    <button className='isbtn'></button>
                 </div>
             </div>
+            
+            <MpList />
         </section>
     )
 }

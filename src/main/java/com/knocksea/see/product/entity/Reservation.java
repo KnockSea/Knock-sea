@@ -4,8 +4,10 @@ import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.entity.EduLevel;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -21,16 +23,11 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reservation_id")
     private Long reservationId;
-
     private String reservationType;
-
-    // 시간값 연결 문자열
-//    private String reservationDate;
-
+    @CreationTimestamp
+    private LocalDateTime reservationDate; // 예약 등록한 시간
     private String reservationAddress;
-
     private int reservationUserCount;
-
     private int reservationPrice;
 
 
