@@ -2,6 +2,7 @@ package com.knocksea.see.user.entity;
 
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.product.entity.ProductCategory;
+import com.knocksea.see.validation.entity.Validation;
 import lombok.*;
 
 import javax.persistence.*;
@@ -39,10 +40,7 @@ public class SeaImage {
     @JoinColumn(name = "spot_id")
     private FishingSpot spot;
 
-
-
-
-
-
-
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "validation_id")
+    private Validation validation;
 }
