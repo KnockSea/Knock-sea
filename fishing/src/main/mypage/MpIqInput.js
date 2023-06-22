@@ -10,13 +10,13 @@ const MpIqInput = () => {
   
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-    console.log(event.target.value);
-    console.log(token);
+    // console.log(event.target.value);
+    // console.log(token);
   };
 
   const handleContentChange = (event) => {
     setContent(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
 
   const handleSubmit = () => {

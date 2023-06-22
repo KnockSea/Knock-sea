@@ -8,23 +8,11 @@ const MpInquire = () => {
   const [inquiries, setInquiries] = useState([]);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(getLoginUserInfo().token);
   
-  const fetchToken = () => {
+
   
-    const token = getLoginUserInfo().token; 
-    setToken(token);
-  };
-
-  useEffect(() => {
-    fetchToken();
-    console.log('kjhhhjhjjhjhjhjhjhjhjhjhjhjh');
-    fetchData();
-  }, [page, size]);
-
-
   const fetchData = () => {
-    fetchToken();
     console.log('kjjjhdhh-----------------------ghgxc', token);
     fetch('http://localhost:8012/api/v1/inquiries/myInquiry', {
       method: 'GET',
@@ -39,6 +27,7 @@ const MpInquire = () => {
       if (data) {
         console.log("data2222222222222222222@@@@@@@", data);
         setInquiries(data.inquiries);
+        console.log("data.inquiries @@@@@@@@@@@@@@@@@@", data.inquiries);
       } else {
         console.error('Invalid response data:', data);
       }
@@ -47,8 +36,12 @@ const MpInquire = () => {
       console.error(error);
     });
   };
-
-
+  
+  useEffect(() => {
+    console.log('kjhhhjhjjhjhjhjhjhjhjhjhjhjh');
+    fetchData();
+  }, [page, size]);
+  
 
   return (
     <section className='MyPageMainBox'>
