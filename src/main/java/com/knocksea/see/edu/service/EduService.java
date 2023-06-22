@@ -10,13 +10,17 @@ import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.heart.entity.Heart;
 import com.knocksea.see.heart.repository.HeartRepository;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
+import com.knocksea.see.product.dto.response.mainListResponseDTO;
+import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.repository.ReservationRepository;
 import com.knocksea.see.product.repository.ReservationTimeRepository;
 import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.repository.ReviewRepository;
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +50,7 @@ public class EduService {
     private final ReviewRepository reviewRepository;
     private final HeartRepository heartRepository;
     public List<ReservationTime> timeList;
+    private final ImageRepository imageRepository;
 
     //좋아요 상위 4개 조회
     public EduTopFourListResponseDTO findTopFour(){
@@ -213,5 +218,15 @@ public class EduService {
             log.info("reservationTime 삭제 : ");
             eduRepository.deleteByEduId(eduId);
         }
+    }
+
+    public List<mainListResponseDTO> eduMainList() {
+        List<Edu> eduList = eduRepository.findTop9ByOrderByCreateDateDesc();
+
+        return eduList.stream()
+                .map(p -> {
+                    SeaImage seaImage = imageRepository.findById(p.getSeaImage().getImageId()).orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
+                    return new mainListResponseDTO(p, seaImage);
+                }).collect(Collectors.toList());
     }
 }

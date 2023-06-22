@@ -29,6 +29,8 @@ public class Reservation {
     private String reservationAddress;
     private int reservationUserCount;
     private int reservationPrice;
+    @Builder.Default
+    private String statusValid = "ACTIVE";
 
 
 //    @ManyToOne(fetch = FetchType.LAZY)

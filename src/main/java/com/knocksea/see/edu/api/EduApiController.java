@@ -148,4 +148,12 @@ public class EduApiController {
                     .body(e.getMessage());
         }
     }
+
+    @GetMapping("/main/edu")
+    public ResponseEntity<?> mainPageSpot() {
+
+//        log.info("/api/v1/products GET ! - {} ", );
+
+        return ResponseEntity.ok().body(eduService.eduMainList());
+    }
 }
