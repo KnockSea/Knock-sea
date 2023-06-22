@@ -14,7 +14,10 @@ import RvMap from './RvMap';
 
 
 
-function RvMain() {
+function RvMain( {shipInfo}) {
+
+
+
   return (
     <div>
     {/* <Routes>
@@ -31,9 +34,10 @@ function RvMain() {
                 </div>
                      <div className='cardBox'>
 
-            <RvItem />
-            <RvItem />
-            <RvItem />
+            <RvItem 
+             shipInfo={shipInfo}
+            />
+        
        
          
         

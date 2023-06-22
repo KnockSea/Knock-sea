@@ -2,10 +2,16 @@ package com.knocksea.see.user.service;
 
 import com.knocksea.see.auth.TokenProvider;
 import com.knocksea.see.auth.TokenUserInfo;
+import com.knocksea.see.aws.S3Service;
 import com.knocksea.see.heart.entity.Heart;
 import com.knocksea.see.heart.repository.HeartRepository;
+import com.knocksea.see.product.dto.response.ReservationResponseDTO;
 import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.product.entity.Reservation;
+import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.repository.ProductRepository;
+import com.knocksea.see.product.repository.ReservationRepository;
+import com.knocksea.see.product.repository.ReservationTimeRepository;
 import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.repository.ReviewRepository;
 import com.knocksea.see.user.dto.request.LoginRequestDTO;
@@ -15,6 +21,8 @@ import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
 import com.knocksea.see.user.dto.response.EntireInfoResponseDTO;
 import com.knocksea.see.user.dto.response.LoginResponseDTO;
 import com.knocksea.see.user.dto.response.UserModifyresponseDTO;
+import com.knocksea.see.user.dto.response.UserMyPageResponseDTO;
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
@@ -31,6 +39,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,6 +75,12 @@ public class UserService {
     //이미지 저장 서비스
     private final ImageService imageService;
 
+    //아마존 s3접근용
+    private final S3Service s3Service;
+    private final ReservationRepository reservationRepository;
+    private final ReservationTimeRepository reservationTimeRepository;
+
+
 
     @Value("${upload.path}")
     private String uploadRootPath;
@@ -97,7 +112,7 @@ public class UserService {
         User saveuser = userRepository.save(user);
 
 
-        log.info("회원가입 정상 수행됌! - saved user - {}",saveuser);
+        log.info("회원가입 정상 수행! - saved user - {}",saveuser);
 
         //리턴값이 비어있지않다면 회원가입성공
         //비어있다면 회원가입 실패
@@ -185,27 +200,30 @@ public class UserService {
     //프로필 사진 업로드 기능
     public String uploadProfileImage(MultipartFile originalFile) throws IOException {
         //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
-        File rootDir = new File(uploadRootPath);
-        if(!rootDir.exists()) rootDir.mkdir();
+//        File rootDir = new File(uploadRootPath);
+//        if(!rootDir.exists()) rootDir.mkdir();
 
         //파일명을 유니크하게 변경
         String uniqueFileName = UUID.randomUUID() + "_" + originalFile.getOriginalFilename();
 
         //파일을 저장
-        File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
+//        File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
+//
+//        originalFile.transferTo(uploadFile);
+        //파일을 s3 버킷에 저장
+        String uploadUrl = s3Service.uploadToS3Bucket(originalFile.getBytes(), uniqueFileName);
 
-        originalFile.transferTo(uploadFile);
+        return uploadUrl;
 
-        return uniqueFileName;
     }
 
     //파일 저장경로 얻어오기
     public String findProfilePath(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
-        return uploadRootPath + "/" + user.getProfileImg();
+        return user.getProfileImg();
     }
 
-    //전체 리뷰/좋아요 리스트 받아오기
+    //전체 리뷰/좋아요 리스트 받아오기 // OWNER 기능이잖아?
     public EntireInfoResponseDTO getEntireInfo(TokenUserInfo userInfo) {
         //후기 / 좋아요 리스트 담을 dto선언
         EntireInfoResponseDTO entireInfoResponseDTO = new EntireInfoResponseDTO();
@@ -282,12 +300,10 @@ public class UserService {
         //기존에 저장되어있던 이미지 경로
         String savedFilePath = findProfilePath(userId);
 
-        //파일 객체만들기!
-        File imageFile = new File(savedFilePath, user.getProfileImg());
-
-        if (imageFile.exists()){
-            imageFile.delete();
+        if (savedFilePath==null){
+            File imageFile = new File(uniqueFileName, user.getProfileImg());
         }
+
 
 
         File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
@@ -298,5 +314,27 @@ public class UserService {
 
         userRepository.save(user);
 
+    }
+
+
+    public UserMyPageResponseDTO userMyPageInfo(TokenUserInfo userInfo) {
+
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("정보가 올바르지 않습니다."));
+
+        // 이거 리스트네? 유저가 예약한것들 전체
+        List<Reservation> reservation = reservationRepository.findAllByUserUserId(user.getUserId());
+//                .orElseThrow(() -> new RuntimeException("예약 정보가 없습니다."));
+
+
+        List<ReservationResponseDTO> reservationResponseDTOS = new ArrayList<>();
+        for (Reservation r : reservation) {
+            ReservationTime time = r.getReservationTime();
+            Product product = r.getProduct();
+            SeaImage img = product.getSeaImage();
+
+            reservationResponseDTOS.add(new ReservationResponseDTO(r, time, product, img));
+        }
+
+        return new UserMyPageResponseDTO(user, reservationResponseDTOS);
     }
 }

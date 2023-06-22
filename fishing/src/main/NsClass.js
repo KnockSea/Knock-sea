@@ -6,7 +6,7 @@ const NsClass = () => {
 
     <div className='class'>
     <div className='title'>
-        <p className='t1'>오늘의 클래스 > </p>
+        <p className='t1'>오늘의 클래스 </p>
         <p className='t2'>더보기</p>
     </div>
     <div className='classs'>

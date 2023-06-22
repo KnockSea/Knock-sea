@@ -45,3 +45,11 @@ mybatis:
 kakao:
   admin:
     key: b0e82271a5b48b26d2e65429c52085c1
+
+# s3 접근 설정
+aws:
+  credentials:
+    accessKey: AKIAZTDGW32PDTCET35M
+    secretKey: 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
+  region: ap-northeast-2
+  bucketName: jiseung-upload-bucket
