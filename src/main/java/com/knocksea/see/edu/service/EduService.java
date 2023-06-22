@@ -1,21 +1,21 @@
 package com.knocksea.see.edu.service;
 
-import com.knocksea.see.edu.dto.response.EduListDataResponseDTO;
-import com.knocksea.see.edu.dto.response.EduTopFourListResponseDTO;
-import com.knocksea.see.edu.dto.response.EduListResponseDTO;
+import com.knocksea.see.edu.dto.response.*;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
-import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.heart.entity.Heart;
 import com.knocksea.see.heart.repository.HeartRepository;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
+import com.knocksea.see.product.dto.response.ReservationTimeResponseDTO;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.repository.ReservationRepository;
 import com.knocksea.see.product.repository.ReservationTimeRepository;
+import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.repository.ReviewRepository;
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.UserRepository;
@@ -51,6 +51,8 @@ public class EduService {
     public List<ReservationTime> timeList;
     private final ImageRepository imageRepository;
     ImageService imageService;
+
+
 
     //좋아요 상위 4개 조회
     public EduTopFourListResponseDTO findTopFour(){
@@ -101,19 +103,37 @@ public class EduService {
     }
 
     // 상품 상세조회 기능 (예약 가능 시간 정보 포함)
-    public EduDetailResponseDTO getDetail(Long eduId) { //edu,reservationTime, review, like, reservation
+    //이미지 찾아와야 함
+    public EduDetailResponseDTO getDetail(Long eduId) {
       Edu edu = getEdu(eduId);
-
-        /* // 리뷰 목록(상품번호로 조회)  // null 뜨는지 확인해야댐
-        List<ReviewDetailResponseDTO> reviewResponseList = reviewRepository.findAllByEdu(edu).stream()
-                .map(ReviewDetailResponseDTO::new).collect(Collectors.toList());
-
-         // 예약 가능 시간 목록(상품번호로 조회)
+      log.info("edu : "+edu);
+        // 예약 가능 시간 목록(상품번호로 조회)
         List<ReservationTimeResponseDTO> timeResponseDTOList = reservationTimeRepository.findAllByEdu(edu).stream()
                 .map(ReservationTimeResponseDTO::new).collect(Collectors.toList());
+        log.info("timeResponseDTOList : "+timeResponseDTOList);
 
-        return new EduDetailResponseDTO(edu, timeResponseDTOList, reviewResponseList);*/
-        return null;
+         // 리뷰 목록(상품번호로 조회)  // null 뜨는지 확인해야댐
+/*        List<ReviewDetailResponseDTO> reviewResponseList = reviewRepository.findAllByEdu(edu).stream()
+                .map(ReviewDetailResponseDTO::new).collect(Collectors.toList());*/
+
+        List<ReviewDetailResponseDTO> reviewResponseList = reviewRepository.findAllByEdu(edu).stream()
+                .map(review -> {
+                            ReviewDetailResponseDTO reviewDetailResponseDTO = new ReviewDetailResponseDTO();
+                            reviewDetailResponseDTO.setReviewId(review.getReviewId());
+                            reviewDetailResponseDTO.setReviewContent(review.getReviewContent());
+                            reviewDetailResponseDTO.setReviewRating(review.getReviewRating());
+                            reviewDetailResponseDTO.setReviewType(review.getReviewType());
+                            reviewDetailResponseDTO.setEduId(review.getEdu().getEduId());
+                            reviewDetailResponseDTO.setReviewRating(review.getReviewRating());
+                            reviewDetailResponseDTO.setInquiryDateTime(review.getInquiryDateTime());
+                            return reviewDetailResponseDTO;
+                        }
+                        ).collect(Collectors.toList());
+        log.info("reviewResponseList : "+reviewResponseList);
+
+        imageRepository.findAllByEdu(edu);
+
+        return new EduDetailResponseDTO(edu, timeResponseDTOList, reviewResponseList/*,imageResponseList*/);
     }
 
 
@@ -124,11 +144,6 @@ public class EduService {
         //유저 정보는 토큰을 이용해서 저장. 토큰하기 전까지만 이렇게
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않은 회원입니다."));
-
-
-        Optional<Edu> byId = eduRepository.findById(userId);
-        log.info("userId : "+userId);
-        log.info("byId : "+byId);
 
         if (eduRepository.findByUserUserId(user)!=null){
             throw new RuntimeException("이미 등록한 클래스가 있습니다.");
