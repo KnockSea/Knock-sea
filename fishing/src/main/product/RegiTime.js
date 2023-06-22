@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormControl, MenuItem, Select } from '@mui/material';
 
-const MyTimePicker = () => {
+const RegiTime = () => {
   const [startHour, setStartHour] = useState('');
   const [startMinute, setStartMinute] = useState('');
   const [endHour, setEndHour] = useState('');
@@ -41,6 +41,7 @@ const MyTimePicker = () => {
     }
   };
 
+  // formatTime 함수를 MyTimePicker 컴포넌트 외부로 이동
   const formatTime = (startHour, startMinute, endHour, endMinute) => {
     const formattedStartHour = startHour.toString().padStart(2, '0');
     const formattedStartMinute = startMinute.toString().padStart(2, '0');
@@ -48,6 +49,7 @@ const MyTimePicker = () => {
     const formattedEndMinute = endMinute.toString().padStart(2, '0');
     return `${formattedStartHour} 시 ${formattedStartMinute} 분 ~ ${formattedEndHour} 시 ${formattedEndMinute} 분`;
   };
+
   console.log(formatTime);
 
   return (
@@ -115,4 +117,4 @@ const MyTimePicker = () => {
   );
 };
 
-export default MyTimePicker;
+export default RegiTime;

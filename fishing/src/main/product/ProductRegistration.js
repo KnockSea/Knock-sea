@@ -5,10 +5,12 @@ import Post from '../account/Post';
 import "react-date-range/dist/styles.css"; 
 import 'react-date-range/dist/theme/default.css'; 
 import Calendar from './RegiCalendar';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function ProductRegistration() {
-  const [labelType, setLabelType] = useState('');
+  const [productCategory, setProductCategory] = useState('');
   const [title, setTitle] = useState('');
   const [userAddress, setuserAddress] = useState('주소 검색 클릭');
   const [userFullAddress, setuserFullAddress] = useState('');
@@ -18,15 +20,16 @@ function ProductRegistration() {
   const [maxUser, setMaxUser] = useState('');
   const [service, setService] = useState('');
   const [timeBoxes, setTimeBoxes] = useState([1]);
-  const [step1, setStep1] = useState('');
-  const [step2, setStep2] = useState('');
-  const [step3, setStep3] = useState('');
-  const [dateRange, setDateRange] = useState('');
+  const [eduLevel, setEduLevel] = useState('');
+  const [ranges, setRanges] = useState(null);
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
 
   const [popup, setPopup] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const [selectedClass, setSelectedClass] = useState('');
+  const navigate = useNavigate();
+
 
   const handlePhoto1Change = (event) => {
     const file = event.target.files[0];
@@ -38,6 +41,39 @@ function ProductRegistration() {
     setPhoto2(file);
   };
 
+    // 날짜 값 받아옴
+    const handleGetDateRange = (ranges) => {
+      setRanges(ranges);
+      console.log("range 데이터 확인:", ranges);
+    };
+
+
+    // 시간 박스 생성
+    const addTimeBox = () => {
+      setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
+    };
+
+      
+    const handleRegistration = (formatTime) => {
+        // 각 timeBox에서 선택된 시간 값을 FormData에 추가
+    timeBoxes.forEach((boxId) => {
+      const timePicker = document.getElementById(`time-picker-${boxId}`);
+      const startHour = timePicker.querySelector('#start-hour-select').value;
+      const startMinute = timePicker.querySelector('#start-minute-select').value;
+      const endHour = timePicker.querySelector('#end-hour-select').value;
+      const endMinute = timePicker.querySelector('#end-minute-select').value;
+
+      formData.append('startHour', startHour);
+      formData.append('startMinute', startMinute);
+      formData.append('endHour', endHour);
+      formData.append('endMinute', endMinute);
+    });
+
+    // FormData를 활용한 후속 작업 (예: 서버로 전송 등)
+    // formData를 이용하여 원하는 처리 수행
+    console.log("이건뭐징:", formData);
+    };
+  
   const handleHourChange = (event) => {
     setSelectedHour(event.target.value);
   };
@@ -46,67 +82,78 @@ function ProductRegistration() {
     setSelectedMinute(event.target.value);
   };
 
-  const addTimeBox = () => {
-    setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
-  };
-
-  const handleGetDateRange = (dateRange) => {
-    setDateRange(dateRange);
-  };
+ 
 
  
-  // 주소 검색 팝업 
+  // 주소 값 받아옴
   const getAddress = (userAddress) => {
     setuserAddress(userAddress)
-    console.log('getAddr:', userAddress);
   };
 
-
-  const handleProductRegi = async (e) => {
-    e.preventDefault();
-
-    console.log(photo1, photo2);
-    console.log(dateRange);
 
     // FormData 객체 생성
     const formData = new FormData();
-    formData.append('photo1', photo1);
+    formData.append('productCategory', productCategory);
+    formData.append('title', title);
+    formData.append('photo1', setPhoto1);
     formData.append('photo2', photo2);
     formData.append('address', userAddress);
     formData.append('fullAddress', userFullAddress);
-    formData.append('title', title);
     formData.append('price', price);
     formData.append('maxUser', maxUser);
     formData.append('service', service);
-    formData.append('step1', step1);
-    formData.append('step2', step2);
-    formData.append('step3', step3);
-    formData.append('dateRange', JSON.stringify(dateRange));
+    formData.append('eduLevel', eduLevel);
+    formData.append('dateRange', setRanges);
     formData.append('selectedHour', selectedHour);
     formData.append('selectedMinute', selectedMinute);
-    formData.append('times', JSON.stringify(timeBoxes));
-    
-
-    try {
-      // fetch를 사용하여 서버로 데이터 전송
-      const response = await fetch('서버 주소', {
-        method: 'POST',
-        body: formData,
-      });
-
-      // 응답 결과 확인
-      if (response.ok) {
-        // 성공적으로 데이터가 전송되었을 때 처리할 내용
-        console.log('데이터 전송 성공!');
-      } else {
-        // 데이터 전송 실패 시 처리할 내용
-        console.error('데이터 전송 실패!');
-      }
-    } catch (error) {
-      // 에러 처리
-      console.error('데이터 전송 중 오류 발생:', error);
+      
+  const handleNextButtonClick = () => {
+    if (
+      productCategory &&
+      title &&
+      userAddress &&
+      photo1 &&
+      photo2 &&
+      price &&
+      maxUser &&
+      service 
+    ) {
+      navigate('/product/next');
+    } else {
+      alert('모든 항목을 입력해주세요.');
     }
   };
+  //   console.log(photo1, photo2);
+  //   console.log(dateRange);
+  console.log('FormData 값:');
+  for (let [key, value] of formData.entries()) {
+    console.log(key, value);
+  }
+
+  const handleProductRegi = async (e) => {
+    e.preventDefault();
+  };
+
+  //   try {
+  //     // fetch를 사용하여 서버로 데이터 전송
+  //     const response = await fetch('서버 주소', {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
+
+  //     // 응답 결과 확인
+  //     if (response.ok) {
+  //       // 성공적으로 데이터가 전송되었을 때 처리할 내용
+  //       console.log('데이터 전송 성공!');
+  //     } else {
+  //       // 데이터 전송 실패 시 처리할 내용
+  //       console.error('데이터 전송 실패!');
+  //     }
+  //   } catch (error) {
+  //     // 에러 처리
+  //     console.error('데이터 전송 중 오류 발생:', error);
+  //   }
+  // };
 
 
   /*
@@ -171,7 +218,7 @@ const handleProductRegi = (e) => {
       <div className="product-regi-wrap">
         <div className="product-regi-header">
          <div className="head-title">
-          <p>KNOCK_SEA 상품 등록</p>
+          <p>KNOCK_SEA 상품 등록 <span style={{color:"navy", fontSize:"18px"}}>[1단계]</span></p>
           <img className="image-82-CzH" src="https://cdn-icons-png.flaticon.com/128/8955/8955326.png" id="SignUpImg" alt="SignUpImg" />
         </div>
         </div>
@@ -182,16 +229,16 @@ const handleProductRegi = (e) => {
               <li>
                 <div className="regi-title">카테고리 선택<span className="imp">*</span></div>
                 <select
-                    value={labelType}
-                    onChange={(e) => setLabelType(e.target.value)}
+                    value={productCategory}
+                    onChange={(e) => setProductCategory(e.target.value)}
                     required
                     aria-required="true"
                     className="category-custom-select"
                   >
                     <option value="">카테고리 선택</option>
-                    <option value="선박">선박</option>
-                    <option value="낚시터">낚시터</option>
-                    <option value="클래스">클래스</option>
+                    <option value="SHIP">선박</option>
+                    <option value="SPOT">낚시터</option>
+                    <option value="EDU">클래스</option>
                   </select>
               </li>
               <li>
@@ -318,7 +365,7 @@ const handleProductRegi = (e) => {
                 <div className="regi-title" >날짜선택<span className="imp">*</span></div>
                 <div className='calendar'>
                 <section className='calendar-box'>
-                  <Calendar className='datePicker' getDateRange={handleGetDateRange}  />
+                  <Calendar className='datePicker' onRangeChange={handleGetDateRange}  />
                 </section>
                 </div>
               </li>
@@ -328,7 +375,7 @@ const handleProductRegi = (e) => {
                 <div className='regi-time-wrap'>
                 {timeBoxes.map((boxId) => (
                     <div className="time-box"  key={boxId} style={{marginBottom:'15px'}}>
-                   <RegiTime />  
+                   <RegiTime id={`time-picker-${boxId}`} />  
                   </div>
                    ))}
                 </div>
@@ -348,54 +395,60 @@ const handleProductRegi = (e) => {
                     aria-required="true"
                     placeholder="ex) 장비대여(+10,000원), 미끼 지참 필수, 신분증 지참"
                   />
-                  <span id="addressChk"></span>
                 </div>
               </li>
-              <li className='difficulty'>
-                <div className="regi-title">난이도<br/><span className="imp" style={{ fontSize: '11px' }}>*클래스만 해당!</span></div>
-                <div className='category'>
-                  <input
-                    id="class-step1"
-                    value={step1}
-                    name="platform"
-                    type="radio"
-                    onChange={(e) => setStep1(e.target.value)}
-                  />
-                  <label htmlFor="step1">초급자 가능</label>
-                  <input
-                    id="class-step2"
-                    value={step2}
-                    name="platform"
-                    type="radio"
-                    onChange={(e) => setStep2(e.target.value)}
-                  />  
-                  <label htmlFor="step2">중급자 이상</label>
-                  <input
-                    id="class-step3"
-                    value={step3}
-                    name="platform"
-                    type="radio"
-                    onChange={(e) => setStep3(e.target.value)}
-                  />
-                  <label htmlFor="step3">상급자</label>
-                </div>
-              </li>
-            
+                <li className='difficulty'>
+                  <div className="regi-title">난이도<br/><span className="imp" style={{ fontSize: '11px' }}>*클래스만 해당!</span></div>
+                  <div className='category'>
+                    <input
+                      id="class-step1"
+                      value="LOWER"
+                      name="step"
+                      type="radio"
+                      checked={eduLevel === "초급자 가능"}
+                      onChange={(e) => setEduLevel(e.target.value)}
+                    />
+                    <label htmlFor="class-step1">초급자 가능</label>
+                    <input
+                      id="class-step2"
+                      value="MIDDLE"
+                      name="step"
+                      type="radio"
+                      checked={eduLevel === "중급자 이상"}
+                      onChange={(e) => setEduLevel(e.target.value)}
+                    />  
+                    <label htmlFor="class-step2">중급자 이상</label>
+                    <input
+                      id="class-step3"
+                      value="UPPER"
+                      name="step"
+                      type="radio"
+                      checked={eduLevel === "상급자"}
+                      onChange={(e) => setEduLevel(e.target.value)}
+                    />
+                    <label htmlFor="class-step3">상급자</label>
+                  </div>
+                </li>
+
+
             </ul>
             <div className="product-regi-footer">
               <button type="submit" className="btn">
                 취소
               </button>
-              <button type="submit" className="btn">
+            
+                <button onClick={handleNextButtonClick} type="submit" className="btn">
                 다음
-              </button>
+                </button>
             </div>
           </form>
           
         </div>
       </div>
     </div>
-  );
-}
+
+ );
+  }
+
 
 export default ProductRegistration

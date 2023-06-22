@@ -268,10 +268,7 @@ function SignUpForm(){
     };
 
   const handleSignUp = (e) => {
-
-    // 이미지 파일과 회원정보 JSON을 하나로 묶어야 함
     e.preventDefault();
-    // console.log("여기 오지?", userValue);
 
       // 회원가입 서버 요청
       if(isValid()) {
