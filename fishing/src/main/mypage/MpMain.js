@@ -2,6 +2,7 @@ import React from 'react'
 import './MpScss/MpMain.scss'
 import { Link } from 'react-router-dom'
 import MpList from './MpList'
+import MpReFormItem from './MpReFormItem'
 
 const MpMain = () => {
 
@@ -29,10 +30,9 @@ const MpMain = () => {
                     </div>
 
 
-                {/* <div className='rvbox'>
-                        <h2>리뷰 게시판</h2>
-                        <p>아직 작성된 리뷰가 없습니다</p>
-                </div> */}
+                <div className='rvbox'>
+                        <MpReFormItem />
+                </div>
 
                 <div className='rvbox2'>
                     <div>
