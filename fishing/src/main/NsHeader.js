@@ -35,8 +35,6 @@ export const NsHeader = () => {
       setIsLoggedIn(isLogin());
       localStorage.clear();
     }
-    return ;
-    
   }
 
   // 로그인 상태 변화를 감지하는 useEffect를 추가
@@ -97,9 +95,12 @@ export const NsHeader = () => {
           )}
           {isLogin() ?(
             <>
+              {/* {console.log(profileUrl)} */}
               <span>{userInfo.userName}님</span>
-              <Link to={'/my'} style={linkStyle}><img className="my-profile" title='마이페이지'
-              src={profileUrl || require('./icons/01d.png')}/></Link>
+              <Link to={{ pathname: '/my', state: userInfo }} style={linkStyle} profileUrl>
+                <img className="my-profile" title="마이페이지" src={profileUrl || require('./icons/01d.png')} />
+              </Link>
+
             </>
             ):
             (

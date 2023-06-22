@@ -47,6 +47,13 @@ function Myinfo () {
 
       };
       
+
+     
+
+
+
+
+
       
 
       const redirection = useNavigate();
@@ -140,7 +147,11 @@ function Myinfo () {
       }
 
       
-
+      // const [userName, setUserName] = useState();
+      // const [userPhone, setUserPhone] = useState();
+      // const [userEmail, setUserEmail] = useState();
+      // const [useraddress, setUseraddress] = useState();
+      // const [userfulladdress, setUserfulladdress] = useState();
       
 
      
@@ -148,6 +159,11 @@ function Myinfo () {
     const user = getLoginUserInfo();
     console.log(user);
     setUserInfo(user);
+    // setUserName(user.userName);
+    // setUserPhone(user.userPhone);
+    // setUserEmail(user.userEmail);
+    // setUseraddress(user.userAddress);
+    // setUserfulladdress(user.userFullAddress);
   }, []);
 
 
@@ -163,8 +179,8 @@ function Myinfo () {
               <div className='inputbox'>  
               <input
                 placeholder="이름"
-                {...userInfo.userName}
-                onChange={usernameHandler} /> 
+                onChange={usernameHandler}
+               /> 
               </div>
             </div>
 
