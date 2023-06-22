@@ -3,8 +3,59 @@ import { Link } from 'react-router-dom'
 import MpList from './MpList'
 import MpRvFormItem from './MpRvFormItem'
 import MpReFormItem from './MpReFormItem'
-
+import {getLoginUserInfo, isLogin } from '../util/login-util';
+import { useEffect } from 'react';
+import { useState } from 'react';
 const MpBtInfo = () => {
+
+
+    const [shipInfo, setShipInfo] = useState({
+        shipId: 0,
+        category: null,
+        shipDescription: '',
+        shipLikeCount: 0,
+        shipLocation: '',
+        shipName: '',
+        userName: '',
+        shipImageLocation: []
+      });
+    
+    
+    const fetchShipInfo = async () => {
+        const res = await fetch('http://localhost:8012/api/v1/ship/getshipinfo', {
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token}
+        });
+        if (res.status === 200) {
+            const json = await res.json(); // JSON 데이터 파싱
+            console.log(json);
+            setShipInfo(json);
+    
+            /*
+            // 서버에서 직렬화된 이미지가 응답된다.
+            const profileBlob = await res.blob();
+            // 해당 이미지를 imgUrl로 변경
+            const imgUrl = window.URL.createObjectURL(profileBlob);
+            setProfileUrl(imgUrl);
+            */
+        } else {
+            alert('서버와의 통신이 원활하지않습니다');
+        }
+      };
+    
+    
+    
+    useEffect(() => {
+        // const user = getLoginUserInfo();
+        // setUserInfo(user);
+        // console.log(userInfo);
+        // 배 정보를 가져오는 함수
+        fetchShipInfo();
+    
+        // fetchShipInfo();
+      }, []);
+    
+
 
     
   return (
@@ -26,7 +77,7 @@ const MpBtInfo = () => {
                    
                     <div className='userinfobox'>
                         <div className='profilebox'>
-                            <img />
+                            <img className="my-profile" title="마이페이지" src={shipInfo.shipImageLocation[0] || require('./../img/class.jpg')}/>
                         </div>
                         <div className='namebox'>
                             <div className='nickName'>LOVETMORROW</div>

@@ -7,6 +7,53 @@ import { useEffect } from "react";
 
 const MpFsInfo = () => {
 
+
+  const [spotInfo, setSpotInfo] = useState({
+    spotId: 0,
+    category: '',
+    spotDescription: '',
+    spotLikeCount: 0,
+    spotName: '',
+    spotImageLocation: []
+  });
+
+
+const fetchSpotInfo = async () => {
+    const res = await fetch('http://localhost:8012/api/v1/fishing/getspotinfo', {
+        method: 'GET',
+        headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token}
+    });
+
+    if (res.status === 200) {
+        const json = await res.json(); // JSON 데이터 파싱
+        console.log(json);
+        setSpotInfo(json);
+        console.log(spotInfo.spotImageLocation[0]);
+
+        /*
+        // 서버에서 직렬화된 이미지가 응답된다.
+        const profileBlob = await res.blob();
+        // 해당 이미지를 imgUrl로 변경
+        const imgUrl = window.URL.createObjectURL(profileBlob);
+        setProfileUrl(imgUrl);
+        */
+    } else {
+        alert('서버와의 통신이 원활하지않습니다');
+    }
+  };
+
+
+
+useEffect(() => {
+    // const user = getLoginUserInfo();
+    // setUserInfo(user);
+    // console.log(userInfo);
+    // 배 정보를 가져오는 함수
+    fetchSpotInfo();
+
+    // fetchShipInfo();
+  }, []);
+
   return (
     <section className="MyPageMainBox">
       <div className="mainbox1">
@@ -28,7 +75,7 @@ const MpFsInfo = () => {
 
         <div className="userinfobox">
           <div className="profilebox">
-            <img />
+          <img className="my-profile" title="마이페이지" src={spotInfo.spotImageLocation[0] || require('./../img/class.jpg')}/>
           </div>
           <div className="namebox">
             <div className="nickName">LOVETMORROW</div>

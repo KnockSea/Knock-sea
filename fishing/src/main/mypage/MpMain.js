@@ -10,65 +10,50 @@ import { useState } from 'react';
 
 const MpMain = () => {
 
-  const [profileUrl,setProfileUrl] = useState(null);
-
-  const [isLoggedIn, setIsLoggedIn] = useState(isLogin()); 
-
-  const [userInfo, setUserInfo] = useState({
-    token: '', // Set default value for name
-    userEmail: '', // Set default value for email
-    userName : '',
-    userGrade : '',
-    userId : '',
-    userPhone : ''
-  });
-
-  const resetStorage = () =>{
-    const confirm =window.confirm('정말 로그아웃하시겠어요?');
-    if(confirm){
-      setIsLoggedIn(isLogin());
-      localStorage.clear();
-    }
-    return ;
+    const [userInfo, setUserInfo] = useState({
+        userId: 0,
+        userName: '',
+        userPoint: 0,
+        reserveDTO: [],
+        profileImageUrl: ''
+      });
     
-  }
+    
+    const fetchUserInfo = async () => {
+        const res = await fetch('http://localhost:8012/api/v1/user/user-mylist', {
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token}
+        });
 
-  // 로그인 상태 변화를 감지하는 useEffect를 추가
-  useEffect(() => {
-    const user = getLoginUserInfo();
-    setUserInfo(user);
-    setIsLoggedIn(!isLogin());
-    }, [isLogin()]);
+        if (res.status === 200) {
+            const json = await res.json(); // JSON 데이터 파싱
+            console.log(json);
+            setUserInfo(json);
+            console.log(userInfo);
+
+            /*
+            // 서버에서 직렬화된 이미지가 응답된다.
+            const profileBlob = await res.blob();
+            // 해당 이미지를 imgUrl로 변경
+            const imgUrl = window.URL.createObjectURL(profileBlob);
+            setProfileUrl(imgUrl);
+            */
+        } else {
+            alert('서버와의 통신이 원활하지않습니다');
+        }
+      };
+
+
 
     useEffect(() => {
-    
-      isLoggedIn &&
-      (async() => {
-          const res = await fetch('http://localhost:8012/api/v1/user/load-s3', {
-              method: 'GET',
-              headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token }
-          });
-      
-          if (res.status === 200) {
-              // 서버에서 s3 url이 응답된다
-              const imgUrl = await res.text();
-              setProfileUrl(imgUrl);
-  
-              
-              // //서버에서 직렬화된 이미지가 응답된다.
-              // const profileBlob = await res.blob();
-              //  //해당 이미지를 imgUrl로 변경
-              // const imgUrl = window.URL.createObjectURL(profileBlob);
-              // setProfileUrl(imgUrl);
-              
-          } else {
-              const err = await res.text();
-              setProfileUrl(null);
-          }
-        })();
+        // const user = getLoginUserInfo();
+        // setUserInfo(user);
+        // console.log(userInfo);
+        // 배 정보를 가져오는 함수
+        fetchUserInfo();
+
+        // fetchShipInfo();
       }, []);
-    
-    
 
   return (
         <section className='MyPageMainBox'>
@@ -84,7 +69,7 @@ const MpMain = () => {
                    
                     <div className='userinfobox'>
                         <div className='profilebox'>
-                            <img src={profileUrl || require('./../img/fs.jpg')} style={{ width: '100%', height: 'auto' }} />
+                            <img className="my-profile" title="마이페이지" src={userInfo.profileImageUrl || require('./../img/class.jpg')}/>
                         </div>
                     
                         <div className='btbox'>
