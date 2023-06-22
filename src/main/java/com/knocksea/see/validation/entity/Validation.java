@@ -23,6 +23,7 @@ public class Validation {
     private Long validationId;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private ValidationType validationType; //SHIP/SPOT
 
     @Column(length = 50)
@@ -35,6 +36,7 @@ public class Validation {
     private String validationBusinessRegi; //사업자 등록증 번호 //낚시터 등록때만 사용
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     @Builder.Default
     private ValidationStatus validationStatus=WAIT; //YES/NO/WAIT
 
