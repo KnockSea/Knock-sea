@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route, Routes  } from 'react-router-dom';
 
 const MpList = () => {
   return (
+
     <ul className='list'>
       <li><Link to={'/my'}>내 정보</Link></li>
       <li><Link to={'/host'}>업체정보</Link></li>
@@ -13,9 +14,11 @@ const MpList = () => {
       <li><Link to={'/iqinput'}>문의하기</Link></li>
       <li><Link to={'/inquire'}>문의현황</Link></li>
       <li><Link to={'/userDrop'}>회원탈퇴하기</Link></li>
-      
+
     </ul>
-  );
+
+
+);
 }
 
 export default MpList;
