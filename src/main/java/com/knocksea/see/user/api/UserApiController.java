@@ -10,6 +10,7 @@ import com.knocksea.see.user.dto.response.LoginResponseDTO;
 import com.knocksea.see.user.dto.response.UserModifyresponseDTO;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
+import com.knocksea.see.user.dto.response.UserMyPageResponseDTO;
 import com.knocksea.see.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -228,7 +229,7 @@ public class UserApiController {
         }
     }
 
-    //내 상품들에 붙은 후기 평점 평균 모두 가져오기
+    //내 상품들에 붙은 후기 평점 평균 모두 가져오기 OWNER가 보는 mypage
     @GetMapping("/load-myList")
     public ResponseEntity<?> loadEntireInfo(
             @AuthenticationPrincipal TokenUserInfo userInfo
@@ -260,7 +261,16 @@ public class UserApiController {
     }
 
 
-
+    @GetMapping("/user-mylist")
+    public ResponseEntity<?> userMyPage(@AuthenticationPrincipal TokenUserInfo userInfo) {
+        try {
+            UserMyPageResponseDTO mypageDTO = userService.userMyPageInfo(userInfo);
+            return ResponseEntity.ok().body(mypageDTO);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
 
 
 

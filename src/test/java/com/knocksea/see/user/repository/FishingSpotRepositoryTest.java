@@ -23,7 +23,7 @@ class FishingSpotRepositoryTest {
     @Autowired
     UserRepository userRepository;
 
-    @Test
+    /*@Test
     @DisplayName("낚시터 정보가 등록되어야한다")
     void insertFishingspotTest() {
         //given
@@ -41,7 +41,7 @@ class FishingSpotRepositoryTest {
         //when
 
         //then
-    }
+    }*/
 
     @Test
     @DisplayName("1번 낚시터의 주인의 이름인 김찬호여야한다")

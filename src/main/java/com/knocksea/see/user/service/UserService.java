@@ -5,8 +5,13 @@ import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.aws.S3Service;
 import com.knocksea.see.heart.entity.Heart;
 import com.knocksea.see.heart.repository.HeartRepository;
+import com.knocksea.see.product.dto.response.ReservationResponseDTO;
 import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.product.entity.Reservation;
+import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.repository.ProductRepository;
+import com.knocksea.see.product.repository.ReservationRepository;
+import com.knocksea.see.product.repository.ReservationTimeRepository;
 import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.repository.ReviewRepository;
 import com.knocksea.see.user.dto.request.LoginRequestDTO;
@@ -16,6 +21,8 @@ import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
 import com.knocksea.see.user.dto.response.EntireInfoResponseDTO;
 import com.knocksea.see.user.dto.response.LoginResponseDTO;
 import com.knocksea.see.user.dto.response.UserModifyresponseDTO;
+import com.knocksea.see.user.dto.response.UserMyPageResponseDTO;
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
@@ -32,6 +39,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -69,6 +77,9 @@ public class UserService {
 
     //아마존 s3접근용
     private final S3Service s3Service;
+    private final ReservationRepository reservationRepository;
+    private final ReservationTimeRepository reservationTimeRepository;
+
 
 
     @Value("${upload.path}")
@@ -101,7 +112,7 @@ public class UserService {
         User saveuser = userRepository.save(user);
 
 
-        log.info("회원가입 정상 수행됌! - saved user - {}",saveuser);
+        log.info("회원가입 정상 수행! - saved user - {}",saveuser);
 
         //리턴값이 비어있지않다면 회원가입성공
         //비어있다면 회원가입 실패
@@ -212,7 +223,7 @@ public class UserService {
         return user.getProfileImg();
     }
 
-    //전체 리뷰/좋아요 리스트 받아오기
+    //전체 리뷰/좋아요 리스트 받아오기 // OWNER 기능이잖아?
     public EntireInfoResponseDTO getEntireInfo(TokenUserInfo userInfo) {
         //후기 / 좋아요 리스트 담을 dto선언
         EntireInfoResponseDTO entireInfoResponseDTO = new EntireInfoResponseDTO();
@@ -303,5 +314,27 @@ public class UserService {
 
         userRepository.save(user);
 
+    }
+
+
+    public UserMyPageResponseDTO userMyPageInfo(TokenUserInfo userInfo) {
+
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("정보가 올바르지 않습니다."));
+
+        // 이거 리스트네? 유저가 예약한것들 전체
+        List<Reservation> reservation = reservationRepository.findAllByUserUserId(user.getUserId());
+//                .orElseThrow(() -> new RuntimeException("예약 정보가 없습니다."));
+
+
+        List<ReservationResponseDTO> reservationResponseDTOS = new ArrayList<>();
+        for (Reservation r : reservation) {
+            ReservationTime time = r.getReservationTime();
+            Product product = r.getProduct();
+            SeaImage img = product.getSeaImage();
+
+            reservationResponseDTOS.add(new ReservationResponseDTO(r, time, product, img));
+        }
+
+        return new UserMyPageResponseDTO(user, reservationResponseDTOS);
     }
 }
