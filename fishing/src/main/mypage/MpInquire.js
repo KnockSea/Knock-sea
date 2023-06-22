@@ -12,7 +12,6 @@ const MpInquire = () => {
   const [token, setToken] = useState(getLoginUserInfo().token);
 
   const fetchData = () => {
-    console.log('kjjjhdhh-----------------------ghgxc', token);
     fetch(`http://localhost:8012/api/v1/inquiries/myInquiry?page=${page}&size=${size}`, {
       method: 'GET',
       headers: {
@@ -23,7 +22,7 @@ const MpInquire = () => {
     .then(response => response.json())
     .then(data => {
       if (data) {
-        console.log("data-@@@@@@@@@@@@@@@@@@", data);
+
         setInquiries(data.inquiries);
       } else {
         // 처리할 에러에 대한 로직 추가

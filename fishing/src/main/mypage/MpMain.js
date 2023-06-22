@@ -2,7 +2,7 @@ import React from 'react'
 import './MpScss/MpMain.scss'
 import { Link } from 'react-router-dom'
 import MpList from './MpList'
-import MpReFormItem from './MpReFormItem'
+import MpReviewList from './MpReviewList';
 
 const MpMain = () => {
 
@@ -31,7 +31,7 @@ const MpMain = () => {
 
 
                 <div className='rvbox'>
-                        <MpReFormItem />
+                    <MpReviewList />
                 </div>
 
                 <div className='rvbox2'>
