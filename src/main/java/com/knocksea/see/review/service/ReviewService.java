@@ -58,24 +58,27 @@ public class ReviewService {
         return new ReviewDetailResponseDTO(saved);
     }
 
-    public ReviewListResponseDTO getUserReviewById(Long TokenUserId) {
+    public ReviewListResponseDTO getUserReviewById(PageDTO dto, Long TokenUserId) {
 
-//        PageRequest pageable = PageRequest.of(
-//                dto.getPage() - 1,
-//                dto.getSize(),
-//                Sort.by("inquiryDateTime").descending()
-//        );
+        PageRequest pageable = PageRequest.of(
+                dto.getPage() - 1,
+                dto.getSize(),
+                Sort.by("inquiryDateTime").descending()
+        );
         log.info("TokenUserId - {}", TokenUserId);
         User user = userRepository.findById(TokenUserId).orElseThrow();
-        List<Review> byUser = reviewRepository.findByUser(user);
-        List<ReviewDetailResponseDTO> detailList = byUser.stream()
+        Page<Review> byUserId = reviewRepository.findByUser(user, pageable);
+        List<Review> userList = byUserId.getContent();
+        List<ReviewDetailResponseDTO> detailList = userList.stream()
                 .map(ReviewDetailResponseDTO::new)
                 .collect(Collectors.toList());
 
-
+        log.info("byUserId - {}", byUserId);
         log.info("detailList - {}", detailList);
 
         return ReviewListResponseDTO.builder()
+                .count(userList.size())
+                .pageInfo(new PageResponseDTO<Review>(byUserId))
                 .reviews(detailList)
                 .build();
     }
