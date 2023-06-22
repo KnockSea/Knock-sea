@@ -24,6 +24,8 @@ export const getLoginUserInfo = () => {
   };
 };
 
+
+
 // export const getLoginUserInfo = ({userPassword}) => {
 //   return {
 //     email: localStorage.getItem('EMAIL')
