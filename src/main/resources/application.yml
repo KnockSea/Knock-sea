@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/knocksea
+    url: jdbc:mariadb://localhost:3307/knocksea
     username: root
     password: 1234
     driver-class-name: org.mariadb.jdbc.Driver
@@ -45,3 +45,11 @@ mybatis:
 kakao:
   admin:
     key: b0e82271a5b48b26d2e65429c52085c1
+
+# s3 접근 설정
+aws:
+  credentials:
+    accessKey: AKIAZTDGW32PDTCET35M
+    secretKey: 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
+  region: ap-northeast-2
+  bucketName: jiseung-upload-bucket

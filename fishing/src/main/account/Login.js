@@ -108,7 +108,7 @@ function Login() {
                       name="account"
                       id="accound-id"
                       className="form-control"
-                      maxLength="20"
+                      maxLength="30"
                       required="required"
                       aria-required="true"
                       placeholder="이메일 입력"
