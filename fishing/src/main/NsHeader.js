@@ -44,7 +44,6 @@ export const NsHeader = () => {
     const user = getLoginUserInfo();
     setUserInfo(user);
     setIsLoggedIn(!isLogin());
-
     }, [isLogin()]);
 
     useEffect(() => {
@@ -117,6 +116,7 @@ export const NsHeader = () => {
             )
             :(
               <>
+                  
                   <Link to={'/login'}  style={linkStyle}>Log-in</Link>
               </>
           )
