@@ -97,9 +97,12 @@ export const NsHeader = () => {
             <div><Link to={'/ownercheck'} style={linkStyle}>사장님 등록</Link></div>
           )}
           {isLogin() ?(
-            <Link to={'/my'} style={linkStyle}><img className="my-profile" title='마이페이지'
-            src={profileUrl || require('./icons/01d.png')}/></Link>)
-            :
+            <>
+              <span>{userInfo.userName}님</span>
+              <Link to={'/my'} style={linkStyle}><img className="my-profile" title='마이페이지'
+              src={profileUrl || require('./icons/01d.png')}/></Link>
+            </>
+            ):
             (
               <>
 
