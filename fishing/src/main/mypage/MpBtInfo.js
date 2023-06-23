@@ -14,17 +14,26 @@ const MpBtInfo = () => {
         category: null,
         shipDescription: '',
         shipLikeCount: 0,
-        shipLocation: '',
         shipName: '',
         userName: '',
         shipImageLocation: []
+      });
+
+
+      const [userInfo, setUserInfo] = useState({
+        token: '', // Set default value for name
+        userEmail: '', // Set default value for email
+        userName : '',
+        userGrade : '',
+        userId : '',
+        userPhone : ''
       });
     
     
     const fetchShipInfo = async () => {
         const res = await fetch('http://localhost:8012/api/v1/ship/getshipinfo', {
             method: 'GET',
-            headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token}
+            headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
         });
         if (res.status === 200) {
             const json = await res.json(); // JSON 데이터 파싱
@@ -39,7 +48,7 @@ const MpBtInfo = () => {
             setProfileUrl(imgUrl);
             */
         } else {
-            alert('서버와의 통신이 원활하지않습니다');
+            alert('서버와의 통신에문제가있습니다');
         }
       };
     
@@ -50,6 +59,8 @@ const MpBtInfo = () => {
         // setUserInfo(user);
         // console.log(userInfo);
         // 배 정보를 가져오는 함수
+        const user = getLoginUserInfo();
+        setUserInfo(user);
         fetchShipInfo();
     
         // fetchShipInfo();
@@ -68,27 +79,28 @@ const MpBtInfo = () => {
                     <div className='mychoicebox'>
                         <h1><Link to={'/my'}>마이페이지</Link></h1>
 
-
-                        <h1><Link to={'/mpbt'}>배</Link></h1>
-                        <h1><Link to={'/mpfs'}>낚시터</Link></h1>
+                        
+                        {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpbt'}>배</Link></h1>)}
+                        {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpfs'}>낚시터</Link></h1>)}
                         <h1><Link to={'/mpclass'}>클래스</Link></h1>
                     </div>
                    
                    
                     <div className='userinfobox'>
                         <div className='profilebox'>
-                            <img className="my-profile" title="마이페이지" src={shipInfo.shipImageLocation[0] || require('./../img/class.jpg')}/>
+                        {shipInfo && shipInfo[0] ? (<img className="my-profile" title="마이페이지" src={shipInfo.shipImageLocation[0]} />) : (<img className="my-profile" title="마이페이지" src={require('./../icons/unknown.png')} />)}
+
                         </div>
                         <div className='namebox'>
-                            <div className='nickName'>LOVETMORROW</div>
-                            <div>업체정보를 입력하세요</div>
+                        {shipInfo && shipInfo[0] ? (<div className="nickName">{shipInfo[0].shipName}</div>) : (<div className="nickName">등록된 배가없습니다!</div>)}
+                        {shipInfo && shipInfo[0] ? (<div>{shipInfo.shipDescription}</div>):(<div>배 정보를 등록해주세요!</div>)}
                         </div>
                         <div className='btbox'>
-                        <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
+                        {shipInfo && shipInfo[0] ?(<><button className='isbtn'><Link to={'/myquery'}>글 삭제하기</Link></button><button className='isbtn'><Link to={'/myquery'}>배 정보 수정하기</Link></button></>):(<button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>)}
                         <button>
                             {/* <Link to={'/myinfo'}>배 업체 정보 수정</Link> */}
                             {/* 작성 폼 불러와서 수정 진행 Link 걸어야 함 */}
-                            </button>
+                        </button>
                         </div>
                     </div>
 

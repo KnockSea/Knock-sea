@@ -178,8 +178,12 @@ public class FishingSpotApiController {
         log.info("/ship/getshipinfo GET! --{}", userInfo);
 
         try {
-            FishingSpotInfoResponseDTO fishingSpotInfoResponseDTO= fishingSpotService.getShipInfo(userInfo);
-            return ResponseEntity.ok().body(fishingSpotInfoResponseDTO);
+            boolean spot = fishingSpotService.findSpot(userInfo);
+            if(spot){
+                FishingSpotInfoResponseDTO fishingSpotInfoResponseDTO= fishingSpotService.getShipInfo(userInfo);
+                return ResponseEntity.ok().body(fishingSpotInfoResponseDTO);
+            }
+            return ResponseEntity.ok().body(new FishingSpotInfoResponseDTO());
 
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

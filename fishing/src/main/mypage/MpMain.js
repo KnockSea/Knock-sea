@@ -10,26 +10,36 @@ import { useState } from 'react';
 
 const MpMain = () => {
 
-    const [userInfo, setUserInfo] = useState({
+    const [userProfile, setUserProfile] = useState({
         userId: 0,
         userName: '',
         userPoint: 0,
         reserveDTO: [],
         profileImageUrl: ''
       });
+
+
+      const [userInfo, setUserInfo] = useState({
+        token: '', // Set default value for name
+        userEmail: '', // Set default value for email
+        userName : '',
+        userGrade : '',
+        userId : '',
+        userPhone : ''
+      });
     
     
     const fetchUserInfo = async () => {
         const res = await fetch('http://localhost:8012/api/v1/user/user-mylist', {
             method: 'GET',
-            headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token}
+            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')}
         });
 
         if (res.status === 200) {
             const json = await res.json(); // JSON 데이터 파싱
             console.log(json);
-            setUserInfo(json);
-            console.log(userInfo);
+            setUserProfile(json);
+            console.log(userProfile);
 
             /*
             // 서버에서 직렬화된 이미지가 응답된다.
@@ -39,7 +49,6 @@ const MpMain = () => {
             setProfileUrl(imgUrl);
             */
         } else {
-            alert('서버와의 통신이 원활하지않습니다');
         }
       };
 
@@ -50,6 +59,8 @@ const MpMain = () => {
         // setUserInfo(user);
         // console.log(userInfo);
         // 배 정보를 가져오는 함수
+        const user = getLoginUserInfo();
+        setUserInfo(user);
         fetchUserInfo();
 
         // fetchShipInfo();
@@ -61,15 +72,15 @@ const MpMain = () => {
                     
                     <div className='mychoicebox'>
                         <h1>마이페이지</h1>
-                        <h1><Link to={'/mpbt'}>배</Link></h1>
-                        <h1><Link to={'/mpfs'}>낚시터</Link></h1>
+                        {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpbt'}>배</Link></h1>)}
+                        {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpbt'}>낚시터</Link></h1>)}
                         <h1><Link to={'/mpclass'}>클래스</Link></h1>
                     </div>
                    
                    
                     <div className='userinfobox'>
                         <div className='profilebox'>
-                            <img className="my-profile" title="마이페이지" src={userInfo.profileImageUrl || require('./../img/class.jpg')}/>
+                            <img className="my-profile" title="마이페이지" src={userProfile.profileImageUrl || require('./../img/class.jpg')}/>
                         </div>
                     
                         <div className='btbox'>
