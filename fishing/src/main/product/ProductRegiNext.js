@@ -48,22 +48,7 @@ function ProductRegiNext() {
                   />
                 </div>
               </li>
-              <li>
-                <div className="regi-title">
-                  장소 안내<span className="imp">*</span>
-                </div>
-                <div>
-                  <textarea
-                    value={locationInfo}
-                    onChange={(e) => setLocationInfo(e.target.value)}
-                    className="form-control"
-                    required
-                    aria-required="true"
-                    style={{height:"200px"}}
-                    placeholder="ex) 입문자도 한 시간만에 낚시 마스터!"
-                  />
-                </div>
-              </li>
+          
             </ul>
             <div className="product-regi-footer">
               <button onClick={handleGoBack} className="btn">

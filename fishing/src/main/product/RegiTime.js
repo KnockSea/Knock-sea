@@ -50,7 +50,6 @@ const RegiTime = () => {
     return `${formattedStartHour} 시 ${formattedStartMinute} 분 ~ ${formattedEndHour} 시 ${formattedEndMinute} 분`;
   };
 
-  console.log(formatTime);
 
   return (
     <div className='regi-time-form' style={{display:'flex', justifyContent:'spaceBetween'}}>
@@ -112,8 +111,7 @@ const RegiTime = () => {
       </FormControl>
       <span style={{fontSize:"12px"}}>{formatTime(startHour, startMinute, endHour, endMinute)}</span>
       </div>
-    
-    </div>
+     </div>
   );
 };
 
