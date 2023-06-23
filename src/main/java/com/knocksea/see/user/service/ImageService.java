@@ -5,7 +5,9 @@ import com.knocksea.see.aws.S3Service;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
+import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ProductCategory;
+import com.knocksea.see.product.repository.ProductRepository;
 import com.knocksea.see.user.entity.FishingSpot;
 import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.Ship;
@@ -46,6 +48,7 @@ public class ImageService {
 
     //배정보 얻기용
     private final ShipRepository shipRepository;
+    private final ProductRepository productRepository;
 
     //이미지 저장용
     private final ImageRepository imageRepository;
@@ -65,7 +68,7 @@ public class ImageService {
     //DB에 선박 이미지경로 저장함수
     public void saveShipImages(List<MultipartFile> shipImages, TokenUserInfo userInfo) throws IOException {
 
-        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("유저 없어 새꺄"));
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
         Ship foundShipByUserId = shipRepository.findByUser(user);
 
         List<String> strings = uploadShipImage(shipImages);
@@ -353,6 +356,25 @@ public class ImageService {
                     .imageName(s)
                     .edu(byUserUserId)
                     .imageType(ProductCategory.EDU)
+                    .build());
+        }
+    }
+
+    public void saveProductImg(List<MultipartFile> productImages, TokenUserInfo userInfo, Product product) throws IOException {
+
+        List<String> list = new ArrayList<>();
+
+        for (MultipartFile s : productImages) {
+            String uniqueFileName=UUID.randomUUID()+"_"+s.getOriginalFilename();
+            String s1 = s3Service.uploadToS3Bucket(s.getBytes(), uniqueFileName);
+            list.add(s1);
+        }
+
+        for (String s : list) {
+            SeaImage save = imageRepository.save(SeaImage.builder()
+                    .imageName(s)
+                    .product(product)
+                    .imageType(ProductCategory.valueOf(product.getProductType()))
                     .build());
         }
     }

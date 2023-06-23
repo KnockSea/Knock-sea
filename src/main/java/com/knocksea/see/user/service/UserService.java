@@ -3,6 +3,8 @@ package com.knocksea.see.user.service;
 import com.knocksea.see.auth.TokenProvider;
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.aws.S3Service;
+import com.knocksea.see.edu.entity.Edu;
+import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.heart.entity.Heart;
 import com.knocksea.see.heart.repository.HeartRepository;
 import com.knocksea.see.product.dto.response.ReservationResponseDTO;
@@ -79,6 +81,7 @@ public class UserService {
     private final S3Service s3Service;
     private final ReservationRepository reservationRepository;
     private final ReservationTimeRepository reservationTimeRepository;
+    private final EduRepository eduRepository;
 
 
 
@@ -223,7 +226,7 @@ public class UserService {
         return user.getProfileImg();
     }
 
-    //전체 리뷰/좋아요 리스트 받아오기 // OWNER 기능이잖아?
+    // OWNER 기능 : 배, 낚시터, 클래스 정보 다 따로 조회하는거 만들어야 함
     public EntireInfoResponseDTO getEntireInfo(TokenUserInfo userInfo) {
         //후기 / 좋아요 리스트 담을 dto선언
         EntireInfoResponseDTO entireInfoResponseDTO = new EntireInfoResponseDTO();
@@ -234,6 +237,8 @@ public class UserService {
 
         //유저 객체로 상품리스트 뽑아오기
         List<Product> findByUser = productRepository.findByUser(user);
+        List<Edu> findEdu = eduRepository.findByUser_UserId(user);
+
         int shipReviewTotal = 0;
         int spotReviewTotal = 0;
         int eduReviewTotal = 0;
@@ -247,6 +252,7 @@ public class UserService {
                     Long reviewRating = findByShipReview.getReviewRating();
                     shipReviewTotal += reviewRating;
                 }
+
                 entireInfoResponseDTO.setShipReviewAvgScore((int)shipReviewTotal/findByShipReviews.size());
                 //상품 타입이 낚시터라면 ? 낚시터의 리뷰들만 뽑아온다
             }else if(product.getProductType().equals("SPOT")){
@@ -257,16 +263,17 @@ public class UserService {
                     spotReviewTotal +=reviewRating;
                 }
                 entireInfoResponseDTO.setSpotReviewAvgScore((int)spotReviewTotal/findBySpotReviews.size());
-            }else{
-                //상품 타입이 교육이라면 ? 교육의 리뷰들만 뽑아온다
-                List<Review> findByEduReviews = reviewRepository.findByProduct(product);
-                entireInfoResponseDTO.setEduReviewList(findByEduReviews);
-                for (Review findByEduReview : findByEduReviews) {
-                    Long reviewRating = findByEduReview.getReviewRating();
-                    eduReviewTotal+=reviewRating;
-                }
-                entireInfoResponseDTO.setEduReviewAvgScore((int)eduReviewTotal/findByEduReviews.size());
             }
+        }
+        for (Edu edu : findEdu) {
+            //상품 타입이 교육이라면 ? 교육의 리뷰들만 뽑아온다
+            List<Review> findByEduReviews = reviewRepository.findAllByEdu(edu);
+            entireInfoResponseDTO.setEduReviewList(findByEduReviews);
+            for (Review findByEduReview : findByEduReviews) {
+                Long reviewRating = findByEduReview.getReviewRating();
+                eduReviewTotal+=reviewRating;
+            }
+            entireInfoResponseDTO.setEduReviewAvgScore((int)eduReviewTotal/findByEduReviews.size());
 
         }
 
@@ -327,6 +334,12 @@ public class UserService {
 
 
         List<ReservationResponseDTO> reservationResponseDTOS = new ArrayList<>();
+        foundReserve(reservation, reservationResponseDTOS);
+
+        return new UserMyPageResponseDTO(user, reservationResponseDTOS);
+    }
+
+    private static void foundReserve(List<Reservation> reservation, List<ReservationResponseDTO> reservationResponseDTOS) {
         for (Reservation r : reservation) {
             ReservationTime time = r.getReservationTime();
             Product product = r.getProduct();
@@ -334,7 +347,5 @@ public class UserService {
 
             reservationResponseDTOS.add(new ReservationResponseDTO(r, time, product, img));
         }
-
-        return new UserMyPageResponseDTO(user, reservationResponseDTOS);
     }
 }
