@@ -15,12 +15,14 @@ class CalendarComponent extends Component {
   }
 
   onRangeChange = (ranges) => {
-    console.log(ranges);
+    console.log("날짜:", ranges);
     this.setState({
       startDate: ranges['selection'].startDate,
       endDate: addDays(ranges['selection'].startDate, 7), // 선택한 날짜부터 7일 후
       key: ranges['selection'].key,
     });
+
+    this.props.onRangeChange(ranges);
   }
 
   render() {

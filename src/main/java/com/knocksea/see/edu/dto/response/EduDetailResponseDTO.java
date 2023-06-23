@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.entity.EduLevel;
 import com.knocksea.see.product.dto.response.ReservationTimeResponseDTO;
+import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
+import com.knocksea.see.user.entity.SeaImage;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -31,18 +33,6 @@ public class EduDetailResponseDTO {
 
     private int eduPrice;
 
-    private int timeMaxUser; //예약가능인원
-
-    private String timeLabelType;
-
-    private String timeVerify;
-
-    private List<LocalDate> timeDate; //예약일
-
-    private List<LocalTime> timeStart; //시작시간
-
-    private List<LocalTime> timeEnd;//종료시간
-
     private String eduService;
 
     private EduLevel eduLevel;
@@ -51,10 +41,14 @@ public class EduDetailResponseDTO {
 
     private String eduLocationInfo;
 
-    private List<ReviewDetailResponseDTO> reviews;
+    private List<ReservationTimeResponseDTO> timeList;
+
+    private List<ReviewDetailResponseDTO> reviewList;
+
+//    private List<ImageDetailResponseDTO> imageList;
 
 
-    public EduDetailResponseDTO(Edu saveEdu, List<ReservationTime> timeList) {
+/*    public EduDetailResponseDTO(Edu saveEdu, List<ReservationTime> timeList) {
 
         this.eduTitle=saveEdu.getEduTitle();
         this.eduFullAddress=saveEdu.getEduFullAddress();
@@ -76,16 +70,18 @@ public class EduDetailResponseDTO {
         for (int i = 0; i < timeList.size(); i++) {
             this.timeEnd.add(timeList.get(i).getTimeEnd());
         }
+    }*/
 
+    public EduDetailResponseDTO(Edu edu, List<ReservationTimeResponseDTO> timeList, List<ReviewDetailResponseDTO> reviews/*,List<SeaImage> imageResponseList*/) {
+        this.eduTitle = edu.getEduTitle();
+        this.eduFullAddress = edu.getEduFullAddress();
+        this.eduPrice = edu.getEduPrice();
+        this.eduService = edu.getEduService();
+        this.eduLevel = edu.getEduLevel();
+        this.eduInfo = edu.getEduInfo();
+        this.eduLocationInfo = edu.getEduLocationInfo();
+        this.timeList = timeList;
+        this.reviewList = reviews;
+//        this.imageList = imageResponseList;
     }
-
-//    public EduDetailResponseDTO(Edu edu) {
-//        //유저이름, 리뷰 평점, 위치, 가격, 제목
-//        this.
-//
-//        this.reviews = edu.getReviews().stream()
-//                .map(r -> new ReviewDetailResponseDTO(r))
-//                .collect(Collectors.toList());
-//    }
-
 }

@@ -16,6 +16,7 @@ import MpDrop from './mypage/MpDrop'
 import MpInquire from './mypage/MpInquire'
 import MpRvlist from './mypage/MpRvlist'
 import ProductRegistration from './product/ProductRegistration'
+import ProductRegiNext from './product/ProductRegiNext'
 import RvFsDetail from './fishingspot/RvFsDetail'
 import RvFsTemplate from './fishingspot/RvFsTemplate'
 import WeeklyWeather from './WeeklyWeather'
@@ -42,29 +43,30 @@ import HostSearchMain from './hostSearch/hostSearchMain'
 
 const NsMain = () => {
 
-    // const [shipInfo, setShipInfo] = useState(null);
+    const [shipInfo, setShipInfo] = useState(null);
 
-    // useEffect(() => {
-    //   // 배 정보를 가져오는 함수
-    //   const fetchShipInfo = async () => {
-    //     try {
-    //       const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
-    //       const data = await response.json();
-    //       setShipInfo(data);
-    //     } catch (error) {
-    //       console.error('Error fetching ship info:', error);
-    //     }
-    //   };
+    const fetchShipInfo = async () => {
+      // try {
+      //   const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
+      //   const data = await response.json();
+      //   setShipInfo(data);
+      // } catch (error) {
+      //   console.error('Error fetching ship info:', error);
+      // }
+    };
+    useEffect(() => {
+      // 배 정보를 가져오는 함수
+      
   
-    //   fetchShipInfo();
-    // }, []);
+      fetchShipInfo();
+    }, []);
 
 
   return (
     <section>
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
-            <Route path='/' element ={<MainContent shipInfo={shipInfo} />} />
+            <Route path='/' element ={<MainContent />} />
             {/* 배낚시 탭 */}            
             <Route path='/detail' element={<RvBtDetail/>}> </Route>
             {/* 낚시터 탭 */}            
@@ -78,6 +80,7 @@ const NsMain = () => {
             <Route path='/mypassword' element={<Mypassword/>}></Route>
             {/* 상품등록 */}
             <Route path='/product' element={<ProductRegistration/>}></Route>
+            <Route path='/product/next' element={<ProductRegiNext/>}></Route>
             
             <Route path='/userDrop' element={<MpUserDrop/>}></Route>
             <Route path='/drop' element={<MpDrop/>}></Route>

@@ -8,7 +8,7 @@ const NsItem = ({ shipInfo }) => {
   const imageUrlList = shipInfo?.shipImageLocation || []; // 배 이미지 URL 리스트
 
    // shipInfo 객체를 로그로 출력
-   console.log('shipInfo:', shipInfo);
+  //  console.log('shipInfo:', shipInfo);
 
 
   return (

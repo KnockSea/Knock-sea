@@ -24,7 +24,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findByUser (User user, PageRequest pageable);
 
 
-    Optional<Edu> findAllByEdu(Edu edu);
+    List<Review> findAllByEdu(Edu edu);
     List<Review> findAllByProduct(Product product);
     @Query("SELECT r FROM Review r WHERE r.product = :product")
     List<Review> findByProduct(@Param("product") Product product);

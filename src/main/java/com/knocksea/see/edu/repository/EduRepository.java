@@ -12,6 +12,8 @@ import java.util.List;
 
 
 public interface EduRepository extends JpaRepository<Edu,Long> {
+    Edu findByUser_UserId(User user);
+
     @Query("SELECT e FROM Edu e WHERE e.user = :user")
     Edu findByUserUserId(@Param("user") User user);
 

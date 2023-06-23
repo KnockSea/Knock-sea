@@ -27,13 +27,13 @@ public class ShipInfoResponseDTO {
     //좋아요 개수
     private int shipLikeCount;
 
-    //선착장 위치
-    private String shipLocation;
+//    //선착장 위치
+//    private String shipLocation;
 
     //배 이름
     private String shipName;
 
-    //선장님 이름
+//    //선장님 이름
     private String userName;
 
     //배 이미지저장경로

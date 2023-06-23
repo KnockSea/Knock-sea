@@ -5,6 +5,8 @@ import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.entity.ReviewType;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 @ToString
@@ -17,20 +19,21 @@ public class ReviewDetailResponseDTO {
     private Long reviewId;
     private Long reviewRating;
     private String reviewContent;
-    private String reviewType;
+    private ReviewType reviewType;
     private Long userId;
     private Long eduId;
     private Long productId;
     private String profileImg;
     private String productTitle;
     private String eduTitle;
+    private LocalDateTime inquiryDateTime;
 
 
     public ReviewDetailResponseDTO(Review review) {
         this.reviewId = review.getReviewId();
         this.reviewRating = review.getReviewRating();
         this.reviewContent = review.getReviewContent();
-        this.reviewType = String.valueOf(review.getReviewType());
+        this.reviewType = review.getReviewType();
         this.userId = review.getUser().getUserId();
         this.eduId = review.getEdu() != null ? review.getEdu().getEduId() : null;
         this.productId = review.getProduct() != null ? review.getProduct().getProductId() : null;
