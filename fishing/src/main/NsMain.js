@@ -89,7 +89,7 @@ const NsMain = () => {
             <Route path='/inquire' element={<MpInquire/>}></Route>
             {/* 문의 상세보기 */}
             {/* <Route path='/inquiryDetail' element = {<MpInquiryDetail/>}></Route> */}
-            <Route path='/inquiry' element= {<MpInquiryD/>}></Route>
+            <Route path='/inquiry/:inquiryId' element={<MpInquiryD />} />
             <Route path='/rvlist' element={<MpRvlist/>}></Route>
            
              {/* 로그인, 회원가입 */}
