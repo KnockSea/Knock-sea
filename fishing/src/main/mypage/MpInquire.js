@@ -18,25 +18,47 @@ const MpInquire = () => {
   };
 
   const fetchData = () => {
-    fetch(`http://localhost:8012/api/v1/inquiries/myInquiry?page=${page}&size=${size}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data) {
+    if (getLoginUserInfo().userGrade !== 'ADMIN') {
+      fetch(`http://localhost:8012/api/v1/inquiries/myInquiry?page=${page}&size=${size}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data) {
 
-        setInquiries(data.inquiries);
-      } else {
-        // 처리할 에러에 대한 로직 추가
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
+          setInquiries(data.inquiries);
+        } else {
+          // 처리할 에러에 대한 로직 추가
+        }
+      })
+      .catch(error => {
+        console.error('이거 들어오는거임?',   error);
+      });
+   } else {
+    fetch(`http://localhost:8012/api/v1/inquiries?page=${page}&size=${size}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data) {
+
+          setInquiries(data.inquiries);
+        } else {
+          // 처리할 에러에 대한 로직 추가
+        }
+      })
+      .catch(error => {
+        console.error('이거 들어오는거임?',   error);
+      });
+   }
   };
   
   useEffect(() => {
@@ -48,22 +70,24 @@ const MpInquire = () => {
     <section className='MyPageMainBox'>
       <div className='mainbox1'>
         <h1>문의 현황</h1>
-       
-        {inquiries.length > 0 && inquiries.map(inquiry => (
-          <div key={inquiry.inquiryId} className='inbox'>
-            <div className='initembox'>
-              <div className='innumbox'>{inquiry.inquiryId}</div>
-              <div className='intitle'>{inquiry.inquiryTitle}</div>
-              <div className='indate'>{inquiry.inquiryDateTime}</div>
+        
+          {inquiries.length > 0 && inquiries.map(inquiry => (
+            
+            <div key={inquiry.inquiryId} className='inbox'>
+              <div className='initembox'>
+                <div className='innumbox'>{inquiry.inquiryId}</div>
+                <div className='intitle'>{inquiry.inquiryTitle}</div>
+                <div className='indate'>{inquiry.inquiryDateTime}</div>
+              </div>
+              {/* <div className='inbtnbox'>
+                <button className='indetailbtn'>상세보기</button>
+              </div> */}
+              <Link to={`/inquiry/${inquiry.inquiryId}`} className='indetailbtn'onClick={() => handleInquiryClick(inquiry.inquiryId)} >
+              상세보기
+            </Link>
             </div>
-            {/* <div className='inbtnbox'>
-              <button className='indetailbtn'>상세보기</button>
-            </div> */}
-            <Link to={`/inquiry/${inquiry.inquiryId}`} className='indetailbtn'onClick={() => handleInquiryClick(inquiry.inquiryId)} >
-            상세보기
-          </Link>
-          </div>
-        ))}   
+          ))}   
+        
         
       </div>
    
