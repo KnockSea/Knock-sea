@@ -1,43 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import './scss/NsMain.scss'
-import wt from './img/wt.png'
-import NsItem from './NsItem'
-import NsBanner from './NsBanner'
-import { Route, Routes } from 'react-router-dom'
-import RvTemplate from './reservation/RvTemplate'
-import NsFishingSpot from './NsFishingSpot'
-import NsClass from './NsClass'
-import RvBtDetail from './reservation/RvBtDetail'
-import MpMain from './mypage/MpMain'
-import Myinfo from './mypage/Myinfo'
-import Mypassword from './mypage/Mypassword'
-import MpUserDrop from './mypage/MpUserDrop'
-import MpDrop from './mypage/MpDrop'
-import MpInquire from './mypage/MpInquire'
-import MpRvlist from './mypage/MpRvlist'
-import ProductRegistration from './product/ProductRegistration'
-import ProductRegiNext from './product/ProductRegiNext'
-import RvFsDetail from './fishingspot/RvFsDetail'
-import RvFsTemplate from './fishingspot/RvFsTemplate'
-import WeeklyWeather from './WeeklyWeather'
-import SignUpForm from './account/SignUpForm'
-import Login from './account/Login'
-import ClassMain from './class/ClassMain'
-import ClassDetail from './class/ClassDetail'
-import OwnerCheckMain from './ownercheck/OwnerCheckMain'
-import OwnerCheckShip from './ownercheck/OwnerCheckShip'
-import OwnerCheckFishing from './ownercheck/OwnerCheckFishing'
-import MpQueryText from './mypage/MpQueryText'
+import './scss/NsMain.scss';
+import wt from './img/wt.png';
+import NsItem from './NsItem';
+import NsBanner from './NsBanner';
+import { Route, Routes } from 'react-router-dom';
+import RvTemplate from './reservation/RvTemplate';
+import NsFishingSpot from './NsFishingSpot';
+import NsClass from './NsClass';
+import RvBtDetail from './reservation/RvBtDetail';
+import MpMain from './mypage/MpMain';
+import Myinfo from './mypage/Myinfo';
+import Mypassword from './mypage/Mypassword';
+import MpUserDrop from './mypage/MpUserDrop';
+import MpDrop from './mypage/MpDrop';
+import MpInquire from './mypage/MpInquire';
+import MpRvlist from './mypage/MpRvlist';
+import ProductRegistration from './product/ProductRegistration';
+import ProductRegiNext from './product/ProductRegiNext';
+import RvFsDetail from './fishingspot/RvFsDetail';
+import RvFsTemplate from './fishingspot/RvFsTemplate';
+import WeeklyWeather from './WeeklyWeather';
+import SignUpForm from './account/SignUpForm';
+import Login from './account/Login';
+import ClassMain from './class/ClassMain';
+import ClassDetail from './class/ClassDetail';
+import OwnerCheckMain from './ownercheck/OwnerCheckMain';
+import OwnerCheckShip from './ownercheck/OwnerCheckShip';
+import OwnerCheckFishing from './ownercheck/OwnerCheckFishing';
+import MpQueryText from './mypage/MpQueryText';
 
-import MpBtInfo from './mypage/MpBtInfo'
-import MpFsInfo from './mypage/MpFsInfo'
-import MpClassInfo from './mypage/MpClassInfo'
+import MpBtInfo from './mypage/MpBtInfo';
+import MpFsInfo from './mypage/MpFsInfo';
+import MpClassInfo from './mypage/MpClassInfo';
 import { API_BASE_URL, PRODUCTS } from '../config/host-config';
 import MpAdmin from './mypage/MpAdmin';
 import MpIqInput from './mypage/MpIqInput';
 import MpAdminFS from './mypage/MpAdminFS';
 import MpAdminCS from './mypage/MpAdminCS';
-import HostSearchMain from './hostSearch/hostSearchMain'
+import HostSearchMain from './hostSearch/hostSearchMain';
 
 
 
@@ -73,7 +73,7 @@ const NsMain = () => {
     useEffect(() => {  
       fetchProduct();
       // 배 정보를 가져오는 함수  
-      fetchShipInfo();
+      // fetchShipInfo();
 
     }, []);
 
