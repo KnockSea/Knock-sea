@@ -1,4 +1,5 @@
 import Carousel from 'react-bootstrap/Carousel';
+import {fetchShipInfo} from './../NsMain';
 
 function HostPhotoCarousel() {
   return (

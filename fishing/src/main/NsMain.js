@@ -43,22 +43,23 @@ import HostSearchMain from './hostSearch/hostSearchMain'
 
 const NsMain = () => {
 
-    // const [shipInfo, setShipInfo] = useState(null);
+    const [shipInfo, setShipInfo] = useState(null);
 
-    // useEffect(() => {
-    //   // 배 정보를 가져오는 함수
-    //   const fetchShipInfo = async () => {
-    //     try {
-    //       const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
-    //       const data = await response.json();
-    //       setShipInfo(data);
-    //     } catch (error) {
-    //       console.error('Error fetching ship info:', error);
-    //     }
-    //   };
+    const fetchShipInfo = async () => {
+      // try {
+      //   const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
+      //   const data = await response.json();
+      //   setShipInfo(data);
+      // } catch (error) {
+      //   console.error('Error fetching ship info:', error);
+      // }
+    };
+    useEffect(() => {
+      // 배 정보를 가져오는 함수
+      
   
-    //   fetchShipInfo();
-    // }, []);
+      fetchShipInfo();
+    }, []);
 
 
   return (
