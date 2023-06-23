@@ -16,7 +16,7 @@ export const NsHeader = () => {
   };
 
   //프로필이미지 url 상태변수
-  const [profileUrl,setProfileUrl] = useState(null);
+  const [profileUrl,setProfileUrl] = useState('');
 
   const [isLoggedIn, setIsLoggedIn] = useState(isLogin()); 
 

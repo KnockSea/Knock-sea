@@ -32,12 +32,14 @@ import MpBtInfo from './mypage/MpBtInfo'
 import MpFsInfo from './mypage/MpFsInfo'
 import MpClassInfo from './mypage/MpClassInfo'
 import { API_BASE_URL, SHIP } from '../config/host-config';
+
 import MpAdmin from './mypage/MpAdmin';
 import MpIqInput from './mypage/MpIqInput';
 import MpAdminFS from './mypage/MpAdminFS';
 import MpAdminCS from './mypage/MpAdminCS';
 import HostSearchMain from './hostSearch/hostSearchMain'
 import MpInquiryD from './mypage/MpInquiryD';
+
 
 
 
@@ -56,8 +58,8 @@ const NsMain = () => {
       //   } catch (error) {
       //     console.error('Error fetching ship info:', error);
       //   }
-      // };
-  
+      // };  
+
       // fetchShipInfo();
     }, []);
 

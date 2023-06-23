@@ -33,6 +33,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+//import software.amazon.awssdk.services.s3.S3Client;
+
+
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -59,7 +62,6 @@ public class EduService {
 
 
 //    private final S3Client s3Client;
-
 
     @Value("${aws.bucketName}")
     private String bucketName;

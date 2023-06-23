@@ -9,14 +9,15 @@ class CalendarComponent extends Component {
     const selectedDate = new Date(); // 기본적으로 선택된 날짜
     this.state = {
       startDate: selectedDate,
-      endDate: addDays(selectedDate, 7), // 선택한 날짜부터 7일 후
+      endDate: addDays(selectedDate, 6), // 선택한 날짜부터 7일 후
       key: 'selection'
     };
   }
 
   onRangeChange = (ranges) => {
     const { startDate } = ranges.selection;
-    const endDate = addDays(startDate, 7);
+    const endDate = addDays(startDate, 6);
+
 
     const startDateString = format(startDate, "yyyy-MM-dd'T'HH:mm:ss");
     const endDateString = format(endDate, "yyyy-MM-dd'T'HH:mm:ss");

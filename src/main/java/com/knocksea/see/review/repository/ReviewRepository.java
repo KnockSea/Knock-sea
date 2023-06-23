@@ -30,4 +30,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r FROM Review r WHERE r.product = :product")
     List<Review> findByProduct(@Param("product") Product product);
 
+
 }

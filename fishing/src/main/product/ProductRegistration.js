@@ -101,7 +101,7 @@ function ProductRegistration() {
     setRegTimes(prevTimes => [...prevTimes, newTime]);
 
   };
- 
+
 
     // 서버에 보낼 FormData 객체 생성
     const formData = new FormData();
