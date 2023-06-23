@@ -88,11 +88,13 @@ function ClassMain() {
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
                                             <div className="list-star-rating">{t.star}</div>
+
                                             <div className="userId">{t.userName}</div>
                                         </div>
                                         <div className="text-place list-t">위치 : {t.eduLocation}</div>
                                         <div className="text-price">가격 : {t.eduPrice}원</div>
                                         <div className="text-title list-t">{t.eduTitle}</div>
+
                                     </div>
                                     </div>
                                 ))}

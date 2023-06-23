@@ -44,6 +44,8 @@ public class InquiryService {
 
         List<Inquiry> inquiryList = inquiries.getContent();
 
+
+
         List<InquiryDetailResponseDTO> detailList = inquiryList.stream()
                 .map(InquiryDetailResponseDTO::new)
                 .collect(Collectors.toList());

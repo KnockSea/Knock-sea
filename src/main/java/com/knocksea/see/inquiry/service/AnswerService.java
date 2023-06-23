@@ -41,7 +41,7 @@ public class AnswerService {
         Inquiry inquiry = inquiryRepository.findById(inqyiryId).orElseThrow(() -> new RuntimeException("없는 문의입니다"));
 
         Answer answer = answerRepository.findByiId(inquiry);
-        AnswerDetailResponseDTO dto = new AnswerDetailResponseDTO(answer);
+        AnswerDetailResponseDTO dto = new AnswerDetailResponseDTO(answer, inquiry);
         log.info("dto - {}", answer);
 
         return dto;
@@ -64,28 +64,32 @@ public class AnswerService {
         );
         Inquiry inquiryInfo = inquiryRepository.findById(dto.getInquiryId()).orElseThrow();
 
+        if (inquiryInfo.getAnswer() != null) {
+            throw new RuntimeException("이미 답변을 작성하였습니다.");
+        }
+
         Answer saved = answerRepository.save(dto.toEntity(foundUser, inquiryInfo));
         log.info("answer saved- {}", saved);
 
-        return new AnswerDetailResponseDTO(saved);
+        return new AnswerDetailResponseDTO(saved, inquiryInfo);
 
     }
 
-    public AnswerDetailResponseDTO modify(final AnswerModifyDTO dto, Long userId) {
-
-        Answer modifiedAnswer = null;
-        User user = userRepository.findById(userId).orElseThrow();
-        final Answer answerEntity = getAnswer(dto.getAnswerId());
-        Inquiry inquiry = inquiryRepository.findById(dto.getInquiryId()).orElseThrow();
-        Answer answer = answerRepository.findById(dto.getAnswerId()).orElseThrow();
-        if (answer.getUser().getUserId().equals(userId)){
-        answerEntity.setAnswerDetails(dto.getAnswerDetails());
-        answerEntity.setInquiry(inquiry);
-        modifiedAnswer = answerRepository.save(answerEntity);
-        }
-
-        return new AnswerDetailResponseDTO(modifiedAnswer);
-    }
+//    public AnswerDetailResponseDTO modify(final AnswerModifyDTO dto, Long userId) {
+//
+//        Answer modifiedAnswer = null;
+//        User user = userRepository.findById(userId).orElseThrow();
+//        final Answer answerEntity = getAnswer(dto.getAnswerId());
+//        Inquiry inquiry = inquiryRepository.findById(dto.getInquiryId()).orElseThrow();
+//        Answer answer = answerRepository.findById(dto.getAnswerId()).orElseThrow();
+//        if (answer.getUser().getUserId().equals(userId)){
+//        answerEntity.setAnswerDetails(dto.getAnswerDetails());
+//        answerEntity.setInquiry(inquiry);
+//        modifiedAnswer = answerRepository.save(answerEntity);
+//        }
+//
+//        return new AnswerDetailResponseDTO(modifiedAnswer);
+//    }
 
     public void delete(Long answerId, Long userId) throws RuntimeException, SQLException {
         Answer answer = answerRepository.findById(answerId).orElseThrow();

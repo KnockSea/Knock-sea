@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MpList from './MpList';
 import { getLoginUserInfo } from '../util/login-util';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const MpIqInput = () => {
   const [title, setTitle] = useState('');
