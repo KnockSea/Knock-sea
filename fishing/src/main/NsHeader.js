@@ -57,7 +57,7 @@ export const NsHeader = () => {
       
           if (res.status === 200) {
               // 서버에서 s3 url이 응답된다
-              const imgUrl = await res.text();
+              const imgUrl = await res.text();                  
               setProfileUrl(imgUrl);
   
               

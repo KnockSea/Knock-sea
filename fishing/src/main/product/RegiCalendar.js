@@ -18,6 +18,7 @@ class CalendarComponent extends Component {
     const { startDate } = ranges.selection;
     const endDate = addDays(startDate, 6);
 
+
     const startDateString = format(startDate, "yyyy-MM-dd'T'HH:mm:ss");
     const endDateString = format(endDate, "yyyy-MM-dd'T'HH:mm:ss");
 

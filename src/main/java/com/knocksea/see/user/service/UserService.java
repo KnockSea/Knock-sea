@@ -304,20 +304,25 @@ public class UserService {
         //새로 입력받은 이미지 이름 만들기!
         String uniqueFileName = UUID.randomUUID() + "_" + profileImg.getOriginalFilename();
 
+        //아마존 aws 이미지파일저장
+        String uploadUrl = s3Service.uploadToS3Bucket(profileImg.getBytes(), uniqueFileName);
+
         //기존에 저장되어있던 이미지 경로
-        String savedFilePath = findProfilePath(userId);
+        String savedFilePath = user.getProfileImg();
 
-        if (savedFilePath==null){
-            File imageFile = new File(uniqueFileName, user.getProfileImg());
-        }
+        savedFilePath = uploadUrl;
+
+//        if (savedFilePath==null){
+//            File imageFile = new File(uniqueFileName, user.getProfileImg());
+//        }
 
 
 
-        File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
+//        File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
 
-        profileImg.transferTo(uploadFile);
+//        profileImg.transferTo(uploadFile);
 
-        user.setProfileImg(uniqueFileName);
+        user.setProfileImg(savedFilePath);
 
         userRepository.save(user);
 
