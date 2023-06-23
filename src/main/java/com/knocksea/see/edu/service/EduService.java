@@ -1,5 +1,6 @@
 package com.knocksea.see.edu.service;
 
+import com.knocksea.see.aws.S3Service;
 import com.knocksea.see.edu.dto.response.*;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.entity.Edu;
@@ -31,7 +32,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.services.s3.S3Client;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -57,10 +57,10 @@ public class EduService {
     private final ImageRepository imageRepository;
     private final ImageService imageService;
 
-    private final S3Client s3Client;
 
     @Value("${jiseung-upload-bucket}")
-    private String bucketName;
+//    private String bucketName;
+//
 
 
     //좋아요 상위 4개 조회
