@@ -334,8 +334,7 @@ public class ImageService {
 
     }
 
-    public void saveEduImg(List<MultipartFile> eduImg, EduAndReservationTimeCreateDTO dto) throws IOException {
-        Long userId = dto.getUserId();
+    public void saveEduImg(List<MultipartFile> eduImg, Long userId) throws IOException {
         User user = userRepository.findById(userId)
                 .orElseThrow(()->new RuntimeException("유저 없음"));
 
@@ -357,4 +356,9 @@ public class ImageService {
                     .build());
         }
     }
+
+    public void deleteEduImg(List<MultipartFile> Img, Long userId){
+
+    }
+
 }

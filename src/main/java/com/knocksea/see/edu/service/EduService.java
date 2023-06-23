@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -166,7 +167,7 @@ public class EduService {
     }
 
     //클래스 수정
-    public EduDetailResponseDTO modify(EduAndReservationTimeCreateDTO dto, List<MultipartFile> eduImg) throws RuntimeException{
+    public EduDetailResponseDTO modify(EduAndReservationTimeCreateDTO dto, List<MultipartFile> eduImg) throws RuntimeException, IOException {
         Long userId = dto.getUserId();
 
         User user = userRepository.findById(userId)
@@ -191,8 +192,8 @@ public class EduService {
                         = reservationTimeRepository.save(dto.toReservationTimeEntity(i, j, edu));
             }
         }
-
-//        imageService.saveEduImg(eduImg,);
+        //이미지 다시 저장
+        imageService.saveEduImg(eduImg,dto.getUserId());
 
         edu.update(dto);
         eduRepository.save(edu);

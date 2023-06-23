@@ -94,7 +94,7 @@ public class EduApiController {
                     log.info("validationImage : "+validationImage.getOriginalFilename());
                 }
                 //이미지 저장시키기
-                imageService.saveEduImg(EduImg,dto);
+                imageService.saveEduImg(EduImg,dto.getUserId());
             }
 
             return ResponseEntity
@@ -137,10 +137,6 @@ public class EduApiController {
     ) {
         log.info("클래스 수정");
         log.info("/api/v1/edu {}!! - dto: {}", request.getMethod(), dto);
-
-        //입력값 검증
-//        ResponseEntity<List<FieldError>> fieldErros = getValidatedResult(result);
-//        if(fieldErros!=null) return fieldErros;
 
         try {
             EduDetailResponseDTO responseDTO
