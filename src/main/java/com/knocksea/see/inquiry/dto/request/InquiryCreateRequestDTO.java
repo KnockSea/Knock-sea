@@ -21,9 +21,13 @@ public class InquiryCreateRequestDTO {
     @Size(min = 1, max = 2000)
     private String inquiryDetails;
 
+    @NotBlank
+    private String inquiryTitle;
+
     public Inquiry toEntity(User user) {
         return Inquiry.builder()
             .inquiryDetails(this.inquiryDetails)
+            .inquiryTitle(this.inquiryTitle)
             .user(user)
             .build();
     }

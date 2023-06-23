@@ -1,7 +1,5 @@
 
-.rdrDefinedRangesWrapper {
-  display: none;
-}
+
   
 .button {
   display: inline-block;
@@ -15,9 +13,6 @@
   transition: background-color 0.2s ease;
 }
 
-.button:hover {
-  // background-color: #1d7186;
-}
 
 .button:active {
   background-color: #1e9ab5;
@@ -36,9 +31,7 @@
 }
 
 .rdrDateInput {
-  display: flex;
-  align-items: center;
-  margin-right: 8px;
+ width: 100%;
 }
 
 .rdrDateDisplayItem {
@@ -54,3 +47,6 @@
   color: #fff;
 }
 
+.rdrDay {
+ height: 2.5em;
+}

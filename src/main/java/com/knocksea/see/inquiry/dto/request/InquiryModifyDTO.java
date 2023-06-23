@@ -22,6 +22,9 @@ public class InquiryModifyDTO {
     @NotNull
     private Long inquiryId;
 
+    @NotBlank
+    private String inquiryTitle;
+
 
 
 }

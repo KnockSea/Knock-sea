@@ -2,6 +2,7 @@ package com.knocksea.see.review.api;
 
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.review.dto.page.PageDTO;
+import com.knocksea.see.review.dto.page.UserPageDTO;
 import com.knocksea.see.review.dto.request.ReviewCreateDTO;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.dto.response.ReviewListResponseDTO;
@@ -61,7 +62,7 @@ public class ReviewApiController {
         @GetMapping("/myReview")
         public ResponseEntity<?> getReviewById(
             @AuthenticationPrincipal TokenUserInfo userInfo
-            , PageDTO pageDTO) {
+            , UserPageDTO pageDTO) {
           ReviewListResponseDTO userReviewById = reviewService.getUserReviewById(pageDTO, userInfo.getUserId());
           try {
             return ResponseEntity.ok().body(userReviewById);

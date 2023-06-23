@@ -22,5 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.user = :user")
     List<Product> findByUser(@Param("user") User user);
 
-    List<Product> findTop3ByProductTypeOrderByProductInputDateDesc(String type);
+    List<Product> findTop9ByProductTypeOrderByProductInputDateDesc(String type);
+
+    List<Product> findAllByStatusValid(String active);
 }

@@ -95,6 +95,7 @@ public class InquiryService {
         return inquiryEntity;
     }
 
+
     public InquiryDetailResponseDTO insert(final InquiryCreateRequestDTO dto, final TokenUserInfo userInfo)
         throws RuntimeException {
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("회원 정보가 없습니다."));

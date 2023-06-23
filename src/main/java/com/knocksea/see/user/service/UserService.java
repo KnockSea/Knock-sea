@@ -2,6 +2,7 @@ package com.knocksea.see.user.service;
 
 import com.knocksea.see.auth.TokenProvider;
 import com.knocksea.see.auth.TokenUserInfo;
+import com.knocksea.see.aws.S3Service;
 import com.knocksea.see.heart.entity.Heart;
 import com.knocksea.see.heart.repository.HeartRepository;
 import com.knocksea.see.product.dto.response.ReservationResponseDTO;
@@ -74,8 +75,11 @@ public class UserService {
     //이미지 저장 서비스
     private final ImageService imageService;
 
+    //아마존 s3접근용
+    private final S3Service s3Service;
     private final ReservationRepository reservationRepository;
     private final ReservationTimeRepository reservationTimeRepository;
+
 
 
     @Value("${upload.path}")
@@ -196,24 +200,27 @@ public class UserService {
     //프로필 사진 업로드 기능
     public String uploadProfileImage(MultipartFile originalFile) throws IOException {
         //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
-        File rootDir = new File(uploadRootPath);
-        if(!rootDir.exists()) rootDir.mkdir();
+//        File rootDir = new File(uploadRootPath);
+//        if(!rootDir.exists()) rootDir.mkdir();
 
         //파일명을 유니크하게 변경
         String uniqueFileName = UUID.randomUUID() + "_" + originalFile.getOriginalFilename();
 
         //파일을 저장
-        File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
+//        File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
+//
+//        originalFile.transferTo(uploadFile);
+        //파일을 s3 버킷에 저장
+        String uploadUrl = s3Service.uploadToS3Bucket(originalFile.getBytes(), uniqueFileName);
 
-        originalFile.transferTo(uploadFile);
+        return uploadUrl;
 
-        return uniqueFileName;
     }
 
     //파일 저장경로 얻어오기
     public String findProfilePath(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
-        return uploadRootPath + "/" + user.getProfileImg();
+        return user.getProfileImg();
     }
 
     //전체 리뷰/좋아요 리스트 받아오기 // OWNER 기능이잖아?
@@ -293,12 +300,10 @@ public class UserService {
         //기존에 저장되어있던 이미지 경로
         String savedFilePath = findProfilePath(userId);
 
-        //파일 객체만들기!
-        File imageFile = new File(savedFilePath, user.getProfileImg());
-
-        if (imageFile.exists()){
-            imageFile.delete();
+        if (savedFilePath==null){
+            File imageFile = new File(uniqueFileName, user.getProfileImg());
         }
+
 
 
         File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);

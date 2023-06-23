@@ -5,7 +5,26 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Bullseye, Calendar2Check, EmojiSmile, PersonVcard, CheckCircleFill } from 'react-bootstrap-icons';
 import { Link, Route } from 'react-router-dom';
 import RvBtDetail from './RvBtDetail';
+
 import { API_BASE_URL, PRODUCTS, SHIP } from '../../config/host-config';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { API_BASE_URL, SHIP } from '../../config/host-config';
+
+
+const RvItem = ( {shipInfo}) => {
+    
+//     // 배 이미지 가져오가
+//     const [shipimg , setshipimg] = useState("");
+
+//     useEffect(()=> {
+//       fetch(`${API_BASE_URL}${SHIP}/getshipinfo`)
+//       .then(reponse => reponse.text())
+//       .then(shipimg => {
+//         setshipimg(shipimg);
+//       });
+//     },[]);
+//     // 이미지 가져오기 끝 
 
 const RvItem = ({ allAddress, pageInfo, products, count }) => {
   const [Address, setAddress] = useState(allAddress);
@@ -56,6 +75,7 @@ const RvItem = ({ allAddress, pageInfo, products, count }) => {
           </Link>
         </div>
       ))}
+
     </div>
   );
 };

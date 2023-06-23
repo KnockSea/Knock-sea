@@ -12,8 +12,10 @@ import com.knocksea.see.product.repository.*;
 import com.knocksea.see.product.dto.request.PageDTO;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.repository.ReviewRepository;
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.FishingSpotRepository;
+import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.ShipRepository;
 import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +44,7 @@ public class ProductService implements ProductDetailService {
     private final FishingSpotRepository fishingSpotRepository;
     private final EduRepository eduRepository;
     private final ViewProductRepository viewProductRepository;
+    private final ImageRepository imageRepository;
 
     public Product getProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(() ->
@@ -171,16 +174,27 @@ public class ProductService implements ProductDetailService {
         return productRepository.findById(productId).isPresent();
     }
 
+    // 메인페이지 9개만 달래~
+    public List<mainListResponseDTO> shipMainList() {
+        List<Product> productsShip = productRepository.findTop9ByProductTypeOrderByProductInputDateDesc("SHIP");
 
-    // 메인페이지 3개만 보여주기 -> 3개씩 보여주기 만들어야 되나?
-    public mainListResponseDTO showMainList() {
-        List<Product> productsShip = productRepository.findTop3ByProductTypeOrderByProductInputDateDesc("SHIP");
-
-        List<Product> productsSpot = productRepository.findTop3ByProductTypeOrderByProductInputDateDesc("SPOT");
-
-        List<Edu> edu = eduRepository.findTop3ByOrderByCreateDate();
-
-
-        return new mainListResponseDTO(productsShip, productsSpot, edu);
+        return getCollect(productsShip);
     }
+
+    public List<mainListResponseDTO> spotMainList() {
+        List<Product> productsSpot = productRepository.findTop9ByProductTypeOrderByProductInputDateDesc("SHIP");
+
+        return getCollect(productsSpot);
+
+    }
+
+    private List<mainListResponseDTO> getCollect(List<Product> product) {
+        return product.stream()
+                .map(p -> {
+                    SeaImage seaImage = imageRepository.findById(p.getSeaImage().getImageId()).orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
+                    return new mainListResponseDTO(p, seaImage);
+                }).collect(Collectors.toList());
+    }
+
+//    public autoTrans
 }

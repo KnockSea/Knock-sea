@@ -17,4 +17,8 @@ public class TokenUserInfo {
 
     private UserGrade userGrade;
 
+    private String userPhone;
+
+    private String userName;
+
 }

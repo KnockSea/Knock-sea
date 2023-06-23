@@ -30,9 +30,9 @@ const NsTemplate = () => {
   // };
 
   // 서버에서 목록(json) 요청해서 받기
-const API_SHIP_URL = BASE + SHIP;                     //배
-const API_USER_URL = BASE + USER;                     //유저
-const API_FISHINGSPOT_URL = BASE + FISHINGSPOT;       // 낚시터
+// const API_SHIP_URL = BASE + SHIP;                     //배
+// const API_USER_URL = BASE + USER;                     //유저
+// const API_FISHINGSPOT_URL = BASE + FISHINGSPOT;       // 낚시터
 
 // SHIP 배열을 상태관리
 // const [ships , setships] = useState([]);

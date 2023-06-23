@@ -3,6 +3,7 @@ import ex from './img/ex.jpg';
 import './scss/NsItem.scss';
 import { Link } from 'react-router-dom';
 
+
 const NsItem = ({ product }) => {
   // shipInfo 객체에서 필요한 값을 추출
   const imageUrlList = product?.shipImageLocation || []; // 배 이미지 URL 리스트
@@ -28,3 +29,4 @@ const NsItem = ({ product }) => {
 };
 
 export default NsItem;
+

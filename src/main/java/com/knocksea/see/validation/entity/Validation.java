@@ -1,6 +1,7 @@
 package com.knocksea.see.validation.entity;
 
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.validation.dto.request.validationModifyRequestDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class Validation {
     private Long validationId;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private ValidationType validationType; //SHIP/SPOT
 
     @Column(length = 50)
@@ -35,6 +37,7 @@ public class Validation {
     private String validationBusinessRegi; //사업자 등록증 번호 //낚시터 등록때만 사용
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     @Builder.Default
     private ValidationStatus validationStatus=WAIT; //YES/NO/WAIT
 
@@ -43,4 +46,7 @@ public class Validation {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public void update(validationModifyRequestDTO dto) {
+        this.validationStatus=dto.getValidationStatus();
+    }
 }

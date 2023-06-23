@@ -78,14 +78,20 @@ hr {
     margin-bottom: 30px;
     /* margin-left: 140px; */
     list-style: none;
+
+    .category-custom-select {
+        background-color: #123282; 
+        color: #fcfcfc;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px 20px; 
+        font-size: 15px; 
+    }
 }
 .calendar {
-    position: relative;
-    // right: -50px;
-    // transform: translate(14%, -8%);
 
     .calendar-box{
-        margin-left: 50px;
+        margin-left: 10px;
         padding: 0;
         width: 400px;
         height: fit-content;
@@ -98,10 +104,7 @@ hr {
     width: 200px;
     text-align: left;
 }
-.product-regi-body ul li span{
-    width: 180px;
-    border:none;
-}
+
 
 .product-regi-body li .form-control {
     width: 450px;
@@ -135,14 +138,14 @@ hr {
     display: flex;
     justify-content: space-between;
 
-    
     p {
         margin-top: -8px;
+        width: 200px;
         font-size: 13px;
+        text-align: left;
       }
     
     label {
-        // height: 30px;
         margin-bottom: 20px;
       }
 
@@ -151,7 +154,7 @@ hr {
   
   .time-box input {
     margin: 7px 15px;
-    height: 50px;
+    height: 40px;
   }
 
 /*  상품 등록 하단부 */
@@ -220,17 +223,3 @@ hr {
         margin-right: 20px;
     }
     }
-
-    .my-time-picker {
-        display: flex;
-        align-items: center;
-      }
-      
-      .my-time-picker__select {
-        width: 80px;
-        margin-right: 16px;
-      }
-      
-      .my-time-picker__select:last-child {
-        margin-right: 0;
-      }

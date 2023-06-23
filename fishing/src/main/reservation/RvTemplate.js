@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { NsHeader } from '../NsHeader'
 import RvMain from './RvMain'
+
 import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
 function RvTemplate() {
-
 
   const [product, setproduct] = useState("");
 
 
 
+
   useEffect(() => {
+
     // 배 상품 정보를 전체 가져오는 함수
     const fetchProduct = async () => {
       try {
@@ -27,7 +29,6 @@ function RvTemplate() {
     fetchProduct();
   }, []);
 
-
   return (
 
     product &&
@@ -35,6 +36,7 @@ function RvTemplate() {
         <NsHeader />
         <RvMain
         product={product}
+
         />
     </div>
 

@@ -6,7 +6,7 @@ const NsFishingSpot = () => {
   return (
     <div className='fishingSpot'>
     <div className='title'>
-        <p className='t1'>오늘의 낚시터 > </p>
+        <p className='t1'>오늘의 낚시터 </p>
         <p className='t2'>더보기</p>
     </div>
     <div className='fishingSpots'>

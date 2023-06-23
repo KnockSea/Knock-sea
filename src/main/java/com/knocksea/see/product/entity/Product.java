@@ -57,6 +57,10 @@ public class Product {
 
     private String productType;
 
+    // 활성화 , 비활성화 컬럼 (Y, N) 등
+    @Builder.Default
+    private String statusValid = "ACTIVE";
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

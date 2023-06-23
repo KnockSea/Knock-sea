@@ -173,42 +173,42 @@ public class UserApiController {
 
 
     //프로필 사진 이미지 데이터를 클라이언트에게 응답처리
-    @GetMapping("/load-profile")
-    public ResponseEntity<?> loadFile(
-            @AuthenticationPrincipal TokenUserInfo userInfo
-    ){
-        log.info("api/auth/load-profile GET ! - user :{}",userInfo.getUserEmail());
-
-        try {
-            //클라이언트가 요청한 프로필 사진을 응답해야함
-
-            //1. 프로필 사진의 경로를 얻어야함.
-            String filePath = userService.findProfilePath(userInfo.getUserId());
-            //2. 이 얻어낸 파일 경로를 통해서 실제 파일데이터 로드하기
-            File profileFile = new File(filePath);
-
-            if(!profileFile.exists()){
-                return ResponseEntity.notFound().build();
-            }
-
-            //해당 경로에 저장된 이미지파일을 바이트배열로 직렬화해서 리턴
-            byte[] fileData = FileCopyUtils.copyToByteArray(profileFile);
-
-            //3. 응답 헤더에 컨텐츠 타입을 설정
-            HttpHeaders headers = new HttpHeaders();
-            MediaType contentType = findExtensionAndGetMediaType(filePath);
-            if(contentType==null){
-                return ResponseEntity.internalServerError().body("발견된 파일은 이미지파일이 아닙니다");
-            }
-            headers.setContentType(contentType);
-            return ResponseEntity.ok().headers(headers).body(fileData);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().body("파일을 찾을 수 없습니다.");
-        }
-
-
-    }
+//    @GetMapping("/load-profile")
+//    public ResponseEntity<?> loadFile(
+//            @AuthenticationPrincipal TokenUserInfo userInfo
+//    ){
+//        log.info("api/auth/load-profile GET ! - user :{}",userInfo.getUserEmail());
+//
+//        try {
+//            //클라이언트가 요청한 프로필 사진을 응답해야함
+//
+//            //1. 프로필 사진의 경로를 얻어야함.
+//            String filePath = userService.findProfilePath(userInfo.getUserId());
+//            //2. 이 얻어낸 파일 경로를 통해서 실제 파일데이터 로드하기
+//            File profileFile = new File(filePath);
+//
+//            if(!profileFile.exists()){
+//                return ResponseEntity.notFound().build();
+//            }
+//
+//            //해당 경로에 저장된 이미지파일을 바이트배열로 직렬화해서 리턴
+//            byte[] fileData = FileCopyUtils.copyToByteArray(profileFile);
+//
+//            //3. 응답 헤더에 컨텐츠 타입을 설정
+//            HttpHeaders headers = new HttpHeaders();
+//            MediaType contentType = findExtensionAndGetMediaType(filePath);
+//            if(contentType==null){
+//                return ResponseEntity.internalServerError().body("발견된 파일은 이미지파일이 아닙니다");
+//            }
+//            headers.setContentType(contentType);
+//            return ResponseEntity.ok().headers(headers).body(fileData);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return ResponseEntity.internalServerError().body("파일을 찾을 수 없습니다.");
+//        }
+//
+//
+//    }
 
 
     //파일 이미지 검증
@@ -245,9 +245,28 @@ public class UserApiController {
 
 
     }
+    @GetMapping("/load-s3")
+    public ResponseEntity<?> loadS3(
+            @AuthenticationPrincipal TokenUserInfo userInfo
+    ){
+        log.info("/api/auth/load-s3 GET - user : {}",userInfo);
+
+        try {
+            String profilePath = userService.findProfilePath(userInfo.getUserId());
+            return ResponseEntity.ok().body(profilePath);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
     @GetMapping("/user-mylist")
-    public ResponseEntity<?> userMyPage(@AuthenticationPrincipal TokenUserInfo userInfo) {
+    public ResponseEntity<?> userMyPage(
+            @AuthenticationPrincipal TokenUserInfo userInfo) {
+
+        log.info("user-mylist - GET ! : {}",userInfo);
+
         try {
             UserMyPageResponseDTO mypageDTO = userService.userMyPageInfo(userInfo);
             return ResponseEntity.ok().body(mypageDTO);
@@ -256,8 +275,6 @@ public class UserApiController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
-
-
 
 
 

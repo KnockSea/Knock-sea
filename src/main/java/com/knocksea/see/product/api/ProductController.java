@@ -97,17 +97,23 @@ public class ProductController {
     }
 
     // 메인 페이지 배, 낚시터, 에듀 3개씩 가져옴 (아직 페이징 처리 없음)
-    @GetMapping("/main")
-    public ResponseEntity<?> mainPage() {
+    @GetMapping("/main/ship")
+    public ResponseEntity<?> mainPageShip() {
 
 //        log.info("/api/v1/products GET ! - {} ", );
 
-        mainListResponseDTO mainListResponseDTO = productService.showMainList();
-
-        return ResponseEntity.ok().body(mainListResponseDTO);
+        return ResponseEntity.ok().body(productService.shipMainList());
     }
 
-    @GetMapping("product-list")
+    @GetMapping("/main/spot")
+    public ResponseEntity<?> mainPageSpot() {
+
+//        log.info("/api/v1/products GET ! - {} ", );
+
+        return ResponseEntity.ok().body(productService.spotMainList());
+    }
+
+    @GetMapping("/product-list")
     public ResponseEntity<?> productList(PageDTO pageDTO) {
 
         log.info("/api/v1/products/product-list GET ! - {} ", pageDTO);
