@@ -5,6 +5,7 @@ import com.knocksea.see.edu.dto.response.EduModifyDTO;
 import com.knocksea.see.heart.entity.Heart;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.review.entity.Review;
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -72,6 +73,10 @@ public class Edu {
     @OneToMany(mappedBy = "edu", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Review> reviews = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private SeaImage seaImage;
 
 
     // 수정메서드

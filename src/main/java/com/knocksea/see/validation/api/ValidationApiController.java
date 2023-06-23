@@ -5,6 +5,7 @@ import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.user.service.ImageService;
 import com.knocksea.see.validation.dto.request.ValidationCreateDTO;
+import com.knocksea.see.validation.dto.request.validationModifyRequestDTO;
 import com.knocksea.see.validation.dto.response.ValidationListResponseDTO;
 import com.knocksea.see.validation.dto.response.ValidationRegisterResponseDTO;
 import com.knocksea.see.validation.entity.Validation;
@@ -41,8 +42,8 @@ public class ValidationApiController {
 
             @Validated @RequestPart("validation") ValidationCreateDTO dto,
             @RequestPart(value = "validationImage", required = false) List<MultipartFile> validationImg
-//            , @AuthenticationPrincipal TokenUserInfo userInfo
-            , BindingResult result
+//          ,@AuthenticationPrincipal TokenUserInfo userInfo
+            ,BindingResult result
     ) {
         log.info("/api/v1/validation POST!!: --{}", dto);
 
@@ -60,7 +61,7 @@ public class ValidationApiController {
         }
 
         try {
-//            validationService.insert(dto,userInfo); 토큰 사용시
+//          validationService.insert(dto,userInfo); 토큰 사용시
             ValidationRegisterResponseDTO insertValidation = validationService.insert(dto);
             log.info("insertValidation : "+insertValidation);
 
@@ -99,15 +100,19 @@ public class ValidationApiController {
     //검증 상태 변경
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<?> update(
-            @Validated @RequestBody String userName, ValidationStatus validationStatus
+            @Validated @RequestBody validationModifyRequestDTO dto
             , BindingResult result
             , HttpServletRequest request
     ){
-        log.info("검증 상태 수정 "+userName + " "+ validationStatus);
+        String userName= dto.getUserName();
+        ValidationStatus validationStatus=dto.getValidationStatus();
+        ValidationType validationType=dto.getValidationType();
+
+        log.info("검증 상태 수정 : "+ userName +" "+ validationStatus+" "+validationType);
         try {
-            EduDetailResponseDTO responseDTO
-                    = validationService.modifyStatus(userName,validationStatus);
-            return ResponseEntity.ok().body(responseDTO);
+            ValidationStatus latestvalidationStatus
+                    = validationService.modifyStatus(dto);
+            return ResponseEntity.ok().body(latestvalidationStatus);
         }
         catch (Exception e){
             return ResponseEntity

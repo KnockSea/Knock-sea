@@ -1,6 +1,7 @@
 package com.knocksea.see.validation.entity;
 
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.validation.dto.request.validationModifyRequestDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -45,4 +46,7 @@ public class Validation {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public void update(validationModifyRequestDTO dto) {
+        this.validationStatus=dto.getValidationStatus();
+    }
 }

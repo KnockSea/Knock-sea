@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { NsHeader } from '../NsHeader'
 import RvMain from './RvMain'
 import { API_BASE_URL, PRODUCTS, SHIP } from '../../config/host-config';
+import { fetchShipInfo } from '../NsMain';
 
 function RvTemplate() {
 

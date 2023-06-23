@@ -187,9 +187,12 @@ public class ShipApiController {
         log.info("/ship/getshipinfo GET! --{}", userInfo);
 
         try {
-            ShipInfoResponseDTO shipInfo = shipService.getShipInfo(userInfo);
-            return ResponseEntity.ok().body(shipInfo);
-
+            boolean ship = shipService.findShip(userInfo);
+            if(!ship){
+                ShipInfoResponseDTO shipInfo = shipService.getShipInfo(userInfo);
+                return ResponseEntity.ok().body(shipInfo);
+            }
+            return ResponseEntity.ok().body(new ShipInfoResponseDTO());
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
