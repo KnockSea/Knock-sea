@@ -45,6 +45,7 @@ const NsMain = () => {
 
     const [shipInfo, setShipInfo] = useState(null);
 
+
     const fetchShipInfo = async () => {
       // try {
       //   const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
@@ -55,9 +56,7 @@ const NsMain = () => {
       // }
     };
     useEffect(() => {
-      // 배 정보를 가져오는 함수
-      
-  
+      // 배 정보를 가져오는 함수  
       fetchShipInfo();
     }, []);
 

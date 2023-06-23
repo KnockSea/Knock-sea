@@ -2,6 +2,7 @@ import React from 'react'
 import './MpScss/MpMain.scss'
 import { Link } from 'react-router-dom'
 import MpList from './MpList'
+import MpReviewList from './MpReviewList';
 import { useLocation } from "react-router-dom";
 import {getLoginUserInfo, isLogin } from '../util/login-util';
 import { useEffect } from 'react';
@@ -90,10 +91,9 @@ const MpMain = () => {
                     </div>
 
 
-                {/* <div className='rvbox'>
-                        <h2>리뷰 게시판</h2>
-                        <p>아직 작성된 리뷰가 없습니다</p>
-                </div> */}
+                <div className='rvbox'>
+                    <MpReviewList />
+                </div>
 
                 <div className='rvbox2'>
                     <div className='inner-rvbox2'>

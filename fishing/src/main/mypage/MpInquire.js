@@ -3,30 +3,16 @@ import './MpScss/MpInquire.scss';
 import { Link } from 'react-router-dom';
 import MpList from './MpList';
 import { getLoginUserInfo } from '../util/login-util';
+import Stack from '@mui/material/Stack';
 
 const MpInquire = () => {
   const [inquiries, setInquiries] = useState([]);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
-  const [token, setToken] = useState('');
-  
-  const fetchToken = () => {
-  
-    const token = getLoginUserInfo().token; 
-    setToken(token);
-  };
-
-  useEffect(() => {
-    fetchToken();
-    console.log('kjhhhjhjjhjhjhjhjhjhjhjhjhjh');
-    fetchData();
-  }, [page, size]);
-
+  const [token, setToken] = useState(getLoginUserInfo().token);
 
   const fetchData = () => {
-    fetchToken();
-    console.log('kjjjhdhh-----------------------ghgxc', token);
-    fetch('http://localhost:8012/api/v1/inquiries/myInquiry', {
+    fetch(`http://localhost:8012/api/v1/inquiries/myInquiry?page=${page}&size=${size}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -35,28 +21,30 @@ const MpInquire = () => {
     })
     .then(response => response.json())
     .then(data => {
-      console.log("1111112222222222data", data);
       if (data) {
-        console.log("data2222222222222222222@@@@@@@", data);
+
         setInquiries(data.inquiries);
       } else {
-        console.error('Invalid response data:', data);
+        // 처리할 에러에 대한 로직 추가
       }
     })
     .catch(error => {
       console.error(error);
     });
   };
-
-
+  
+  useEffect(() => {
+    fetchData();
+  }, [page, size]);
+  
 
   return (
     <section className='MyPageMainBox'>
       <div className='mainbox1'>
         <h1>문의 현황</h1>
        
-          {inquiries.length > 0 && inquiries.map(inquiry => (
-             <div key={inquiry.inquiryId} className='inbox'>
+        {inquiries.length > 0 && inquiries.map(inquiry => (
+          <div key={inquiry.inquiryId} className='inbox'>
             <div className='initembox'>
               <div className='innumbox'>{inquiry.inquiryId}</div>
               <div className='intitle'>{inquiry.inquiryTitle}</div>
@@ -65,12 +53,13 @@ const MpInquire = () => {
             <div className='inbtnbox'>
               <button className='indetailbtn'>상세보기</button>
             </div>
-            </div>
-          ))}     
+          </div>
+        ))}   
+        
       </div>
    
-  <MpList/>
-</section>
+      <MpList/>
+    </section>
   );
 };
 

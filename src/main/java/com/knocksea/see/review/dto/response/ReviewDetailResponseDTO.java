@@ -26,8 +26,9 @@ public class ReviewDetailResponseDTO {
     private String profileImg;
     private String productTitle;
     private String eduTitle;
+    private String userName;
+    private String title;
     private LocalDateTime inquiryDateTime;
-
 
     public ReviewDetailResponseDTO(Review review) {
         this.reviewId = review.getReviewId();
@@ -38,9 +39,10 @@ public class ReviewDetailResponseDTO {
         this.eduId = review.getEdu() != null ? review.getEdu().getEduId() : null;
         this.productId = review.getProduct() != null ? review.getProduct().getProductId() : null;
         this.profileImg = review.getUser().getProfileImg();
-        this.productTitle = review.getEdu() != null ? review.getProduct().getProductTitle() : null;
+        this.productTitle = review.getProduct() != null ? review.getProduct().getProductTitle() : null;
         this.eduTitle = review.getEdu() != null ? review.getEdu().getEduTitle() : null;
-
+        this.title = review.getEdu().getEduTitle() != null ? review.getEdu().getEduTitle() : review.getProduct().getProductTitle();
+        this.userName = review.getUser().getUserName();
     }
 
 }
