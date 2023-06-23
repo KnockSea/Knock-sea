@@ -211,23 +211,23 @@ public class UserApiController {
 //    }
 
 
-    //파일 이미지 검증
-    private MediaType findExtensionAndGetMediaType(String filePath) {
-        //파일 경로에서 확장자 추출하기
-        //D:/todo_upload/kfasdasdsa_abc.jpg
-        String ext = filePath.substring(filePath.lastIndexOf(".") + 1);
-
-        switch (ext.toUpperCase()){
-            case "JPG": case "JPEG":
-                return MediaType.IMAGE_JPEG;
-            case "PNG":
-                return MediaType.IMAGE_PNG;
-            case "GIF":
-                return MediaType.IMAGE_GIF;
-            default:
-                return null;
-        }
-    }
+//    //파일 이미지 검증
+//    private MediaType findExtensionAndGetMediaType(String filePath) {
+//        //파일 경로에서 확장자 추출하기
+//        //D:/todo_upload/kfasdasdsa_abc.jpg
+//        String ext = filePath.substring(filePath.lastIndexOf(".") + 1);
+//
+//        switch (ext.toUpperCase()){
+//            case "JPG": case "JPEG":
+//                return MediaType.IMAGE_JPEG;
+//            case "PNG":
+//                return MediaType.IMAGE_PNG;
+//            case "GIF":
+//                return MediaType.IMAGE_GIF;
+//            default:
+//                return null;
+//        }
+//    }
 
     //내 상품들에 붙은 후기 평점 평균 모두 가져오기 OWNER가 보는 mypage
     @GetMapping("/load-myList")
