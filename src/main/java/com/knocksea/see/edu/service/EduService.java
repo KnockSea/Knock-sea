@@ -57,6 +57,9 @@ public class EduService {
     private final ImageService imageService;
 
 
+//    private final S3Client s3Client;
+
+
     @Value("${aws.bucketName}")
     private String bucketName;
 
