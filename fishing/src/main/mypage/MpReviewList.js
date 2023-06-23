@@ -38,7 +38,7 @@ function MpReviewList() {
       return (
     
         <>
-        {reviews.length > 0 && reviews.map(review => (
+        {reviews && reviews.length > 0 && reviews.map(review => (
     <div className='MpReFormItem'>
         <div className='numbox'></div>
         <div className='mprebox1'>{review.profileImg}</div>
@@ -53,7 +53,6 @@ function MpReviewList() {
         </div> 
     ))}   
         </>
-    
       )
 
 }
