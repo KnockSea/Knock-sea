@@ -58,9 +58,11 @@ public class EduService {
     private final ImageService imageService;
 
 
-    @Value("${jiseung-upload-bucket}")
-//    private String bucketName;
-//
+//    private final S3Client s3Client;
+
+
+    @Value("${aws.bucketName}")
+    private String bucketName;
 
 
     //좋아요 상위 4개 조회
