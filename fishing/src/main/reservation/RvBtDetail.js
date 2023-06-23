@@ -30,7 +30,6 @@ const RvBtDetail = () => {
 
   return (
     
-//    sDetail  && 
         <div className='allview'>
             <div className='imgbox'>
             <img src={boat} />
@@ -134,17 +133,17 @@ const RvBtDetail = () => {
 
             <div className='right'>
 
-            <div className='group1'>
+            {/* <div className='group1'>
                 <div>
                     인원충원은 <b>커뮤니티</b>에서 충원 가능합니다.
                     </div>
-                </div>
+                </div> */}
             <div className='clbox'>
                 <img src={dt1}/>
             </div>
             <div className='profilebox'>
                 <div className='proCircle'></div>
-                <h2>뉴정환호</h2>
+                <h2>{sDetail.userId}</h2>
                 <div className='pr1'>호스트 확인하기</div>
                 <button>문의하기</button>
                 </div>
@@ -153,7 +152,6 @@ const RvBtDetail = () => {
             </div>
 
         </div>
-  
     )
 }
 
