@@ -1,6 +1,6 @@
 import { DateRange } from 'react-date-range';
 import { Component } from 'react';
-import { addDays } from "date-fns";
+import { addDays, format } from "date-fns";
 import ko from 'date-fns/locale/ko';
 
 class CalendarComponent extends Component {
@@ -15,14 +15,19 @@ class CalendarComponent extends Component {
   }
 
   onRangeChange = (ranges) => {
-    console.log("날짜:", ranges);
-    this.setState({
-      startDate: ranges['selection'].startDate,
-      endDate: addDays(ranges['selection'].startDate, 7), // 선택한 날짜부터 7일 후
-      key: ranges['selection'].key,
-    });
+    const { startDate } = ranges.selection;
+    const endDate = addDays(startDate, 7);
 
-    this.props.onRangeChange(ranges);
+    const startDateString = format(startDate, "yyyy-MM-dd'T'HH:mm:ss");
+    const endDateString = format(endDate, "yyyy-MM-dd'T'HH:mm:ss");
+
+    this.setState({
+      startDate,
+      endDate,
+      key: ranges.selection.key,
+    });
+  
+    this.props.onRangeChange({ ...ranges, selection: { ...ranges.selection, startDate: startDateString, endDate: endDateString } });
   }
 
   render() {
