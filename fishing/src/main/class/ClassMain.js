@@ -9,11 +9,43 @@ const handleLogin = (e) => {
       // 회원가입 서버 요청
      
     };
+
+    const requestHeader = {
+        'content-type': 'application/json'
+      };
+      
+
+    const API_BASE_URL = 'http://localhost:8012/api/v1/edu';
+
+
     
   // 렌더링 후 실행함수
+
+
  
 
 function ClassMain() {
+    
+    const [edus, setEdus] = useState([]);
+
+      useEffect(()=>{
+        fetch(API_BASE_URL, { 
+            method: 'GET',
+            headers: requestHeader
+          })
+            .then(res => {
+              if (res.status === 200) return res.json();
+             else {
+                alert('서버가 불안정합니다');
+              }
+            })
+            .then(json => {
+              console.log(json);   //->이걸 상태관리 변수인 todos에 셋팅하면 화면에 그려짐
+              setEdus(json); //렌더링 완료
+            });
+    
+        }, []);
+
     const fList = [
         { id: '강태공', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕~', place: '부둣가', price: 10000 },
         { id: '돔쟁이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
@@ -30,14 +62,17 @@ function ClassMain() {
         { id: '돔쟁123이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
       ];
 
-      const [filter, setFilter] = useState(''); 
+      const [filter, setFilter] = useState('');
+
+
 
       const handleFilterChange = (event) => {
         setFilter(event.target.value);
       };
 
     return(
-    <div className="class-container">
+      edus.length > 0  && (
+          <div className="class-container">
         <div className="class-wrap">
             <div id="class-header">
                 <div className="class-banner"></div>
@@ -55,11 +90,11 @@ function ClassMain() {
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
                                             <div className="list-star-rating">{t.star}</div>
-                                            <div className="userId">{t.id}</div>
+                                            <div className="userId">{edus[0].userName}</div>
                                         </div>
-                                        <div className="text-place list-t">위치 : {t.place}</div>
-                                        <div className="text-price">가격 : {t.price}</div>
-                                        <div className="text-title list-t">{t.title}</div>
+                                        <div className="text-place list-t">위치 : {edus[0].eduLocation}</div>
+                                        <div className="text-price">가격 : {edus[0].eduPrice}원</div>
+                                        <div className="text-title list-t">{edus[0].eduTitle}</div>
                                     </div>
                                     </div>
                                 ))}
@@ -105,7 +140,7 @@ function ClassMain() {
             </div>    
         </div>
     </div>
-    
+    )
     );
   }
   
