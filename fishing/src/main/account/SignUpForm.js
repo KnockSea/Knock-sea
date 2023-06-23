@@ -138,7 +138,8 @@ function SignUpForm(){
     setCorrect({...correct, userPasswordChk: false});
 
     const inputVal = e.target.value;
-    const pwdRegex = /([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9]).{8,}/;
+    // const pwdRegex = /([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9]).{8,}/;
+    const pwdRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
     let msg;
     let flag;
     if(!inputVal) {

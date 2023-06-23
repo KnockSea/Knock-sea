@@ -24,12 +24,14 @@ import com.knocksea.see.user.repository.UserRepository;
 import com.knocksea.see.user.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.services.s3.S3Client;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -54,6 +56,11 @@ public class EduService {
     public List<ReservationTime> timeList;
     private final ImageRepository imageRepository;
     private final ImageService imageService;
+
+    private final S3Client s3Client;
+
+    @Value("${jiseung-upload-bucket}")
+    private String bucketName;
 
 
     //좋아요 상위 4개 조회
@@ -181,6 +188,12 @@ public class EduService {
         if(reservationCount>0){
             throw new RuntimeException("신청 인원이 한명 이상이므로 수정할 수 없음");
         }
+//        List<SeaImage> eduImgs = imageRepository.findAllByEdu(edu);
+//        for (SeaImage img : eduImgs) {
+//            s3Client.deleteObject
+//
+//        }
+
 
         //ReservationTime 아예 삭제시키고 다시 등록시킴
          reservationTimeRepository.deleteByEduEduId(edu.getEduId());
@@ -193,6 +206,8 @@ public class EduService {
                         = reservationTimeRepository.save(dto.toReservationTimeEntity(i, j, edu));
             }
         }
+
+
         //이미지 다시 저장
         imageService.saveEduImg(eduImg,dto.getUserId());
 

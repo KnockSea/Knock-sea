@@ -201,12 +201,12 @@ function Myinfo () {
                       </div>
                       <span 
                           className='postSee' 
-                          style={{marginLeft:"10px", fontSize:"15px"}}>
+                          style={{marginLeft:'10px', fontSize:'15px'}}>
                             {userAddress}
-//                           style={{marginLeft:"10px", fontSize:"15px"}}
+{/* //                           style={{marginLeft:'10px", fontSize:"15px'}}
 //                           onChange={(e) => setuserAddress(e.target.value)}
 //                             {userAddress}
-    
+     */}
                       </span>
                       </div>
                       <input

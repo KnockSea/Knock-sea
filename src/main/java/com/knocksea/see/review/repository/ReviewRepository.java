@@ -21,9 +21,10 @@ import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r FROM Review r WHERE r.user = :user")
-    Page<Review> findByUser (User user, PageRequest pageable);
+    Page<Review> findByUser (@Param("user") User user, PageRequest pageable);
 
 
+//    @Query("SELECT r FROM Review r WHERE r.edu = :edu")
     List<Review> findAllByEdu(Edu edu);
     List<Review> findAllByProduct(Product product);
     @Query("SELECT r FROM Review r WHERE r.product = :product")
