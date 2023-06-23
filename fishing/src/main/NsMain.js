@@ -38,6 +38,7 @@ import MpIqInput from './mypage/MpIqInput';
 import MpAdminFS from './mypage/MpAdminFS';
 import MpAdminCS from './mypage/MpAdminCS';
 import HostSearchMain from './hostSearch/hostSearchMain'
+import ScrollToTop from './ScrollToTop';
 
 
 
@@ -63,6 +64,7 @@ const NsMain = () => {
 
   return (
     <section>
+        <ScrollToTop />
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
             <Route path='/' element ={<MainContent />} />
