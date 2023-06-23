@@ -93,7 +93,6 @@ function Myinfo () {
       userPhone: userphone,
       userAddress: userAddress,
       userFullAddress: userFullAddress,
-      // userFullAddress: '뉴욕',
       userName: username,
     };
 
@@ -122,11 +121,12 @@ function Myinfo () {
       //window.location.href = '/login';
       localStorage.clear();
       redirection('/');
-    }else{
+    }else if(res.status==500){
       const errorResponse = await res.json(); // Parse error response as JSON
-      alert(`서버와의 통신이 원활하지 않습니다. 오류 메시지: ${errorResponse.message}`);
+      alert('이메일이 중복되었습니다!');
+    }else{
+      alert('서버와의 접속이 원활하지않습니다');
     }
-
 };
 
 

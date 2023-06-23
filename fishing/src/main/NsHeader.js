@@ -29,13 +29,14 @@ export const NsHeader = () => {
     userPhone : ''
   });
 
-  const resetStorage = () =>{
+  const resetStorage = (e) =>{
+    e.preventDefault();
     const confirm =window.confirm('정말 로그아웃하시겠어요?');
     if(confirm){
       setIsLoggedIn(isLogin());
       localStorage.clear();
     }else{
-      return;
+      return false; // Add this line to prevent further actions
     }
   }
 
@@ -72,7 +73,7 @@ export const NsHeader = () => {
               setProfileUrl(null);
           }
         })();
-      }, []);
+      }, [isLoggedIn]);
     
 
   return (
