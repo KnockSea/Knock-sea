@@ -8,14 +8,14 @@ import RvinnerHeader from './RvinnerHeader';
 
 import map from '../img/map.png'
 import RvItem from './RvItem';
-import { Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import RvBtDetail from './RvBtDetail';
 import RvMap from './RvMap';
 
 
 
-function RvMain( {shipInfo}) {
-
+function RvMain( {product}) {
+  console.log('여기~', product);
 
 
   return (
@@ -35,11 +35,9 @@ function RvMain( {shipInfo}) {
                      <div className='cardBox'>
 
             <RvItem 
-             shipInfo={shipInfo}
+              {...product}
+
             />
-        
-       
-         
         
                     </div>
             </div>

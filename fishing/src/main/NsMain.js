@@ -32,7 +32,7 @@ import MpQueryText from './mypage/MpQueryText'
 import MpBtInfo from './mypage/MpBtInfo'
 import MpFsInfo from './mypage/MpFsInfo'
 import MpClassInfo from './mypage/MpClassInfo'
-import { API_BASE_URL, SHIP } from '../config/host-config';
+import { API_BASE_URL, PRODUCTS } from '../config/host-config';
 import MpAdmin from './mypage/MpAdmin';
 import MpIqInput from './mypage/MpIqInput';
 import MpAdminFS from './mypage/MpAdminFS';
@@ -43,7 +43,8 @@ import HostSearchMain from './hostSearch/hostSearchMain'
 
 const NsMain = () => {
 
-    const [shipInfo, setShipInfo] = useState(null);
+  const [product, setproduct] = useState(null);
+
 
 
     const fetchShipInfo = async () => {
@@ -55,9 +56,25 @@ const NsMain = () => {
       //   console.error('Error fetching ship info:', error);
       // }
     };
-    useEffect(() => {
+  
+  // 배 상품 정보를 가져오는 함수
+      const fetchProduct = async () => {
+        try {
+          const response = await fetch(`${API_BASE_URL}${PRODUCTS}/main`);
+          console.log(response.status);
+          const data = await response.json();
+          setproduct(data);
+          console.log('NsMian setproduct', product);
+        } catch (error) {
+          console.error('Error fetching product info:', error);
+        }
+      };
+  
+    useEffect(() => {  
+      fetchProduct();
       // 배 정보를 가져오는 함수  
       fetchShipInfo();
+
     }, []);
 
 
@@ -65,10 +82,10 @@ const NsMain = () => {
     <section>
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
-            <Route path='/' element ={<MainContent />} />
-            {/* 배낚시 탭 */}            
-            <Route path='/detail' element={<RvBtDetail/>}> </Route>
-            {/* 낚시터 탭 */}            
+            <Route path='/' element ={<MainContent product={product} />} />
+            {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
+            <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
+
             <Route path='/fsdetail' element={<RvFsDetail/>}> </Route>
             {/* 클래스 탭 */}
             <Route path='/class' element={<ClassMain/>}></Route>
@@ -116,7 +133,7 @@ const NsMain = () => {
     </section>
   )
 }
-const MainContent = ({ isRouteActive , shipInfo}) => {
+const MainContent = ({ isRouteActive , product}) => {
     return (
         <>
            {!isRouteActive && (
@@ -126,7 +143,8 @@ const MainContent = ({ isRouteActive , shipInfo}) => {
             <div className='mainbox'>
             <div className='contentbox'>
             <NsItem 
-       
+            product={product}
+
             />
             <NsFishingSpot />
             <NsClass />
