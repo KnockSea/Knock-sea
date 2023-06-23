@@ -1,39 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import { NsHeader } from '../NsHeader'
 import RvMain from './RvMain'
-import { API_BASE_URL, PRODUCTS, SHIP } from '../../config/host-config';
+
+import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
 function RvTemplate() {
 
-  const [shipInfo, setShipInfo] = useState(null);
+  const [product, setproduct] = useState("");
 
-  const [product, setproduct] = useState(null);
 
 
 
   useEffect(() => {
-    // 배 정보를 가져오는 함수
+
+    // 배 상품 정보를 전체 가져오는 함수
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}${PRODUCTS}/`);
+        const response = await fetch(`${API_BASE_URL}${PRODUCTS}/product-list`);
         const data = await response.json();
-        setShipInfo(data);
+        setproduct(data);
+        console.log('와!',data);
+        console.log('NsMian setproduct', product); // null 
       } catch (error) {
-        console.error('Error fetching ship info:', error);
+        console.error('Error fetching product info:', error);
       }
     };
 
-    // fetchShipInfo();
+    fetchProduct();
   }, []);
-
-
 
   return (
 
+    product &&
     <div>
         <NsHeader />
         <RvMain
-        shipInfo={shipInfo}
+        product={product}
+
         />
     </div>
 

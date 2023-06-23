@@ -138,7 +138,8 @@ function SignUpForm(){
     setCorrect({...correct, userPasswordChk: false});
 
     const inputVal = e.target.value;
-    const pwdRegex = /([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9]).{8,}/;
+    // const pwdRegex = /([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9]).{8,}/;
+    const pwdRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
     let msg;
     let flag;
     if(!inputVal) {
@@ -268,10 +269,7 @@ function SignUpForm(){
     };
 
   const handleSignUp = (e) => {
-
-    // 이미지 파일과 회원정보 JSON을 하나로 묶어야 함
     e.preventDefault();
-    // console.log("여기 오지?", userValue);
 
       // 회원가입 서버 요청
       if(isValid()) {

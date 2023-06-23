@@ -261,8 +261,14 @@ public class UserApiController {
     }
 
 
+
+
     @GetMapping("/user-mylist")
-    public ResponseEntity<?> userMyPage(@AuthenticationPrincipal TokenUserInfo userInfo) {
+    public ResponseEntity<?> userMyPage(
+            @AuthenticationPrincipal TokenUserInfo userInfo) {
+
+        log.info("user-mylist - GET ! : {}",userInfo);
+
         try {
             UserMyPageResponseDTO mypageDTO = userService.userMyPageInfo(userInfo);
             return ResponseEntity.ok().body(mypageDTO);
@@ -271,8 +277,6 @@ public class UserApiController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
-
-
 
 
 

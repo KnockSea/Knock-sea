@@ -41,7 +41,7 @@ const MpInquire = () => {
   
   useEffect(() => {
     fetchData();
-  }, [page, size]);
+  }, [page, size, inquiries]);
   
 
   return (

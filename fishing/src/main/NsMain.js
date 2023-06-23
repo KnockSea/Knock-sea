@@ -16,6 +16,7 @@ import MpDrop from './mypage/MpDrop'
 import MpInquire from './mypage/MpInquire'
 import MpRvlist from './mypage/MpRvlist'
 import ProductRegistration from './product/ProductRegistration'
+import ProductRegiNext from './product/ProductRegiNext'
 import RvFsDetail from './fishingspot/RvFsDetail'
 import RvFsTemplate from './fishingspot/RvFsTemplate'
 import WeeklyWeather from './WeeklyWeather'
@@ -31,7 +32,7 @@ import MpQueryText from './mypage/MpQueryText'
 import MpBtInfo from './mypage/MpBtInfo'
 import MpFsInfo from './mypage/MpFsInfo'
 import MpClassInfo from './mypage/MpClassInfo'
-import { API_BASE_URL, SHIP } from '../config/host-config';
+import { API_BASE_URL, PRODUCTS } from '../config/host-config';
 import MpAdmin from './mypage/MpAdmin';
 import MpIqInput from './mypage/MpIqInput';
 import MpAdminFS from './mypage/MpAdminFS';
@@ -44,21 +45,38 @@ import MpInquiryD from './mypage/MpInquiryD';
 
 const NsMain = () => {
 
-    const [shipInfo, setShipInfo] = useState(null);
+  const [product, setproduct] = useState(null);
 
-    useEffect(() => {
-      // 배 정보를 가져오는 함수
-      const fetchShipInfo = async () => {
+
+
+    const fetchShipInfo = async () => {
+      // try {
+      //   const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
+      //   const data = await response.json();
+      //   setShipInfo(data);
+      // } catch (error) {
+      //   console.error('Error fetching ship info:', error);
+      // }
+    };
+  
+  // 배 상품 정보를 가져오는 함수
+      const fetchProduct = async () => {
         try {
-          const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
+          const response = await fetch(`${API_BASE_URL}${PRODUCTS}/main`);
+          console.log(response.status);
           const data = await response.json();
-          setShipInfo(data);
+          setproduct(data);
+          console.log('NsMian setproduct', product);
         } catch (error) {
-          console.error('Error fetching ship info:', error);
+          console.error('Error fetching product info:', error);
         }
       };
   
+    useEffect(() => {  
+      fetchProduct();
+      // 배 정보를 가져오는 함수  
       fetchShipInfo();
+
     }, []);
 
 
@@ -66,10 +84,10 @@ const NsMain = () => {
     <section>
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
-            <Route path='/' element ={<MainContent shipInfo={shipInfo} />} />
-            {/* 배낚시 탭 */}            
-            <Route path='/detail' element={<RvBtDetail/>}> </Route>
-            {/* 낚시터 탭 */}            
+            <Route path='/' element ={<MainContent product={product} />} />
+            {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
+            <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
+
             <Route path='/fsdetail' element={<RvFsDetail/>}> </Route>
             {/* 클래스 탭 */}
             <Route path='/class' element={<ClassMain/>}></Route>
@@ -80,6 +98,7 @@ const NsMain = () => {
             <Route path='/mypassword' element={<Mypassword/>}></Route>
             {/* 상품등록 */}
             <Route path='/product' element={<ProductRegistration/>}></Route>
+            <Route path='/product/next' element={<ProductRegiNext/>}></Route>
             
             <Route path='/userDrop' element={<MpUserDrop/>}></Route>
             <Route path='/drop' element={<MpDrop/>}></Route>
@@ -118,7 +137,7 @@ const NsMain = () => {
     </section>
   )
 }
-const MainContent = ({ isRouteActive , shipInfo}) => {
+const MainContent = ({ isRouteActive , product}) => {
     return (
         <>
            {!isRouteActive && (
@@ -128,7 +147,8 @@ const MainContent = ({ isRouteActive , shipInfo}) => {
             <div className='mainbox'>
             <div className='contentbox'>
             <NsItem 
-       
+            product={product}
+
             />
             <NsFishingSpot />
             <NsClass />

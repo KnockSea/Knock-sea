@@ -30,5 +30,7 @@ public interface ReservationTimeRepository extends JpaRepository<ReservationTime
 
     int countByProduct(Product product);
 
+    List<ReservationTime> findAllByProduct_ProductId(Long productId);
+
 //    Optional<ReservationTime> findByUser(User user);
 }
