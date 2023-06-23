@@ -37,6 +37,8 @@ import MpIqInput from './mypage/MpIqInput';
 import MpAdminFS from './mypage/MpAdminFS';
 import MpAdminCS from './mypage/MpAdminCS';
 import HostSearchMain from './hostSearch/hostSearchMain'
+import MpInquiryD from './mypage/MpInquiryD';
+
 
 
 
@@ -85,7 +87,9 @@ const NsMain = () => {
             <Route path='/iqinput' element={<MpIqInput/>}></Route>
             {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
-            
+            {/* 문의 상세보기 */}
+            {/* <Route path='/inquiryDetail' element = {<MpInquiryDetail/>}></Route> */}
+            <Route path='/inquiry' element= {<MpInquiryD/>}></Route>
             <Route path='/rvlist' element={<MpRvlist/>}></Route>
            
              {/* 로그인, 회원가입 */}

@@ -6,6 +6,7 @@ import { getLoginUserInfo } from '../util/login-util';
 import Stack from '@mui/material/Stack';
 
 const MpInquire = () => {
+
   const [inquiries, setInquiries] = useState([]);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
@@ -50,9 +51,12 @@ const MpInquire = () => {
               <div className='intitle'>{inquiry.inquiryTitle}</div>
               <div className='indate'>{inquiry.inquiryDateTime}</div>
             </div>
-            <div className='inbtnbox'>
+            {/* <div className='inbtnbox'>
               <button className='indetailbtn'>상세보기</button>
-            </div>
+            </div> */}
+            <Link to="/inquiry" className='indetailbtn'>
+            상세보기
+          </Link>
           </div>
         ))}   
         

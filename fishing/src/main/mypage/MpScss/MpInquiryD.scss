@@ -1,0 +1,33 @@
+$my-dark-gray: #343a40;
+
+session {
+    padding: 48px 32px, 24px;
+    border: 1px solid #bbb;
+    h1 {
+        font-size: 36px;
+        color: $my-dark-gray;
+    }
+    
+    .inquiryTitle {
+        margin-top: 4px;
+    }
+    .inquiryDetail {
+        color: #20c997;
+        font-size: 18px;
+        margin-top: 40px;
+        font-weight: 700;
+    }
+
+
+    li {
+        display: flex;
+        padding: 12px;
+        background: orange;
+        
+        .answerDetail {
+            font-size: 20px;
+            background: tomato;
+            color: #495057;
+        }
+    }
+}
