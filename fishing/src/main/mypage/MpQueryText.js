@@ -2,11 +2,17 @@ import React, { useState } from 'react'
 import MpList from './MpList'
 import './MpScss/MpQueryText.scss'
 
+
 const MpQueryText = () => {
 
-    const [shipConfirmImage1, setShipConfirmImage1] = useState(null);
+  const [shipConfirmImage1, setShipConfirmImage1] = useState(null);
   const [shipConfirmImage2, setShipConfirmImage2] = useState(null);
-
+  const [info, setInfo] = useState({
+    shipName: '',
+    shipDescription: '',
+  });
+  
+  
 
   const handleShipConfirmImage1Change = (event) => {
     const file = event.target.files[0];
@@ -17,6 +23,36 @@ const MpQueryText = () => {
     const file = event.target.files[0];
     setShipConfirmImage2(file);
   };
+
+  const title = (event) => {
+    const newInfo = {...info, shipName:e.target.value};
+    setInfo(newInfo);
+  };
+
+  const content = (event) => {
+    const newInfo = {...info, shipDescription:e.target.value};
+    setInfo(newInfo);
+  };
+
+  const shipRegiFetch = async() => {
+
+    // JSON-> BLOB
+    const shipJson = new Blob(
+      [JSON.stringify(userValue)],
+      { type: 'application/json' }
+    );
+
+    // const res = await fetch('http://localhost:8012/api/v1/ship/register', {
+    //   method: 'POST',
+    //   headers: {'content-type': 'application/json'},
+    //   body: 
+    // });
+
+  }
+
+    
+  
+
   return (
     <section className='MyPageMainBox'>
     <div className='mainbox1'>
