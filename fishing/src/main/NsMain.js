@@ -87,6 +87,8 @@ const NsMain = () => {
             <Route path='/iqinput' element={<MpIqInput/>}></Route>
             {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
+            {/* 문의답변 */}
+            <Route path='/adminreply' element={<MpInquiryD/>}></Route>
             {/* 문의 상세보기 */}
             {/* <Route path='/inquiryDetail' element = {<MpInquiryDetail/>}></Route> */}
             <Route path='/inquiry/:inquiryId' element={<MpInquiryD />} />

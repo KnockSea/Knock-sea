@@ -27,6 +27,7 @@ const MpAdminCS = () => {
                 <div>환불언제되나요?</div>
                 <div>답변대기</div>
                 <div>2023-06-21</div>
+                <button><Link to={'/adminreply'}>답변하기</Link></button>
                 </div>
             </div>
 
