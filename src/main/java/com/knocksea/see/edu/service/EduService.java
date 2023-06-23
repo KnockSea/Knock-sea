@@ -7,6 +7,8 @@ import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.heart.entity.Heart;
 import com.knocksea.see.heart.repository.HeartRepository;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
+import com.knocksea.see.product.dto.response.mainListResponseDTO;
+import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.dto.response.ReservationTimeResponseDTO;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
@@ -51,8 +53,7 @@ public class EduService {
     private final HeartRepository heartRepository;
     public List<ReservationTime> timeList;
     private final ImageRepository imageRepository;
-    ImageService imageService;
-
+    private final ImageService imageService;
 
 
     //좋아요 상위 4개 조회
@@ -237,5 +238,15 @@ public class EduService {
             log.info("reservationTime 삭제 : ");
             eduRepository.deleteByEduId(eduId);
         }
+    }
+
+    public List<mainListResponseDTO> eduMainList() {
+        List<Edu> eduList = eduRepository.findTop9ByOrderByCreateDateDesc();
+
+        return eduList.stream()
+                .map(p -> {
+                    SeaImage seaImage = imageRepository.findById(p.getSeaImage().getImageId()).orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
+                    return new mainListResponseDTO(p, seaImage);
+                }).collect(Collectors.toList());
     }
 }

@@ -1,6 +1,7 @@
 package com.knocksea.see.edu.repository;
 
 import com.knocksea.see.edu.entity.Edu;
+import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,7 +19,8 @@ public interface EduRepository extends JpaRepository<Edu,Long> {
 
     void deleteByEduId(Long eduId);
 
-    List<Edu> findTop3ByOrderByCreateDate();
+//    List<Edu> findTop3ByOrderByCreateDate();
 
+    List<Edu> findTop9ByOrderByCreateDateDesc();
 //    Optional<Edu> findByUserId(User user);
 }

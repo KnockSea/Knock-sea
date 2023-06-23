@@ -2,6 +2,7 @@ package com.knocksea.see.product.dto.response;
 
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.user.entity.SeaImage;
 import lombok.*;
 
 import java.util.HashMap;
@@ -23,6 +24,15 @@ public class mainListResponseDTO {
 
 
 
-    public mainListResponseDTO(Product p) {
+    public mainListResponseDTO(Product p, SeaImage img) {
+        this.id = p.getProductId();
+        this.type = p.getProductType();
+        this.imgUrl = img.getImageName();
+    }
+
+    public mainListResponseDTO(Edu e, SeaImage img) {
+        this.id = e.getEduId();
+        this.type = "EDU";
+        this.imgUrl = img.getImageName();
     }
 }

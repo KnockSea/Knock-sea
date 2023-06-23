@@ -23,4 +23,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByUser(@Param("user") User user);
 
     List<Product> findTop9ByProductTypeOrderByProductInputDateDesc(String type);
+
+    List<Product> findAllByStatusValid(String active);
 }
