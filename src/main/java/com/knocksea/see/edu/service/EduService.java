@@ -1,15 +1,13 @@
 package com.knocksea.see.edu.service;
 
-import com.knocksea.see.aws.S3Service;
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.edu.dto.response.*;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
-import com.knocksea.see.heart.entity.Heart;
 import com.knocksea.see.heart.repository.HeartRepository;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
 import com.knocksea.see.product.dto.response.mainListResponseDTO;
-import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.dto.response.ReservationTimeResponseDTO;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
@@ -33,7 +31,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -263,5 +260,34 @@ public class EduService {
                     SeaImage seaImage = imageRepository.findById(p.getSeaImage().getImageId()).orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
                     return new mainListResponseDTO(p, seaImage);
                 }).collect(Collectors.toList());
+    }
+
+    public ResponseMyEduDTO getMyEdu(TokenUserInfo userInfo) {
+
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow();
+
+        Edu byUserUserId = eduRepository.findByUserUserId(user);
+
+        if (byUserUserId==null){
+            new RuntimeException("등록된 클래스가없습니다");
+        }
+
+        List<String> eduImageUrl = new ArrayList<>();
+        List<SeaImage> allByEdu = imageRepository.findAllByEdu(byUserUserId);
+
+        for (SeaImage seaImage : allByEdu) {
+            String imageName = seaImage.getImageName();
+            eduImageUrl.add(imageName);
+        }
+
+        ResponseMyEduDTO responseMyEduDTO = new ResponseMyEduDTO();
+        responseMyEduDTO.setEduLevel(byUserUserId.getEduLevel());
+        responseMyEduDTO.setDescription(byUserUserId.getEduService());
+        responseMyEduDTO.setUserName(byUserUserId.getUser().getUserName());
+        responseMyEduDTO.setEduTitle(byUserUserId.getEduTitle());
+        responseMyEduDTO.setEduImageList(eduImageUrl);
+
+        return responseMyEduDTO;
+
     }
 }

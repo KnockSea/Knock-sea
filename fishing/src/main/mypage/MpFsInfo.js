@@ -81,7 +81,7 @@ useEffect(() => {
           {userInfo.userGrade==='OWNER' &&<Link to={"/mpfs"}>낚시터</Link>}
           </h1>
           <h1>
-            <Link to={"/mpclass"}>클래스</Link>
+              {userInfo.userGrade==='OWNER' &&<Link to={"/mpclass"}>클래스</Link>}
           </h1>
         </div>
 
