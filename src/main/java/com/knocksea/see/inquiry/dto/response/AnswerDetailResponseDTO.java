@@ -25,13 +25,17 @@ public class AnswerDetailResponseDTO {
     private Long userId;
     private Long inquiryId;
     private String userName;
+    private String inquiryTitle;
+    private String inquiryDetails;
 
-    public  AnswerDetailResponseDTO(Answer answer) {
+    public  AnswerDetailResponseDTO(Answer answer, Inquiry inquiry) {
         this.answerId = answer.getAnswerId();
         this.answerDetails = answer.getAnswerDetails();
         this.answerDateTime = answer.getAnswerDateTime();
         this.userId = answer.getUser().getUserId();
         this.inquiryId = answer.getInquiry().getInquiryId();
         this.userName = answer.getUser().getUserName();
+        this.inquiryTitle = inquiry.getInquiryTitle();
+        this.inquiryDetails = inquiry.getInquiryDetails();
     }
 }
