@@ -7,12 +7,8 @@ import { Link, Route } from 'react-router-dom';
 import RvBtDetail from './RvBtDetail';
 
 import { API_BASE_URL, PRODUCTS, SHIP } from '../../config/host-config';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { API_BASE_URL, SHIP } from '../../config/host-config';
 
-
-const RvItem = ( {shipInfo}) => {
+// const RvItem = ( {shipInfo}) => {
     
 //     // 배 이미지 가져오가
 //     const [shipimg , setshipimg] = useState("");
@@ -41,6 +37,7 @@ const RvItem = ({ allAddress, pageInfo, products, count }) => {
         // console.log(shipimg);
       });
   }, []);
+
   const dt = products.productId;
   return (
     <div className='shipsection'>
