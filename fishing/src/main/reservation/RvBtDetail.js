@@ -1,10 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './RvScss/RvBtDetail.scss'
 import dt1 from '../img/dtRv.png'
 import boat from '../img/boat.jpg'
+import { API_BASE_URL, PRODUCTS } from '../../config/host-config'
+import { useLocation, useParams } from 'react-router-dom'
+
+
 const RvBtDetail = () => {
+    const {productId} = useParams();
+    // const location = useLocation();
+    // console.log(location)
+    console.log(productId);
+    // const productId = location.state.productId;
+// useEffect(()=>{
+
+// },[])
+
+    const [sDetail, setSdetail] = useState("");
+
+   useEffect(() => {
+  fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`)
+    .then(response => response.text())
+    .then(sDetail => {
+        setSdetail(sDetail);
+        console.log('sdatail', sDetail)
+    });
+}, []);
+
+
   return (
     
+//    sDetail  && 
         <div className='allview'>
             <div className='imgbox'>
             <img src={boat} />
@@ -16,7 +42,8 @@ const RvBtDetail = () => {
 
             <div className='left'>
                 <div className='title'>
-                    <h1>[영종도] 뉴동관호 1호~3호 대방어 낚시</h1>
+                    <h1>{sDetail.title}</h1>
+                    {/* <h1>[영종도] 뉴동관호 1호~3호 대방어 낚시</h1> */}
                 </div>
                 <div className='minititle'>출조안내</div>
 

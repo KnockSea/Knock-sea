@@ -31,7 +31,7 @@ import MpQueryText from './mypage/MpQueryText'
 import MpBtInfo from './mypage/MpBtInfo'
 import MpFsInfo from './mypage/MpFsInfo'
 import MpClassInfo from './mypage/MpClassInfo'
-import { API_BASE_URL, SHIP } from '../config/host-config';
+import { API_BASE_URL, PRODUCTS } from '../config/host-config';
 import MpAdmin from './mypage/MpAdmin';
 import MpIqInput from './mypage/MpIqInput';
 import MpAdminFS from './mypage/MpAdminFS';
@@ -42,21 +42,24 @@ import HostSearchMain from './hostSearch/hostSearchMain'
 
 const NsMain = () => {
 
-    const [shipInfo, setShipInfo] = useState(null);
+  const [product, setproduct] = useState(null);
+
 
     useEffect(() => {
-      // 배 정보를 가져오는 함수
-      const fetchShipInfo = async () => {
+      // 배 상품 정보를 가져오는 함수
+      const fetchProduct = async () => {
         try {
-          const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
+          const response = await fetch(`${API_BASE_URL}${PRODUCTS}/main`);
+          console.log(response.status);
           const data = await response.json();
-          setShipInfo(data);
+          setproduct(data);
+          console.log('NsMian setproduct', product);
         } catch (error) {
-          console.error('Error fetching ship info:', error);
+          console.error('Error fetching product info:', error);
         }
       };
   
-      fetchShipInfo();
+      fetchProduct();
     }, []);
 
 
@@ -64,8 +67,9 @@ const NsMain = () => {
     <section>
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
-            <Route path='/' element ={<MainContent shipInfo={shipInfo} />} />
-            <Route path='/detail' element={<RvBtDetail/>}> </Route>
+            <Route path='/' element ={<MainContent product={product} />} />
+            {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
+            <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
             <Route path='/fsdetail' element={<RvFsDetail/>}> </Route>
             <Route path='/my' element={<MpMain/>}> </Route>
             <Route path='/myinfo' element={<Myinfo/>}></Route>
@@ -106,7 +110,7 @@ const NsMain = () => {
     </section>
   )
 }
-const MainContent = ({ isRouteActive , shipInfo}) => {
+const MainContent = ({ isRouteActive , product}) => {
     return (
         <>
            {!isRouteActive && (
@@ -116,7 +120,7 @@ const MainContent = ({ isRouteActive , shipInfo}) => {
             <div className='mainbox'>
             <div className='contentbox'>
             <NsItem 
-            shipInfo={shipInfo}
+            product={product}
             />
             <NsFishingSpot />
             <NsClass />
