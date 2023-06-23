@@ -31,7 +31,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.services.s3.S3Client;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -57,9 +56,8 @@ public class EduService {
     private final ImageRepository imageRepository;
     private final ImageService imageService;
 
-    private final S3Client s3Client;
 
-    @Value("${jiseung-upload-bucket}")
+    @Value("${aws.bucketName}")
     private String bucketName;
 
 

@@ -41,7 +41,7 @@ const MpInquire = () => {
   
   useEffect(() => {
     fetchData();
-  }, [page, size, inquiries]);
+  }, [page, size]);
   
 
   return (
@@ -59,7 +59,7 @@ const MpInquire = () => {
             {/* <div className='inbtnbox'>
               <button className='indetailbtn'>상세보기</button>
             </div> */}
-            <Link to="/inquiry" className='indetailbtn'onClick={() => handleInquiryClick(inquiry.inquiryId)} >
+            <Link to={`/inquiry/${inquiry.inquiryId}`} className='indetailbtn'onClick={() => handleInquiryClick(inquiry.inquiryId)} >
             상세보기
           </Link>
           </div>
