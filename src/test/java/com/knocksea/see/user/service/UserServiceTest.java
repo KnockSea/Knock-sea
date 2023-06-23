@@ -1,8 +1,12 @@
 package com.knocksea.see.user.service;
 
+import com.knocksea.see.edu.entity.Edu;
+import com.knocksea.see.edu.entity.EduLevel;
+import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.entity.UserGrade;
 import com.knocksea.see.user.repository.UserRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +20,7 @@ class UserServiceTest {
 
     @Autowired
     UserRepository userRepository;
+    EduRepository eduRepository;
 
     @Test
     public void saveUserTest(){
@@ -80,5 +85,23 @@ class UserServiceTest {
         userRepository.save(saveUser4);
         userRepository.save(saveUser5);
 
+    }
+
+    @Test
+    @DisplayName("클래스 등록")
+    void eduInsertTest() {
+        //given
+        Edu.builder()
+                .eduFullAddress("어쩌고저쩌고1")
+                .eduInfo("클래스 정보1")
+                .eduLevel(EduLevel.MIDDLE)
+                .eduLocationInfo("클래스 장소 정보1")
+                .eduPrice(50000)
+                .eduService("클래스 서비스1")
+                .eduTitle("클래스 제목1")
+                .build();
+        //when
+
+        //then
     }
 }

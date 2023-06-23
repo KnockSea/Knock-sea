@@ -33,15 +33,11 @@ public class EduAndReservationTimeCreateDTO {
 
     private int timeMaxUser; //예약가능인원 //ReservationTime 엔터티
 
-//    @DateTimeFormat(pattern = "MM-dd")
     private List<LocalDate> timeDate; //예약일  //ReservationTime 엔터티
 
-//    @DateTimeFormat(pattern = "'T'HH:mm")
     private List<LocalTime> timeStart; //시작시간  //ReservationTime 엔터티
 
-//    @DateTimeFormat(pattern = "'T'HH:mm")
     private List<LocalTime> timeEnd;//종료시간  //ReservationTime 엔터티
-
 
     private String eduService;
 

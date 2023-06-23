@@ -1,6 +1,10 @@
 package com.knocksea.see.user.service;
 
 import com.knocksea.see.auth.TokenUserInfo;
+import com.knocksea.see.aws.S3Service;
+import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
+import com.knocksea.see.edu.entity.Edu;
+import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.product.entity.ProductCategory;
 import com.knocksea.see.user.entity.FishingSpot;
 import com.knocksea.see.user.entity.SeaImage;
@@ -10,6 +14,10 @@ import com.knocksea.see.user.repository.FishingSpotRepository;
 import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.ShipRepository;
 import com.knocksea.see.user.repository.UserRepository;
+import com.knocksea.see.validation.dto.request.ValidationCreateDTO;
+import com.knocksea.see.validation.entity.Validation;
+import com.knocksea.see.validation.repository.ValidationRepository;
+import com.knocksea.see.validation.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +31,11 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
+import static com.knocksea.see.validation.entity.ValidationType.SHIP;
+import static com.knocksea.see.validation.entity.ValidationType.SPOT;
 
 @Service
 @Slf4j
@@ -39,6 +51,12 @@ public class ImageService {
     private final ImageRepository imageRepository;
     private final UserRepository userRepository;
     private final FishingSpotRepository fishingSpotRepository;
+
+    private final ValidationRepository validationRepository;
+
+    private final EduRepository eduRepository;
+    private final S3Service s3Service;
+
 
     @Value("${upload.path}")
     private String uploadRootPath2;
@@ -65,6 +83,65 @@ public class ImageService {
 
     }
 
+    public void saveValidationImg(List<MultipartFile> validationImg, ValidationCreateDTO dto) throws IOException {
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new RuntimeException("ImageService : 존재하지 않는 유저입니다."));
+        log.info("ImageService user : " + user);
+
+        Validation fondByUserAndValidationType = validationRepository.findByUserAndValidationType(user, dto.getValidationType());
+        log.info("fondByUserAndValidationType : "+fondByUserAndValidationType);
+
+        List<String> listValidationImg = uploadValidationImage(validationImg);
+        log.info("listValidationImg : "+listValidationImg);
+        log.info("dto.getValidationType()"+dto.getValidationType());
+        if(dto.getValidationType().equals(SHIP)){ //이미지 2장 0번 인덱스가 선박 등록증, 1번 인덱스가 선박 면허증
+            log.info("SHIP 들어옴");
+            imageRepository.save(
+                    SeaImage.builder()
+                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(0))
+                            .validation(fondByUserAndValidationType)
+                            .imageType(ProductCategory.VALIDATIONSHIPREGI)
+                            .build());
+
+            imageRepository.save(
+                    SeaImage.builder()
+                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(1))
+                            .validation(fondByUserAndValidationType)
+                            .imageType(ProductCategory.VALIDATIONSHIPLICENSE)
+                            .build());
+
+        }else if(dto.getValidationType().equals(SPOT)){//0번 인덱스가 사업자 등록증 번호
+            log.info("SPOT 들어옴");
+           imageRepository.save(
+                    SeaImage.builder()
+                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(0))
+                            .validation(fondByUserAndValidationType)
+                            .imageType(ProductCategory.VALIDATIONBUSINESSREGI)
+                            .build());
+        }
+
+    }
+    //검증 실제 이미지 저장함수
+    public List<String> uploadValidationImage(List<MultipartFile> validationImg) throws IOException {
+        //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
+        List<String> uniqueFilenames = new ArrayList<>();
+
+        String s = makeDateFormatDirectory(uploadRootPath2);
+
+        for (MultipartFile validationImage : validationImg) {
+            String originalFilename = validationImage.getOriginalFilename();
+            String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
+
+            // Save the file
+            File uploadFile = new File(s+"/"+uniqueFileName);
+            validationImage.transferTo(uploadFile);
+
+            uniqueFilenames.add(uniqueFileName);
+        }
+        return uniqueFilenames;
+    }
+
+
     //배 실제 이미지 저장함수
     public List<String> uploadShipImage(List<MultipartFile> shipImages) throws IOException {
         //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
@@ -88,6 +165,8 @@ public class ImageService {
         return uniqueFilenames;
 
     }
+
+
 
     //db에 이미지 경로 저장함수
     public void saveSpotImages(List<MultipartFile> spotImages, TokenUserInfo userInfo) throws IOException {
@@ -254,4 +333,32 @@ public class ImageService {
         }
 
     }
+
+    public void saveEduImg(List<MultipartFile> eduImg, Long userId) throws IOException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new RuntimeException("유저 없음"));
+
+        Edu byUserUserId = eduRepository.findByUserUserId(user);
+
+        List<String> list=new ArrayList<>();
+
+        for (MultipartFile s : eduImg) {
+            String uniqueFileName=UUID.randomUUID()+"_"+s.getOriginalFilename();
+            String s1 = s3Service.uploadToS3Bucket(s.getBytes(), uniqueFileName);
+            list.add(s1);
+        }
+
+        for (String s : list) {
+            SeaImage save = imageRepository.save(SeaImage.builder()
+                    .imageName(s)
+                    .edu(byUserUserId)
+                    .imageType(ProductCategory.EDU)
+                    .build());
+        }
+    }
+
+    public void deleteEduImg(List<MultipartFile> Img, Long userId){
+
+    }
+
 }

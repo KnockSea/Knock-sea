@@ -36,10 +36,8 @@ function RvMain( {product}) {
 
             <RvItem 
               {...product}
+
             />
-        
-       
-         
         
                     </div>
             </div>

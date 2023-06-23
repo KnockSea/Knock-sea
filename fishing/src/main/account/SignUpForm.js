@@ -138,7 +138,8 @@ function SignUpForm(){
     setCorrect({...correct, userPasswordChk: false});
 
     const inputVal = e.target.value;
-    const pwdRegex = /([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9]).{8,}/;
+    // const pwdRegex = /([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9]).{8,}/;
+    const pwdRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
     let msg;
     let flag;
     if(!inputVal) {
@@ -268,10 +269,7 @@ function SignUpForm(){
     };
 
   const handleSignUp = (e) => {
-
-    // 이미지 파일과 회원정보 JSON을 하나로 묶어야 함
     e.preventDefault();
-    // console.log("여기 오지?", userValue);
 
       // 회원가입 서버 요청
       if(isValid()) {
@@ -287,38 +285,28 @@ function SignUpForm(){
         userData.append('user', userJsonBlob);
         userData.append('profileImage', profileImage);
 
-        console.log(userData);
-
         // fetch를 사용하여 회원가입 요청 보내기
         fetch('http://localhost:8012/api/v1/user/register', {
           method: 'POST',
           body: userData
         })
           .then(res => {
-            if (res.stats === 200) {
-              alert('회원가입이 완료되었습니다.');
+            if (res.status === 200) {
+              alert('😀회원가입이 완료되었습니다!🎉');
               redirection('/login');
-              console.log(userData);
-
             } else {
-              alert('서버와의 통신이 원활하지 않습니다.');
+              alert('서버와의 통신이 원활하지 않습니다😓');
             }
           })
           .then(flag => {
-            // 회원가입 성공 시 처리할 로직 작성
-            // 굳이 여기서 뭘 해야 되나
-
           });
-          // .catch(error => {
-          //   // 회원가입 실패 시 처리할 로직 작성
-          //   console.error('회원가입 실패:', error);
-          //   alert('회원가입에 실패했습니다. 다시 시도해주세요.');
-          // });
+
       } else {
-        alert('입력란을 다시 확인해주세요!');
+        alert('입력란을 다시 확인해주세요!🤸🏻‍♀️');
       }
     };
-    
+
+  
 
   return (
     <div className="container">
@@ -333,7 +321,7 @@ function SignUpForm(){
 
         <div className="sign-up-body">
           <form onSubmit={handleSignUp} encType="multipart/form-data">
-            <div className="profile">
+            <div className="profile"  id="profile-image">
              <ProfileUpload getFile={getProfileFile} />
             </div>
 

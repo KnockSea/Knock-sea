@@ -16,6 +16,7 @@ import MpDrop from './mypage/MpDrop'
 import MpInquire from './mypage/MpInquire'
 import MpRvlist from './mypage/MpRvlist'
 import ProductRegistration from './product/ProductRegistration'
+import ProductRegiNext from './product/ProductRegiNext'
 import RvFsDetail from './fishingspot/RvFsDetail'
 import RvFsTemplate from './fishingspot/RvFsTemplate'
 import WeeklyWeather from './WeeklyWeather'
@@ -45,8 +46,18 @@ const NsMain = () => {
   const [product, setproduct] = useState(null);
 
 
-    useEffect(() => {
-      // 배 상품 정보를 가져오는 함수
+
+    const fetchShipInfo = async () => {
+      // try {
+      //   const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
+      //   const data = await response.json();
+      //   setShipInfo(data);
+      // } catch (error) {
+      //   console.error('Error fetching ship info:', error);
+      // }
+    };
+  
+  // 배 상품 정보를 가져오는 함수
       const fetchProduct = async () => {
         try {
           const response = await fetch(`${API_BASE_URL}${PRODUCTS}/main`);
@@ -59,7 +70,11 @@ const NsMain = () => {
         }
       };
   
+    useEffect(() => {  
       fetchProduct();
+      // 배 정보를 가져오는 함수  
+      fetchShipInfo();
+
     }, []);
 
 
@@ -70,11 +85,19 @@ const NsMain = () => {
             <Route path='/' element ={<MainContent product={product} />} />
             {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
             <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
+
             <Route path='/fsdetail' element={<RvFsDetail/>}> </Route>
+            {/* 클래스 탭 */}
+            <Route path='/class' element={<ClassMain/>}></Route>
+            <Route path='/classdetail' element={<ClassDetail/>}></Route>
+            {/* 마이페이지 */}                        
             <Route path='/my' element={<MpMain/>}> </Route>
             <Route path='/myinfo' element={<Myinfo/>}></Route>
             <Route path='/mypassword' element={<Mypassword/>}></Route>
+            {/* 상품등록 */}
             <Route path='/product' element={<ProductRegistration/>}></Route>
+            <Route path='/product/next' element={<ProductRegiNext/>}></Route>
+            
             <Route path='/userDrop' element={<MpUserDrop/>}></Route>
             <Route path='/drop' element={<MpDrop/>}></Route>
             {/* 문의하기 */}
@@ -83,16 +106,16 @@ const NsMain = () => {
             <Route path='/inquire' element={<MpInquire/>}></Route>
             
             <Route path='/rvlist' element={<MpRvlist/>}></Route>
-            
-            
-            <Route path='/fs' element={<RvFsTemplate/>}></Route>
+           
+             {/* 로그인, 회원가입 */}
             <Route path='/join' element={<SignUpForm/>}></Route>
             <Route path='/login' element={<Login/>}></Route>
-            <Route path='/class' element={<ClassMain/>}></Route>
-            <Route path='/classdetail' element={<ClassDetail/>}></Route>
+            {/* 업체 등록 */}
             <Route path='/ownercheck' element={<OwnerCheckMain/>}></Route>
             <Route path="/ship" element={<OwnerCheckShip/>} ></Route>
             <Route path="/fishing" element={<OwnerCheckFishing/>} ></Route> 
+
+            <Route path='/fs' element={<RvFsTemplate/>}></Route>
             <Route path='/myquery' element={<MpQueryText/>}></Route>
             {/* 업체 정보 */}
             <Route path='/mpbt' element={<MpBtInfo/>}></Route>
@@ -121,6 +144,7 @@ const MainContent = ({ isRouteActive , product}) => {
             <div className='contentbox'>
             <NsItem 
             product={product}
+
             />
             <NsFishingSpot />
             <NsClass />

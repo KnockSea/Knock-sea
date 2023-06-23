@@ -1,59 +1,43 @@
-import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
+import { DateRange } from 'react-date-range';
+import { Component } from 'react';
+import { addDays } from "date-fns";
 import ko from 'date-fns/locale/ko';
-import './scss/RegiCalendar.scss';
-import { DateRangePicker } from 'react-date-range';
-import 'react-datepicker/dist/react-datepicker.css';
-import { addDays } from "date-fns"
 
+class CalendarComponent extends Component {
+  constructor(props) {
+    super(props);
+    const selectedDate = new Date(); // 기본적으로 선택된 날짜
+    this.state = {
+      startDate: selectedDate,
+      endDate: addDays(selectedDate, 7), // 선택한 날짜부터 7일 후
+      key: 'selection'
+    };
+  }
 
-const RegiCalendar = ({getDateRange}) => {
-  const [selectedDate, setSelectedDate] = useState(null);
+  onRangeChange = (ranges) => {
+    console.log("날짜:", ranges);
+    this.setState({
+      startDate: ranges['selection'].startDate,
+      endDate: addDays(ranges['selection'].startDate, 7), // 선택한 날짜부터 7일 후
+      key: ranges['selection'].key,
+    });
 
-const [dateRange, setDateRange] = useState([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 7),
-      key: "selection",
-    },
-  ]);
+    this.props.onRangeChange(ranges);
+  }
 
-  const handleGetDateRange = (dateRange) => {
-    setDateRange(dateRange);
-  };
-  
-  return (
-    <div>
-      <div className='regi-calendar-content'>
-          <div className="regi-selected-calendar">
-              <DateRangePicker
-              editableDateInputs={true}
-              onChange={(item) => getDateRange([item.selection])}
-              ranges={dateRange}
-              locale={ko}
-              className="datePicker"
-              />
-
-
-              {/* <DatePicker
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    dateFormat="yyyy년 MM월 dd일"
-                    calendarClassName="regi-custom-calendar"
-                    open
-                    locale={ko}
-                  /> */}
-          </div>
-          {selectedDate && (
-            <div className="regi-selected-date">
-              {/* <span>{selectedDate.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}</span> */}
-            </div>
-          )}
+  render() {
+    return (
+      <div>
+        <DateRange
+          editableDateInputs={true}
+          onChange={this.onRangeChange}
+          moveRangeOnFirstSelection={false}
+          ranges={[this.state]}
+          locale={ko}
+        />
       </div>
-        
-          
-    </div>
-  );
-};
+    )
+  }
+}
 
-export default RegiCalendar;
+export default CalendarComponent;

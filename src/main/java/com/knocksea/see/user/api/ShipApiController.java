@@ -61,8 +61,6 @@ public class ShipApiController {
         }
 
 
-
-
         try {
 
             ShipRegisterResponseDTO join = shipService.save(dto,userInfo.getUserId());
@@ -122,43 +120,43 @@ public class ShipApiController {
 
 
     //실제 저장된 배 이미지 가져오기
-    @GetMapping("/load-shipimage")
-    public ResponseEntity<?> loadFile(
-            @AuthenticationPrincipal TokenUserInfo userInfo,
-            @RequestParam("imagePath") String imagePath)
-    {
-        log.info("api/auth/load-shipimage GET ! - user :{}",userInfo.getUserEmail());
-        try {
-            //클라이언트가 등록한 배 사진들을 응답해야됌
-
-            //1. 배 사진의 이름을얻어야됌
-//            String shipPath = shipService.findShipPath(userInfo.getUserId(), imageNumber);
-
-
-            //2. 이 얻어낸 파일 경로를 통해서 실제 파일데이터 로드하기
-            File shipImagefile = new File(imagePath);
-
-            if(!shipImagefile.exists()){
-                return ResponseEntity.notFound().build();
-            }
-
-            //해당 경로에 저장된 이미지파일을 바이트배열로 직렬화해서 리턴
-            byte[] fileData = FileCopyUtils.copyToByteArray(shipImagefile);
-
-            //3. 응답 헤더에 컨텐츠 타입을 설정
-            HttpHeaders headers = new HttpHeaders();
-            MediaType contentType = findExtensionAndGetMediaType(String.valueOf(shipImagefile));
-            if(contentType==null){
-                return ResponseEntity.internalServerError().body("발견된 파일은 이미지파일이 아닙니다");
-            }
-            headers.setContentType(contentType);
-            return ResponseEntity.ok().headers(headers).body(fileData);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().body("파일을 찾을 수 없습니다.");
-        }
-
-    }
+//    @GetMapping("/load-shipimage")
+//    public ResponseEntity<?> loadFile(
+//            @AuthenticationPrincipal TokenUserInfo userInfo,
+//            @RequestParam("imagePath") String imagePath)
+//    {
+//        log.info("api/auth/load-shipimage GET ! - user :{}",userInfo.getUserEmail());
+//        try {
+//            //클라이언트가 등록한 배 사진들을 응답해야됌
+//
+//            //1. 배 사진의 이름을얻어야됌
+////            String shipPath = shipService.findShipPath(userInfo.getUserId(), imageNumber);
+//
+//
+//            //2. 이 얻어낸 파일 경로를 통해서 실제 파일데이터 로드하기
+//            File shipImagefile = new File(imagePath);
+//
+//            if(!shipImagefile.exists()){
+//                return ResponseEntity.notFound().build();
+//            }
+//
+//            //해당 경로에 저장된 이미지파일을 바이트배열로 직렬화해서 리턴
+//            byte[] fileData = FileCopyUtils.copyToByteArray(shipImagefile);
+//
+//            //3. 응답 헤더에 컨텐츠 타입을 설정
+//            HttpHeaders headers = new HttpHeaders();
+//            MediaType contentType = findExtensionAndGetMediaType(String.valueOf(shipImagefile));
+//            if(contentType==null){
+//                return ResponseEntity.internalServerError().body("발견된 파일은 이미지파일이 아닙니다");
+//            }
+//            headers.setContentType(contentType);
+//            return ResponseEntity.ok().headers(headers).body(fileData);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return ResponseEntity.internalServerError().body("파일을 찾을 수 없습니다.");
+//        }
+//
+//    }
 
     //파일 이미지 검증
     private MediaType findExtensionAndGetMediaType(String filePath) {
@@ -189,9 +187,12 @@ public class ShipApiController {
         log.info("/ship/getshipinfo GET! --{}", userInfo);
 
         try {
-            ShipInfoResponseDTO shipInfo = shipService.getShipInfo(userInfo);
-            return ResponseEntity.ok().body(shipInfo);
-
+            boolean ship = shipService.findShip(userInfo);
+            if(!ship){
+                ShipInfoResponseDTO shipInfo = shipService.getShipInfo(userInfo);
+                return ResponseEntity.ok().body(shipInfo);
+            }
+            return ResponseEntity.ok().body(new ShipInfoResponseDTO());
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

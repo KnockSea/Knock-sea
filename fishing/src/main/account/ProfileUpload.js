@@ -26,11 +26,11 @@ const ProfileUpload = ({getFile}) => {
 
   return (
     <div>
-      <div className="profile" onClick={handleProfileClick}>
-        <div className="thumbnail-box">
+      <div className="profile" >
+        <div className="thumbnail-box" onClick={handleProfileClick}>
           <img src={profileImg} alt="프로필 썸네일" />
         </div>
-        <label htmlFor="profile-img">프로필 이미지</label>
+        <label htmlFor="profile-img" onClick={handleProfileClick}>프로필 이미지</label>
       </div>
       <input
         id="profile-img"

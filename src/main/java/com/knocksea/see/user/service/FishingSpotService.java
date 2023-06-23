@@ -163,4 +163,16 @@ public class FishingSpotService {
         }
         return false;
     }
+
+    public boolean findSpot(TokenUserInfo userInfo) {
+
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("해당유저가 존재하지않습니다"));
+
+        FishingSpot byUser = fishingSpotRepository.findByUser(user);
+
+        if (byUser!=null){
+            return true;
+        }
+        return false;
+    }
 }
