@@ -10,6 +10,8 @@ function MpInquiryD() {
   const [token, setToken] = useState(getLoginUserInfo().token);
   const [answerDetail, setAnswerDetail] = useState('');
 
+
+  
   const handleContentChange = (event) => {
     setContent(event.target.value);
     console.log(inquiryId);
@@ -85,7 +87,7 @@ function MpInquiryD() {
                 <div className='ctntextbox1'>
                   <div className='answertext'>
                     {/* 작성자가 문의한 글 보여주는곳 */}
-
+                    {}
                   </div>
                     <div className='adminreplyinput'>
 
