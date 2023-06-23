@@ -13,7 +13,7 @@ const handleLogin = (e) => {
     };
     
   // 렌더링 후 실행함수
- 
+ console.log();
 
 function ClassDetail() {
    
@@ -55,7 +55,7 @@ function ClassDetail() {
                                     <div className='box profile-img'>
                                         <img src='https://cdn-icons-png.flaticon.com/128/1752/1752787.png'/>
                                     </div>
-                                    <span className='box profile-page'>뉴정환호 >
+                                    <span className='box profile-page'>뉴정환호
                                     </span>
                                     </Link>
                                     <div className='condition'>
