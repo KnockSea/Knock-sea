@@ -1,5 +1,6 @@
 package com.knocksea.see.edu.service;
 
+import com.knocksea.see.aws.S3Service;
 import com.knocksea.see.edu.dto.response.*;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.entity.Edu;
@@ -55,6 +56,7 @@ public class EduService {
     public List<ReservationTime> timeList;
     private final ImageRepository imageRepository;
     private final ImageService imageService;
+
 
 //    private final S3Client s3Client;
 
