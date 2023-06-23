@@ -27,7 +27,6 @@ public class ReviewDetailResponseDTO {
     private String userName;
     private String title;
 
-
     public ReviewDetailResponseDTO(Review review) {
         this.reviewId = review.getReviewId();
         this.reviewRating = review.getReviewRating();

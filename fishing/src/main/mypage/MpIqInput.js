@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MpList from './MpList';
 import { getLoginUserInfo } from '../util/login-util';
+import { Link, useHistory } from 'react-router-dom';
 
 const MpIqInput = () => {
   const [title, setTitle] = useState('');
@@ -80,7 +81,9 @@ const MpIqInput = () => {
             </div>
           </div>
 
-          <button className='qtUpdatebtn' onClick={handleSubmit}>작성완료</button>
+          <Link to="/inquire" className="qtUpdatebtn" onClick={handleSubmit}>
+            작성완료
+          </Link>
         </div>
       </div>
 
