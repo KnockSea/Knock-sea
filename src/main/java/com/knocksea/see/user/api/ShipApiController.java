@@ -175,28 +175,31 @@ public class ShipApiController {
                 return null;
         }
     }
-    
-    
+
+
     //배 정보 가저오기
     //GET : /api/v1/ship/getshipinfo
     @GetMapping("/getshipinfo")
-    public ResponseEntity<?> loadshipinfo(
-            @AuthenticationPrincipal TokenUserInfo userInfo
-    ){
+    public ResponseEntity<?> loadshipinfo(@AuthenticationPrincipal TokenUserInfo userInfo,BindingResult result) {
         // 값 들어오는지 확인
         log.info("/ship/getshipinfo GET! --{}", userInfo);
 
-        try {
-            boolean ship = shipService.findShip(userInfo);
-            if(!ship){
-                ShipInfoResponseDTO shipInfo = shipService.getShipInfo(userInfo);
-                return ResponseEntity.ok().body(shipInfo);
-            }
-            return ResponseEntity.ok().body(new ShipInfoResponseDTO());
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        if (result.hasErrors()) {
+            log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
+            return ResponseEntity
+                    .badRequest()
+                    .body(result.getFieldError());
         }
+
+        try{
+            ShipInfoResponseDTO shipInfo = shipService.getShipInfo(userInfo);
+            return ResponseEntity.ok().body(shipInfo);
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+
     }
+
 
     //배 정보 삭제하기
     @DeleteMapping("/delete")

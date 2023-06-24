@@ -17,41 +17,33 @@ const MpClassInfo = () => {
     
     const [myEdu,setmyEdu] = useState({
         userName: '',
-        description: '',
+        Description: '',
         eduTitle: '',
         eduLevel: '',
         eduImageList: [],
     });
 
-
-    useEffect(() => {
-        const user = getLoginUserInfo();
-        setUserInfo(user)
-        // getEduDetail()
-    }, []);
-
-    const getEduDetail = async () => {
-        const res = await fetch('http://localhost:8012/api/v1/edu/main/edu', {
+    const getMyEdu = async () => {
+        const res = await fetch('http://localhost:8012/api/v1/edu/my-edu', {
             method: 'GET',
-            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')}
+            headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
         });
-
         if (res.status === 200) {
             const json = await res.json(); // JSON 데이터 파싱
             console.log(json);
             setmyEdu(json);
-            console.log(myEdu);
-            /*
-            // 서버에서 직렬화된 이미지가 응답된다.
-            const profileBlob = await res.blob();
-            // 해당 이미지를 imgUrl로 변경
-            const imgUrl = window.URL.createObjectURL(profileBlob);
-            setProfileUrl(imgUrl);
-            */
         } else {
-            alert('서버와의 통신이 원활하지않습니다');
+            alert('등록된 선박이없습니다!');
         }
-    };
+    }
+
+
+    useEffect(() => {
+        const user = getLoginUserInfo();
+        console.log(user);
+        setUserInfo(user);
+        getMyEdu();
+      }, []);
 
     
 
@@ -73,8 +65,8 @@ const MpClassInfo = () => {
                             {myEdu && myEdu[0]?(<img className="my-profile" title="마이페이지" src={myEdu.eduImageList[0]} />) : (<img className="my-profile" title="마이페이지" src={require('./../icons/unknown.png')} />)}
                         </div>
                         <div className='namebox'>
-                            <div className='nickName'>LOVETMORROW</div>
-                            <div>업체정보를 입력하세요</div>
+                        {myEdu && myEdu.eduTitle ? (<div className="nickName">{myEdu.eduTitle}</div>) : (<div className="nickName">등록된 클래스가없습니다!</div>)}
+                        {myEdu && myEdu.Description ? (<div>{myEdu.Description}</div>):(<div>클래스 정보를 등록해주세요!</div>)}
                         </div>
                         <div className='btbox'>
                         <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>

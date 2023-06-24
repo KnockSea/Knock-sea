@@ -5,10 +5,11 @@ import logoPath from './img/logo.png'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { getLoginUserInfo , isLogin } from './util/login-util';
-import { useEffect } from 'react'
+import { useEffect ,useHistory} from 'react'
 
 
 export const NsHeader = () => {
+
 
   const linkStyle = {
     color: 'black',
@@ -115,11 +116,8 @@ export const NsHeader = () => {
             <Link to={'/login'}  style={linkStyle} onClick={resetStorage}>Log-out</Link>
             )
             :(
-              <>
-                  
-                  <Link to={'/login'}  style={linkStyle}>Log-in</Link>
-              </>
-          )
+              <><Link to={'/login'}  style={linkStyle}>Log-in</Link></>
+            )
           }
           </div>
         </div>

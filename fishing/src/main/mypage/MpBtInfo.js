@@ -40,15 +40,9 @@ const MpBtInfo = () => {
             console.log(json);
             setShipInfo(json);
     
-            /*
-            // 서버에서 직렬화된 이미지가 응답된다.
-            const profileBlob = await res.blob();
-            // 해당 이미지를 imgUrl로 변경
-            const imgUrl = window.URL.createObjectURL(profileBlob);
-            setProfileUrl(imgUrl);
-            */
+           
         } else {
-            alert('서버와의 통신에문제가있습니다');
+            alert('등록된 선박이없습니다!');
         }
       };
     
