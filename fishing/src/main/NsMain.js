@@ -31,7 +31,7 @@ import MpQueryText from './mypage/MpQueryText'
 import MpBtInfo from './mypage/MpBtInfo'
 import MpFsInfo from './mypage/MpFsInfo'
 import MpClassInfo from './mypage/MpClassInfo'
-import { API_BASE_URL, SHIP } from '../config/host-config';
+import { API_BASE_URL, PRODUCTS, SHIP } from '../config/host-config';
 
 import MpAdmin from './mypage/MpAdmin';
 import MpIqInput from './mypage/MpIqInput';
@@ -68,7 +68,9 @@ const NsMain = () => {
         <ScrollToTop />
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
-            <Route path='/' element ={<MainContent shipInfo={shipInfo} />} />
+            <Route path='/' element ={<MainContent product={product} />} />
+            {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
+            <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
             {/* 배낚시 탭 */}            
             <Route path='/detail' element={<RvBtDetail/>}> </Route>
             {/* 낚시터 탭 */}            

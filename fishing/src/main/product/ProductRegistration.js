@@ -36,10 +36,10 @@ function ProductRegistration() {
     setImages([...e.target.files]);
   };
 
-//   // 주소 값 받아옴
-//   const getAddressCom = (userAddress) => {
-//      setuserAddress(userAddress)
-//   };
+  // 주소 값 받아옴
+  const getAddressCom = (userAddress) => {
+     setuserAddress(userAddress)
+  };
   
   // 날짜 값 받아옴
   const handleGetDateRange = (timeDate) => {
@@ -54,10 +54,10 @@ function ProductRegistration() {
     console.log('Received time:', timeStarts, timeEnds);
   }
 
-//   // 시간 박스 생성
-//   const addTimeBox = () => {
-//     setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
-//   };
+  // 시간 박스 생성
+  const addTimeBox = () => {
+    setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
+  };
 
    // 취소버튼
    const handleCancel = () => {
@@ -375,20 +375,19 @@ function ProductRegistration() {
               <button type="button" onClick={handleCancel} className="btn">
                 취소
               </button>
-
             
-//                 <button type="submit" className="btn">
-//                 등록완료
-//                 </button>
-//             </div>
-//           </form>
+                <button type="submit" className="btn">
+                등록완료
+                </button>
+            </div>
+          </form>
           
-//         </div>
-//       </div>
-//     </div>
+        </div>
+      </div>
+    </div>
 
-//  );
-//   }
+ );
+  }
 
 
 export default ProductRegistration

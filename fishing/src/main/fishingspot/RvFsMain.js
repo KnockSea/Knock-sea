@@ -4,14 +4,11 @@ import fs from '../img/fs.jpg'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Bullseye,Calendar2Check,EmojiSmile,PersonVcard, CheckCircleFill } from 'react-bootstrap-icons';
 import RvFsinnerHeader from './RvFsinnerHeader';
-
-
 import map from '../img/map.png'
 import RvFsItem from './RvFsItem';
 import { Route, Routes } from 'react-router-dom';
 import RvFsDetail from './RvFsDetail';
-import RvFsMap from './RvFsMap';
-
+// import RvFsMap from './RvFsMap';
 
 
 function RvFsMain() {
@@ -43,7 +40,7 @@ function RvFsMain() {
             <div>위치 확인하기</div>
             <div className='mapbox'>
 
-            <RvFsMap/>
+            {/* <RvFsMap/> */}
             </div>
             </div>
         </div>
