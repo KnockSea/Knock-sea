@@ -5,8 +5,8 @@ import MpInquiryD from "./MpInquiryD";
 
 const MpAdminCS = () => {
     const [inquiries, setInquiries] = useState([]);
-    const [inquiry, setInquiry] = useState([]);
-
+    const [inquiry, setInquiry] = useState(null);
+    
     useEffect(() => {
         fetchInquiries();
     }, []);
@@ -26,6 +26,11 @@ const MpAdminCS = () => {
             console.log(error);
         }
     };
+
+    const handleInquiryClick = (inquiry) => {
+      setInquiry(inquiry);
+  };
+
 
     return (
         <section>
@@ -58,11 +63,11 @@ const MpAdminCS = () => {
                                 <div>{inquiry.inquiryTitle}</div>
                                 <div>{inquiry.inquiryDetails}</div>
                                 <div>{inquiry.inquiryDateTime}</div>
-                                <button>
+                                <button onClick={() => handleInquiryClick(inquiry)}>
                                     <Link
-                                        to={{
+                                        to={{ 
                                             pathname: `/adminreply/${inquiry.inquiryId}`,
-                                            state: { inquiry },
+                                            state: { inquiry: inquiry }
                                         }}
                                     >
                                         답변하기
