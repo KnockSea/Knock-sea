@@ -19,13 +19,13 @@ class CalendarComponent extends Component {
     const endDate = addDays(startDate, 6);
 
 
-    const startDateString = format(startDate, "yyyy-MM-dd'T'HH:mm:ss");
-    const endDateString = format(endDate, "yyyy-MM-dd'T'HH:mm:ss");
+    const startDateString = format(startDate, "yyyy-MM-dd");
+    const endDateString = format(endDate, "yyyy-MM-dd");
 
     this.setState({
       startDate,
       endDate,
-      key: ranges.selection.key,
+      // key: ranges.selection.key,
     });
   
     this.props.onRangeChange({ ...ranges, selection: { ...ranges.selection, startDate: startDateString, endDate: endDateString } });

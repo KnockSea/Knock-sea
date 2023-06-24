@@ -45,9 +45,10 @@ public class ProductController {
         log.info("/api/v1/products POST! - {}", dto);
 
         if (result.hasErrors()) {
-            log.warn(result.toString());
+            log.warn("이거 터지는거임? : {}",result.toString());
             return ResponseEntity.badRequest().body(result.getFieldError());
         }
+
 
         try {
             if(productImages!=null){

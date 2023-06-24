@@ -76,7 +76,7 @@ public class ShipApiController {
             log.warn("필수 등록 정보를 받지 못했습니다.");
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (RuntimeException e) {
-            log.warn("이메일이 중복되었습니다");
+            log.warn("에러 확인중: {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());

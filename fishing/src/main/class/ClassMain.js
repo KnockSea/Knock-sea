@@ -116,29 +116,32 @@ function ClassMain() {
                     </div>
 
                     <div className="class-list">
-                        <Link to={"/classdetail"} style={{ color: 'black', textDecoration: 'none' }}> 
+                         
                           
                         <div className='lists'>
+                        
                             {edus.map((f) => (
+                                <Link to={`/classdetail/${f.eduId}`} style={{ color: 'black', textDecoration: 'none' }}>
                                     <div className="class-list-1" key={f.eduId}>
-                                    <div className="writer" data-id={f.eduId}></div>
-                                    <div className="list-img-wrapper">
-                                        <img src={f.feedImg} alt="" id="list-img" />
+                                      <div className="writer" data-id={f.eduId}></div>
+                                      <div className="list-img-wrapper">
+                                          <img src={f.feedImg} alt="" id="list-img" />
+                                      </div>
+                                      <div className="list-text">
+                                          <div className='list-title-wrap list-t'>
+                                              <div className="list-star-rating">{f.star}</div>
+                                              <div className="userId">{f.userName}</div>
+                                          </div>
+                                          <div className="text-place list-t">위치 : {f.eduLocation}</div>
+                                          <div className="text-price">가격 : {f.eduPrice}</div>
+                                          <div className="text-title list-t">{f.eduTitle}</div>
+                                      </div>                                    
                                     </div>
-                                    <div className="list-text">
-                                        <div className='list-title-wrap list-t'>
-                                            <div className="list-star-rating">{f.star}</div>
-                                            <div className="userId">{f.userName}</div>
-                                        </div>
-                                        <div className="text-place list-t">위치 : {f.eduLocation}</div>
-                                        <div className="text-price">가격 : {f.eduPrice}</div>
-                                        <div className="text-title list-t">{f.eduTitle}</div>
-                                    </div>
-                                    {/* <Link to='/classdetail' state={{key:f.eduId}}></Link> */}
-                                    </div>
+                                    </Link>
                                 ))}
+                          
                         </div>        
-                        </Link>
+                        
                     </div>
                 </div>
             </div>    

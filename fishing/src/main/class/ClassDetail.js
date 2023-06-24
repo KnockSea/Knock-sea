@@ -23,18 +23,18 @@ function ClassDetail() {
    
       const [filter, setFilter] = useState(''); 
       const [modal, setModal] = useState('false'); 
-        // const {eduId}  = useParams(); 
+        const eduId = useParams(); 
 
-        // useEffect(() => {
-        //     console.log("eduId : ",eduId); // eduId 값을 로그로 출력합니다.
-        //   }, []);
+        useEffect(() => {
+            console.log("eduId : ",eduId); // eduId 값을 로그로 출력합니다.
+          }, []);
         
         // const location = useLocation();
         // const { key } = location.state || {};
         // console.log("key : ",key); // key 값을 로그로 출력합니다.
 
-        let location = useLocation();
-        console.log(location.state);
+        // let location = useLocation();
+        // console.log(location.state);
 
 
     //   const handleFilterChange = (event) => {
