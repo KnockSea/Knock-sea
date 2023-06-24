@@ -24,7 +24,7 @@ public class ShipRegisterRequestDTO {
 
     //선박 상세 설명 최소 50자 최대 2000자
     @NotBlank
-    @Size(min = 50, max = 2000)
+    @Size(min = 10, max = 2000)
     private String shipDescription;
 
 //    //배번호

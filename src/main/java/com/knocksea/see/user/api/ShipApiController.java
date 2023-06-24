@@ -43,7 +43,7 @@ public class ShipApiController {
     //배 등록 요청
     //post : /api/v1/ship/register
     @PostMapping("/register")
-    public ResponseEntity<?> registerShip(@Validated @RequestPart("ship") ShipRegisterRequestDTO dto,
+    public ResponseEntity<?> registerShip(@Validated @RequestPart(value = "shipDTO") ShipRegisterRequestDTO dto,
                                           @RequestPart(value = "shipImages") List<MultipartFile> shipImages,
                                           @AuthenticationPrincipal TokenUserInfo userInfo
             , BindingResult result) {
@@ -63,12 +63,13 @@ public class ShipApiController {
             ShipRegisterResponseDTO join = shipService.save(dto,userInfo.getUserId());
             if(shipImages!=null) {
                 //이미지 파일들이 잘 들어왔다면 원본이름 출력시키기
-                for (MultipartFile shipImage : shipImages) {
-                    log.info(shipImage.getOriginalFilename());
-                }
+//                for (MultipartFile shipImage : shipImages) {
+//                    log.info(shipImage.getOriginalFilename());
+//                }
                 //이미지 저장시키기
                 log.info("여기타고오지요?");
                 imageService.saveShipImages(shipImages, userInfo);
+
             }
             return ResponseEntity.ok().body(join);
         } catch (NoRegisteredArgumentsException e) {
@@ -87,7 +88,7 @@ public class ShipApiController {
     //post : /api/v1/ship/modify
     @RequestMapping(value = "/modify", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<?> modifyShip(
-            @Validated @RequestPart("ship") ShipModifyRequestDTO dto,
+            @Validated @RequestPart(value = "ship") ShipModifyRequestDTO dto,
             @RequestPart(value = "shipImage", required = false) List<MultipartFile> shipImages
     ,@AuthenticationPrincipal TokenUserInfo userInfo, BindingResult result) throws IOException {
 
