@@ -4,12 +4,13 @@ import './scss/NsHeader.scss'
 import logoPath from './img/logo.png'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getLoginUserInfo , isLogin } from './util/login-util';
 import { useEffect ,useHistory} from 'react'
 
 
 export const NsHeader = () => {
-
+  const navi = useNavigate();
 
   const linkStyle = {
     color: 'black',
@@ -36,6 +37,7 @@ export const NsHeader = () => {
     if(confirm){
       setIsLoggedIn(isLogin());
       localStorage.clear();
+      navi('/');
     }else{
       return false; // Add this line to prevent further actions
     }
