@@ -24,6 +24,16 @@ export const getLoginUserInfo = () => {
   };
 };
 
+// 로그인 id 들고다닐 함수
+export const getUserInfo = () => {
+  return {
+    userId: localStorage.getItem('USER_ID'),
+    userEmail: localStorage.getItem('LOGIN_USEREMAIL'),
+    userName: localStorage.getItem('LOGIN_USERNAME'),
+    userGrade: localStorage.getItem('USER_GRADE'),
+    userPhone : localStorage.getItem('USER_PHONE')
+  };
+};
 
 
 // export const getLoginUserInfo = ({userPassword}) => {

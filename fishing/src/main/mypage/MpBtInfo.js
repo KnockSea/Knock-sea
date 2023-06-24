@@ -40,15 +40,9 @@ const MpBtInfo = () => {
             console.log(json);
             setShipInfo(json);
     
-            /*
-            // 서버에서 직렬화된 이미지가 응답된다.
-            const profileBlob = await res.blob();
-            // 해당 이미지를 imgUrl로 변경
-            const imgUrl = window.URL.createObjectURL(profileBlob);
-            setProfileUrl(imgUrl);
-            */
+           
         } else {
-            alert('서버와의 통신에문제가있습니다');
+            alert('등록된 선박이없습니다!');
         }
       };
     
@@ -97,10 +91,10 @@ const MpBtInfo = () => {
                         </div>
                         <div className='btbox'>
                         {shipInfo && shipInfo[0] ?(<><button className='isbtn'><Link to={'/myquery'}>글 삭제하기</Link></button><button className='isbtn'><Link to={'/myquery'}>배 정보 수정하기</Link></button></>):(<button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>)}
-                        <button>
+                        {/* <button> */}
                             {/* <Link to={'/myinfo'}>배 업체 정보 수정</Link> */}
                             {/* 작성 폼 불러와서 수정 진행 Link 걸어야 함 */}
-                        </button>
+                        {/* </button> */}
                         </div>
                     </div>
 

@@ -5,7 +5,9 @@ import com.knocksea.see.aws.S3Service;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
+import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ProductCategory;
+import com.knocksea.see.product.repository.ProductRepository;
 import com.knocksea.see.user.entity.FishingSpot;
 import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.Ship;
@@ -46,6 +48,7 @@ public class ImageService {
 
     //배정보 얻기용
     private final ShipRepository shipRepository;
+    private final ProductRepository productRepository;
 
     //이미지 저장용
     private final ImageRepository imageRepository;
@@ -61,15 +64,18 @@ public class ImageService {
     @Value("${upload.path}")
     private String uploadRootPath2;
 
+    @Value("${aws.bucketName}")
+    private String bucket;
+
 
     //DB에 선박 이미지경로 저장함수
     public void saveShipImages(List<MultipartFile> shipImages, TokenUserInfo userInfo) throws IOException {
 
-        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("유저 없어 새꺄"));
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
         Ship foundShipByUserId = shipRepository.findByUser(user);
-
+        log.warn("유저123 : {} ", foundShipByUserId);
         List<String> strings = uploadShipImage(shipImages);
-
+        log.warn("이미지 이름333 : {} ", strings.toArray());
         Long typeNumber = 1L;
 
         for (String string : strings) {
@@ -83,8 +89,10 @@ public class ImageService {
 
     }
 
-    public void saveValidationImg(List<MultipartFile> validationImg, ValidationCreateDTO dto) throws IOException {
-        User user = userRepository.findById(dto.getUserId())
+
+    //검증테이블 이미지 저장
+    public void saveValidationImg(List<MultipartFile> validationImg, ValidationCreateDTO dto,TokenUserInfo userInfo) throws IOException {
+        User user = userRepository.findById(userInfo.getUserId())
                 .orElseThrow(() -> new RuntimeException("ImageService : 존재하지 않는 유저입니다."));
         log.info("ImageService user : " + user);
 
@@ -98,14 +106,14 @@ public class ImageService {
             log.info("SHIP 들어옴");
             imageRepository.save(
                     SeaImage.builder()
-                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(0))
+                            .imageName(listValidationImg.get(0))
                             .validation(fondByUserAndValidationType)
                             .imageType(ProductCategory.VALIDATIONSHIPREGI)
                             .build());
 
             imageRepository.save(
                     SeaImage.builder()
-                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(1))
+                            .imageName(listValidationImg.get(1))
                             .validation(fondByUserAndValidationType)
                             .imageType(ProductCategory.VALIDATIONSHIPLICENSE)
                             .build());
@@ -126,17 +134,16 @@ public class ImageService {
         //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
         List<String> uniqueFilenames = new ArrayList<>();
 
-        String s = makeDateFormatDirectory(uploadRootPath2);
+//        String s = makeDateFormatDirectory(uploadRootPath2);
 
         for (MultipartFile validationImage : validationImg) {
             String originalFilename = validationImage.getOriginalFilename();
             String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
 
-            // Save the file
-            File uploadFile = new File(s+"/"+uniqueFileName);
-            validationImage.transferTo(uploadFile);
+            //aws 이미지 저장
+            String s1 = s3Service.uploadToS3Bucket(validationImage.getBytes(), uniqueFileName);
 
-            uniqueFilenames.add(uniqueFileName);
+            uniqueFilenames.add(s1);
         }
         return uniqueFilenames;
     }
@@ -353,6 +360,25 @@ public class ImageService {
                     .imageName(s)
                     .edu(byUserUserId)
                     .imageType(ProductCategory.EDU)
+                    .build());
+        }
+    }
+
+    public void saveProductImg(List<MultipartFile> productImages, TokenUserInfo userInfo, Product product) throws IOException {
+
+        List<String> list = new ArrayList<>();
+
+        for (MultipartFile s : productImages) {
+            String uniqueFileName=UUID.randomUUID()+"_"+s.getOriginalFilename();
+            String s1 = s3Service.uploadToS3Bucket(s.getBytes(), uniqueFileName);
+            list.add(s1);
+        }
+
+        for (String s : list) {
+            SeaImage save = imageRepository.save(SeaImage.builder()
+                    .imageName(s)
+                    .product(product)
+                    .imageType(ProductCategory.valueOf(product.getProductType()))
                     .build());
         }
     }

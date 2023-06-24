@@ -54,6 +54,7 @@ const MpMain = () => {
         }
       };
 
+      
 
 
     useEffect(() => {
@@ -64,7 +65,6 @@ const MpMain = () => {
         const user = getLoginUserInfo();
         setUserInfo(user);
         fetchUserInfo();
-
         // fetchShipInfo();
       }, []);
 
@@ -76,7 +76,7 @@ const MpMain = () => {
                         <h1>마이페이지</h1>
                         {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpbt'}>배</Link></h1>)}
                         {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpbt'}>낚시터</Link></h1>)}
-                        <h1><Link to={'/mpclass'}>클래스</Link></h1>
+                        {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpclass'}>클래스</Link></h1>)}
                     </div>
                    
                    
@@ -84,7 +84,10 @@ const MpMain = () => {
                         <div className='profilebox'>
                             <img className="my-profile" title="마이페이지" src={userProfile.profileImageUrl || require('./../img/class.jpg')}/>
                         </div>
-                    
+                        <div>{userInfo.userName}</div>
+                        <div>{userInfo.userGrade}</div>
+                        <div>{userInfo.userEmail}</div>
+                        <div>{userInfo.userPhone}</div>
                         <div className='btbox'>
                         {/* <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button> */}
                         <button><Link to={'/myinfo'}>개인 정보 수정</Link></button>
@@ -93,11 +96,11 @@ const MpMain = () => {
 
 
 
-                {/* <div className='rvbox'>
-                        <h2>리뷰 게시판</h2>
-                        <p>아직 작성된 리뷰가 없습니다</p>
-                        <MpReFormItem/> */}
-                {/* </div> */}
+                {/*<div className='rvbox'>*/}
+                {/*        <h2>리뷰 게시판</h2>*/}
+                {/*        <p>아직 작성된 리뷰가 없습니다</p>*/}
+                {/*        <MpReFormItem/>*/}
+                {/*</div> */}
 
                 <div className='rvbox'>
                     <MpReviewList />

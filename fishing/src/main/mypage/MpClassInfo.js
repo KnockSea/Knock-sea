@@ -14,15 +14,36 @@ const MpClassInfo = () => {
         userId : '',
         userPhone : ''
       });
+    
+    const [myEdu,setmyEdu] = useState({
+        userName: '',
+        Description: '',
+        eduTitle: '',
+        eduLevel: '',
+        eduImageList: [],
+    });
 
-
+    const getMyEdu = async () => {
+        const res = await fetch('http://localhost:8012/api/v1/edu/my-edu', {
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
+        });
+        if (res.status === 200) {
+            const json = await res.json(); // JSON 데이터 파싱
+            console.log(json);
+            setmyEdu(json);
+        } else {
+            alert('등록된 클래스가 없습니다!!');
+        }
+    }
 
 
     useEffect(() => {
         const user = getLoginUserInfo();
-        setUserInfo(user)
-    }, []);
-
+        console.log(user);
+        setUserInfo(user);
+        getMyEdu();
+      }, []);
 
     
 
@@ -35,24 +56,24 @@ const MpClassInfo = () => {
 
                         {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpbt'}>배</Link></h1>)}
                         {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpfs'}>낚시터</Link></h1>)}
-                        <h1><Link to={'/mpclass'}>클래스</Link></h1>
+                        {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpclass'}>클래스</Link></h1>)}
                     </div>
                    
                    
                     <div className='userinfobox'>
                         <div className='profilebox'>
-                            <img />
+                            {myEdu && myEdu[0]?(<img className="my-profile" title="마이페이지" src={myEdu.eduImageList[0]} />) : (<img className="my-profile" title="마이페이지" src={require('./../icons/unknown.png')} />)}
                         </div>
                         <div className='namebox'>
-                            <div className='nickName'>LOVETMORROW</div>
-                            <div>업체정보를 입력하세요</div>
+                        {myEdu && myEdu.eduTitle ? (<div className="nickName">{myEdu.eduTitle}</div>) : (<div className="nickName">등록된 클래스가없습니다!</div>)}
+                        {myEdu && myEdu.Description ? (<div>{myEdu.Description}</div>):(<div>클래스 정보를 등록해주세요!</div>)}
                         </div>
                         <div className='btbox'>
                         <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
-                        <button>
+                        {/* <button> */}
                             {/* <Link to={'/myinfo'}>배 업체 정보 수정</Link> */}
                             {/* 작성 폼 불러와서 수정 진행 Link 걸어야 함 */}
-                            </button>
+                            {/* </button> */}
                         </div>
                     </div>
 

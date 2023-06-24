@@ -32,38 +32,40 @@ import MpBtInfo from './mypage/MpBtInfo'
 import MpFsInfo from './mypage/MpFsInfo'
 import MpClassInfo from './mypage/MpClassInfo'
 import { API_BASE_URL, SHIP } from '../config/host-config';
+
 import MpAdmin from './mypage/MpAdmin';
 import MpIqInput from './mypage/MpIqInput';
 import MpAdminFS from './mypage/MpAdminFS';
 import MpAdminCS from './mypage/MpAdminCS';
 import HostSearchMain from './hostSearch/hostSearchMain'
+
+import ScrollToTop from './ScrollToTop';
 import MpInquiryD from './mypage/MpInquiryD';
-
-
-
 
 const NsMain = () => {
 
-    const [shipInfo, setShipInfo] = useState(null);
+  const [product, setproduct] = useState(null);
 
-    useEffect(() => {
-      // // 배 정보를 가져오는 함수
-      // const fetchShipInfo = async () => {
-      //   try {
-      //     const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
-      //     const data = await response.json();
-      //     setShipInfo(data);
-      //   } catch (error) {
-      //     console.error('Error fetching ship info:', error);
-      //   }
-      // };
   
-      // fetchShipInfo();
-    }, []);
+  // 배 상품 정보를 가져오는 함수
+      const fetchProduct = async () => {
+        try {
+          const response = await fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`);
+          console.log(response.status);
+          const data = await response.json();
+          setproduct(data);
+          console.log('NsMian setproduct', product);
+        } catch (error) {
+          console.error('Error fetching product info:', error);
+        }
+      };
+
+      console.log('NsMian !!!!!!!!!!!!!!!!!!setproduct', product);
 
 
   return (
     <section>
+        <ScrollToTop />
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
             <Route path='/' element ={<MainContent shipInfo={shipInfo} />} />
@@ -87,11 +89,13 @@ const NsMain = () => {
             <Route path='/iqinput' element={<MpIqInput/>}></Route>
             {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
+
             {/* 문의답변 */}
             <Route path='/adminreply/:inquiryId' element={<MpInquiryD/>}></Route>
             {/* 문의 상세보기 */}
             {/* <Route path='/inquiryDetail' element = {<MpInquiryDetail/>}></Route> */}
             <Route path='/inquiry/:inquiryId' element={<MpInquiryD />} />
+
             <Route path='/rvlist' element={<MpRvlist/>}></Route>
            
              {/* 로그인, 회원가입 */}
