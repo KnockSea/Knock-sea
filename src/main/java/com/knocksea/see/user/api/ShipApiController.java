@@ -159,22 +159,22 @@ public class ShipApiController {
 //    }
 
     //파일 이미지 검증
-    private MediaType findExtensionAndGetMediaType(String filePath) {
-        //파일 경로에서 확장자 추출하기
-        //D:/todo_upload/kfasdasdsa_abc.jpg
-        String ext = filePath.substring(filePath.lastIndexOf(".") + 1);
-
-        switch (ext.toUpperCase()){
-            case "JPG": case "JPEG":
-                return MediaType.IMAGE_JPEG;
-            case "PNG":
-                return MediaType.IMAGE_PNG;
-            case "GIF":
-                return MediaType.IMAGE_GIF;
-            default:
-                return null;
-        }
-    }
+//    private MediaType findExtensionAndGetMediaType(String filePath) {
+//        //파일 경로에서 확장자 추출하기
+//        //D:/todo_upload/kfasdasdsa_abc.jpg
+//        String ext = filePath.substring(filePath.lastIndexOf(".") + 1);
+//
+//        switch (ext.toUpperCase()){
+//            case "JPG": case "JPEG":
+//                return MediaType.IMAGE_JPEG;
+//            case "PNG":
+//                return MediaType.IMAGE_PNG;
+//            case "GIF":
+//                return MediaType.IMAGE_GIF;
+//            default:
+//                return null;
+//        }
+//    }
 
 
     //배 정보 가저오기

@@ -1,9 +1,8 @@
 package com.knocksea.see.validation.service;
 
-import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.user.entity.User;
-import com.knocksea.see.user.entity.UserGrade;
 import com.knocksea.see.user.repository.UserRepository;
 import com.knocksea.see.validation.dto.request.ValidationCreateDTO;
 import com.knocksea.see.validation.dto.request.validationModifyRequestDTO;
@@ -23,7 +22,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.knocksea.see.user.entity.UserGrade.OWNER;
-import static com.knocksea.see.validation.entity.ValidationStatus.*;
 import static com.knocksea.see.validation.entity.ValidationStatus.YES;
 import static com.knocksea.see.validation.entity.ValidationType.SHIP;
 import static com.knocksea.see.validation.entity.ValidationType.SPOT;
@@ -38,8 +36,8 @@ public class ValidationService {
     private final ValidationRepository validationRepository;
 
 
-    public ValidationRegisterResponseDTO insert(final ValidationCreateDTO dto/*, TokenUserInfo userInfo*/) {
-        log.info("검증 정보 : ",dto);
+    public ValidationRegisterResponseDTO insert(final ValidationCreateDTO dto,/*, TokenUserInfo userInfo*/TokenUserInfo userInfo) {
+        log.info("검증 정보 : {}",dto);
         if(dto.getValidationType().equals(SHIP)){
             if(dto.getValidationShipRegi()==null||dto.getValidationShipLicense()==null){
                 throw new NoRegisteredArgumentsException("SHIP 검증에서 필수로 입력해야 하는 정보가 없습니다");
@@ -54,7 +52,7 @@ public class ValidationService {
         /* User user = userRepository.findById(userInfo.getUserId()).orElseThrow(()->
                 new RuntimeException("회원 정보가 없습니다")); */
 
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(()->
                 new RuntimeException("회원 정보가 없습니다"));
 
         //등록된 검증이 없다면 등록할 수 있게

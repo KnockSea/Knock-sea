@@ -18,8 +18,6 @@ import java.util.List;
 @Getter
 public class EntireInfoResponseDTO {
 
-
-
     //배에 관련된 리뷰리스트
     private List<Review> shipReviewList;
 

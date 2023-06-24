@@ -33,7 +33,7 @@ const MpClassInfo = () => {
             console.log(json);
             setmyEdu(json);
         } else {
-            alert('등록된 선박이없습니다!');
+            alert('등록된 클래스가 없습니다!!');
         }
     }
 

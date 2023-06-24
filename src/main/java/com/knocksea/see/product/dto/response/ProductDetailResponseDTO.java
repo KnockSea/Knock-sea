@@ -35,6 +35,9 @@ public class ProductDetailResponseDTO {
 
     private List<ReviewDetailResponseDTO> reviewList;
 
+    // 이미지 경로들
+    private List<String> imgUrl;
+
     public ProductDetailResponseDTO(Product product) {
         this.productId = product.getProductId();
         this.title = product.getProductTitle();
@@ -50,9 +53,11 @@ public class ProductDetailResponseDTO {
 
     public ProductDetailResponseDTO(Product product
             , List<ReservationTimeResponseDTO> dtoTimeList
-            , List<ReviewDetailResponseDTO> dtoReviewList) {
+            , List<ReviewDetailResponseDTO> dtoReviewList
+            , List<String> imgUrls) {
         this.timeList = new ArrayList<>();
         this.reviewList = new ArrayList<>();
+        this.imgUrl = new ArrayList<>();
         this.productId = product.getProductId();
         this.title = product.getProductTitle();
         this.price = product.getProductPrice();
@@ -64,5 +69,6 @@ public class ProductDetailResponseDTO {
         this.userId = product.getUser().getUserId();
         this.timeList = dtoTimeList;
         this.reviewList = dtoReviewList;
+        this.imgUrl = imgUrls;
     }
 }

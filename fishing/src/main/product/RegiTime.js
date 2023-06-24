@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormControl, MenuItem, Select } from '@mui/material';
 
-const RegiTime = () => {
+const RegiTime = ({onChange,testProps}) => {
+
   const [startHour, setStartHour] = useState('');
   const [startMinute, setStartMinute] = useState('');
   const [endHour, setEndHour] = useState('');
   const [endMinute, setEndMinute] = useState('');
-
+  const [testVal,setTestVal] = useState(0);
   const selectStyle = {
     width: '70px',
     height: '30px',
@@ -14,12 +15,19 @@ const RegiTime = () => {
     fontSize: '13px'
   };
 
+useEffect(()=>{
+  testProps(5)
+},[startHour,startMinute,endHour,endMinute])
+
   const handleStartHourChange = (event) => {
     setStartHour(event.target.value);
+    onChange={handleTimeChange} // 값 변경 시 onChange 콜백 호출
   };
+
 
   const handleStartMinuteChange = (event) => {
     setStartMinute(event.target.value);
+    onChange={handleTimeChange}
   };
 
   const handleEndHourChange = (event) => {
@@ -28,6 +36,7 @@ const RegiTime = () => {
       alert('종료 시간을 확인해주세요.');
     } else {
       setEndHour(selectedHour);
+      onChange={handleTimeChange}
     }
   };
 
@@ -38,19 +47,31 @@ const RegiTime = () => {
       alert('종료 시간을 확인해주세요.');
     } else {
       setEndMinute(selectedMinute);
+      onChange={handleTimeChange}
     }
   };
 
+  const handleTimeChange = (startHour, startMinute, endHour, endMinute) => {
+    setStartHour(startHour);
+    setStartMinute(startMinute);
+    setEndHour(endHour);
+    setEndMinute(endMinute);
+  };
+  
+  console.log(startHour, startMinute, endHour, endMinute);
   // formatTime 함수를 MyTimePicker 컴포넌트 외부로 이동
   const formatTime = (startHour, startMinute, endHour, endMinute) => {
     const formattedStartHour = startHour.toString().padStart(2, '0');
     const formattedStartMinute = startMinute.toString().padStart(2, '0');
     const formattedEndHour = endHour.toString().padStart(2, '0');
     const formattedEndMinute = endMinute.toString().padStart(2, '0');
+   
     return `${formattedStartHour} 시 ${formattedStartMinute} 분 ~ ${formattedEndHour} 시 ${formattedEndMinute} 분`;
   };
 
-
+const testHandle = () =>{
+  onChange((startHour,startMinute,endHour,endMinute))
+}
   return (
     <div className='regi-time-form' style={{display:'flex', justifyContent:'spaceBetween'}}>
       <div>
@@ -59,7 +80,8 @@ const RegiTime = () => {
           labelId="start-hour-label"
           id="start-hour-select"
           value={startHour}
-          onChange={handleStartHourChange}
+          ref={myRef1}
+          onChange={handleTimeChange}
           style={selectStyle}
         >
           {Array.from(Array(24).keys()).map((hour) => (
@@ -74,7 +96,8 @@ const RegiTime = () => {
           labelId="start-minute-label"
           id="start-minute-select"
           value={startMinute}
-          onChange={handleStartMinuteChange}
+          ref={myRef2}
+          onChange={handleTimeChange}
           style={selectStyle}
         >
           <MenuItem value="00">00</MenuItem>
@@ -87,7 +110,8 @@ const RegiTime = () => {
           labelId="end-hour-label"
           id="end-hour-select"
           value={endHour}
-          onChange={handleEndHourChange}
+          ref={myRef3}
+          onChange={handleTimeChange}
           style={selectStyle}
         >
           {Array.from(Array(24).keys()).map((hour) => (
@@ -101,15 +125,18 @@ const RegiTime = () => {
         <Select
           labelId="end-minute-label"
           id="end-minute-select"
+          ref={myRef4}
           value={endMinute}
-          onChange={handleEndMinuteChange}
+          onChange={handleTimeChange}
           style={selectStyle}
         >
           <MenuItem value="00">00</MenuItem>
           <MenuItem value="30">30</MenuItem>
         </Select>
       </FormControl>
+
       <span style={{fontSize:"12px"}}>{formatTime(startHour, startMinute, endHour, endMinute)}</span>
+      <button onClick={testHandle}>qqwqeqw</button>
       </div>
      </div>
   );

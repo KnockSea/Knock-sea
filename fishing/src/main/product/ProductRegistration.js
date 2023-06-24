@@ -21,12 +21,17 @@ function ProductRegistration() {
   const [maxUser, setMaxUser] = useState('');
   const [ranges, setRanges] = useState(null);
   const [timeBoxes, setTimeBoxes] = useState([1]);
+  
   const [formatTimed, setFormatTime] = useState([1]);
 
-  const [startHour, setStartHour] = useState('');
-  const [startMinute, setStartMinute] = useState('');
-  const [endHour, setEndHour] = useState('');
-  const [endMinute, setEndMinute] = useState('');
+  const [selectedTimes, setSelectedTimes] = useState([]);
+
+  const [startHour, setStartHour] = useState([]);
+  const [startMinute, setStartMinute] = useState([]);
+  const [endHour, setEndHour] = useState([]);
+  const [endMinute, setEndMinute] = useState([]);
+
+  const [regTimes, setRegTimes] = useState([]);
   
   const [service, setService] = useState('');
   const [eduLevel, setEduLevel] = useState('');
@@ -36,7 +41,7 @@ function ProductRegistration() {
   const navigate = useNavigate();
 
   
-
+  // 이미지파일 2개 받기 
   const handlePhoto1Change = (event) => {
     const file = event.target.files[0];
     setPhoto1(file);
@@ -47,49 +52,58 @@ function ProductRegistration() {
     setPhoto2(file);
   };
 
-    // 날짜 값 받아옴
-    const handleGetDateRange = (ranges) => {
-      setRanges(ranges);
-      console.log("range 데이터 확인:", ranges.startDate, ranges.endDate);
-    };
-
-
-    // 시간 박스 생성
-    const addTimeBox = () => {
-      setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
-    };
-
-    const formatTime = ({startHour, startMinute, endHour, endMinute}) => {
-      const formattedStartHour = startHour.toString().padStart(2, '0');
-      const formattedStartMinute = startMinute.toString().padStart(2, '0');
-      const formattedEndHour = endHour.toString().padStart(2, '0');
-      const formattedEndMinute = endMinute.toString().padStart(2, '0');
-      return `${formattedStartHour} 시 ${formattedStartMinute} 분 ~ ${formattedEndHour} 시 ${formattedEndMinute} 분`;
-    };
-  
-    // 시간을 formdata에 넣기
-
-    const handleTimeRegistration = () => {
-      // 각 timeBox에서 선택된 시간 값을 FormData에 추가
-    timeBoxes.forEach((boxId) => {
-      const timePicker = document.getElementById(`time-picker-${boxId}`);
-      const startHour = timePicker.querySelector('#start-hour-select').value;
-      const startMinute = timePicker.querySelector('#start-minute-select').value;
-      const endHour = timePicker.querySelector('#end-hour-select').value;
-      const endMinute = timePicker.querySelector('#end-minute-select').value;
-
-
-  });
-
-  };
- 
   // 주소 값 받아옴
   const getAddressCom = (userAddress) => {
-    setuserAddress(userAddress)
+     setuserAddress(userAddress)
+  };
+  
+  // 날짜 값 받아옴
+  const handleGetDateRange = (ranges) => {
+    setRanges(ranges);
+    // console.log("날짜 데이터 확인:", ranges);
+ };
+
+
+  // 시간 박스 생성
+  const addTimeBox = () => {
+    setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
+    
+  };
+
+  const formatTime = ({startHour, startMinute, endHour, endMinute}) => {
+  const formattedStartHour = startHour.toString().padStart(2, '0');
+  const formattedStartMinute = startMinute.toString().padStart(2, '0');
+  const formattedEndHour = endHour.toString().padStart(2, '0');
+  const formattedEndMinute = endMinute.toString().padStart(2, '0');
+  return `${formattedStartHour} 시 ${formattedStartMinute} 분 ~ ${formattedEndHour} 시 ${formattedEndMinute} 분`;
+  };
+  
+
+  // 시간 상태 객체 생성
+  const handleTimeRegistration = (startHour,startMinute,endHour,endMinute) => {
+    console.log("민정쿤");
+    // if (startHour === '' || startMinute === '' || endHour === '' || endMinute === '') {
+    //   alert('모든 값을 선택해주세요.');
+    //   return;
+    // }
+    const newTime = {
+      startTime: {
+        hour: startHour,
+        minute: startMinute
+      },
+      endTime: {
+        hour: endHour,
+        minute: endMinute
+      }
+    };
+    
+    // 기존 상태에 새로운 시간 추가
+    setRegTimes(prevTimes => [...prevTimes, newTime]);
+
   };
 
 
-    // FormData 객체 생성
+    // 서버에 보낼 FormData 객체 생성
     const formData = new FormData();
     formData.append('productCategory', productCategory);
     formData.append('photo1', photo1);
@@ -101,16 +115,12 @@ function ProductRegistration() {
     formData.append('price', price);
     formData.append('maxUser', maxUser);
     formData.append('dateRange', JSON.stringify(ranges));
-    formData.append('time', formatTimed);
+    formData.append('regTimes', JSON.stringify(regTimes));
     formData.append('service', service);
     formData.append('eduLevel', eduLevel);
-    formData.append('startHour', startHour);
-    formData.append('startMinute', startMinute);
-    formData.append('endHour', endHour);
-    formData.append('endMinute', endMinute);
+    
       
-    console.log('FormData 값:');
-
+  console.log("===================== formDate값 =====================");
   for (let [key, value] of formData.entries()) {
     console.log(key, value);
   }
@@ -140,7 +150,13 @@ function ProductRegistration() {
   //   }
   // };
 
-
+  const [value, setValue] = useState(0);
+const test =(inputval)=>{
+  setValue(inputval)
+  console.log(
+    `VALUE의 값 : `,value
+  );
+}
 
   return (
     <div className="container">
@@ -316,11 +332,16 @@ function ProductRegistration() {
               </li>
              <br/>
               <li>
-                <div className="regi-title">운영일/운영 시간<span className="imp">*</span></div>
+                <div className="regi-title">운영 시간<span className="imp">*</span></div>
                 <div className='regi-time-wrap'>
                 {timeBoxes.map((boxId) => (
                     <div className="time-box"  key={boxId} style={{marginBottom:'15px'}}>
-                   <RegiTime id={`time-picker-${boxId}`} onChange={handleTimeRegistration} formatTime={formatTime} />  
+                   <RegiTime
+                   id={`time-picker-${boxId}`}
+                   onChange={handleTimeRegistration}
+                   formatTime={formatTime}
+                   testProps={test}
+                   />  
                   </div>
                    ))}
                 </div>

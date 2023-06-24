@@ -46,7 +46,7 @@ public class AnswerApiController {
           @Validated @RequestBody AnswerCreateRequestDTO dto
           , BindingResult result
   ) {
-    log.info("AnswerCreateRequestDTO POST!");
+    log.info("AnswerCreateRequestDTO POST! :{}" , dto);
 
     if (dto == null) {
       return ResponseEntity
@@ -83,27 +83,27 @@ public class AnswerApiController {
     return null;
   }
 
-  @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
-  public ResponseEntity<?> update(
-          @AuthenticationPrincipal TokenUserInfo userInfo,
-          @Validated @RequestBody AnswerModifyDTO dto
-          , BindingResult result
-          , HttpServletRequest request
-  ) {
-
-    log.info("/api/v1/answers {}!! -  modify dto: {}"
-            , request.getMethod(), dto);
-
-    try {
-      AnswerDetailResponseDTO responseDTO = answerService.modify(dto, userInfo.getUserId());
-      return ResponseEntity
-              .ok(responseDTO);
-    } catch (Exception e) {
-      return ResponseEntity
-              .internalServerError()
-              .body(e.getMessage());
-    }
-  }
+//  @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
+//  public ResponseEntity<?> update(
+//          @AuthenticationPrincipal TokenUserInfo userInfo,
+//          @Validated @RequestBody AnswerModifyDTO dto
+//          , BindingResult result
+//          , HttpServletRequest request
+//  ) {
+//
+//    log.info("/api/v1/answers {}!! -  modify dto: {}"
+//            , request.getMethod(), dto);
+//
+//    try {
+//      AnswerDetailResponseDTO responseDTO = answerService.modify(dto, userInfo.getUserId());
+//      return ResponseEntity
+//              .ok(responseDTO);
+//    } catch (Exception e) {
+//      return ResponseEntity
+//              .internalServerError()
+//              .body(e.getMessage());
+//    }
+//  }
   @DeleteMapping("/{answerId}")
   public ResponseEntity<?> delete(
       @AuthenticationPrincipal TokenUserInfo userInfo,

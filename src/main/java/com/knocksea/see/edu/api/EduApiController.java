@@ -9,6 +9,7 @@ import com.knocksea.see.inquiry.dto.page.PageDTO;
 import com.knocksea.see.user.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/edu")
 public class EduApiController {
+
 
     private final EduService eduService;
     private final ImageService imageService;

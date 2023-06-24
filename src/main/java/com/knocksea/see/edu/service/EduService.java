@@ -1,14 +1,17 @@
 package com.knocksea.see.edu.service;
 
 import com.knocksea.see.auth.TokenUserInfo;
-import com.knocksea.see.edu.dto.response.*;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
+import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
+import com.knocksea.see.edu.dto.response.EduListDataResponseDTO;
+import com.knocksea.see.edu.dto.response.EduTopFourListResponseDTO;
+import com.knocksea.see.edu.dto.response.ResponseMyEduDTO;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.heart.repository.HeartRepository;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
-import com.knocksea.see.product.dto.response.mainListResponseDTO;
 import com.knocksea.see.product.dto.response.ReservationTimeResponseDTO;
+import com.knocksea.see.product.dto.response.mainListResponseDTO;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.repository.ReservationRepository;
@@ -28,6 +31,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,9 +59,10 @@ public class EduService {
     private final ImageService imageService;
 
 
-    @Value("${jiseung-upload-bucket}")
-//    private String bucketName;
-//
+//    private final S3Client s3Client;
+
+    @Value("${aws.bucketName}")
+    private String bucketName;
 
 
     //좋아요 상위 4개 조회
@@ -262,7 +267,7 @@ public class EduService {
                 }).collect(Collectors.toList());
     }
 
-    public ResponseMyEduDTO getMyEdu(TokenUserInfo userInfo) {
+    public ResponseMyEduDTO getMyEdu( @AuthenticationPrincipal TokenUserInfo userInfo) {
 
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow();
 
