@@ -74,14 +74,14 @@ public class ImageService {
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
         Ship foundShipByUserId = shipRepository.findByUser(user);
         log.warn("유저123 : {} ", foundShipByUserId);
-        List<String> strings = uploadShipImage(shipImages);
-        log.warn("이미지 이름333 : {} ", strings.toArray());
+        List<String> urls = uploadShipImage(shipImages);
+        log.warn("이미지 이름333 : {} ", urls.toArray());
         Long typeNumber = 1L;
 
-        for (String string : strings) {
+        for (String url : urls) {
             SeaImage save = imageRepository.save(SeaImage
                     .builder()
-                    .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+string)
+                    .imageName(url)
                     .ship(foundShipByUserId)
                     .typeNumber(typeNumber++)
                     .imageType(ProductCategory.SHIP).build());
@@ -154,18 +154,20 @@ public class ImageService {
         //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
         List<String> uniqueFilenames = new ArrayList<>();
 
-        String s = makeDateFormatDirectory(uploadRootPath2);
-
+//        String s = makeDateFormatDirectory(uploadRootPath2);
+        log.warn("이미지 s3 저장 시키는거");
 
         for (MultipartFile shipImage : shipImages) {
+            log.warn("널뜨냐?");
             String originalFilename = shipImage.getOriginalFilename();
             String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
 
+            String realUrl = s3Service.uploadToS3Bucket(originalFilename.getBytes(), uniqueFileName);
             // Save the file
-            File uploadFile = new File(s+"/"+uniqueFileName);
-            shipImage.transferTo(uploadFile);
+//            File uploadFile = new File(s+"/"+uniqueFileName);
+//            shipImage.transferTo(uploadFile);
 
-            uniqueFilenames.add(uniqueFileName);
+            uniqueFilenames.add(realUrl);
 
         }
 
