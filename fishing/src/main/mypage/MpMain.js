@@ -73,21 +73,33 @@ const MpMain = () => {
             <div className='mainbox1'>
                     
                     <div className='mychoicebox'>
-                        <h1>마이페이지</h1>
-                        {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpbt'}>배</Link></h1>)}
-                        {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpbt'}>낚시터</Link></h1>)}
-                        {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpclass'}>클래스</Link></h1>)}
-                    </div>
-                   
-                   
-                    <div className='userinfobox'>
-                        <div className='profilebox'>
-                            <img className="my-profile" title="마이페이지" src={userProfile.profileImageUrl || require('./../img/class.jpg')}/>
+                        <div className='mpTitle'>
+                            <h1>마이페이지</h1>
                         </div>
-                        <div>{userInfo.userName}</div>
-                        <div>{userInfo.userGrade}</div>
-                        <div>{userInfo.userEmail}</div>
-                        <div>{userInfo.userPhone}</div>
+                        <div className='ownerTap'>
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>⛵ 배</h1></Link>)}
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>🚩 낚시터</h1></Link>)}
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)}
+                        </div>
+                    </div>
+                    <div className='userinfobox'>
+                        <div className='userinfoWrap'>
+                            <div className='profilebox'>
+                                <img className="my-profile" title="마이페이지" src={userProfile.profileImageUrl || require('./../img/class.jpg')}/>
+                            </div>
+                            <div className='userWrap userMain'>
+                                <p>나의 등급</p>
+                                <p>이름</p>
+                                <p>이메일</p>
+                                <p>연락처</p>
+                            </div>
+                            <div className='userWrap userEtc'>
+                                <div className='userName'>{userInfo.userName}</div>
+                                <div>{userInfo.userGrade}</div>
+                                <div>{userInfo.userEmail}</div>
+                                <div>{userInfo.userPhone}</div>
+                            </div>
+                        </div>
                         <div className='btbox'>
                         {/* <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button> */}
                         <button><Link to={'/myinfo'}>개인 정보 수정</Link></button>
@@ -119,7 +131,7 @@ const MpMain = () => {
                 </div>
             </div>
         
-                <MpList />
+                <MpList style={{position:"fixed"}} />
         </section>
     )
 }
