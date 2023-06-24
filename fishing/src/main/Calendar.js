@@ -6,7 +6,10 @@ import './scss/Calendar.scss';
 
 const Calendar = ({  handleDateChange }) => {
   const [selectedDate, setSelectedDate] = useState(null);
-
+  const minDate = new Date(); // 최소 날짜
+  const maxDate = new Date(); // 최대 날짜
+  maxDate.setDate(maxDate.getDate() + 7);
+  
   const handleChange = (date) => {
     setSelectedDate(date);
     handleDateChange(date); 
@@ -30,6 +33,8 @@ const Calendar = ({  handleDateChange }) => {
         open 
         calendarClassName="custom-calendar"
         locale={ko}
+        minDate={minDate} // 최소 날짜 설정
+        maxDate={maxDate} // 최대 날짜 설정
       />
       
     </div>

@@ -18,6 +18,7 @@ import com.knocksea.see.user.repository.FishingSpotRepository;
 import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.ShipRepository;
 import com.knocksea.see.user.repository.UserRepository;
+import com.knocksea.see.user.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,7 +26,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +49,7 @@ public class ProductService implements ProductDetailService {
     private final EduRepository eduRepository;
     private final ViewProductRepository viewProductRepository;
     private final ImageRepository imageRepository;
+    private final ImageService imageService;
 
     public Product getProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(() ->
@@ -82,7 +87,11 @@ public class ProductService implements ProductDetailService {
     public ProductDetailResponseDTO getDetail(Long productId) {
         Product product = getProduct(productId);
         User user = product.getUser();
-
+//        List<SeaImage> images = imageRepository.findAllByProduct(product);
+        List<String> imgUrls = new ArrayList<>();
+        imageRepository.findAllByProduct(product).forEach( i -> {
+            imgUrls.add(i.getImageName());
+        });
         // 리뷰 목록(상품번호로 조회)  // null 뜨는지 확인해야댐
         List<ReviewDetailResponseDTO> reviewResponseList = reviewRepository.findAllByProduct(product).stream()
                 .map(ReviewDetailResponseDTO::new).collect(Collectors.toList());
@@ -91,11 +100,13 @@ public class ProductService implements ProductDetailService {
         List<ReservationTimeResponseDTO> timeResponseDTOList = reservationTimeRepository.findAllByProduct(product).stream()
                 .map(ReservationTimeResponseDTO::new).collect(Collectors.toList());
 
-        return new ProductDetailResponseDTO(product, timeResponseDTOList, reviewResponseList);
+        return new ProductDetailResponseDTO(product, timeResponseDTOList, reviewResponseList, imgUrls);
     }
 
     // 상품 등록 기능
-    public ProductDetailResponseDTO create(ProductRequestDTO dto, TokenUserInfo userInfo) throws RuntimeException{
+    public ProductDetailResponseDTO create(ProductRequestDTO dto, TokenUserInfo userInfo,
+                                           List<MultipartFile> productImages
+    ) throws RuntimeException, IOException {
         // 상품을 먼저 등록하고 -> 시간 정보를 등록해야 한다.
         User user = userRepository.findById(userInfo.getUserId()).
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
@@ -108,7 +119,10 @@ public class ProductService implements ProductDetailService {
             throw new RuntimeException("이미 등록된 상품입니다.");
         }
 
+
         Product saveProduct = productRepository.save(dto.toProductEntity(user));
+
+        imageService.saveProductImg(productImages, userInfo, saveProduct);
 
         for (int i = 0; i < dto.getTimeDate().size(); i++) {
             for (int j = 0; j < dto.getTimeStart().size(); j++) {
