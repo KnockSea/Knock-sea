@@ -80,7 +80,7 @@ const testHandle = () =>{
           labelId="start-hour-label"
           id="start-hour-select"
           value={startHour}
-          ref={myRef1}
+          
           onChange={handleTimeChange}
           style={selectStyle}
         >
@@ -96,7 +96,7 @@ const testHandle = () =>{
           labelId="start-minute-label"
           id="start-minute-select"
           value={startMinute}
-          ref={myRef2}
+          
           onChange={handleTimeChange}
           style={selectStyle}
         >
@@ -110,7 +110,7 @@ const testHandle = () =>{
           labelId="end-hour-label"
           id="end-hour-select"
           value={endHour}
-          ref={myRef3}
+          
           onChange={handleTimeChange}
           style={selectStyle}
         >
@@ -125,7 +125,7 @@ const testHandle = () =>{
         <Select
           labelId="end-minute-label"
           id="end-minute-select"
-          ref={myRef4}
+          
           value={endMinute}
           onChange={handleTimeChange}
           style={selectStyle}
