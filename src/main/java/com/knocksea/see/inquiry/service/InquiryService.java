@@ -96,7 +96,11 @@ public class InquiryService {
                 );
         return inquiryEntity;
     }
-
+    public InquiryDetailResponseDTO findByInquiry(Long inquiryId) {
+        Inquiry inquiry = inquiryRepository.findById(inquiryId).orElseThrow();
+        InquiryDetailResponseDTO dto = new InquiryDetailResponseDTO(inquiry);
+        return dto;
+    }
 
     public InquiryDetailResponseDTO insert(final InquiryCreateRequestDTO dto, final TokenUserInfo userInfo)
         throws RuntimeException {
@@ -135,4 +139,6 @@ public class InquiryService {
 
         }
     }
+
+
 }

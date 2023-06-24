@@ -3,6 +3,7 @@ package com.knocksea.see.inquiry.api;
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
 import com.knocksea.see.inquiry.dto.request.InquiryCreateRequestDTO;
+import com.knocksea.see.inquiry.dto.response.AnswerDetailResponseDTO;
 import com.knocksea.see.inquiry.dto.response.InquiryDetailResponseDTO;
 import com.knocksea.see.inquiry.dto.response.InquiryListResponseDTO;
 import com.knocksea.see.inquiry.dto.request.InquiryModifyDTO;
@@ -40,6 +41,14 @@ public class InquiryApiController {
         return ResponseEntity.ok().body(dto);
     }
 
+    @GetMapping("/{inquiryId}")
+    public ResponseEntity<?> detail(
+        @PathVariable Long inquiryId) {
+        log.info("inquiryId - {}", inquiryId);
+        InquiryDetailResponseDTO byInquiry = inquiryService.findByInquiry(inquiryId);
+
+        return ResponseEntity.ok().body(byInquiry);
+    }
     // 자신 문의
     @GetMapping("/myInquiry")
     public ResponseEntity<?> detail(

@@ -9,7 +9,6 @@ const MpInquiryD = (props) => {
     const [answers, setAnswers] = useState([]);
     const [data, setData] = useState(null);
     const [inquiry, setInquriry] = useState(null);
-   
 
     const handleAnswerChange = (e) => {
         setAnswerDetails(e.target.value);
@@ -27,39 +26,39 @@ const MpInquiryD = (props) => {
         setAnswerDetails("");
     };
     const fetchInquiry = async () => {
-      try {
-          const response = await fetch(
-              `http://localhost:8012/api/v1/inquiries/${inquiryId}`
-          );
-          if (response.ok) {
-              const inquire = await response.json();
-              setInquriry(inquire);
-          } else {
-              throw new Error("Failed to fetch answers");
-          }
-      } catch (error) {
-          console.log(error);
-      }
-  };
+        try {
+            const response = await fetch(
+                `http://localhost:8012/api/v1/inquiries/${inquiryId}`
+            );
+            if (response.ok) {
+                const inquire = await response.json();
+                setInquriry(inquire);
+            } else {
+                throw new Error("Failed to fetch answers");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
-  //   const fetchAnswers = async () => {
-  //     try {
-  //         const response = await fetch(
-  //             `http://localhost:8012/api/v1/answers/${inquiryId}`
-  //         );
-  //         if (response.ok) {
-  //             const data = await response.json();
-  //             setAnswers(data);
-  //         } else {
-  //             throw new Error("Failed to fetch answers");
-  //         }
-  //     } catch (error) {
-  //         console.log(error);
-  //     }
-  // };
-  
+    //   const fetchAnswers = async () => {
+    //     try {
+    //         const response = await fetch(
+    //             `http://localhost:8012/api/v1/answers/${inquiryId}`
+    //         );
+    //         if (response.ok) {
+    //             const data = await response.json();
+    //             setAnswers(data);
+    //         } else {
+    //             throw new Error("Failed to fetch answers");
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
     useEffect(() => {
-      fetchInquiry();
+        fetchInquiry();
         // fetchAnswers();
     }, [inquiryId]);
 
@@ -90,7 +89,7 @@ const MpInquiryD = (props) => {
                         <div className="ctntextbox1">
                             <div className="answertext">
                                 {/* 작성자가 문의한 글 보여주는 곳 */}
-                                {/* {inquiry.inquiryDetails} */}
+                                {inquiry.inquiryDetails}
                             </div>
                             <div className="adminreplyinput">
                                 <textarea
@@ -101,6 +100,7 @@ const MpInquiryD = (props) => {
                         </div>
                     </div>
                     <button onClick={handleSubmitAnswer}>답변완료</button>
+                    {/* 답변완료를 누르면 관리자화면에서 답변한 게시글은 없어지거나  답변하기가 사라져야 하지않나? */}
                 </div>
             </div>
         </section>
