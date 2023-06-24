@@ -81,7 +81,7 @@ class UserServiceTest {
 
 /*        userRepository.save(saveUser);
         userRepository.save(saveUser2);*/
-        userRepository.save(saveUser3);
+//        userRepository.save(saveUser3);
         userRepository.save(saveUser4);
         userRepository.save(saveUser5);
 

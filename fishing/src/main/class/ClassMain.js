@@ -125,11 +125,11 @@ function ClassMain() {
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
                                             <div className="list-star-rating">{f.star}</div>
-                                            <div className="userId">{f.id}</div>
+                                            <div className="userId">{f.userName}</div>
                                         </div>
-                                        <div className="text-place list-t">위치 : {f.place}</div>
-                                        <div className="text-price">가격 : {f.price}</div>
-                                        <div className="text-title list-t">{f.title}</div>
+                                        <div className="text-place list-t">위치 : {f.eduLocation}</div>
+                                        <div className="text-price">가격 : {f.eduPrice}</div>
+                                        <div className="text-title list-t">{f.eduTitle}</div>
                                     </div>
                                     </div>
                                 ))}
