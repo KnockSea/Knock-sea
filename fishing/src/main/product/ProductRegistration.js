@@ -5,6 +5,7 @@ import Post from '../account/Post';
 import "react-date-range/dist/styles.css"; 
 import 'react-date-range/dist/theme/default.css'; 
 import Calendar from './RegiCalendar';
+import TimeConverter from './Time';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -21,26 +22,17 @@ function ProductRegistration() {
   const [maxUser, setMaxUser] = useState('');
   const [ranges, setRanges] = useState(null);
   const [timeBoxes, setTimeBoxes] = useState([1]);
-  
-  const [formatTimed, setFormatTime] = useState([1]);
-
-  const [selectedTimes, setSelectedTimes] = useState([]);
-
-  const [startHour, setStartHour] = useState([]);
-  const [startMinute, setStartMinute] = useState([]);
-  const [endHour, setEndHour] = useState([]);
-  const [endMinute, setEndMinute] = useState([]);
-
+  const [startTimes, setStartTimes] = useState([]);
+  const [endTimes, setEndTimes] = useState([]);
   const [regTimes, setRegTimes] = useState([]);
-  
   const [service, setService] = useState('');
   const [eduLevel, setEduLevel] = useState('');
-
   const [popup, setPopup] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const [showDifficulty, setShowDifficulty] = useState(false);
   const navigate = useNavigate();
 
-  
+
   // 이미지파일 2개 받기 
   const handlePhoto1Change = (event) => {
     const file = event.target.files[0];
@@ -63,43 +55,17 @@ function ProductRegistration() {
     // console.log("날짜 데이터 확인:", ranges);
  };
 
+// 시간값 props & 베열생성
+ function handleTimeChange(timeString) {
+  const [startTime, endTime] = timeString.split(' - ');
+  setStartTimes([...startTimes, startTime]);
+  setEndTimes([...endTimes, endTime]);
+  console.log('Received time:', startTimes, endTimes);
+}
 
   // 시간 박스 생성
   const addTimeBox = () => {
     setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
-    
-  };
-
-  const formatTime = ({startHour, startMinute, endHour, endMinute}) => {
-  const formattedStartHour = startHour.toString().padStart(2, '0');
-  const formattedStartMinute = startMinute.toString().padStart(2, '0');
-  const formattedEndHour = endHour.toString().padStart(2, '0');
-  const formattedEndMinute = endMinute.toString().padStart(2, '0');
-  return `${formattedStartHour} 시 ${formattedStartMinute} 분 ~ ${formattedEndHour} 시 ${formattedEndMinute} 분`;
-  };
-  
-
-  // 시간 상태 객체 생성
-  const handleTimeRegistration = (startHour,startMinute,endHour,endMinute) => {
-    console.log("민정쿤");
-    // if (startHour === '' || startMinute === '' || endHour === '' || endMinute === '') {
-    //   alert('모든 값을 선택해주세요.');
-    //   return;
-    // }
-    const newTime = {
-      startTime: {
-        hour: startHour,
-        minute: startMinute
-      },
-      endTime: {
-        hour: endHour,
-        minute: endMinute
-      }
-    };
-    
-    // 기존 상태에 새로운 시간 추가
-    setRegTimes(prevTimes => [...prevTimes, newTime]);
-
   };
 
 
@@ -115,55 +81,54 @@ function ProductRegistration() {
     formData.append('price', price);
     formData.append('maxUser', maxUser);
     formData.append('dateRange', JSON.stringify(ranges));
-    formData.append('regTimes', JSON.stringify(regTimes));
+    formData.append('startTimes',startTimes);
+    formData.append('endTimes', endTimes);
     formData.append('service', service);
     formData.append('eduLevel', eduLevel);
     
-      
   console.log("===================== formDate값 =====================");
   for (let [key, value] of formData.entries()) {
     console.log(key, value);
   }
 
-  const handleProductRegi = async (e) => {
-    e.preventDefault();
+ // 취소버튼
+  const handleCancel = () => {
+    navigate('/my'); // '/my' 경로로 이동
   };
 
-  //   try {
-  //     // fetch를 사용하여 서버로 데이터 전송
-  //     const response = await fetch('서버 주소', {
-  //       method: 'POST',
-  //       body: formData,
-  //     });
+  const handleProductRegi = async (e) => {
+    e.preventDefault();
+    alert("예약등록이 완료되었습니다!")
+    navigate('/');
+  };
 
-  //     // 응답 결과 확인
-  //     if (response.ok) {
-  //       // 성공적으로 데이터가 전송되었을 때 처리할 내용
-  //       console.log('데이터 전송 성공!');
-  //     } else {
-  //       // 데이터 전송 실패 시 처리할 내용
-  //       console.error('데이터 전송 실패!');
-  //     }
-  //   } catch (error) {
-  //     // 에러 처리
-  //     console.error('데이터 전송 중 오류 발생:', error);
-  //   }
-  // };
+   try {
+  // fetch를 사용하여 서버로 데이터 전송
+    const response = await fetch('서버 주소', {
+     method: 'POST',
+      body: formData,
+    });
 
-  const [value, setValue] = useState(0);
-const test =(inputval)=>{
-  setValue(inputval)
-  console.log(
-    `VALUE의 값 : `,value
-  );
-}
+     // 응답 결과 확인
+      if (response.ok) {
+        // 성공적으로 데이터가 전송되었을 때 처리할 내용
+        console.log('데이터 전송 성공!');
+      } else {
+        // 데이터 전송 실패 시 처리할 내용
+        console.error('데이터 전송 실패!');
+      }
+    } catch (error) {
+      // 에러 처리
+      console.error('데이터 전송 중 오류 발생:', error);
+    }
+ };
 
   return (
     <div className="container">
       <div className="product-regi-wrap">
         <div className="product-regi-header">
          <div className="head-title">
-          <p>KNOCK_SEA 상품 등록 <span style={{color:"navy", fontSize:"18px"}}>[1단계]</span></p>
+          <p>KNOCK_SEA 상품 등록</p>
           <img className="image-82-CzH" src="https://cdn-icons-png.flaticon.com/128/8955/8955326.png" id="SignUpImg" alt="SignUpImg" />
         </div>
         </div>
@@ -175,7 +140,14 @@ const test =(inputval)=>{
                 <div className="regi-title">카테고리 선택<span className="imp">*</span></div>
                 <select
                     value={productCategory}
-                    onChange={(e) => setProductCategory(e.target.value)}
+                    onChange={(e) => {
+                      setProductCategory(e.target.value);
+                      if (e.target.value === "EDU") {
+                        setShowDifficulty(true); // 클래스 카테고리 선택 시 난이도 옵션 표시
+                      } else {
+                        setShowDifficulty(false); // 다른 카테고리 선택 시 난이도 옵션 숨김
+                      }
+                    }}
                     required
                     aria-required="true"
                     className="category-custom-select"
@@ -334,15 +306,10 @@ const test =(inputval)=>{
               <li>
                 <div className="regi-title">운영 시간<span className="imp">*</span></div>
                 <div className='regi-time-wrap'>
-                {timeBoxes.map((boxId) => (
-                    <div className="time-box"  key={boxId} style={{marginBottom:'15px'}}>
-                   <RegiTime
-                   id={`time-picker-${boxId}`}
-                   onChange={handleTimeRegistration}
-                   formatTime={formatTime}
-                   testProps={test}
-                   />  
-                  </div>
+                  {timeBoxes.map((boxId) => (
+                    <div className="time-box"  key={boxId} style={{margin:'15px'}}>
+                    <TimeConverter onTimeChange={handleTimeChange}/>
+                    </div>
                    ))}
                 </div>
               </li>
@@ -363,44 +330,43 @@ const test =(inputval)=>{
                   />
                 </div>
               </li>
-              
-                <li className='difficulty'>
-                  <div className="regi-title">난이도<br/><span className="imp" style={{ fontSize: '11px' }}>*클래스만 해당!</span></div>
-                  <div className='category'>
-                    <input
-                      id="class-step1"
-                      value="LOWER"
-                      name="step"
-                      type="radio"
-                      checked={eduLevel === "초급자 가능"}
-                      onChange={(e) => setEduLevel(e.target.value)}
-                    />
-                    <label htmlFor="class-step1">초급자 가능</label>
-                    <input
-                      id="class-step2"
-                      value="MIDDLE"
-                      name="step"
-                      type="radio"
-                      checked={eduLevel === "중급자 이상"}
-                      onChange={(e) => setEduLevel(e.target.value)}
-                    />  
-                    <label htmlFor="class-step2">중급자 이상</label>
-                    <input
-                      id="class-step3"
-                      value="UPPER"
-                      name="step"
-                      type="radio"
-                      checked={eduLevel === "상급자"}
-                      onChange={(e) => setEduLevel(e.target.value)}
-                    />
-                    <label htmlFor="class-step3">상급자</label>
-                  </div>
-                </li>
-
-
+              {showDifficulty && (
+              <li className='difficulty'>
+                <div className="regi-title">난이도<br/><span className="imp" style={{ fontSize: '11px' }}>*클래스만 해당!</span></div>
+                <div className='category'>
+                  <input
+                    id="class-step1"
+                    value="LOWER"
+                    name="step"
+                    type="radio"
+                    checked={eduLevel === "초급자 가능"}
+                    onChange={(e) => setEduLevel(e.target.value)}
+                  />
+                  <label htmlFor="class-step1">초급자 가능</label>
+                  <input
+                    id="class-step2"
+                    value="MIDDLE"
+                    name="step"
+                    type="radio"
+                    checked={eduLevel === "중급자 이상"}
+                    onChange={(e) => setEduLevel(e.target.value)}
+                  />  
+                  <label htmlFor="class-step2">중급자 이상</label>
+                  <input
+                    id="class-step3"
+                    value="UPPER"
+                    name="step"
+                    type="radio"
+                    checked={eduLevel === "상급자"}
+                    onChange={(e) => setEduLevel(e.target.value)}
+                  />
+                  <label htmlFor="class-step3">상급자</label>
+                </div>
+              </li>
+            )}
             </ul>
             <div className="product-regi-footer">
-              <button type="submit" className="btn">
+              <button type="button" onClick={handleCancel} className="btn">
                 취소
               </button>
             
