@@ -1,19 +1,40 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import MpList from './MpList'
-
+import { useState,useEffect } from 'react'
+import { getLoginUserInfo } from '../util/login-util'
 const MpClassInfo = () => {
 
 
-  return (
+    const [userInfo, setUserInfo] = useState({
+        token: '', // Set default value for name
+        userEmail: '', // Set default value for email
+        userName : '',
+        userGrade : '',
+        userId : '',
+        userPhone : ''
+      });
+
+
+
+
+    useEffect(() => {
+        const user = getLoginUserInfo();
+        setUserInfo(user)
+    }, []);
+
+
+    
+
+    return (
    <section className='MyPageMainBox'>
             <div className='mainbox1'>
                     
                     <div className='mychoicebox'>
                         <h1><Link to={'/my'}>마이페이지</Link></h1>
 
-                        <h1><Link to={'/mpbt'}>배</Link></h1>
-                        <h1><Link to={'/mpfs'}>낚시터</Link></h1>
+                        {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpbt'}>배</Link></h1>)}
+                        {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpfs'}>낚시터</Link></h1>)}
                         <h1><Link to={'/mpclass'}>클래스</Link></h1>
                     </div>
                    

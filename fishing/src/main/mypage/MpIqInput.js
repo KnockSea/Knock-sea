@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MpList from './MpList';
 import { getLoginUserInfo } from '../util/login-util';
+import { Link } from 'react-router-dom';
 
 const MpIqInput = () => {
   const [title, setTitle] = useState('');
@@ -10,13 +11,13 @@ const MpIqInput = () => {
   
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-    console.log(event.target.value);
-    console.log(token);
+    // console.log(event.target.value);
+    // console.log(token);
   };
 
   const handleContentChange = (event) => {
     setContent(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
 
   const handleSubmit = () => {
@@ -80,7 +81,9 @@ const MpIqInput = () => {
             </div>
           </div>
 
-          <button className='qtUpdatebtn' onClick={handleSubmit}>작성완료</button>
+          <Link to="/inquire" className="qtUpdatebtn" onClick={handleSubmit}>
+            작성완료
+          </Link>
         </div>
       </div>
 

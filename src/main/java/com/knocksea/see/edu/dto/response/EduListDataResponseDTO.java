@@ -13,6 +13,7 @@ import lombok.*;
 @Builder
 public class EduListDataResponseDTO {
 
+    private Long eduId;
     private String eduTitle;
     private double reviewAverage;
     private String userName;
@@ -26,5 +27,6 @@ public class EduListDataResponseDTO {
         this.eduTitle = edu.getEduTitle();
         this.eduLocation = edu.getEduLocationInfo();
         this.eduPrice = edu.getEduPrice();
+        this.eduId=edu.getEduId();
     }
 }

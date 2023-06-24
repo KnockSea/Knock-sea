@@ -1,8 +1,10 @@
 package com.knocksea.see.user.entity;
 
 
+import com.knocksea.see.inquiry.entity.Inquiry;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ProductCategory;
+import com.knocksea.see.validation.dto.request.validationModifyRequestDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -64,6 +66,8 @@ public class User {
     //프로필 이미지
     private String profileImg;
 
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
+    private List<Inquiry> inquiries = new ArrayList<>();
 
 
     //    @OneToMany(mappedBy = "user")

@@ -47,7 +47,7 @@ function ClassMain() {
         }, []);
 
     const fList = [
-        { id: '강태공', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕~', place: '부둣가', price: 10000 },
+        { id: '강태공', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕',place: '부둣가', price: 10000 },
         { id: '돔쟁이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
         { id: 'eeba쟁이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
         { id: '뜜쟁이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
@@ -55,16 +55,14 @@ function ClassMain() {
         { id: '무꼬기', feedImg: 'https://cdn.pixabay.com/photo/2023/03/02/12/42/fish-7825240_1280.jpg', star: '★★★★★', title: '제목 3', place: '낚시터', price: 30000 },
       ];
 
-      const TopList = [
-        { id: '12', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕~', place: '부둣가', price: 10000 },
-        { id: '123', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
-        { id: '1234', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
-        { id: '돔쟁123이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
-      ];
+      // const TopList = [
+      //   { id: '12', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕', place: '부둣가', price: 10000 },
+      //   { id: '123', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
+      //   { id: '1234', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
+      //   { id: '돔쟁123이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
+      // ];
 
       const [filter, setFilter] = useState('');
-
-
 
       const handleFilterChange = (event) => {
         setFilter(event.target.value);
@@ -81,20 +79,22 @@ function ClassMain() {
                 <div className="class-HOT">
                     <p><span className='class-list-title'>HOT! </span>지금 인기 많은 클래스</p>
                     <div className='lists'>
-                            {TopList.map((t) => (
-                                    <div className="class-list-1" key={t.id}>
-                                    <div className="writer" data-id={t.id}></div>
+                            {edus.map((t) => (
+                                    <div className="class-list-1" key={t.eduId}>
+                                      <div className="writer" data-id={t.eduId}></div>
                                     <div className="list-img-wrapper">
                                         <img src={t.feedImg} alt="" id="list-img" />
                                     </div>
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
                                             <div className="list-star-rating">{t.star}</div>
-                                            <div className="userId">{edus[0].userName}</div>
+
+                                            <div className="userId">{t.userName}</div>
                                         </div>
-                                        <div className="text-place list-t">위치 : {edus[0].eduLocation}</div>
-                                        <div className="text-price">가격 : {edus[0].eduPrice}원</div>
-                                        <div className="text-title list-t">{edus[0].eduTitle}</div>
+                                        <div className="text-place list-t">위치 : {t.eduLocation}</div>
+                                        <div className="text-price">가격 : {t.eduPrice}원</div>
+                                        <div className="text-title list-t">{t.eduTitle}</div>
+
                                     </div>
                                     </div>
                                 ))}
@@ -116,9 +116,9 @@ function ClassMain() {
                     <div className="class-list">
                         <Link to={"/classdetail"} style={{ color: 'black', textDecoration: 'none' }}>
                         <div className='lists'>
-                            {fList.map((f) => (
-                                    <div className="class-list-1" key={f.id}>
-                                    <div className="writer" data-id={f.id}></div>
+                            {edus.map((f) => (
+                                    <div className="class-list-1" key={f.eduId}>
+                                    <div className="writer" data-id={f.eduId}></div>
                                     <div className="list-img-wrapper">
                                         <img src={f.feedImg} alt="" id="list-img" />
                                     </div>

@@ -6,8 +6,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Link } from 'react-router-dom';
+import { getLoginUserInfo } from '../util/login-util';
+import { useEffect } from 'react';
 
-export default function MpModal() {
+export default function MpModal({ user }) {
+
+  const { email, password } = user;
+  console.log(email);
+  console.log(password);
+  console.log(getLoginUserInfo().token);
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -16,6 +24,39 @@ export default function MpModal() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+
+
+
+
+  // //회원탈퇴하는 함수
+  const deleteuser = async () => {
+    try {
+      const userDeleteRequest = {
+        userEmail: email, // Fill in the user email
+        userPassword: password // Fill in the user password
+      };
+  
+      const res = await fetch('http://localhost:8012/api/v1/user/userDelete', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userDeleteRequest)
+      });
+  
+      if (res.ok) {
+        const json = await res.json();
+        // alert(json);
+        localStorage.clear();
+      } else {
+        console.log(userDeleteRequest);
+      }
+    } catch (error) {
+      console.error('An error occurred during user deletion:', error);
+    }
   };
 
   return (
@@ -47,7 +88,7 @@ export default function MpModal() {
           <Button onClick={handleClose} 
           style={{color:'red'}}
           autoFocus>
-           <Link to={'/drop'} style={{textDecoration:'none'}}> 탈퇴하기</Link>
+           <Link to={'/drop'} style={{textDecoration:'none'}} onClick={deleteuser}> 탈퇴하기</Link>
           </Button>
         </DialogActions>
       </Dialog>

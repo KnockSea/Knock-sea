@@ -7,6 +7,7 @@ import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.repository.ProductRepository;
 import com.knocksea.see.review.dto.page.PageDTO;
 import com.knocksea.see.review.dto.page.PageResponseDTO;
+import com.knocksea.see.review.dto.page.UserPageDTO;
 import com.knocksea.see.review.dto.request.ReviewCreateDTO;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.dto.response.ReviewListResponseDTO;
@@ -58,7 +59,7 @@ public class ReviewService {
         return new ReviewDetailResponseDTO(saved);
     }
 
-    public ReviewListResponseDTO getUserReviewById(PageDTO dto, Long TokenUserId) {
+    public ReviewListResponseDTO getUserReviewById(UserPageDTO dto, Long TokenUserId) {
 
         PageRequest pageable = PageRequest.of(
                 dto.getPage() - 1,

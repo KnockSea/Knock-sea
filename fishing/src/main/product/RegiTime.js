@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FormControl, MenuItem, Select } from '@mui/material';
 
 const RegiTime = ({onChange,testProps}) => {
+
   const [startHour, setStartHour] = useState('');
   const [startMinute, setStartMinute] = useState('');
   const [endHour, setEndHour] = useState('');
@@ -79,7 +80,8 @@ const testHandle = () =>{
           labelId="start-hour-label"
           id="start-hour-select"
           value={startHour}
-          onChange={handleStartHourChange}
+          
+          onChange={handleTimeChange}
           style={selectStyle}
         >
           {Array.from(Array(24).keys()).map((hour) => (
@@ -94,7 +96,8 @@ const testHandle = () =>{
           labelId="start-minute-label"
           id="start-minute-select"
           value={startMinute}
-          onChange={handleStartMinuteChange}
+          
+          onChange={handleTimeChange}
           style={selectStyle}
         >
           <MenuItem value="00">00</MenuItem>
@@ -107,7 +110,8 @@ const testHandle = () =>{
           labelId="end-hour-label"
           id="end-hour-select"
           value={endHour}
-          onChange={handleEndHourChange}
+          
+          onChange={handleTimeChange}
           style={selectStyle}
         >
           {Array.from(Array(24).keys()).map((hour) => (
@@ -121,14 +125,16 @@ const testHandle = () =>{
         <Select
           labelId="end-minute-label"
           id="end-minute-select"
+          
           value={endMinute}
-          onChange={handleEndMinuteChange}
+          onChange={handleTimeChange}
           style={selectStyle}
         >
           <MenuItem value="00">00</MenuItem>
           <MenuItem value="30">30</MenuItem>
         </Select>
       </FormControl>
+
       <span style={{fontSize:"12px"}}>{formatTime(startHour, startMinute, endHour, endMinute)}</span>
       <button onClick={testHandle}>qqwqeqw</button>
       </div>

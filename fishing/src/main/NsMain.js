@@ -16,7 +16,6 @@ import MpDrop from './mypage/MpDrop'
 import MpInquire from './mypage/MpInquire'
 import MpRvlist from './mypage/MpRvlist'
 import ProductRegistration from './product/ProductRegistration'
-import ProductRegiNext from './product/ProductRegiNext'
 import RvFsDetail from './fishingspot/RvFsDetail'
 import RvFsTemplate from './fishingspot/RvFsTemplate'
 import WeeklyWeather from './WeeklyWeather'
@@ -33,33 +32,36 @@ import MpBtInfo from './mypage/MpBtInfo'
 import MpFsInfo from './mypage/MpFsInfo'
 import MpClassInfo from './mypage/MpClassInfo'
 import { API_BASE_URL, SHIP } from '../config/host-config';
+
 import MpAdmin from './mypage/MpAdmin';
 import MpIqInput from './mypage/MpIqInput';
 import MpAdminFS from './mypage/MpAdminFS';
 import MpAdminCS from './mypage/MpAdminCS';
 import HostSearchMain from './hostSearch/hostSearchMain'
 import ScrollToTop from './ScrollToTop';
+import MpInquiryD from './mypage/MpInquiryD';
+
 
 
 
 const NsMain = () => {
 
-    // const [shipInfo, setShipInfo] = useState(null);
+    const [shipInfo, setShipInfo] = useState(null);
 
-    // useEffect(() => {
-    //   // 배 정보를 가져오는 함수
-    //   const fetchShipInfo = async () => {
-    //     try {
-    //       const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
-    //       const data = await response.json();
-    //       setShipInfo(data);
-    //     } catch (error) {
-    //       console.error('Error fetching ship info:', error);
-    //     }
-    //   };
-  
-    //   fetchShipInfo();
-    // }, []);
+    useEffect(() => {
+      // // 배 정보를 가져오는 함수
+      // const fetchShipInfo = async () => {
+      //   try {
+      //     const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
+      //     const data = await response.json();
+      //     setShipInfo(data);
+      //   } catch (error) {
+      //     console.error('Error fetching ship info:', error);
+      //   }
+      // };  
+
+      // fetchShipInfo();
+    }, []);
 
 
   return (
@@ -67,7 +69,7 @@ const NsMain = () => {
         <ScrollToTop />
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
-            <Route path='/' element ={<MainContent />} />
+            <Route path='/' element ={<MainContent shipInfo={shipInfo} />} />
             {/* 배낚시 탭 */}            
             <Route path='/detail' element={<RvBtDetail/>}> </Route>
             {/* 낚시터 탭 */}            
@@ -81,7 +83,6 @@ const NsMain = () => {
             <Route path='/mypassword' element={<Mypassword/>}></Route>
             {/* 상품등록 */}
             <Route path='/product' element={<ProductRegistration/>}></Route>
-            <Route path='/product/next' element={<ProductRegiNext/>}></Route>
             
             <Route path='/userDrop' element={<MpUserDrop/>}></Route>
             <Route path='/drop' element={<MpDrop/>}></Route>
@@ -89,7 +90,11 @@ const NsMain = () => {
             <Route path='/iqinput' element={<MpIqInput/>}></Route>
             {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
-            
+            {/* 문의답변 */}
+            <Route path='/adminreply/:inquiryId' element={<MpInquiryD/>}></Route>
+            {/* 문의 상세보기 */}
+            {/* <Route path='/inquiryDetail' element = {<MpInquiryDetail/>}></Route> */}
+            <Route path='/inquiry/:inquiryId' element={<MpInquiryD />} />
             <Route path='/rvlist' element={<MpRvlist/>}></Route>
            
              {/* 로그인, 회원가입 */}

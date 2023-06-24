@@ -16,7 +16,7 @@ export const NsHeader = () => {
   };
 
   //프로필이미지 url 상태변수
-  const [profileUrl,setProfileUrl] = useState(null);
+  const [profileUrl,setProfileUrl] = useState('');
 
   const [isLoggedIn, setIsLoggedIn] = useState(isLogin()); 
 
@@ -34,9 +34,9 @@ export const NsHeader = () => {
     if(confirm){
       setIsLoggedIn(isLogin());
       localStorage.clear();
+    }else{
+      return;
     }
-    return ;
-    
   }
 
   // 로그인 상태 변화를 감지하는 useEffect를 추가
@@ -44,7 +44,6 @@ export const NsHeader = () => {
     const user = getLoginUserInfo();
     setUserInfo(user);
     setIsLoggedIn(!isLogin());
-
     }, [isLogin()]);
 
     useEffect(() => {
@@ -58,7 +57,7 @@ export const NsHeader = () => {
       
           if (res.status === 200) {
               // 서버에서 s3 url이 응답된다
-              const imgUrl = await res.text();
+              const imgUrl = await res.text();                  
               setProfileUrl(imgUrl);
   
               
@@ -87,7 +86,9 @@ export const NsHeader = () => {
             <li><Link to={'/bt'} style={linkStyle} className='hdleft-tap'> 배낚시</Link></li>
               <li><Link to={'/fs'}  style={linkStyle} className='hdleft-tap'> 낚시터</Link></li>
               <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap'> 클래스</Link></li>
-              <li><Link to={'/admin'}>관리자</Link></li>
+              {userInfo.Grade === 'ADMIN' &&( 
+                <li><Link to={'/admin'}>관리자</Link></li> 
+              )}   
               {/* <li><Link to={'/my'}>마이페이지</Link></li> */}
             </ul>
         </div>
@@ -98,9 +99,12 @@ export const NsHeader = () => {
           )}
           {isLogin() ?(
             <>
+              {/* {console.log(profileUrl)} */}
               <span>{userInfo.userName}님</span>
-              <Link to={'/my'} style={linkStyle}><img className="my-profile" title='마이페이지'
-              src={profileUrl || require('./icons/01d.png')}/></Link>
+              <Link to={{ pathname: '/my', state: userInfo }} style={linkStyle} profileUrl>
+                <img className="my-profile" title="마이페이지" src={profileUrl || require('./icons/01d.png')} />
+              </Link>
+
             </>
             ):
             (
@@ -117,6 +121,7 @@ export const NsHeader = () => {
             )
             :(
               <>
+                  
                   <Link to={'/login'}  style={linkStyle}>Log-in</Link>
               </>
           )
