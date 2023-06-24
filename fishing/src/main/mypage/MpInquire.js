@@ -82,9 +82,11 @@ const MpInquire = () => {
               {/* <div className='inbtnbox'>
                 <button className='indetailbtn'>상세보기</button>
               </div> */}
-              <Link to={`/inquiry/${inquiry.inquiryId}`} className='indetailbtn'onClick={() => handleInquiryClick(inquiry.inquiryId)} >
+              <Link to={`/inquiry/${inquiry}`} className='indetailbtn'onClick={() => handleInquiryClick(inquiry.inquiryId)} >
               상세보기
             </Link>
+            {/* 상세보기 화면 내가 쓴글이 보여야 한다 */}
+            
             </div>
           ))}   
         
