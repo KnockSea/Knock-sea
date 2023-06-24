@@ -38,6 +38,7 @@ import MpIqInput from './mypage/MpIqInput';
 import MpAdminFS from './mypage/MpAdminFS';
 import MpAdminCS from './mypage/MpAdminCS';
 import HostSearchMain from './hostSearch/hostSearchMain'
+// import MpAdminReply from './mypage/MpAdminReply';
 
 
 
@@ -60,7 +61,7 @@ const NsMain = () => {
   // 배 상품 정보를 가져오는 함수
       const fetchProduct = async () => {
         try {
-          const response = await fetch(`${API_BASE_URL}${PRODUCTS}/main`);
+          const response = await fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`);
           console.log(response.status);
           const data = await response.json();
           setproduct(data);
@@ -69,11 +70,12 @@ const NsMain = () => {
           console.error('Error fetching product info:', error);
         }
       };
-  
+
+      console.log('NsMian !!!!!!!!!!!!!!!!!!setproduct', product);
+      
     useEffect(() => {  
       fetchProduct();
       // 배 정보를 가져오는 함수  
-      fetchShipInfo();
 
     }, []);
 
@@ -104,7 +106,8 @@ const NsMain = () => {
             <Route path='/iqinput' element={<MpIqInput/>}></Route>
             {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
-            
+            {/* 문의 답장 */}
+            {/* <Route path='/amdinreply' element={<MpAdminReply/>}></Route> */}
             <Route path='/rvlist' element={<MpRvlist/>}></Route>
            
              {/* 로그인, 회원가입 */}

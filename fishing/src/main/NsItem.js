@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 
 const NsItem = ({ product }) => {
   // shipInfo 객체에서 필요한 값을 추출
-  const imageUrlList = product?.shipImageLocation || []; // 배 이미지 URL 리스트
+  const imageUrlList = product?.seaImage || []; // 배 이미지 URL 리스트
 
   // product 객체를 로그로 출력
-  console.log('product:', product);
+  console.log(' NSitem !! ! ! ! ! ! product:', product);
 
   return (
     <div className="ship">

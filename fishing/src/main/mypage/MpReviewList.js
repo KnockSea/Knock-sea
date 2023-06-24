@@ -7,7 +7,6 @@ function MpReviewList() {
       const [token, setToken] = useState(getLoginUserInfo().token);
       const [page, setPage] = useState(1);
       const [size, setSize] = useState(10);
-
       const fetchData = () => {
         fetch(`http://localhost:8012/api/v1/reviews/myReview?page=${page}&size=${size}`, {
           method: 'GET',
@@ -38,7 +37,7 @@ function MpReviewList() {
       return (
     
         <>
-        {reviews.length > 0 && reviews.map(review => (
+     {reviews && reviews.length > 0 && reviews.map(review => (
     <div className='MpReFormItem'>
         <div className='numbox'></div>
         <div className='mprebox1'>{review.profileImg}</div>

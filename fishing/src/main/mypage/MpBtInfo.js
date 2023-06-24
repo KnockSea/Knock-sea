@@ -97,10 +97,10 @@ const MpBtInfo = () => {
                         </div>
                         <div className='btbox'>
                         {shipInfo && shipInfo[0] ?(<><button className='isbtn'><Link to={'/myquery'}>글 삭제하기</Link></button><button className='isbtn'><Link to={'/myquery'}>배 정보 수정하기</Link></button></>):(<button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>)}
-                        <button>
+                        {/* <button> */}
                             {/* <Link to={'/myinfo'}>배 업체 정보 수정</Link> */}
                             {/* 작성 폼 불러와서 수정 진행 Link 걸어야 함 */}
-                        </button>
+                        {/* </button> */}
                         </div>
                     </div>
 
