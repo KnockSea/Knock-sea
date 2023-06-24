@@ -97,7 +97,9 @@ public class InquiryService {
         return inquiryEntity;
     }
     public InquiryDetailResponseDTO findByInquiry(Long inquiryId) {
-        Inquiry inquiry = inquiryRepository.findById(inquiryId).orElseThrow();
+        Inquiry inquiry = inquiryRepository.findById(inquiryId).orElseThrow(() -> {
+            return new RuntimeException("문의가 없습니다.");
+        });
         InquiryDetailResponseDTO dto = new InquiryDetailResponseDTO(inquiry);
         return dto;
     }
