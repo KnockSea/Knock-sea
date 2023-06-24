@@ -27,11 +27,11 @@ function RvMain( {product}) {
         <div className='rvMain'>
 
             <div className='rvContent'>
-                <RvinnerHeader />
+                {/* <RvinnerHeader />
                 <div className='x1'>
                     <div>검색결과 1-30 / 총 80개</div>
                     <div>기본정렬순</div>
-                </div>
+                </div> */}
                      <div className='cardBox'>
 
             <RvItem 
@@ -48,7 +48,9 @@ function RvMain( {product}) {
             <div>위치 확인하기</div>
             <div className='mapbox'>
 
-           <RvMap/>
+           <RvMap
+               product={product}
+           />
 
             </div>
             </div>

@@ -113,7 +113,7 @@ public class ShipService {
         //가져온 유저로 해당유저가 등록한 배 정보 가져오기
         Ship findShipByUser = shipRepository.findByUser(user);
 
-        if(findShipByUser==null) throw new RuntimeException("등록된 배가없습니다!");
+        if (findShipByUser==null) throw new RuntimeException();
 
         List<SeaImage> byShip = imageRepository.findByShip(findShipByUser);
 
@@ -159,18 +159,6 @@ public class ShipService {
 
     }
 
-    //배가있는지없는지
-    public boolean findShip(TokenUserInfo userInfo) {
-        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() ->
-                new RuntimeException("해당유저가 존재하지않습니다"));
-        Ship byUser = shipRepository.findByUser(user);
-
-        if (byUser==null){
-            return true;
-        }else {
-            return false;
-        }
-    }
 
     //배 이미지 리스트 경로 반환하는함수
 //    public String findShipPath(Long userId,Long typenumber) {

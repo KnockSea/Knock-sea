@@ -89,8 +89,10 @@ public class ImageService {
 
     }
 
-    public void saveValidationImg(List<MultipartFile> validationImg, ValidationCreateDTO dto) throws IOException {
-        User user = userRepository.findById(dto.getUserId())
+
+    //검증테이블 이미지 저장
+    public void saveValidationImg(List<MultipartFile> validationImg, ValidationCreateDTO dto,TokenUserInfo userInfo) throws IOException {
+        User user = userRepository.findById(userInfo.getUserId())
                 .orElseThrow(() -> new RuntimeException("ImageService : 존재하지 않는 유저입니다."));
         log.info("ImageService user : " + user);
 
@@ -104,14 +106,14 @@ public class ImageService {
             log.info("SHIP 들어옴");
             imageRepository.save(
                     SeaImage.builder()
-                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(0))
+                            .imageName(listValidationImg.get(0))
                             .validation(fondByUserAndValidationType)
                             .imageType(ProductCategory.VALIDATIONSHIPREGI)
                             .build());
 
             imageRepository.save(
                     SeaImage.builder()
-                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(1))
+                            .imageName(listValidationImg.get(1))
                             .validation(fondByUserAndValidationType)
                             .imageType(ProductCategory.VALIDATIONSHIPLICENSE)
                             .build());
@@ -132,17 +134,16 @@ public class ImageService {
         //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
         List<String> uniqueFilenames = new ArrayList<>();
 
-        String s = makeDateFormatDirectory(uploadRootPath2);
+//        String s = makeDateFormatDirectory(uploadRootPath2);
 
         for (MultipartFile validationImage : validationImg) {
             String originalFilename = validationImage.getOriginalFilename();
             String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
 
-            // Save the file
-            File uploadFile = new File(s+"/"+uniqueFileName);
-            validationImage.transferTo(uploadFile);
+            //aws 이미지 저장
+            String s1 = s3Service.uploadToS3Bucket(validationImage.getBytes(), uniqueFileName);
 
-            uniqueFilenames.add(uniqueFileName);
+            uniqueFilenames.add(s1);
         }
         return uniqueFilenames;
     }

@@ -56,11 +56,11 @@ const RvItem = ({ allAddress, pageInfo, products, count }) => {
             </div>
             <div className='miniTitle'>
               집결장소 
-              {allAddress[index].productLocationInfo}
+              {/* {allAddress[index].productLocationInfo} */}
             </div>
             <div className='miniContent'>
               <Bullseye />차고지 : 
-              {allAddress[index].productLocationInfo} 
+              {/* {allAddress[index].productLocationInfo}  */}
               &nbsp;
               <PersonVcard/> 신분증 지참 &nbsp;
               <EmojiSmile /> 총 6명

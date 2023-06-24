@@ -39,8 +39,10 @@ public class AnswerService {
     public AnswerDetailResponseDTO findByInquiry(Long inqyiryId) {
 
         Inquiry inquiry = inquiryRepository.findById(inqyiryId).orElseThrow(() -> new RuntimeException("없는 문의입니다"));
-
+        log.info("inquiryId@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ {}", inqyiryId);
+        log.info("inquiry@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ {}", inquiry);
         Answer answer = answerRepository.findByiId(inquiry);
+        log.info("Answer @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ {}", answer);
         AnswerDetailResponseDTO dto = new AnswerDetailResponseDTO(answer, inquiry);
         log.info("dto - {}", answer);
 

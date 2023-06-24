@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './MpScss/MpAdminCS.scss';
+import MpInquiryD from './MpInquiryD';
 
 const MpAdminCS = () => {
   const [inquiries, setInquiries] = useState([]);
+  const [inquiry, setInquiry] = useState([inquiry]);
 
   useEffect(() => {
     fetchInquiries();
@@ -26,17 +28,30 @@ const MpAdminCS = () => {
   return (
     <section>
       <div className="adminbox">
-        {/* 관리자 목록 박스 */}
         <div className="mgbox">
           <div className="mgtitle">
             <p>관리자</p>
-          </div>
-          <div className="mglist">
-            <div>
-              <Link to="/admin">배 검증 요청</Link>
-            </div>
-            <div className="ch2">
-              <Link to="/adminFS">낚시터 검증 요청</Link>
+
+        </div>
+        <div className='mglist'>
+            <div><Link to='/admin'>배 검증요청</Link></div>
+            <div className='ch2'><Link to='/adminFS'>낚시터 검증요청</Link></div>
+            <div><Link to='/adminCS'>문의 현황</Link></div>
+        </div>
+    </div>
+        <div className='mgcontentbox'>
+            <div className='ctntitle'>KNOCK_SEA 관리자 화면 (문의)</div>
+
+            {/* 본문내용 */}
+            <div className='ctntext'>
+            <div className='ctntextbox11'>
+                <div>asda@aaa.com</div>
+                <div>환불언제되나요?</div>
+                <div>답변대기</div>
+                <div>2023-06-21</div>
+                <button className='adminCSbtn'>답변하기</button>
+                </div>
+
             </div>
             <div>
               <Link to="/adminCS">문의 현황</Link>
@@ -45,8 +60,6 @@ const MpAdminCS = () => {
         </div>
         <div className="mgcontentbox">
           <div className="ctntitle">KNOCK_SEA 관리자 화면 (문의)</div>
-
-          {/* 본문 내용 */}
           <div className="ctntext">
             {inquiries.map((inquiry) => (
               <div className="ctntextbox11" key={inquiry.inquiryId}>
@@ -55,7 +68,14 @@ const MpAdminCS = () => {
                 <div>{inquiry.inquiryDetails}</div>
                 <div>{inquiry.inquiryDateTime}</div>
                 <button>
-                  <Link to={`/adminreply/${inquiry.inquiryId}`}>답변하기</Link>
+                  <Link
+                    to={{
+                      pathname: `/adminreply/${inquiry.inquiryId}`,
+                      state: { inquiry },
+                    }}
+                  >
+                    답변하기
+                  </Link>
                 </button>
               </div>
             ))}
