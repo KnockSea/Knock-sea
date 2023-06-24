@@ -124,9 +124,6 @@ public class EduService {
         log.info("timeResponseDTOList : "+timeResponseDTOList);
 
          // 리뷰 목록(상품번호로 조회)  // null 뜨는지 확인해야댐
-/*        List<ReviewDetailResponseDTO> reviewResponseList = reviewRepository.findAllByEdu(edu).stream()
-                .map(ReviewDetailResponseDTO::new).collect(Collectors.toList());*/
-
         List<ReviewDetailResponseDTO> reviewResponseList = reviewRepository.findAllByEdu(edu).stream()
                 .map(review -> {
                             ReviewDetailResponseDTO reviewDetailResponseDTO = new ReviewDetailResponseDTO();
@@ -142,9 +139,15 @@ public class EduService {
                         ).collect(Collectors.toList());
         log.info("reviewResponseList : "+reviewResponseList);
 
+        List<String> imgUrls = new ArrayList<>();
+        imageRepository.findAllByEdu(edu).forEach( i -> {
+            imgUrls.add(i.getImageName());
+            log.info("images : "+i.getImageName());
+        });
+
         imageRepository.findAllByEdu(edu);
 
-        return new EduDetailResponseDTO(edu, timeResponseDTOList, reviewResponseList/*,imageResponseList*/);
+        return new EduDetailResponseDTO(edu, timeResponseDTOList, reviewResponseList,imgUrls);
     }
 
 

@@ -2,6 +2,8 @@ import React, { useState,useEffect  } from 'react';
 import './scss/ClassMain.scss';
 // import './scss/reset.scss';
 import { Route, Routes,Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 const handleLogin = (e) => {
     e.preventDefault();
@@ -21,10 +23,10 @@ const handleLogin = (e) => {
     
   // 렌더링 후 실행함수
 
-
  
 
 function ClassMain() {
+
     
     const [edus, setEdus] = useState([]);
 
@@ -114,7 +116,8 @@ function ClassMain() {
                     </div>
 
                     <div className="class-list">
-                        <Link to={"/classdetail"} style={{ color: 'black', textDecoration: 'none' }}>
+                        <Link to={"/classdetail"} style={{ color: 'black', textDecoration: 'none' }}> 
+                          
                         <div className='lists'>
                             {edus.map((f) => (
                                     <div className="class-list-1" key={f.eduId}>
@@ -125,12 +128,13 @@ function ClassMain() {
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
                                             <div className="list-star-rating">{f.star}</div>
-                                            <div className="userId">{f.id}</div>
+                                            <div className="userId">{f.userName}</div>
                                         </div>
-                                        <div className="text-place list-t">위치 : {f.place}</div>
-                                        <div className="text-price">가격 : {f.price}</div>
-                                        <div className="text-title list-t">{f.title}</div>
+                                        <div className="text-place list-t">위치 : {f.eduLocation}</div>
+                                        <div className="text-price">가격 : {f.eduPrice}</div>
+                                        <div className="text-title list-t">{f.eduTitle}</div>
                                     </div>
+                                    {/* <Link to='/classdetail' state={{key:f.eduId}}></Link> */}
                                     </div>
                                 ))}
                         </div>        

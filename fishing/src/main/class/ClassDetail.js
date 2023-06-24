@@ -4,6 +4,9 @@ import './scss/ClassDetail.scss';
 import Modal from "./ClassModal";
 import ClassDetailTap from "./ClassDetailTap";
 import { Route, Routes,Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
 
 const handleLogin = (e) => {
     e.preventDefault();
@@ -13,12 +16,25 @@ const handleLogin = (e) => {
     };
     
   // 렌더링 후 실행함수
- console.log();
+  
+   
 
 function ClassDetail() {
    
       const [filter, setFilter] = useState(''); 
       const [modal, setModal] = useState('false'); 
+        // const {eduId}  = useParams(); 
+
+        // useEffect(() => {
+        //     console.log("eduId : ",eduId); // eduId 값을 로그로 출력합니다.
+        //   }, []);
+        
+        // const location = useLocation();
+        // const { key } = location.state || {};
+        // console.log("key : ",key); // key 값을 로그로 출력합니다.
+
+        let location = useLocation();
+        console.log(location.state);
 
 
     //   const handleFilterChange = (event) => {

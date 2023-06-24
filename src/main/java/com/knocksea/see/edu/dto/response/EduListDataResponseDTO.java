@@ -19,6 +19,7 @@ public class EduListDataResponseDTO {
     private String userName;
     private String eduLocation;
     private int eduPrice;
+    private String mainImage; //메인 이미지
 
     private int count; //총게시물 수
     private PageResponseDTO pageInfo; //페이지 렌더링 정보
