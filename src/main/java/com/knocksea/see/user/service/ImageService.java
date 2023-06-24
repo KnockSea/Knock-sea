@@ -64,15 +64,18 @@ public class ImageService {
     @Value("${upload.path}")
     private String uploadRootPath2;
 
+    @Value("${aws.bucketName}")
+    private String bucket;
+
 
     //DB에 선박 이미지경로 저장함수
     public void saveShipImages(List<MultipartFile> shipImages, TokenUserInfo userInfo) throws IOException {
 
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
         Ship foundShipByUserId = shipRepository.findByUser(user);
-
+        log.warn("유저123 : {} ", foundShipByUserId);
         List<String> strings = uploadShipImage(shipImages);
-
+        log.warn("이미지 이름333 : {} ", strings.toArray());
         Long typeNumber = 1L;
 
         for (String string : strings) {

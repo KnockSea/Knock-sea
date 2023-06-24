@@ -70,10 +70,10 @@ const MpClassInfo = () => {
                         </div>
                         <div className='btbox'>
                         <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
-                        <button>
+                        {/* <button> */}
                             {/* <Link to={'/myinfo'}>배 업체 정보 수정</Link> */}
                             {/* 작성 폼 불러와서 수정 진행 Link 걸어야 함 */}
-                            </button>
+                            {/* </button> */}
                         </div>
                     </div>
 

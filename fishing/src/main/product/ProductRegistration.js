@@ -1,55 +1,39 @@
 import React, { useState } from 'react';
 import './scss/ProductRegistration.scss';
-import RegiTime from './RegiTime.js';
 import Post from '../account/Post';
 import "react-date-range/dist/styles.css"; 
 import 'react-date-range/dist/theme/default.css'; 
 import Calendar from './RegiCalendar';
+import TimeConverter from './Time';
 import { useNavigate } from 'react-router-dom';
+import { getUserInfo } from '../util/login-util';
 
 
 
 function ProductRegistration() {
-  const [productCategory, setProductCategory] = useState('');
-  const [photo1, setPhoto1] = useState('');
-  const [photo2, setPhoto2] = useState('');
-  const [title, setTitle] = useState('');
+  const [productLabelType, setProductCategory] = useState('');
+  const [productTitle, setTitle] = useState('');
   const [productInfo, setProductInfo] = useState('');
-  const [userAddress, setuserAddress] = useState('주소 검색 클릭');
-  const [userFullAddress, setuserFullAddress] = useState('');
-  const [price, setPrice] = useState('');
-  const [maxUser, setMaxUser] = useState('');
-  const [ranges, setRanges] = useState(null);
+  const [productLocationInfo, setuserAddress] = useState('주소 검색 클릭');
+  const [productFullAddress, setuserFullAddress] = useState('');
+  const [productPrice, setPrice] = useState('');
+  const [timeMaxUser, setMaxUser] = useState('');
+  const [timeDate, setRanges] = useState(null);
   const [timeBoxes, setTimeBoxes] = useState([1]);
-  
-  const [formatTimed, setFormatTime] = useState([1]);
-
-  const [selectedTimes, setSelectedTimes] = useState([]);
-
-  const [startHour, setStartHour] = useState([]);
-  const [startMinute, setStartMinute] = useState([]);
-  const [endHour, setEndHour] = useState([]);
-  const [endMinute, setEndMinute] = useState([]);
-
-  const [regTimes, setRegTimes] = useState([]);
-  
-  const [service, setService] = useState('');
+  const [timeStarts, setStartTimes] = useState([]);
+  const [timeEnds, setEndTimes] = useState([]);
+  const [productService, setService] = useState('');
   const [eduLevel, setEduLevel] = useState('');
-
   const [popup, setPopup] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const [showDifficulty, setShowDifficulty] = useState(false);
   const navigate = useNavigate();
+  // const [token, setToken] = useState(getLoginUserInfo().token);
+  const [productImages, setImages] = useState([]);
 
-  
-  // 이미지파일 2개 받기 
-  const handlePhoto1Change = (event) => {
-    const file = event.target.files[0];
-    setPhoto1(file);
-  };
-
-  const handlePhoto2Change = (event) => {
-    const file = event.target.files[0];
-    setPhoto2(file);
+ // 이미지 배열
+  const handleImage = e => {
+    setImages([...e.target.files]);
   };
 
   // 주소 값 받아옴
@@ -58,112 +42,97 @@ function ProductRegistration() {
   };
   
   // 날짜 값 받아옴
-  const handleGetDateRange = (ranges) => {
-    setRanges(ranges);
-    // console.log("날짜 데이터 확인:", ranges);
+  const handleGetDateRange = (timeDate) => {
+    setRanges(timeDate);
  };
 
+  // 시간값 props & 베열생성
+  function handleTimeChange(timeString) {
+    const [timeStart, timeEnd] = timeString.split(' - ');
+    setStartTimes([...timeStarts, timeStart]);
+    setEndTimes([...timeEnds, timeEnd]);
+    console.log('Received time:', timeStarts, timeEnds);
+  }
 
   // 시간 박스 생성
   const addTimeBox = () => {
     setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
-    
   };
 
-  const formatTime = ({startHour, startMinute, endHour, endMinute}) => {
-  const formattedStartHour = startHour.toString().padStart(2, '0');
-  const formattedStartMinute = startMinute.toString().padStart(2, '0');
-  const formattedEndHour = endHour.toString().padStart(2, '0');
-  const formattedEndMinute = endMinute.toString().padStart(2, '0');
-  return `${formattedStartHour} 시 ${formattedStartMinute} 분 ~ ${formattedEndHour} 시 ${formattedEndMinute} 분`;
+   // 취소버튼
+   const handleCancel = () => {
+    navigate('/my'); // '/my' 경로로 이동
   };
-  
 
-  // 시간 상태 객체 생성
-  const handleTimeRegistration = (startHour,startMinute,endHour,endMinute) => {
-    console.log("민정쿤");
-    // if (startHour === '' || startMinute === '' || endHour === '' || endMinute === '') {
-    //   alert('모든 값을 선택해주세요.');
-    //   return;
-    // }
-    const newTime = {
-      startTime: {
-        hour: startHour,
-        minute: startMinute
-      },
-      endTime: {
-        hour: endHour,
-        minute: endMinute
-      }
+    // productDTO 
+     const productDTO = {
+      productLabelType: productLabelType,
+      productTitle: productTitle,
+      productInfo: productInfo,
+      productLocationInfo: productLocationInfo,
+      productFullAddress: productFullAddress,
+      productPrice: productPrice,
+      timeMaxUser: timeMaxUser,
+      timeDate: timeDate,
+      timeStart: timeStarts,
+      timeEnd: timeEnds,
+      productService: productService,
+      productImages: productImages
     };
-    
-    // 기존 상태에 새로운 시간 추가
-    setRegTimes(prevTimes => [...prevTimes, newTime]);
-
-  };
-
+  
 
     // 서버에 보낼 FormData 객체 생성
     const formData = new FormData();
-    formData.append('productCategory', productCategory);
-    formData.append('photo1', photo1);
-    formData.append('photo2', photo2);
-    formData.append('title', title);
+    formData.append('productLabelType', productLabelType);
+    formData.append('productTitle', productTitle);
     formData.append('productInfo', productInfo);
-    formData.append('address', userAddress);
-    formData.append('fullAddress', userFullAddress);
-    formData.append('price', price);
-    formData.append('maxUser', maxUser);
-    formData.append('dateRange', JSON.stringify(ranges));
-    formData.append('regTimes', JSON.stringify(regTimes));
-    formData.append('service', service);
-    formData.append('eduLevel', eduLevel);
+    formData.append('productLocationInfo', productLocationInfo);
+    formData.append('productFullAddress', productFullAddress);
+    formData.append('productPrice', productPrice);
+    formData.append('timeMaxUser', timeMaxUser);
+    formData.append('timeDate', JSON.stringify(timeDate));
+    formData.append('timeStart', JSON.stringify(timeStarts));
+    formData.append('timeEnd', JSON.stringify(timeEnds));
+    formData.append('productService', productService);
+    formData.append('productDTO', JSON.stringify(productDTO));
+    formData.append('userInfo', JSON.stringify(getUserInfo));
+    productImages.forEach((image, index) => {
+      formData.append(`productImages[${index}]`, image);
+    });
+ 
+    console.log("===================== formData 값 =====================");
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
+      const handleProductRegi = async (e) => {
+        e.preventDefault();
     
-      
-  console.log("===================== formDate값 =====================");
-  for (let [key, value] of formData.entries()) {
-    console.log(key, value);
-  }
-
-  const handleProductRegi = async (e) => {
-    e.preventDefault();
+        try {
+          const res = await fetch('http://localhost:8012/api/v1/products', {
+          method: 'POST',
+          headers: {
+            'Content-Type': `multipart/form-data; boundary='-----------------------3284728374828347'`
+          },
+          body: formData
+          });
+          
+            if (res.status === 200) {
+              alert('등록 성공');
+            } else {
+              alert(res.text());
+            }
+          } catch (error) {
+            console.error('데이터 전송 실패!');
+          }
   };
-
-  //   try {
-  //     // fetch를 사용하여 서버로 데이터 전송
-  //     const response = await fetch('서버 주소', {
-  //       method: 'POST',
-  //       body: formData,
-  //     });
-
-  //     // 응답 결과 확인
-  //     if (response.ok) {
-  //       // 성공적으로 데이터가 전송되었을 때 처리할 내용
-  //       console.log('데이터 전송 성공!');
-  //     } else {
-  //       // 데이터 전송 실패 시 처리할 내용
-  //       console.error('데이터 전송 실패!');
-  //     }
-  //   } catch (error) {
-  //     // 에러 처리
-  //     console.error('데이터 전송 중 오류 발생:', error);
-  //   }
-  // };
-
-  const [value, setValue] = useState(0);
-const test =(inputval)=>{
-  setValue(inputval)
-  console.log(
-    `VALUE의 값 : `,value
-  );
-}
 
   return (
     <div className="container">
       <div className="product-regi-wrap">
         <div className="product-regi-header">
          <div className="head-title">
-          <p>KNOCK_SEA 상품 등록 <span style={{color:"navy", fontSize:"18px"}}>[1단계]</span></p>
+          <p>KNOCK_SEA 상품 등록</p>
           <img className="image-82-CzH" src="https://cdn-icons-png.flaticon.com/128/8955/8955326.png" id="SignUpImg" alt="SignUpImg" />
         </div>
         </div>
@@ -174,8 +143,15 @@ const test =(inputval)=>{
               <li>
                 <div className="regi-title">카테고리 선택<span className="imp">*</span></div>
                 <select
-                    value={productCategory}
-                    onChange={(e) => setProductCategory(e.target.value)}
+                    value={productLabelType}
+                    onChange={(e) => {
+                      setProductCategory(e.target.value);
+                      if (e.target.value === "EDU") {
+                        setShowDifficulty(true); // 클래스 카테고리 선택 시 난이도 옵션 표시
+                      } else {
+                        setShowDifficulty(false); // 다른 카테고리 선택 시 난이도 옵션 숨김
+                      }
+                    }}
                     required
                     aria-required="true"
                     className="category-custom-select"
@@ -192,22 +168,23 @@ const test =(inputval)=>{
                   <div className="filebox">
                   <div className="filebox-upload">
                     <div>
-                      <label htmlFor="photo1">사진 선택(1)</label>
+                      <label htmlFor="photo1">사진 선택</label>
                       <input
                         type="file"
-                        onChange={(e) => setPhoto1(e.target.files[0])}
+                        onChange={handleImage}
                         id="photo1"
                         className="form-control"
                         required
                         aria-required="true"
                         accept="image/*"
                         name="shipConfirmImage"
+                        multiple
                       />
                       </div>
-                      <span>{photo1 && <p>첨부된 사진 : {photo1.name}</p>}</span>
+                      <span>{productImages[0] && <p>첨부된 사진 : {productImages[0].name}</p>}</span>
                     </div>
                     <div className="filebox-upload">
-                    <div >
+                    {/* <div >
                       <label htmlFor="photo2">사진 선택(2)</label>
                       <input
                         type="file"
@@ -219,8 +196,8 @@ const test =(inputval)=>{
                         accept="image/*"
                         name="shipConfirmImage"
                         />
-                      </div>
-                      <span>{photo2 && <p>첨부된 사진 : {photo2.name}</p>}</span>
+                      </div> */}
+                      {/* <span>{photo2 && <p>첨부된 사진 : {photo2.name}</p>}</span> */}
                     </div>
                   </div>
                   
@@ -231,7 +208,7 @@ const test =(inputval)=>{
                 <div>
                   <input
                     type="text"
-                    value={title}
+                    value={productTitle}
                     onChange={(e) => setTitle(e.target.value)}
                     size="30"
                     className="form-control"
@@ -261,7 +238,7 @@ const test =(inputval)=>{
                 <div className="regi-title">장소<span className="imp">*</span></div>
                 <div className='form-control' style={{display:"flex", justifyContent:"space-between"}}>
                    <span className='postSee'  style={{width:"250px", textAlign:"left", fontSize:"16px",
-                        whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{userAddress}</span>
+                        whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{productLocationInfo}</span>
                     <div
                       className="postSearch"
                       style={{
@@ -283,6 +260,7 @@ const test =(inputval)=>{
               <input
                     type="text"
                     name="userFullAddress"
+                    value={productFullAddress}
                     className="form-control"
                     onChange={(e) => setuserFullAddress(e.target.value)}
                     required
@@ -296,7 +274,7 @@ const test =(inputval)=>{
                 <div>
                   <input
                     type="number"
-                    value={price}
+                    value={productPrice}
                     onChange={(e) => setPrice(e.target.value)}
                     className="form-control"
                     maxLength="6"
@@ -311,7 +289,7 @@ const test =(inputval)=>{
                 <div>
                   <input
                     type="number"
-                    value={maxUser}
+                    value={timeMaxUser}
                     onChange={(e) => setMaxUser(e.target.value)}
                     className="form-control"
                     maxLength="6"
@@ -334,15 +312,10 @@ const test =(inputval)=>{
               <li>
                 <div className="regi-title">운영 시간<span className="imp">*</span></div>
                 <div className='regi-time-wrap'>
-                {timeBoxes.map((boxId) => (
-                    <div className="time-box"  key={boxId} style={{marginBottom:'15px'}}>
-                   <RegiTime
-                   id={`time-picker-${boxId}`}
-                   onChange={handleTimeRegistration}
-                   formatTime={formatTime}
-                   testProps={test}
-                   />  
-                  </div>
+                  {timeBoxes.map((boxId) => (
+                    <div className="time-box"  key={boxId} style={{margin:'15px'}}>
+                    <TimeConverter onTimeChange={handleTimeChange}/>
+                    </div>
                    ))}
                 </div>
               </li>
@@ -354,7 +327,7 @@ const test =(inputval)=>{
                 <div>
                   <input
                     type="text"
-                    value={service}
+                    value={productService}
                     onChange={(e) => setService(e.target.value)}
                     className="form-control"
                     required
@@ -363,44 +336,43 @@ const test =(inputval)=>{
                   />
                 </div>
               </li>
-              
-                <li className='difficulty'>
-                  <div className="regi-title">난이도<br/><span className="imp" style={{ fontSize: '11px' }}>*클래스만 해당!</span></div>
-                  <div className='category'>
-                    <input
-                      id="class-step1"
-                      value="LOWER"
-                      name="step"
-                      type="radio"
-                      checked={eduLevel === "초급자 가능"}
-                      onChange={(e) => setEduLevel(e.target.value)}
-                    />
-                    <label htmlFor="class-step1">초급자 가능</label>
-                    <input
-                      id="class-step2"
-                      value="MIDDLE"
-                      name="step"
-                      type="radio"
-                      checked={eduLevel === "중급자 이상"}
-                      onChange={(e) => setEduLevel(e.target.value)}
-                    />  
-                    <label htmlFor="class-step2">중급자 이상</label>
-                    <input
-                      id="class-step3"
-                      value="UPPER"
-                      name="step"
-                      type="radio"
-                      checked={eduLevel === "상급자"}
-                      onChange={(e) => setEduLevel(e.target.value)}
-                    />
-                    <label htmlFor="class-step3">상급자</label>
-                  </div>
-                </li>
-
-
+              {showDifficulty && (
+              <li className='difficulty'>
+                <div className="regi-title">난이도<br/><span className="imp" style={{ fontSize: '11px' }}>*클래스만 해당!</span></div>
+                <div className='category'>
+                  <input
+                    id="class-step1"
+                    value="LOWER"
+                    name="step"
+                    type="radio"
+                    checked={eduLevel === "초급자 가능"}
+                    onChange={(e) => setEduLevel(e.target.value)}
+                  />
+                  <label htmlFor="class-step1">초급자 가능</label>
+                  <input
+                    id="class-step2"
+                    value="MIDDLE"
+                    name="step"
+                    type="radio"
+                    checked={eduLevel === "중급자 이상"}
+                    onChange={(e) => setEduLevel(e.target.value)}
+                  />  
+                  <label htmlFor="class-step2">중급자 이상</label>
+                  <input
+                    id="class-step3"
+                    value="UPPER"
+                    name="step"
+                    type="radio"
+                    checked={eduLevel === "상급자"}
+                    onChange={(e) => setEduLevel(e.target.value)}
+                  />
+                  <label htmlFor="class-step3">상급자</label>
+                </div>
+              </li>
+            )}
             </ul>
             <div className="product-regi-footer">
-              <button type="submit" className="btn">
+              <button type="button" onClick={handleCancel} className="btn">
                 취소
               </button>
             

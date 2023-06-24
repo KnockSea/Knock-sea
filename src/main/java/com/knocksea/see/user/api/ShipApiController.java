@@ -44,14 +44,12 @@ public class ShipApiController {
     //post : /api/v1/ship/register
     @PostMapping("/register")
     public ResponseEntity<?> registerShip(@Validated @RequestPart("ship") ShipRegisterRequestDTO dto,
-                                          @RequestPart(value = "shipImage", required = false) List<MultipartFile> shipImages,
+                                          @RequestPart(value = "shipImages") List<MultipartFile> shipImages,
                                           @AuthenticationPrincipal TokenUserInfo userInfo
             , BindingResult result) {
         //값 들어오는지 확인
-        log.info("/user/register POST! --{}", dto);
-
-
-
+        log.info("/user/register POST! --{} \n\n ", dto);
+        log.warn("shipimg: {}", shipImages);
 
         if (result.hasErrors()) {
             log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
@@ -59,7 +57,6 @@ public class ShipApiController {
                     .badRequest()
                     .body(result.getFieldError());
         }
-
 
         try {
 
@@ -70,6 +67,7 @@ public class ShipApiController {
                     log.info(shipImage.getOriginalFilename());
                 }
                 //이미지 저장시키기
+                log.info("여기타고오지요?");
                 imageService.saveShipImages(shipImages, userInfo);
             }
             return ResponseEntity.ok().body(join);
