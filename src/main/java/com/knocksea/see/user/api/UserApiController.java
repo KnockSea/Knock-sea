@@ -234,7 +234,7 @@ public class UserApiController {
     public ResponseEntity<?> loadEntireInfo(
             @AuthenticationPrincipal TokenUserInfo userInfo
     ){
-
+        log.info("/api/user/load-mylist GET - user : {}",userInfo);
         try {
             EntireInfoResponseDTO entireInfo = userService.getEntireInfo(userInfo);
             return ResponseEntity.ok().body(entireInfo);
