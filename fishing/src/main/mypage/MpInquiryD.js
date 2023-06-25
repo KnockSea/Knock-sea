@@ -6,7 +6,10 @@ import { getLoginUserInfo } from "../util/login-util";
 const MpInquiryD = () => {
     const { inquiryId } = useParams();
     const [answerDetails, setAnswerDetails] = useState("");
-    const [inquiry, setInquiry] = useState(null);
+    const [answers, setAnswers] = useState([]);
+    const [data, setData] = useState(null);
+    const [inquiry, setInquiry] = useState([]);
+
 
     const handleAnswerChange = (e) => {
         setAnswerDetails(e.target.value);
