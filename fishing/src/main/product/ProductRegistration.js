@@ -14,6 +14,7 @@ import { addDays, format, parseISO } from "date-fns";
 function ProductRegistration() {
 
   const [token, setToken] = useState(getLoginUserInfo().token);
+  const [userId, setUserId] = useState('');
   const [productCategory, setProductCategory] = useState('');
   const [productLabelType, setProductLabelType] = useState('');
   const [productTitle, setTitle] = useState('');
@@ -27,12 +28,12 @@ function ProductRegistration() {
   const [timeStarts, setStartTimes] = useState([]);
   const [timeEnds, setEndTimes] = useState([]);
   const [productService, setService] = useState('');
-  const [eduLevel, setEduLevel] = useState('');
+  const [eduLevel, setEduLevel] = useState(null);
   const [popup, setPopup] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [showDifficulty, setShowDifficulty] = useState(false);
   const navigate = useNavigate();
-  const [productImages, setImages] = useState([]);
+  const [images, setImages] = useState([]);
   const [formData, setFormData] = useState(new FormData());
 
  // 이미지 배열
@@ -110,7 +111,8 @@ function ProductRegistration() {
     timeStart: timeStarts,
     timeEnd: timeEnds,
     eduService: productService,
-    eduLevel: eduLevel
+    eduLevel: eduLevel,
+    userId: userId
   };
   
     const userJsonBlob = new Blob(
@@ -139,23 +141,25 @@ function ProductRegistration() {
       toggleDifficultyOptions(selectedValue);
 
       // 선택한 카테고리에 따라 다른 formdata 생성
-      let formData = null;
+      let updatedFormData = null;
       if (selectedValue === 'EDU') {
         // edu FormData
-        formData = new FormData();
-        formData.append('eduDTO', userJsonBlobE);
-        productImages.forEach((image) => {
-          formData.append(`EduImage`, image);
-        });
-      } else {
-        // product FormData
-        formData = new FormData();
-        formData.append('productDTO', userJsonBlob);
-        productImages.forEach((image) => {
-          formData.append(`productImages`, image);
+        updatedFormData  = new FormData();
+        updatedFormData.append('Edu', userJsonBlobE);
+        if (images && images.length > 0) {
+        images.forEach((image) => {
+          updatedFormData.append(`EduImage`, image);
         });
       }
-    setFormData(formData);
+      } else {
+        // product FormData
+        updatedFormData = new FormData();
+        updatedFormData.append('productDTO', userJsonBlob);
+        images.forEach((image) => {
+          updatedFormData.append(`productImages`, image);
+        });
+      }
+    setFormData(updatedFormData);
   };
 
     // // 서버에 보낼 FormData 객체 생성
@@ -176,9 +180,9 @@ function ProductRegistration() {
 
  
     console.log("===================== formData 값 =====================");
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(key, value);
+    // }
 
     console.log("pDTO 오니?", productDTO);
     console.log("eDTO 오니?", eduDTO);
@@ -191,18 +195,20 @@ function ProductRegistration() {
     
         try {
             if (productLabelType  === 'EDU') {
-              const res = await fetch('http://localhost:8012/api/v1/products', {
+              console.log("EDU 넘어가는듕~");
+              const res = await fetch('http://localhost:8012/api/v1/edu', {
                 method: 'POST',
                 headers: {'Authorization': 'Bearer ' + token},
                 body: formData
               });
-                if (res.status === 200) {
-                  alert('등록 성공');
-                  navigate('/class');
-                } else {
-                  alert(res.status);
-                }
+              if (res.status === 200) {
+                alert('등록 성공');
+                navigate('/');
+              } else {
+                alert(res.status);
+              }
             } else {
+              console.log("product 넘어가는듕~");
                 const res = await fetch('http://localhost:8012/api/v1/products', {
               method: 'POST',
               headers: {'Authorization': 'Bearer ' + token},
@@ -267,7 +273,7 @@ function ProductRegistration() {
                         multiple
                       />
                       </div>
-                      <span>{productImages[0] && <p>첨부된 사진 : {productImages[0].name}...</p>}</span>
+                      <span>{images[0] && <p>첨부된 사진 : {images[0].name}...</p>}</span>
                     </div>
                     <div className="filebox-upload">
                     {/* <div >

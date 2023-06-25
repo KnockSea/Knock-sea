@@ -8,55 +8,41 @@ import RvFsDetail from './RvFsDetail';
 import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
 
-const RvFsItem = ({ allAddress, pageInfo, products }) => {
-
-  const [Address, setAddress] = useState(allAddress);
-  const [pgInfo, setpgInfo] = useState(pageInfo);
-  const [pdt, setpdt] = useState(products);
-  // const [count, setcount] = useState(count);
-  const [Fsimg, setFsimg] = useState("");
+const RvFsItem = ({productDetail}) => {
 
   
-  useEffect(() => {
-    fetch(`${API_BASE_URL}${PRODUCTS}/product-list`)
-      .then(response => response.text())
-      .then(Fsimg => {
-        setFsimg(Fsimg);
-        // console.log(shipimg);
-      });
-  }, []);
-
-
-  const dt = products.productId;
+  const [pro, setPro] = useState(productDetail);
+  
   return (
     <div className='Fssection'>
-    {products.map((product, index) => (
+    {!pro && pro.map((product, index) => (
     <div  key={index}  className='contentCard'>
-      <Link to={`/fsdetail${products.productId}`}>
+      <Link to={`/fsdetail${product.productId}`}>
 
     <div className='imgbox'>
-        <img src={fs} />
+        <img src={product.mainImgUrl} alt="Spot"/>
     
     </div>
-    <div className='cardTitle'>
-    <CheckCircleFill />
-    {products.title}&nbsp;&nbsp;
-    </div>
-    <div className='miniTitle'>집결장소  
-     {allAddress[index].productLocationInfo}
-    </div>
-    <div className='miniContent'>
-    <Bullseye />차고지 : 
-    {allAddress[index].productLocationInfo} 
-    <PersonVcard/>
-    신분증 지참 &nbsp;
-    <EmojiSmile />
-     총 6명
-    </div>
-    <div className='calendar'>
-    <Calendar2Check style={{color:'#3974D9'}}/>  
-     {products.price}
-    </div>
+      <div className='cardTitle'>
+      <CheckCircleFill />
+      {product.title}
+      </div>
+      <br />
+      <div className='miniTitle'>주소 :  
+      {/* {allAddress[index].productLocationInfo} */}
+      {product.locationInfo}
+      </div>
+      <div className='miniContent'>
+      <Bullseye />상세 위치 :
+      {product.fullAddress}
+      {/* <PersonVcard/> */}
+      {/* 신분증 지참 &nbsp; */}
+      <EmojiSmile /> 최대 {product.maxUser}명
+      </div>
+      <div className='calendar'>
+      <Calendar2Check style={{color:'#3974D9'}}/>  
+      {product.price}
+      </div>
       </Link>
 </div>
    ))}

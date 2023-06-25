@@ -10,7 +10,6 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-@EqualsAndHashCode
 @Builder
 @Entity
 @ToString(exclude = {"user","images"})

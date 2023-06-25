@@ -24,6 +24,7 @@ public class InquiryCreateRequestDTO {
     @NotBlank
     private String inquiryTitle;
 
+
     public Inquiry toEntity(User user) {
         return Inquiry.builder()
             .inquiryDetails(this.inquiryDetails)

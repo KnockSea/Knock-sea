@@ -76,7 +76,7 @@ public class ShipApiController {
             log.warn("필수 등록 정보를 받지 못했습니다.");
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (RuntimeException e) {
-            log.warn("이메일이 중복되었습니다");
+            log.warn("에러 확인중: {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
@@ -179,16 +179,17 @@ public class ShipApiController {
     //배 정보 가저오기
     //GET : /api/v1/ship/getshipinfo
     @GetMapping("/getshipinfo")
-    public ResponseEntity<?> loadshipinfo(@AuthenticationPrincipal TokenUserInfo userInfo,BindingResult result) {
+    public ResponseEntity<?> loadshipinfo(@AuthenticationPrincipal TokenUserInfo userInfo
+                                         ) {
         // 값 들어오는지 확인
         log.info("/ship/getshipinfo GET! --{}", userInfo);
 
-        if (result.hasErrors()) {
-            log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
-            return ResponseEntity
-                    .badRequest()
-                    .body(result.getFieldError());
-        }
+//        if (result.hasErrors()) {
+//            log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
+//            return ResponseEntity
+//                    .badRequest()
+//                    .body(result.getFieldError());
+//        }
 
         try{
             ShipInfoResponseDTO shipInfo = shipService.getShipInfo(userInfo);

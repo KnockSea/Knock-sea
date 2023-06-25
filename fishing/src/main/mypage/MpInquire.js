@@ -18,7 +18,7 @@ const MpInquire = () => {
   };
 
   const fetchData = () => {
-    if (getLoginUserInfo().userGrade !== 'ADMIN') {
+
       fetch(`http://localhost:8012/api/v1/inquiries/myInquiry?page=${page}&size=${size}`, {
         method: 'GET',
         headers: {
@@ -38,28 +38,8 @@ const MpInquire = () => {
       .catch(error => {
         console.error('이거 들어오는거임?',   error);
       });
-   } else {
-    fetch(`http://localhost:8012/api/v1/inquiries?page=${page}&size=${size}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data) {
-
-          setInquiries(data.inquiries);
-        } else {
-          // 처리할 에러에 대한 로직 추가
-        }
-      })
-      .catch(error => {
-        console.error('이거 들어오는거임?',   error);
-      });
    }
-  };
+
   
   useEffect(() => {
     fetchData();
@@ -86,7 +66,7 @@ const MpInquire = () => {
               상세보기
             </Link>
             {/* 상세보기 화면 내가 쓴글이 보여야 한다 */}
-            
+            {/* @@@@@@@@@@@@@@@@@@@@@@@@@ 유저 문의 상세보기 눌렀을때 나오는 폼 만들어주세요@@@@@@@@@@@@@@@@@@@@@ */}
             </div>
           ))}   
         

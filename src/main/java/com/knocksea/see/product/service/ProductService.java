@@ -7,6 +7,7 @@ import com.knocksea.see.exception.NoneMatchUserException;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
 import com.knocksea.see.product.dto.response.*;
 import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.entity.ViewProduct;
 import com.knocksea.see.product.repository.*;
 import com.knocksea.see.product.dto.request.PageDTO;
@@ -64,19 +65,27 @@ public class ProductService implements ProductDetailService {
                     , Sort.by("productInputDate").descending()
                 );
 //        type, keyword
-        Page<Product> products = productRepository.findAll(pageable);
+//        Page<Product> products = productRepository.findAll(pageable);
+        Page<Product> products = productRepository.findAllByType(pageable, pageDTO.getType());
 
         List<ProductDetailResponseDTO> prodDetailList = products.stream()
-                .map(ProductDetailResponseDTO::new)
-                .collect(Collectors.toList());
+                .map(product -> {
+                        List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
+                        List<ReservationTime> rt = reservationTimeRepository.findAllByProduct_ProductId(product.getProductId());
+                        return new ProductDetailResponseDTO(product, allByProduct.get(0).getImageName(), rt.get(0).getTimeMaxUser());
+                    }
+                ).collect(Collectors.toList());
 
         List<ViewProduct> allAddress = viewProductRepository.findAll();
         // 이러면.. 페이지 넘길때마다 지도 다시 뿌리는건데 어쩌지
 
+        // 이미지랑 예약 가능 유저 수
+
+
         return ProductListResponseDTO.builder()
                 .count(prodDetailList.size())
                 .pageInfo(new PageResponseDTO(products))
-                .products(prodDetailList)
+                .productDetail(prodDetailList)
                 .allAddress(allAddress)
                 .build();
 
@@ -108,6 +117,7 @@ public class ProductService implements ProductDetailService {
                                            List<MultipartFile> productImages
     ) throws RuntimeException, IOException {
         // 상품을 먼저 등록하고 -> 시간 정보를 등록해야 한다.
+        log.warn("여기까지 들어옵니까?");
         User user = userRepository.findById(userInfo.getUserId()).
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
 
@@ -121,12 +131,13 @@ public class ProductService implements ProductDetailService {
 
 
         Product saveProduct = productRepository.save(dto.toProductEntity(user));
-
+        log.warn("사베 프로덕트 : {}", saveProduct);
         imageService.saveProductImg(productImages, userInfo, saveProduct);
 
         for (int i = 0; i < dto.getTimeDate().size(); i++) {
             for (int j = 0; j < dto.getTimeStart().size(); j++) {
                 reservationTimeRepository.save(dto.toReservationTimeEntity(i, j, saveProduct));
+                log.warn("돌고 있니? : {}", j);
             }
         }
 
