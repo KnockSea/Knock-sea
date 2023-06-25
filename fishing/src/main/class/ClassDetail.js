@@ -1,11 +1,10 @@
 import React, { useState,useEffect  } from 'react';
 import './scss/ClassDetail.scss';
 // import './scss/reset.scss';
-import Modal from "./ClassModal";
+import ClassModal from "./ClassModal";
 import ClassDetailTap from "./ClassDetailTap";
 import { Route, Routes,Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 
 const handleLogin = (e) => {
     e.preventDefault();
@@ -52,7 +51,6 @@ function ClassDetail() {
 
 
     return(
-        
     <div className="class-detail-container">
         <div className="class-detail-wrap">
             <div id="class-detail-header">
@@ -79,7 +77,6 @@ function ClassDetail() {
                 </div>
 
                 <div className="detail-right-section">
-                
                     <div className='detail-box detail-list-top'>
 
                         <div className='detail-section'>
@@ -100,8 +97,8 @@ function ClassDetail() {
                                     </div>
                                     </div>        
                                 <div>
-                                    <button className='box btn' onClick={ () => {setModal(true)}}>바로 예약하기</button>
-                                    {modal === true ? <Modal closeModal={() => setModal(false)} /> : null}
+                                    <button className='box btn' onClick={ () => {setModal(true)} }>바로 예약하기</button>
+                                    {modal === true ? <ClassModal closeModal={() => setModal(false)} /> : null}
                                 </div>
                         </div>
                         </div>
@@ -113,5 +110,4 @@ function ClassDetail() {
     );
   }
   
-
   export default ClassDetail;
