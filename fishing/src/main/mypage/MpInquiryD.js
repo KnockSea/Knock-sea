@@ -9,7 +9,32 @@ const MpInquiryD = () => {
     const [answers, setAnswers] = useState([]);
     const [data, setData] = useState(null);
     const [inquiry, setInquiry] = useState([]);
+    const [token, setToken] = useState(getLoginUserInfo().token);
 
+    const handleSubmit = () => {
+        const data = {
+            answerDetails: answerDetails,
+            inquiryId: inquiryId,
+        };
+
+        fetch("http://localhost:8012/api/v1/answers/makeAnswer", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                // 서버 응답을 처리하는 로직 작성
+                console.log(result);
+            })
+            .catch((error) => {
+                // 에러 처리 로직 작성
+                console.error(error);
+            });
+    };
 
     const handleAnswerChange = (e) => {
         setAnswerDetails(e.target.value);
@@ -83,7 +108,7 @@ const MpInquiryD = () => {
                             </div>
                         </div>
                     </div>
-                    <button onClick={handleSubmitAnswer}>답변완료</button>
+                    <button onClick={handleSubmit}>답변완료</button>
                     {/* 답변완료를 누르면 관리자화면에서 답변한 게시글은 없어지거나  답변하기가 사라져야 하지않나? */}
                 </div>
             </div>
