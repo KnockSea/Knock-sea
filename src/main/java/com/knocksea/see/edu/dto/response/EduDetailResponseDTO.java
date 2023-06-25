@@ -8,6 +8,7 @@ import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.user.entity.SeaImage;
+import com.knocksea.see.user.entity.User;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder
 public class EduDetailResponseDTO {
+
+    private Long eduId;
 
     private String eduTitle;
 
@@ -46,6 +49,11 @@ public class EduDetailResponseDTO {
     private List<ReviewDetailResponseDTO> reviewList;
 
     private List<String> imageList;
+
+    private Long userId;
+    private String userName;
+
+    private String userProfileImage;
 
 
 /*    public EduDetailResponseDTO(Edu saveEdu, List<ReservationTime> timeList) {
@@ -83,5 +91,9 @@ public class EduDetailResponseDTO {
         this.timeList = timeList;
         this.reviewList = reviews;
         this.imageList = images;
+        this.eduId=edu.getEduId();
+        this.userId = edu.getUser().getUserId();
+        this.userName = edu.getUser().getUserName();
+        this.userProfileImage=edu.getUser().getProfileImg();
     }
 }
