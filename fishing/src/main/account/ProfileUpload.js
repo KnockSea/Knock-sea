@@ -19,7 +19,6 @@ const ProfileUpload = ({getFile}) => {
 
     reader.onloadend = () => {
       setProfileImg(reader.result);
-
       getFile(files);
     };
   };
@@ -30,7 +29,7 @@ const ProfileUpload = ({getFile}) => {
         <div className="thumbnail-box" onClick={handleProfileClick}>
           <img src={profileImg} alt="프로필 썸네일" />
         </div>
-        <label htmlFor="profile-img" onClick={handleProfileClick}>프로필 이미지</label>
+        <label htmlFor="profile-img"> 👆프로필 이미지 Click!</label>
       </div>
       <input
         id="profile-img"
