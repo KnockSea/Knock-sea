@@ -44,21 +44,6 @@ import MpInquiryD from "./mypage/MpInquiryD";
 
 const NsMain = () => {
     const [product, setproduct] = useState(null);
-  
-  // 배 상품 정보를 가져오는 함수
-      // const fetchProduct = async () => {
-      //   try {
-      //     const response = await fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`);
-      //     console.log(response.status);
-      //     const data = await response.json();
-      //     setproduct(data);
-      //     console.log('NsMian setproduct', product);
-      //   } catch (error) {
-      //     console.error('Error fetching product info:', error);
-      //   }
-      // };
-
-      // console.log('NsMian !!!!!!!!!!!!!!!!!!setproduct', product);
 
 
   return (
@@ -90,109 +75,72 @@ const NsMain = () => {
             {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
 
-    console.log("NsMian !!!!!!!!!!!!!!!!!!setproduct", product);
+            {/* 문의답변 */}
+            <Route
+                path="/adminreply/:inquiryId"
+                element={<MpInquiryD />}
+            ></Route>
+            {/* 문의 상세보기 */}
+            {/* <Route path='/inquiryDetail' element = {<MpInquiryDetail/>}></Route> */}
+            <Route path="/inquiry/:inquiryId" element={<MpInquiryD />} />
+            {/* @@@@@@@@@@@@@@@@@@@@@@@@@ 유저 문의 상세보기 눌렀을때 나오는 폼 만들어주세요@@@@@@@@@@@@@@@@@@@@@ */}
 
-    return (
-        <section>
-            <ScrollToTop />
-            <Routes>
-                <Route path="/bt" element={<RvTemplate />}></Route>
-                <Route path="/" element={<MainContent product={product} />} />
-                {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
-                <Route path="/detail/:productId" element={<RvBtDetail />}>
-                    {" "}
-                </Route>
-                {/* 배낚시 탭 */}
-                <Route path="/detail" element={<RvBtDetail />}>
-                    {" "}
-                </Route>
-                {/* 낚시터 탭 */}
-                <Route path="/fsdetail" element={<RvFsDetail />}>
-                    {" "}
-                </Route>
-                {/* 클래스 탭 */}
-                <Route path="/class" element={<ClassMain />}></Route>
-                <Route path="/classdetail" element={<ClassDetail />}></Route>
-                {/* 마이페이지 */}
-                <Route path="/my" element={<MpMain />}>
-                    {" "}
-                </Route>
-                <Route path="/myinfo" element={<Myinfo />}></Route>
-                <Route path="/mypassword" element={<Mypassword />}></Route>
-                {/* 상품등록 */}
-                <Route
-                    path="/product"
-                    element={<ProductRegistration />}
-                ></Route>
+            <Route path="/rvlist" element={<MpRvlist />}></Route>
 
-                <Route path="/userDrop" element={<MpUserDrop />}></Route>
-                <Route path="/drop" element={<MpDrop />}></Route>
-                {/* 문의하기 */}
-                <Route path="/iqinput" element={<MpIqInput />}></Route>
-                {/* 문의 현황 */}
-                <Route path="/inquire" element={<MpInquire />}></Route>
+            {/* 로그인, 회원가입 */}
+            <Route path="/join" element={<SignUpForm />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+            {/* 업체 등록 */}
+            <Route path="/ownercheck" element={<OwnerCheckMain />}></Route>
+            <Route path="/ship" element={<OwnerCheckShip />}></Route>
+            <Route path="/fishing" element={<OwnerCheckFishing />}></Route>
 
-                {/* 문의답변 */}
-                <Route
-                    path="/adminreply/:inquiryId"
-                    element={<MpInquiryD />}
-                ></Route>
-                {/* 문의 상세보기 */}
-                {/* <Route path='/inquiryDetail' element = {<MpInquiryDetail/>}></Route> */}
-                <Route path="/inquiry/:inquiryId" element={<MpInquiryD />} />
-                {/* @@@@@@@@@@@@@@@@@@@@@@@@@ 유저 문의 상세보기 눌렀을때 나오는 폼 만들어주세요@@@@@@@@@@@@@@@@@@@@@ */}
-
-                <Route path="/rvlist" element={<MpRvlist />}></Route>
-
-                {/* 로그인, 회원가입 */}
-                <Route path="/join" element={<SignUpForm />}></Route>
-                <Route path="/login" element={<Login />}></Route>
-                {/* 업체 등록 */}
-                <Route path="/ownercheck" element={<OwnerCheckMain />}></Route>
-                <Route path="/ship" element={<OwnerCheckShip />}></Route>
-                <Route path="/fishing" element={<OwnerCheckFishing />}></Route>
-
-                <Route path="/fs" element={<RvFsTemplate />}></Route>
-                <Route path="/myquery" element={<MpQueryText />}></Route>
-                {/* 업체 정보 */}
-                <Route path="/mpbt" element={<MpBtInfo />}></Route>
-                <Route path="/mpfs" element={<MpFsInfo />}></Route>
-                <Route path="/mpclass" element={<MpClassInfo />}></Route>
-                {/* 관리자 */}
-                <Route path="/admin" element={<MpAdmin />}></Route>
-                <Route path="/adminFs" element={<MpAdminFS />}></Route>
-                <Route path="/adminCS" element={<MpAdminCS />}></Route>
-                <Route path="/host" element={<HostSearchMain />}></Route>
-            </Routes>
+            <Route path="/fs" element={<RvFsTemplate />}></Route>
+            <Route path="/myquery" element={<MpQueryText />}></Route>
+            {/* 업체 정보 */}
+            <Route path="/mpbt" element={<MpBtInfo />}></Route>
+            <Route path="/mpfs" element={<MpFsInfo />}></Route>
+            <Route path="/mpclass" element={<MpClassInfo />}></Route>
+            {/* 관리자 */}
+            <Route path="/admin" element={<MpAdmin />}></Route>
+            <Route path="/adminFs" element={<MpAdminFS />}></Route>
+            <Route path="/adminCS" element={<MpAdminCS />}></Route>
+            <Route path="/host" element={<HostSearchMain />}></Route>
+        </Routes>
 
             {/* MainContent 컴포넌트에 shipInfo prop 전달 */}
             {/* <MainContent shipInfo={shipInfo} /> */}
         </section>
-    );
-};
-const MainContent = ({ isRouteActive, shipInfo }) => {
+    )
+  }
+
+  const MainContent = ({ isRouteActive , product}) => {
     return (
-        <>
+            <>
             {!isRouteActive && (
                 <>
                     <NsBanner />
 
-                    <div className="mainbox">
-                        <div className="contentbox">
-                            <NsItem />
-                            <NsFishingSpot />
-                            <NsClass />
-                        </div>
-                        <div className="apibox">
-                            <div className="wtbox">
-                                <WeeklyWeather />
-                            </div>
-                        </div>
-                    </div>
+                <div className='mainbox'>
+                <div className='contentbox'>
+                <NsItem 
+                product={product}
+
+                />
+                <NsFishingSpot />
+                <NsClass />
+                </div>
+            <div className='apibox'>
+                <div className='wtbox'>
+                    <WeeklyWeather/>
+                </div>
+            </div>
+            </div>
                 </>
-            )}
-        </>
-    );
-};
+
+            )}    
+            </>
+        )
+    }
 
 export default NsMain;
