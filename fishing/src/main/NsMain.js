@@ -48,19 +48,19 @@ const NsMain = () => {
 
   
   // 배 상품 정보를 가져오는 함수
-      const fetchProduct = async () => {
-        try {
-          const response = await fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`);
-          console.log(response.status);
-          const data = await response.json();
-          setproduct(data);
-          console.log('NsMian setproduct', product);
-        } catch (error) {
-          console.error('Error fetching product info:', error);
-        }
-      };
+      // const fetchProduct = async () => {
+      //   try {
+      //     const response = await fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`);
+      //     console.log(response.status);
+      //     const data = await response.json();
+      //     setproduct(data);
+      //     console.log('NsMian setproduct', product);
+      //   } catch (error) {
+      //     console.error('Error fetching product info:', error);
+      //   }
+      // };
 
-      console.log('NsMian !!!!!!!!!!!!!!!!!!setproduct', product);
+      // console.log('NsMian !!!!!!!!!!!!!!!!!!setproduct', product);
 
 
   return (

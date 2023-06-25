@@ -19,7 +19,7 @@ function TimeConverter({ onTimeChange }) {
     const hour2 = selectBox3Values[selectBox3Index];
     const minute2 = selectBox4Values[selectBox4Index];
 
-    const timeString = `${padZero(hour)}시 ${padZero(minute)}분 - ${padZero(hour2)}시 ${padZero(minute2)}분`;
+    const timeString = `${padZero(hour)}:${padZero(minute)} - ${padZero(hour2)}:${padZero(minute2)}`;
     setConvertedTime(timeString);
     onTimeChange(timeString);
   }
@@ -44,6 +44,7 @@ function TimeConverter({ onTimeChange }) {
     setSelectBox4Index(event.target.value);
   }
 
+  
   return (
     <div className='RegiTime'>
       <select value={selectBox1Index} onChange={handleSelectBox1Change}>

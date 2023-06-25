@@ -22,9 +22,11 @@ const handleLogin = (e) => {
 function ClassDetail() {
       const [filter, setFilter] = useState(''); 
       const [modal, setModal] = useState('false'); 
+
       const { eduId } = useParams();
 
       const [oneEdu, setOneEdu] = useState([]);
+
 
       const requestHeader = {
         'content-type': 'application/json'
