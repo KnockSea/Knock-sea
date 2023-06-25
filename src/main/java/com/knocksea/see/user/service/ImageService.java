@@ -189,7 +189,7 @@ public class ImageService {
         for (String string : strings) {
             SeaImage save = imageRepository
                     .save(SeaImage.builder()
-                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+string)
+                            .imageName(string)
                     .spot(findBySpot)
                             .typeNumber(typeNumber++)
                     .imageType(ProductCategory.SPOT).build());
@@ -205,18 +205,17 @@ public class ImageService {
         //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
         List<String> uniqueFilenames = new ArrayList<>();
 
-        String s = makeDateFormatDirectory(uploadRootPath2);
-
 
         for (MultipartFile spotImage : spotImages) {
-            String originalFilename = spotImage.getOriginalFilename();
-            String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
+            log.warn("널뜨냐?");
+            String uniqueFileName = UUID.randomUUID() + "_" + spotImage.getOriginalFilename();
 
+            String realUrl = s3Service.uploadToS3Bucket(spotImage.getBytes(), uniqueFileName);
             // Save the file
-            File uploadFile = new File(s+"/"+uniqueFileName);
-            spotImage.transferTo(uploadFile);
+//            File uploadFile = new File(s+"/"+uniqueFileName);
+//            shipImage.transferTo(uploadFile);
 
-            uniqueFilenames.add(uniqueFileName);
+            uniqueFilenames.add(realUrl);
 
         }
 
