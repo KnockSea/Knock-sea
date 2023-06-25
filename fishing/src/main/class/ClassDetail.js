@@ -7,7 +7,6 @@ import { Route, Routes,Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
-
 const handleLogin = (e) => {
     e.preventDefault();
   
@@ -18,11 +17,9 @@ const handleLogin = (e) => {
   
 
 function ClassDetail() {
-   
       const [filter, setFilter] = useState(''); 
       const [modal, setModal] = useState('false'); 
       const { eduId } = useParams();
-
       const [oneEdu, setOneEdu] = useState([]);
 
       const requestHeader = {
@@ -50,7 +47,9 @@ function ClassDetail() {
         }, []);
 
 
+
     return(
+        
     <div className="class-detail-container">
         <div className="class-detail-wrap">
             <div id="class-detail-header">
@@ -67,7 +66,7 @@ function ClassDetail() {
             <div className='detail-content-wrap'>
                 <div className="detail-left-section">
                     <span>{oneEdu.eduTitle}</span>
-                    <ClassDetailTap />
+                    <ClassDetailTap eduInfo ={oneEdu.eduInfo} reviewList = {oneEdu.reviewList}/>
                     {/* <ul className='detail-tap'>
                         <li>클래스 소개</li>
                         <li>장소 소개</li>
@@ -77,6 +76,7 @@ function ClassDetail() {
                 </div>
 
                 <div className="detail-right-section">
+                
                     <div className='detail-box detail-list-top'>
 
                         <div className='detail-section'>

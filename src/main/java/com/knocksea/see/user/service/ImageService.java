@@ -122,7 +122,7 @@ public class ImageService {
             log.info("SPOT 들어옴");
            imageRepository.save(
                     SeaImage.builder()
-                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(0))
+                            .imageName(listValidationImg.get(0))
                             .validation(fondByUserAndValidationType)
                             .imageType(ProductCategory.VALIDATIONBUSINESSREGI)
                             .build());
