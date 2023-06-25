@@ -73,7 +73,7 @@ public class EduApiController {
     //클래스 등록 - post
     @PostMapping
     public ResponseEntity<?> create(
-            @Validated @RequestPart(value = "edu") EduAndReservationTimeCreateDTO dto
+            @Validated @RequestPart(value = "Edu") EduAndReservationTimeCreateDTO dto
             , @RequestPart(value = "EduImage", required = false) List<MultipartFile> EduImg
             , BindingResult result
     ) {

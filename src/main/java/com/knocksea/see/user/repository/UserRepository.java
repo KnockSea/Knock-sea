@@ -17,7 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUserName(String userName);
 
-
     // 이메일 중복체크
 //    @Query("select count(*) from User u where u.email=:email")
 }
