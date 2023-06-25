@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 const { kakao } = window;
 
-const RvMap = ({ product }) => {
+const RvMap = ({ productDetail }) => {
   useEffect(() => {
     const container = document.getElementById("map");
     const options = {
@@ -13,7 +13,7 @@ const RvMap = ({ product }) => {
     const map = new kakao.maps.Map(container, options);
 
     // 주소 검색 결과를 순회하며 좌표값을 가져와 마커를 생성합니다.
-    product.allAddress.forEach((address) => {
+    productDetail.allAddress.forEach((address) => {
       const geocoder = new kakao.maps.services.Geocoder();
 
       geocoder.addressSearch(address.productLocationInfo, (result, status) => {
@@ -29,7 +29,7 @@ const RvMap = ({ product }) => {
         }
       });
     });
-  }, [product]);
+  }, [productDetail]);
 
   return (
     <div id="map" style={{ width: "800px", height: "600px" }}></div>
