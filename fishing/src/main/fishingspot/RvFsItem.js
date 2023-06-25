@@ -8,31 +8,35 @@ import RvFsDetail from './RvFsDetail';
 import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
 
-const RvFsItem = ({ allAddress, pageInfo, products }) => {
+const RvFsItem = ({ allAddress, pageInfo, product, count }) => {
 
   const [Address, setAddress] = useState(allAddress);
   const [pgInfo, setpgInfo] = useState(pageInfo);
-  const [pdt, setpdt] = useState(products);
+  const [pdt, setpdt] = useState(product);
   // const [count, setcount] = useState(count);
-  const [Fsimg, setFsimg] = useState("");
-
+  const [Fsimg, setFsimg] = useState();
+  const [page, setPage] = useState("");
+  const [size, setSize] = useState("");
+  // const [type, setType] = useState("");
+  const type = 'SPOT';
   
+  // GET 방식 보낼때 page값 넘겨야 함
+  fetch(`${API_BASE_URL}${PRODUCTS}/product-list?page=${page}&size=${size}&type=${type}`)
+  .then(response => response.json())
+    .then(Fsimg => {
+      setFsimg(Fsimg);
+      // console.log(shipimg);
+    });
   useEffect(() => {
-    fetch(`${API_BASE_URL}${PRODUCTS}/product-list`)
-      .then(response => response.text())
-      .then(Fsimg => {
-        setFsimg(Fsimg);
-        // console.log(shipimg);
-      });
   }, []);
 
 
-  const dt = products.productId;
+  const dt = product.productId;
   return (
     <div className='Fssection'>
-    {products.map((product, index) => (
+    {product.map((product, index) => (
     <div  key={index}  className='contentCard'>
-      <Link to={`/fsdetail${products.productId}`}>
+      <Link to={`/fsdetail${product.productId}`}>
 
     <div className='imgbox'>
         <img src={fs} />
@@ -40,7 +44,7 @@ const RvFsItem = ({ allAddress, pageInfo, products }) => {
     </div>
     <div className='cardTitle'>
     <CheckCircleFill />
-    {products.title}&nbsp;&nbsp;
+    {product.title}&nbsp;&nbsp;
     </div>
     <div className='miniTitle'>집결장소  
      {allAddress[index].productLocationInfo}
@@ -55,7 +59,7 @@ const RvFsItem = ({ allAddress, pageInfo, products }) => {
     </div>
     <div className='calendar'>
     <Calendar2Check style={{color:'#3974D9'}}/>  
-     {products.price}
+     {product.price}
     </div>
       </Link>
 </div>

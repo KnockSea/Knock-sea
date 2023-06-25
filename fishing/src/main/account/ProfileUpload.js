@@ -21,7 +21,7 @@ const ProfileUpload = ({ getFile }) => {
         getFile(files[0]);
       };
     }
-
+  }
 
   return (
     <div>

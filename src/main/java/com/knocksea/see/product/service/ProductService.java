@@ -69,9 +69,15 @@ public class ProductService implements ProductDetailService {
 
         List<ProductDetailResponseDTO> prodDetailList = products.stream()
                 .map(product -> {
-                        List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
+                        if (product.getProductType().equals("SHIP")) {
+                            List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
                             List<ReservationTime> rt = reservationTimeRepository.findAllByProduct_ProductId(product.getProductId());
                             return new ProductDetailResponseDTO(product, allByProduct.get(0).getImageName(), rt.get(0).getTimeMaxUser());
+                        } else {
+                            List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
+                            List<ReservationTime> rt = reservationTimeRepository.findAllByProduct_ProductId(product.getProductId());
+                            return new ProductDetailResponseDTO(product, allByProduct.get(0).getImageName(), rt.get(0).getTimeMaxUser());
+                        }
                 }
                 ).collect(Collectors.toList());
 
