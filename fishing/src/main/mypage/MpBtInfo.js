@@ -9,7 +9,7 @@ import { useState } from 'react';
 const MpBtInfo = () => {
 
 
-    const [shipInfo, setShipInfo] = useState({
+    const [shipinfo, setShipinfo] = useState({
         shipId: 0,
         category: null,
         shipDescription: '',
@@ -29,23 +29,50 @@ const MpBtInfo = () => {
         userPhone : ''
       });
     
-    
-    const fetchShipInfo = async () => {
+      //배 정보 가져오기
+      const fetchShipInfo = async () => {
         const res = await fetch('http://localhost:8012/api/v1/ship/getshipinfo', {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
         });
+    
         if (res.status === 200) {
             const json = await res.json(); // JSON 데이터 파싱
-            console.log(json);
-            setShipInfo(json);
-    
-           
-        } else {
+            setShipinfo(json);    
+            // console.log(shipinfo);
+        } else if(res.status===500){
             alert('등록된 선박이없습니다!');
+        }else{
+          alert('서버와의 통신이 원활하지않습니다!')
         }
-      };
-    
+      }
+      
+      //배정보 삭제하기
+      const deleteShip = async (e) =>{
+        
+        e.preventDefault();
+
+        const confirm = window.confirm('정말로 삭제하시겠습니까?');
+
+        if(confirm){
+        const res = await fetch('http://localhost:8012/api/v1/ship/delete', {
+            method: 'DELETE',
+            headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
+        });
+        if (res.status === 200) {
+            const json = await res.json(); // JSON 데이터 파싱
+            // console.log(shipinfo);
+            alert('배정보 삭제완료');
+            fetchShipInfo();
+        } else if(res.status===500){
+            alert('배정보 삭제에 실패했습니다');
+        }else{
+          alert('서버와의 통신이 원활하지않습니다!')
+        }
+      }else{
+        return ;
+      }
+    }
     
     
     useEffect(() => {
@@ -56,11 +83,12 @@ const MpBtInfo = () => {
         const user = getLoginUserInfo();
         setUserInfo(user);
         fetchShipInfo();
-    
-        // fetchShipInfo();
       }, []);
     
-
+      useEffect(() => {
+        // console.log(shipinfo);
+      }, [fetchShipInfo]);
+      
 
     
   return (
@@ -82,21 +110,35 @@ const MpBtInfo = () => {
                     </div>
                    
                    
-                    <div className='userinfobox'>
-                        <div className='profilebox'>
-                        {shipInfo && shipInfo[0] ? (<img className="my-profile" title="마이페이지" src={shipInfo.shipImageLocation[0]} />) : (<img className="my-profile" title="마이페이지" src={require('./../icons/unknown.png')} />)}
-
+                        <div className='userinfobox'>
+                                            <div className='profilebox'>
+                        {shipinfo.shipImageLocation && shipinfo.shipImageLocation.length > 0 ? (
+                            <img className="my-profile" title="마이페이지" src={shipinfo.shipImageLocation[0]} />
+                        ) : (
+                            <img className="my-profile" title="마이페이지" src={require('./../icons/unknown.png')} />
+                        )}
                         </div>
                         <div className='namebox'>
-                        {shipInfo && shipInfo[0] ? (<div className="nickName">{shipInfo[0].shipName}</div>) : (<div className="nickName">등록된 배가없습니다!</div>)}
-                        {shipInfo && shipInfo[0] ? (<div>{shipInfo.shipDescription}</div>):(<div>배 정보를 등록해주세요!</div>)}
+                        <div className="nickName">
+                        {shipinfo.shipName ? <span>{shipinfo.shipName}</span> : <span>등록된 배가  없습니다.</span>}
+                        </div>
+                        <div>
+                        {shipinfo.shipDescription ? <span>{shipinfo.shipDescription}</span> : <span>배를 등록해주세요.</span>}
+                        </div>
+                        <div>
+                        {shipinfo.shipLikeCount ||<span>{setShipinfo.shipLikeCount}</span>}
+                        </div> 
+                        
                         </div>
                         <div className='btbox'>
-                        {shipInfo && shipInfo[0] ?(<><button className='isbtn'><Link to={'/myquery'}>글 삭제하기</Link></button><button className='isbtn'><Link to={'/myquery'}>배 정보 수정하기</Link></button></>):(<button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>)}
-                        {/* <button> */}
-                            {/* <Link to={'/myinfo'}>배 업체 정보 수정</Link> */}
-                            {/* 작성 폼 불러와서 수정 진행 Link 걸어야 함 */}
-                        {/* </button> */}
+                        {shipinfo && shipinfo.shipId ? (
+                            <>
+                            <button className='isbtn' onClick={deleteShip}>배 정보 삭제하기</button>
+                            <button className='isbtn'>배 정보 수정하기</button>
+                            </>
+                            ) : (
+                            <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
+                            )}
                         </div>
                     </div>
 
