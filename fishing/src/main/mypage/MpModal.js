@@ -8,8 +8,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Link } from 'react-router-dom';
 import { getLoginUserInfo } from '../util/login-util';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function MpModal({ user }) {
+
+//화면이동 함수
+  const navi = useNavigate();  
 
   const { email, password } = user;
   console.log(email);
@@ -32,30 +36,33 @@ export default function MpModal({ user }) {
 
   // //회원탈퇴하는 함수
   const deleteuser = async () => {
+    const userDeleteRequest = {
+      userEmail: email, // 사용자 이메일 입력
+      userPassword: password // 사용자 비밀번호 입력
+    };
+
     try {
-      const userDeleteRequest = {
-        userEmail: email, // Fill in the user email
-        userPassword: password // Fill in the user password
-      };
-  
       const res = await fetch('http://localhost:8012/api/v1/user/userDelete', {
         method: 'DELETE',
         headers: {
-          'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN'),
+          'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(userDeleteRequest)
       });
-  
-      if (res.ok) {
+
+      if (res.status === 200) {
         const json = await res.json();
-        // alert(json);
+        alert('회원을 삭제했습니다.');
         localStorage.clear();
-      } else {
-        console.log(userDeleteRequest);
+        navi('/');
+      } else if(res.status===400){
+        alert('서버와의 통신오류가있습니다');
+      }else{
+        alert('비밀번호가 다릅니다');
       }
     } catch (error) {
-      console.error('An error occurred during user deletion:', error);
+      console.error(error);
     }
   };
 
