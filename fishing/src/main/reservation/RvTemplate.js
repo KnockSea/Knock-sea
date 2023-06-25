@@ -6,35 +6,43 @@ import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
 function RvTemplate() {
 
-  const [product, setproduct] = useState();
+  const [Fsproduct , setFsproduct] = useState();
 
-
+  const [page, setPage] = useState();
+  const [size, setSize] = useState();
+  
+  const [type, setType] = useState("SHIP");
   // 배 상품 정보를 전체 가져오는 함수
-  const fetchProduct = async () => {
+  const fetchFsProduct = async ({p,s,t}) => {
     try {
-      const response = await fetch(`${API_BASE_URL}${PRODUCTS}/product-list`);
-      const data = await response.json();
-      setproduct(data);
-      console.log('와!',data);
-      console.log('NsMian setproduct', product); // null 
-    } catch (error) {
-      console.error('Error fetching product info:', error);
+
+      fetch(`${API_BASE_URL}${PRODUCTS}/product-list?page=${p}&size=${s}&type=${t}`)
+        .then(response => response.json())
+        .then(res => {
+          setFsproduct(res);
+          
+      });      
+
+    }catch (error) {
+      console.error('Error fetching Fsproduct info:', error);
     }
+    
   };
 
 
   useEffect(() => {
-    fetchProduct();
-  }, []);
+    
+
+  }, [fetchFsProduct, page, size, type]);
 
   return (
 
-    product &&
+    Fsproduct &&
     <div>
         <NsHeader />
         <RvMain
-        product={product}
-
+        fetchFsProduct={fetchFsProduct}
+        FsProduct={Fsproduct}
         />
     </div>
 

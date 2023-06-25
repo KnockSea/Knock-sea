@@ -65,20 +65,15 @@ public class ProductService implements ProductDetailService {
                     , Sort.by("productInputDate").descending()
                 );
 //        type, keyword
-        Page<Product> products = productRepository.findAll(pageable);
+//        Page<Product> products = productRepository.findAll(pageable);
+        Page<Product> products = productRepository.findAllByType(pageable, pageDTO.getType());
 
         List<ProductDetailResponseDTO> prodDetailList = products.stream()
                 .map(product -> {
-                        if (product.getProductType().equals("SHIP")) {
-                            List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
-                            List<ReservationTime> rt = reservationTimeRepository.findAllByProduct_ProductId(product.getProductId());
-                            return new ProductDetailResponseDTO(product, allByProduct.get(0).getImageName(), rt.get(0).getTimeMaxUser());
-                        } else {
-                            List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
-                            List<ReservationTime> rt = reservationTimeRepository.findAllByProduct_ProductId(product.getProductId());
-                            return new ProductDetailResponseDTO(product, allByProduct.get(0).getImageName(), rt.get(0).getTimeMaxUser());
-                        }
-                }
+                        List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
+                        List<ReservationTime> rt = reservationTimeRepository.findAllByProduct_ProductId(product.getProductId());
+                        return new ProductDetailResponseDTO(product, allByProduct.get(0).getImageName(), rt.get(0).getTimeMaxUser());
+                    }
                 ).collect(Collectors.toList());
 
         List<ViewProduct> allAddress = viewProductRepository.findAll();
@@ -90,7 +85,7 @@ public class ProductService implements ProductDetailService {
         return ProductListResponseDTO.builder()
                 .count(prodDetailList.size())
                 .pageInfo(new PageResponseDTO(products))
-                .products(prodDetailList)
+                .productDetail(prodDetailList)
                 .allAddress(allAddress)
                 .build();
 
