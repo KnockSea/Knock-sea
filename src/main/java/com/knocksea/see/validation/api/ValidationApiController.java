@@ -71,7 +71,7 @@ public class ValidationApiController {
                 log.info("ggggg");
                 //이미지 파일들이 잘 들어왔다면 원본이름 출력시키기
                 for (MultipartFile validationImage : validationImg) {
-                    log.info("validationImage : "+validationImage.getOriginalFilename());
+                    log.info("validationImage : {}"+validationImage.getOriginalFilename());
                 }
                 //이미지 저장시키기
                 imageService.saveValidationImg(validationImg,dto,userInfo);

@@ -5,6 +5,7 @@ import com.knocksea.see.inquiry.entity.Inquiry;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ProductCategory;
 import com.knocksea.see.validation.dto.request.validationModifyRequestDTO;
+import com.knocksea.see.validation.entity.Validation;
 import lombok.*;
 
 import javax.persistence.*;
@@ -69,6 +70,9 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<Inquiry> inquiries = new ArrayList<>();
 
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
+    private List<Validation> validations = new ArrayList<>();
 
     //    @OneToMany(mappedBy = "user")
 //    @Builder.Default

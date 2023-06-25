@@ -108,6 +108,7 @@ public class ProductService implements ProductDetailService {
                                            List<MultipartFile> productImages
     ) throws RuntimeException, IOException {
         // 상품을 먼저 등록하고 -> 시간 정보를 등록해야 한다.
+        log.warn("여기까지 들어옵니까?");
         User user = userRepository.findById(userInfo.getUserId()).
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
 
@@ -121,12 +122,13 @@ public class ProductService implements ProductDetailService {
 
 
         Product saveProduct = productRepository.save(dto.toProductEntity(user));
-
+        log.warn("사베 프로덕트 : {}", saveProduct);
         imageService.saveProductImg(productImages, userInfo, saveProduct);
 
         for (int i = 0; i < dto.getTimeDate().size(); i++) {
             for (int j = 0; j < dto.getTimeStart().size(); j++) {
                 reservationTimeRepository.save(dto.toReservationTimeEntity(i, j, saveProduct));
+                log.warn("돌고 있니? : {}", j);
             }
         }
 

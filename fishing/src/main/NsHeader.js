@@ -1,48 +1,54 @@
-import React from "react";
-import RvTemplate from "./reservation/RvTemplate";
-import "./scss/NsHeader.scss";
-import logoPath from "./img/logo.png";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import { getLoginUserInfo, isLogin } from "./util/login-util";
-import { useEffect, useHistory } from "react";
+import React from 'react'
+import RvTemplate from './reservation/RvTemplate'
+import './scss/NsHeader.scss'
+import logoPath from './img/logo.png'
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { getLoginUserInfo , isLogin } from './util/login-util';
+import { useEffect ,useHistory} from 'react'
+
 
 export const NsHeader = () => {
-    const linkStyle = {
-        color: "black",
-        textDecoration: "none",
-    };
+  const navi = useNavigate();
 
-    //프로필이미지 url 상태변수
-    const [profileUrl, setProfileUrl] = useState("");
+  const linkStyle = {
+    color: 'black',
+    textDecoration: 'none'
+  };
 
-    const [isLoggedIn, setIsLoggedIn] = useState(isLogin());
+  //프로필이미지 url 상태변수
+  const [profileUrl,setProfileUrl] = useState('');
 
-    const [userInfo, setUserInfo] = useState({
-        token: "", // Set default value for name
-        userEmail: "", // Set default value for email
-        userName: "",
-        userGrade: "",
-        userId: "",
-        userPhone: "",
-    });
+  const [isLoggedIn, setIsLoggedIn] = useState(isLogin()); 
 
-    const resetStorage = (e) => {
-        e.preventDefault();
-        const confirm = window.confirm("정말 로그아웃하시겠어요?");
-        if (confirm) {
-            setIsLoggedIn(isLogin());
-            localStorage.clear();
-        } else {
-            return false; // Add this line to prevent further actions
-        }
-    };
+  const [userInfo, setUserInfo] = useState({
+    token: '', // Set default value for name
+    userEmail: '', // Set default value for email
+    userName : '',
+    userGrade : '',
+    userId : '',
+    userPhone : ''
+  });
 
-    // 로그인 상태 변화를 감지하는 useEffect를 추가
-    useEffect(() => {
-        const user = getLoginUserInfo();
-        setUserInfo(user);
-        setIsLoggedIn(!isLogin());
+  const resetStorage = (e) =>{
+    e.preventDefault();
+    const confirm =window.confirm('정말 로그아웃하시겠어요?');
+    if(confirm){
+      setIsLoggedIn(isLogin());
+      localStorage.clear();
+      navi('/');
+    }else{
+      return false; // Add this line to prevent further actions
+    }
+  }
+
+  // 로그인 상태 변화를 감지하는 useEffect를 추가
+  useEffect(() => {
+    const user = getLoginUserInfo();
+    setUserInfo(user);
+    setIsLoggedIn(!isLogin());
+
     }, [isLogin()]);
 
     useEffect(() => {

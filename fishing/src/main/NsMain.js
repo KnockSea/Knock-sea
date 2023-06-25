@@ -44,21 +44,51 @@ import MpInquiryD from "./mypage/MpInquiryD";
 
 const NsMain = () => {
     const [product, setproduct] = useState(null);
+  
+  // 배 상품 정보를 가져오는 함수
+      // const fetchProduct = async () => {
+      //   try {
+      //     const response = await fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`);
+      //     console.log(response.status);
+      //     const data = await response.json();
+      //     setproduct(data);
+      //     console.log('NsMian setproduct', product);
+      //   } catch (error) {
+      //     console.error('Error fetching product info:', error);
+      //   }
+      // };
 
-    // 배 상품 정보를 가져오는 함수
-    const fetchProduct = async () => {
-        try {
-            const response = await fetch(
-                `${API_BASE_URL}${PRODUCTS}/main/ship`
-            );
-            console.log(response.status);
-            const data = await response.json();
-            setproduct(data);
-            console.log("NsMian setproduct", product);
-        } catch (error) {
-            console.error("Error fetching product info:", error);
-        }
-    };
+      // console.log('NsMian !!!!!!!!!!!!!!!!!!setproduct', product);
+
+
+  return (
+    <section>
+        <ScrollToTop />
+        <Routes>
+            <Route path='/bt' element={<RvTemplate/>} ></Route>
+            <Route path='/' element ={<MainContent product={product} />} />
+            {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
+            <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
+            {/* 배낚시 탭 */}            
+            <Route path='/detail' element={<RvBtDetail/>}> </Route>
+            {/* 낚시터 탭 */}            
+            <Route path='/fsdetail' element={<RvFsDetail/>}> </Route>
+            {/* 클래스 탭 */}
+            <Route path='/class' element={<ClassMain/>}></Route>
+            <Route path='/classdetail/:eduId' element={<ClassDetail/>}></Route>
+            {/* 마이페이지 */}                        
+            <Route path='/my' element={<MpMain/>}> </Route>
+            <Route path='/myinfo' element={<Myinfo/>}></Route>
+            <Route path='/mypassword' element={<Mypassword/>}></Route>
+            {/* 상품등록 */}
+            <Route path='/product' element={<ProductRegistration/>}></Route>
+            
+            <Route path='/userDrop' element={<MpUserDrop/>}></Route>
+            <Route path='/drop' element={<MpDrop/>}></Route>
+            {/* 문의하기 */}
+            <Route path='/iqinput' element={<MpIqInput/>}></Route>
+            {/* 문의 현황 */}
+            <Route path='/inquire' element={<MpInquire/>}></Route>
 
     console.log("NsMian !!!!!!!!!!!!!!!!!!setproduct", product);
 
