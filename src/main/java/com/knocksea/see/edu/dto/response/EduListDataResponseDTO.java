@@ -26,7 +26,7 @@ public class EduListDataResponseDTO {
 
     public EduListDataResponseDTO(Edu edu) {
         this.eduTitle = edu.getEduTitle();
-        this.eduLocation = edu.getEduLocationInfo();
+        this.eduLocation = edu.getEduFullAddress();
         this.eduPrice = edu.getEduPrice();
         this.eduId=edu.getEduId();
     }

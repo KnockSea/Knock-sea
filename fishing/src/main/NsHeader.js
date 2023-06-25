@@ -103,6 +103,7 @@ export const NsHeader = () => {
               {/* {console.log(profileUrl)} */}
               {/* <span/>{userInfo.userName}님</span> */}
               <Link to={{ pathname: '/my', state: userInfo }} profileUrl>
+
                 <img className="my-profile"  title="마이페이지" src={profileUrl || require('./icons/defaultProfile.png')} style={{border:"1px solid darkgray"}}/>
               </Link>
 

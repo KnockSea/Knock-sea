@@ -1,10 +1,48 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import './RvScss/RvFsDetail.scss'
 import dt1 from '../img/dtRv.png'
 import fs from '../img/fs.jpg'
+
+import { API_BASE_URL, PRODUCTS } from "../../config/host-config";
+import { useLocation, useParams } from "react-router-dom";
+import { Calendar } from "react-bootstrap-icons";
+import Modal from "../class/ClassModal";
+// import ClassDetailTap from "./ClassDetailTap";
+import { Link } from "react-router-dom";
+
+// datepicker
+
+import DatePicker from "react-datepicker";
+import { ko } from "date-fns/esm/locale";
+import { addMonths } from "date-fns";
+
+// datepicker
+
+import { Dropdown } from "primereact/dropdown";
+import "primereact/resources/themes/saga-blue/theme.css";
+import "primereact/resources/primereact.css";
+import "primeicons/primeicons.css";
+
 const RvFsDetail = () => {
+    const { productId } = useParams();
+
+    const [startDate, setStartDate] = useState(new Date());
+
+    const [modal, setModal] = useState("false");
+    const [FsDetail, setFsdetail] = useState({});
+  
+    useEffect(() => {
+      fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`)
+        .then((response) => response.json())
+        .then((FsDetail) => {
+          setFsdetail(FsDetail);
+        });
+    }, []);
+
+
+
   return (
-    
+
         <div className='allview'>
             <div className='imgbox'>
             <img src={fs} />
@@ -16,7 +54,10 @@ const RvFsDetail = () => {
 
             <div className='left'>
                 <div className='title'>
-                    <h1>[영종도] 뉴동관호 1호~3호 대방어 낚시</h1>
+                    <h1>
+                    {FsDetail.title}
+                        {/* [영종도] 뉴동관호 1호~3호 대방어 낚시 */}
+                        </h1>
                 </div>
                 <div className='minititle'>출조안내</div>
 
@@ -113,13 +154,45 @@ const RvFsDetail = () => {
                     </div>
                 </div>
             <div className='clbox'>
-                <img src={dt1}/>
+            <h2>예약하기</h2>
+       
+            <div className="calendarbox">
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                locale={ko}
+                monthsShown={1}
+                minDate={new Date()}
+                maxDate={addMonths(new Date(), 1)}
+                inline
+              />
             </div>
+            <div>
+              <button
+                className="box btn rvboxbtn1"
+                onClick={() => {
+                  setModal(true);
+                }}
+              >
+                바로 예약하기
+              </button>
+              {modal === true ? (
+                <Modal closeModal={() => setModal(false)} />
+              ) : null}
+            </div>
+
+
+
+
+            </div>
+
+
             <div className='profilebox'>
-                <div className='proCircle'></div>
-                <h2>뉴정환호</h2>
-                <div className='pr1'>호스트 확인하기</div>
-                <button>문의하기</button>
+            <div className="proCircle"> </div> <h2> {FsDetail.userId} </h2>{" "}
+            <div className="pr1"> 호스트 확인하기 </div>{" "}
+            <button> 업체 정보확인 </button> <Link to={"/host"}></Link>
+        
+                
                 </div>
             </div>
 

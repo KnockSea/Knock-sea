@@ -5,14 +5,8 @@ import { getLoginUserInfo } from '../util/login-util';
 import { useNavigate } from 'react-router-dom';
 
 function OwnerCheckFishing() {
-  const [accountId, setAccountId] = useState('');
-  const [shipName, setShipName] = useState('');
+  const [fishingNumber, setFishingNumber] = useState('');
   const [file, setFile] = useState(null);
-  const [userpasswordChk, setuserpasswordChk] = useState('');
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
-  const [phoneNo, setPhoneNo] = useState('');
-
 
   //화면이동 함수
   const navi = useNavigate();
@@ -24,10 +18,10 @@ function OwnerCheckFishing() {
 
     const payload = {
       validationType: 'SPOT',
-      validationBusinessRegi : name,
+      validationBusinessRegi : fishingNumber,
     };
-    //JSON을 Blob타입으로 변경후 FormData에 넣기
 
+    //JSON을 Blob타입으로 변경후 FormData에 넣기
     const userJsonBlob = new Blob(
       [JSON.stringify(payload)],
       {type : 'application/json'}
@@ -39,7 +33,6 @@ function OwnerCheckFishing() {
 
     
       // Append each image file separately
-    
     formData.append('validationImage',file);
 
 
@@ -53,17 +46,16 @@ function OwnerCheckFishing() {
 
 
     if(res.status===200){
-      alert('낚시터검증요청에 성공했습니다')
-      //window.location.href = '/login';
-      navi('/');
-    }else if(res.status==500){
-      const errorResponse = await res.json(); // Parse error response as JSON
-      alert('등록에 오류가발생했습니다');
-      console.log(errorResponse);
-    }else{
-      alert('서버와의 접속이 원활하지않습니다');
-    }
-    
+          alert('낚시터검증요청에 성공했습니다')
+          //window.location.href = '/login';
+          navi('/');
+        }else if(res.status==500){
+          const errorResponse = await res.json(); // Parse error response as JSON
+          alert('등록에 오류가발생했습니다');
+          console.log(errorResponse);
+        }else{
+          alert('서버와의 접속이 원활하지않습니다');
+        }
   };
 
   const handleFileChange = (event) => {
@@ -122,47 +114,17 @@ function OwnerCheckFishing() {
                 <div>
                   <input
                     type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={fishingNumber}
+                    onChange={(e) => setFishingNumber(e.target.value)}
                     className="form-control"
                     maxLength="6"
                     required
                     aria-required="true"
                     placeholder="'-' 없이 사업자 등록증 번호와 동일하게 입력해주세요."
                   />
-                  <span id="nameChk"></span>
                 </div>
               </li>
-              {/* <li>
-                <div>사업주 명<span className="imp">*</span></div>
-                <div>
-                <input
-                    type="shipName"
-                    value={shipName}
-                    onChange={(e) => setShipName(e.target.value)}
-                    size="30"
-                    className="form-control"
-                    required
-                    aria-required="true"
-                    placeholder="사업자 등록증의 상호명과 동일하게 작성해주세요."
-                  />
-                </div>
-              </li>
-              <li>
-                <div>낚시터 위치 정보<span className="imp">*</span></div>
-                <div>
-                  <input
-                    type="address"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    className="form-control"
-                    required
-                    aria-required="true"
-                    placeholder="도로명 주소 혹은 지번 주소를 입력해주세요."
-                  />
-                  <span id="addressChk"></span>
-                </div>
-              </li> */}
+             
             </ul>
             <div className="owner-check-footer">
               <button type="submit" className="btn">

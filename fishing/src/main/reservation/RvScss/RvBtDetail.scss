@@ -197,10 +197,13 @@
                 }
 
                 .calendarbox{
-                    .react-datepicker{
-                        width: 100%;
-                        .react-datepicker__month-container{
+                    div {
+
+                        .react-datepicker{
                             width: 100%;
+                            .react-datepicker__month-container{
+                                width: 100%;
+                            }
                         }
                     }
                 }
