@@ -71,12 +71,14 @@ const MpBtInfo = () => {
             <div className='mainbox1'>
                     
                     <div className='mychoicebox'>
-                        <h1><Link to={'/my'}>마이페이지</Link></h1>
-
-                        
-                        {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpbt'}>배</Link></h1>)}
-                        {userInfo.userGrade==='OWNER' &&(<h1><Link to={'/mpfs'}>낚시터</Link></h1>)}
-                        <h1><Link to={'/mpclass'}>클래스</Link></h1>
+                        <div className='mpTitle'>
+                            <h1>마이페이지</h1>
+                        </div>
+                        <div className='ownerTap'>
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>⛵ 배</h1></Link>)}
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>🚩 낚시터</h1></Link>)}
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)}
+                        </div>
                     </div>
                    
                    

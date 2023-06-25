@@ -65,10 +65,6 @@ const MpQueryText = () => {
     }
 
   }
-
-    
-  
-
   return (
     <section className='MyPageMainBox'>
     <div className='mainbox1'>

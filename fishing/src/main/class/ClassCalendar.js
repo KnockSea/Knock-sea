@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ko from 'date-fns/locale/ko';
-import './scss/Calendar.scss';
+import '../scss/Calendar.scss';
 
-const Calendar = ({  handleDateChange }) => {
+const ClassCalendar = ({  handleDateChange,startTime, EndTime }) => {
+  
   const [selectedDate, setSelectedDate] = useState(null);
-  const minDate = new Date(); // 최소 날짜
-  const maxDate = new Date(); // 최대 날짜
-  maxDate.setDate(maxDate.getDate() + 7);
+  const minDate = new Date(startTime); // 최소 날짜
+  const maxDate = new Date(EndTime); // 최대 날짜
+  maxDate.setDate(maxDate.getDate());
   
   const handleChange = (date) => {
     setSelectedDate(date);
@@ -40,4 +41,4 @@ const Calendar = ({  handleDateChange }) => {
   );
 };
 
-export default Calendar;
+export default ClassCalendar;
