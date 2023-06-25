@@ -10,6 +10,7 @@ const MpInquiryD = () => {
     const [data, setData] = useState(null);
     const [inquiry, setInquiry] = useState([]);
 
+
     const handleAnswerChange = (e) => {
         setAnswerDetails(e.target.value);
     };
@@ -19,33 +20,31 @@ const MpInquiryD = () => {
         // TODO: Submit the answer
         console.log(answerDetails);
         console.log(inquiryId);
-        console.log(data);
-        // console.log(answers);
         console.log(inquiry);
+        console.log(inquiry?.inquiryDetails);
         // Reset the answer field
         setAnswerDetails("");
     };
 
-    
-      const fetchInquiry = async () => {
-          try {
-              const response = await fetch(
-                  `http://localhost:8012/api/v1/inquiries/${inquiryId}`
-              );
-              if (response.ok) {
-                  const inquire = await response.json();
-                  setInquiry(inquire);
-              } else {
-                  throw new Error("Failed to fetch inquiry");
-              }
-          } catch (error) {
-              console.log(error);
-          }
-      };
-      useEffect(() => {
-      fetchInquiry();
-  }, []);
+    const fetchInquiry = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:8012/api/v1/inquiries/${inquiryId}`
+            );
+            if (response.ok) {
+                const inquire = await response.json();
+                setInquiry(inquire);
+            } else {
+                throw new Error("Failed to fetch inquiry");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
+    useEffect(() => {
+        fetchInquiry();
+    }, []);
 
     return (
         <section>
@@ -74,7 +73,7 @@ const MpInquiryD = () => {
                         <div className="ctntextbox1">
                             <div className="answertext">
                                 {/* 작성자가 문의한 글 보여주는 곳 */}
-                                {inquiry.inquiryDetails}  
+                                {inquiry && inquiry.inquiryDetails}
                             </div>
                             <div className="adminreplyinput">
                                 <textarea

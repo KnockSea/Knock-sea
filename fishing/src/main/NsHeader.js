@@ -82,8 +82,14 @@ export const NsHeader = () => {
   return (
     <header>
       <div className='header1'>
-      <div className='hdleft'>
-
+        <div className='hdleft'>
+          <Link to={'/'}><img src={logoPath}/></Link>
+            <ul>
+                <li><Link to={'/bt'} style={linkStyle} className='hdleft-tap'> 배낚시</Link></li>
+                <li><Link to={'/fs'}  style={linkStyle} className='hdleft-tap'> 낚시터</Link></li>
+                <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap'> 클래스</Link></li>
+                {userInfo.Grade === 'ADMIN' &&(<li><Link to={'/admin'}>관리자</Link></li>)}
+                {userInfo.token &&(<li><Link to={'/my'}  style={linkStyle}>마이페이지</Link></li>)}
         <Link to={'/'}><img src={logoPath}/></Link>
           <ul>
 
@@ -100,11 +106,11 @@ export const NsHeader = () => {
         <div className='hdright'>
           {isLogin() ?(
             <>
-                {userInfo.Grade !== 'OWNER' && userInfo.token && (<div><Link to={'/ownercheck'} style={linkStyle}>사장님 등록</Link></div>)}
+                {userInfo.Grade !== 'OWNER' && userInfo.token && (<div  className='ownerGo'><Link to={'/ownercheck'} style={linkStyle}>사장님 등록</Link></div>)}
               {/* {console.log(profileUrl)} */}
-              <span>{userInfo.userName}님</span>
-              <Link to={{ pathname: '/my', state: userInfo }} style={linkStyle} profileUrl>
-                <img className="my-profile" title="마이페이지" src={profileUrl || require('./icons/01d.png')} />
+              {/* <span/>{userInfo.userName}님</span> */}
+              <Link to={{ pathname: '/my', state: userInfo }} profileUrl>
+                <img className="my-profile"  title="마이페이지" src={profileUrl || require('./icons/defaultProfile.png')} style={{border:"1px solid darkgray"}}/>
               </Link>
 
             </>

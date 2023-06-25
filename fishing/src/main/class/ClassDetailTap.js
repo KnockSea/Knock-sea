@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link, Element, scroller } from 'react-scroll';
 import './scss/ClassDetailTap.scss';
-const ClassDetailTap = () => {
+import { useParams } from 'react-router-dom';
+
+
+const ClassDetailTap = (props) => {
   const [activeTab, setActiveTab] = useState('소개');
+  // console.log("props : ",props.reviewList[0].reviewContent);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -28,19 +32,6 @@ const ClassDetailTap = () => {
             클래스 소개
           </Link>
         </li>
-        <li className={activeTab === '장소' ? 'active' : ''}>
-          <Link
-            activeClass='active'
-            to='장소'
-            spy={true}
-            smooth={true}
-            duration={100}
-            onClick={() => handleTabClick('장소')}
-            className='custom-link'
-          >
-            장소 소개
-          </Link>
-        </li>
         <li className={activeTab === '후기' ? 'active' : ''}>
           <Link
             activeClass='active'
@@ -58,67 +49,14 @@ const ClassDetailTap = () => {
       <div>
         <Element name='소개'>
           <h2>클래스 소개</h2>
-          <p>루루라라 사진이랑 글dskfjdslkfjsd;lkfjdslkfj
-            sdfksjdflksj
-            dflkjs
-            dfkjsdlfkjsldkfjsdlkjfsd
-            fkjsdlfkjsdlkjflskdjflksdjfksdjlf루루라라 사진이랑 글dskfjdslkfjsd;lkfjdslkfj
-            sdfksjdflksjdflkjs
-            dfkjsdlfkjsldkfjsdlkjfsd
-            fkjsdlfkjsd
-            lkjflskdjflksdjfksdjlf루루라라 사진이랑 글dskfjdslkfjsd;lkfjdslkfj
-            sdfksjdflksjdflkjs
-            dfkjsdlfkjsldkfjsdlkjfsd
-            fkjsdlfkjsdl
-            kjflskdjflksd
-            jfksdjlf루루라라 사진이랑 글dskfjdslkfjsd;lkfjdslkfj
-            sdfksjdflksjdflkjs
-            dfkjsdlfkjsldkfjsdlkjfsd
-            fkjsdlfkjsdlkjflskdjflksdjfksdjlf
-          </p>
-        </Element>
-        <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/><br/> <br/> <br/> <br/>
-        <Element name='장소'>
-          <h2>장소 소개</h2>
-          <p>루루라라 사진이랑 글루루라라 사진이랑 글dskfjdslkfjsd;lkfjdslkfj
-            sdfksjdflksj
-            dflkjs
-            dfkjsdlfkjsldkfjsdlkjfsd
-            fkjsdlfkjsdlkjflskdjflksdjfksdjlf루루라라 사진이랑 글dskfjdslkfjsd;lkfjdslkfj
-            sdfksjdflk
-            sjdflkjs
-            dfkjsdlfkjsldkfjsdlkjfsd
-            fkjsdlfkjsdlkjflskdjflksdjfksdjlf루루라라 사진이랑 글dskfjdslkfjsd;lkfjdslkfj
-            sdfksjdflksjdflkjs
-            dfkjsdlfkjsldkfjsdlkjfsd
-            fkjsdlfkjsdl
-            kjflskdjflksdjfksdjlf루루라라 사진이랑 글dskfjdslkfjsd;lkfjdslkfj
-            sdfksjdflksjdflkjs
-            dfkjsdlfkjsldkfjsdlkjfsd
-            fkjsdlfkjsdlkjflskdjflksdjfksdjlf</p>
+          <p>{props.eduInfo}</p>
         </Element>
         <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/><br/> <br/> <br/> <br/>
         <Element name='후기'>
           <h2>수강 후기</h2>
-          <p>루루라라 사진이랑 글루루라라 사진이랑 글dskfjdslkfjsd;lkfjdslkfj
-            sdfksjdflksjdflkjs
-            dfkjsdlfkjsldkfjsdlkjfsd
-            fkjsdlfkjsdlkj
-            flskdjflksdjfksdjlf루루라라 사진이랑 글dskfjdslkfjsd;lkfjdslkfj
-            sdfksjdflksjdflkjs
-            dfkjsdlfkjsldkfjsdlkjfsd
-            fkjsdlfkjsdlkjflskdjflksdjfksdjlf루루라라 사진이랑 글dskfjdslkfjsd;lkfjdslkfj
-            sdfksjdflksjdflkjs
-            dfkjsdlfkjsldkfjsdlkjfsd
-            fkjsdlfkjsdlkj
-            flskdjflksdjfksdjlf루루라라 사진이랑 글dskfjdslkfjsd;lkfjdslkfj
-            sdfksjdflksjdflkjs
-            dfkjsdlfkjsldkfjsdlkjfsd
-            fkjsdlfkjsdlkjflskdjflksdjfksdjlf루루라라 사진이랑 글dskfjdslkfjsd;lkfjdslkfj
-            sdfksjdflks
-            jdflkjs
-            dfkjsdlfkjsldkfjsdlkjfsd
-            fkjsdlfkjsdlkjflskdjflksdjfksdjlf</p>
+          {props.reviewList && props.reviewList.map((review, index) => (
+            <p key={index}>{review.reviewContent}</p>
+          ))}
         </Element>
       </div>
     </div>

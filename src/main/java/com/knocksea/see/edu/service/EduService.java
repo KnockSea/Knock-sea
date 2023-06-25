@@ -94,6 +94,7 @@ public class EduService {
             EduListDataResponseDTO edus = new EduListDataResponseDTO(edu);
             double reviewTotal = 0;
             User user = userRepository.findById(edu.getUser().getUserId()).get();
+
             edus.setUserName(user.getUserName());
             List<Review> reviews = edu.getReviews();
 
@@ -107,6 +108,13 @@ public class EduService {
             }else {
                 edus.setReviewAverage(0);
             }
+            List<SeaImage> mainImage = imageRepository.findAllByEdu(edu);
+//            edus.setMainImage(mainImage.get(0).getImageName());
+            mainImage.forEach(seaImage -> {
+                String imageName = seaImage.getImageName();
+                edus.setMainImage(imageName);
+                log.info("mainImage : "+imageName);
+            });
             return edus;
         }).collect(Collectors.toList());
 
@@ -144,8 +152,6 @@ public class EduService {
             imgUrls.add(i.getImageName());
             log.info("images : "+i.getImageName());
         });
-
-        imageRepository.findAllByEdu(edu);
 
         return new EduDetailResponseDTO(edu, timeResponseDTOList, reviewResponseList,imgUrls);
     }
