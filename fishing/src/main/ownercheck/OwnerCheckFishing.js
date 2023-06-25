@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import './scss/OwnerCheck.scss';
 import OwnerCheckHeader from './OwnerCheckHeader';
+import { getLoginUserInfo } from '../util/login-util';
+import { useNavigate } from 'react-router-dom';
 
 function OwnerCheckFishing() {
   const [accountId, setAccountId] = useState('');
@@ -11,15 +13,81 @@ function OwnerCheckFishing() {
   const [address, setAddress] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
 
-  const handleOwnerConfirm = (e) => {
+
+  //화면이동 함수
+  const navi = useNavigate();
+
+  const handleOwnerConfirm = async (e) => {
     e.preventDefault();
     //  처리 로직
+    console.log(file);
+
+    const payload = {
+      validationType: 'SPOT',
+      validationBusinessRegi : name,
+    };
+    //JSON을 Blob타입으로 변경후 FormData에 넣기
+
+    const userJsonBlob = new Blob(
+      [JSON.stringify(payload)],
+      {type : 'application/json'}
+      );
+
+
+    const formData = new FormData();
+    formData.append('validation',userJsonBlob);
+
+    
+      // Append each image file separately
+    
+    formData.append('validationImage',file);
+
+
+    const res =await fetch('http://localhost:8012/api/v1/validation/insert', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')
+      },
+      body: formData
+    });
+
+
+    if(res.status===200){
+      alert('낚시터검증요청에 성공했습니다')
+      //window.location.href = '/login';
+      navi('/');
+    }else if(res.status==500){
+      const errorResponse = await res.json(); // Parse error response as JSON
+      alert('등록에 오류가발생했습니다');
+      console.log(errorResponse);
+    }else{
+      alert('서버와의 접속이 원활하지않습니다');
+    }
+    
   };
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
   };
+
+
+  const [userInfo, setUserInfo] = useState({
+    token: '', // Set default value for name
+    userEmail: '', // Set default value for email
+    userName : '',
+    userGrade : '',
+    userId : '',
+    userPhone : ''
+  });
+
+
+  //화면 랜더링되자마자 로그인한 유저 설정 
+  useEffect(() => {
+    const user = getLoginUserInfo();
+    setUserInfo(user);
+
+  }, []);
 
   return (
    
@@ -100,7 +168,7 @@ function OwnerCheckFishing() {
               <button type="submit" className="btn">
                 취소
               </button>
-              <button type="submit" className="btn">
+              <button type="submit" className="btn" onClick={handleOwnerConfirm}>
                 다음
               </button>
             </div>
