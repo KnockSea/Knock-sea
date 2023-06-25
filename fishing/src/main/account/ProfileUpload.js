@@ -21,7 +21,7 @@ const ProfileUpload = ({ getFile }) => {
         getFile(files[0]);
       };
     }
-  };
+
 
   return (
     <div>
@@ -30,6 +30,7 @@ const ProfileUpload = ({ getFile }) => {
           <img src={profileImg} alt="프로필 썸네일" />
         </div>
         <label htmlFor="profile-img">프로필 이미지</label>
+
       </div>
       <input
         id="profile-img"

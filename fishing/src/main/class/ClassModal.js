@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import "../scss/Calendar.scss"
-import "./scss/ClassModal.scss"
-import Calendar from '../Calendar';
+import "./scss/ClassModal.scss";
+import ClassCalendar from './ClassCalendar';
 
 const handleLogin = (e) => {
     e.preventDefault();
@@ -10,14 +10,20 @@ const handleLogin = (e) => {
     };
     
   // 렌더링 후 실행함수
- 
 
-function ClassModal({closeModal}) {
+function ClassModal({closeModal,timeList, price}) {
+
+  const listSize=timeList.length-1;
+  const startTime=timeList[0].timeDate; //시작날짜
+  const EndTime=timeList[listSize].timeDate; //마지막 날짜
+
+  console.log("ClassModal : ",timeList);
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [count, setCount] = useState(0);
   const [selectedTime, setSelectedTime] = useState(null);
   const [classTimes, setClassTimes] = useState([]);
-
+ 
   const handleIncrease = () => {
     setCount(count + 1);
   };
@@ -38,42 +44,57 @@ function ClassModal({closeModal}) {
 
   const handleTimeChange = (time) => {
     setSelectedTime(time);
-  };
+  }    
+                    
 
-  useEffect(() => {
-    const fetchClassTimes = async () => {
-      try {
-        const response = await fetch('서버에서 값 가져오는 API 주소');
-        const data = await response.json();
-        setClassTimes(data.classTimes); 
-      } catch (error) {
-        console.log('서버에서 값을 가져오는데 실패했습니다.', error);
-      }
-    };
-
-    fetchClassTimes(); // 컴포넌트가 마운트되었을 때 서버에서 값들을 가져옴
-  }, []); // 빈 배열을 넣어 한 번만 실행되도록 설정
 
     return (
-        <div className="modal-overlay">
+        <div className="modal-overlay" >
           <div className="modal-box">
             <button onClick={closeModal} className='close-btn'>X</button>
             <h1 className='select-date'>참여 일정을 선택해주세요😀</h1>
             <hr style={{marginTop:'5px'}}/>
             <div className='calendar'>
-              <Calendar className='datePicker' handleDateChange={handleDateChange} />
+              <ClassCalendar className='datePicker' handleDateChange={handleDateChange} startTime={startTime} EndTime={EndTime}/>
             </div>
-               <div className='class-select-time'>
-                <div className='selected-time' onClick={() => handleTimeChange('13:30')}>13:30</div>
-                <div className='selected-time' onClick={() => handleTimeChange('15:30')}>15:30</div>
-                <div className='selected-time' onClick={() => handleTimeChange('18:30')}>18:30</div>
-                
-                {classTimes.map((time, index) => (
-                <div key={index} className='selected-time' onClick={() => handleTimeChange(time)}>
-                {time}
-               </div>
-                ))}
-                </div>
+
+                {/* <div className='class-select-time'>
+                  <div className='selected-time' onClick={() => handleTimeChange(`${timeList[0].timeStart}~${timeList[0].timeEnd}`)}>
+                    {timeList[0].timeStart}~{timeList[0].timeEnd}
+                  </div>
+                  <div className='selected-time'>남은 인원: {timeList[0].timeMaxUser - timeList[0].timeCurrentUser}명 {timeList[0].timeDate}</div>
+                  
+                  {classTimes.map((time, index) => (
+                    <div key={index} className='selected-time' onClick={() => handleTimeChange(time)}>
+                      {time}
+                    </div>
+                  ))}
+                </div> */}
+
+                {timeList.map((time, index) => {
+                  const timeDate = new Date(time.timeDate);
+                  const selectedLocalDate = selectedDate ? new Date(selectedDate.getTime() - (selectedDate.getTimezoneOffset() * 60000)) : null;
+
+                  if (selectedLocalDate && timeDate.getTime() === selectedLocalDate.getTime()) {
+                    return (
+                      <div className='class-select-time' key={index}>
+                        <div className='selected-time' onClick={() => handleTimeChange(`${time.timeStart}~${time.timeEnd}`)}>
+                          {time.timeStart}~{time.timeEnd}
+                        </div>
+                        <div className='selected-time'>남은 인원: {timeList[index].timeMaxUser - timeList[index].timeCurrentUser}명</div>
+                        
+                        {classTimes.map((time, index) => (
+                          <div key={index} className='selected-time' onClick={() => handleTimeChange(time)}>
+                            {time}
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
+              
+
             <div className='result'>
                   <ul  className='result-ul'>
                     <li className='result-li'>
@@ -95,9 +116,8 @@ function ClassModal({closeModal}) {
                   </ul>
                   <div className='total-price'>
                     <span>결제 총계 </span>
-                    <span> {count*50000}원 </span>
+                    <span> {count*price}원 </span>
                   </div>
-
                 <p className='total-result'>{formattedDate} {selectedTime} / {count}명</p>
                 <button className='class-pay-btn custom-button'
                  >결제하기</button>

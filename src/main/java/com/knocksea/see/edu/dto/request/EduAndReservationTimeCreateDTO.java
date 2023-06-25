@@ -45,8 +45,6 @@ public class EduAndReservationTimeCreateDTO {
 
     private String eduInfo;
 
-    private String eduLocationInfo;
-
     private Long userId;
 
     //dto를 entity로 변환
@@ -58,7 +56,6 @@ public class EduAndReservationTimeCreateDTO {
                 .eduService(this.eduService)
                 .eduFullAddress(this.eduFullAddress)
                 .eduInfo(this.eduInfo)
-                .eduLocationInfo(this.eduLocationInfo)
                 .user(user)
                 .build();
     }
