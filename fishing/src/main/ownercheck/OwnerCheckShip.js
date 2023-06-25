@@ -60,7 +60,8 @@ function OwnerCheckShip() {
       navi('/');
       //window.location.href = '/login';
     }else if(res.status==500){
-      const errorResponse = await res.json(); // Parse error response as JSON
+      const errorResponse = await res.json(); 
+      console.log(errorResponse);// Parse error response as JSON
       alert('등록에 오류가발생했습니다');
     }else{
       alert('서버와의 접속이 원활하지않습니다');

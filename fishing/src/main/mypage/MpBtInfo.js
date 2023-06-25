@@ -9,7 +9,7 @@ import { useState } from 'react';
 const MpBtInfo = () => {
 
 
-    const [shipInfo, setShipInfo] = useState({
+    const [shipinfo, setShipinfo] = useState({
         shipId: 0,
         category: null,
         shipDescription: '',
@@ -30,21 +30,23 @@ const MpBtInfo = () => {
       });
     
     
-    const fetchShipInfo = async () => {
+      const fetchShipInfo = async () => {
         const res = await fetch('http://localhost:8012/api/v1/ship/getshipinfo', {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
         });
+    
         if (res.status === 200) {
             const json = await res.json(); // JSON 데이터 파싱
             console.log(json);
-            setShipInfo(json);
+            setShipinfo(json);
     
-           
-        } else {
+        } else if(res.status===500){
             alert('등록된 선박이없습니다!');
+        }else{
+          alert('서버와의 통신이 원활하지않습니다!')
         }
-      };
+      }
     
     
     
@@ -56,7 +58,6 @@ const MpBtInfo = () => {
         const user = getLoginUserInfo();
         setUserInfo(user);
         fetchShipInfo();
-    
         // fetchShipInfo();
       }, []);
     
@@ -84,15 +85,15 @@ const MpBtInfo = () => {
                    
                     <div className='userinfobox'>
                         <div className='profilebox'>
-                        {shipInfo && shipInfo[0] ? (<img className="my-profile" title="마이페이지" src={shipInfo.shipImageLocation[0]} />) : (<img className="my-profile" title="마이페이지" src={require('./../icons/unknown.png')} />)}
+                        {shipinfo && shipinfo[0] ? (<img className="my-profile" title="마이페이지" src={shipinfo.shipImageLocation[0]} />) : (<img className="my-profile" title="마이페이지" src={require('./../icons/unknown.png')} />)}
 
                         </div>
                         <div className='namebox'>
-                        {shipInfo && shipInfo[0] ? (<div className="nickName">{shipInfo[0].shipName}</div>) : (<div className="nickName">등록된 배가없습니다!</div>)}
-                        {shipInfo && shipInfo[0] ? (<div>{shipInfo.shipDescription}</div>):(<div>배 정보를 등록해주세요!</div>)}
+                        {shipinfo && shipinfo[0] ? (<div className="nickName">{shipinfo[0].shipName}</div>) : (<div className="nickName">등록된 배가없습니다!</div>)}
+                        {shipinfo && shipinfo[0] ? (<div>{shipinfo.shipDescription}</div>):(<div>배 정보를 등록해주세요!</div>)}
                         </div>
                         <div className='btbox'>
-                        {shipInfo && shipInfo[0] ?(<><button className='isbtn'><Link to={'/myquery'}>글 삭제하기</Link></button><button className='isbtn'><Link to={'/myquery'}>배 정보 수정하기</Link></button></>):(<button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>)}
+                        {shipinfo && shipinfo[0] ?(<><button className='isbtn'><Link to={'/myquery'}>글 삭제하기</Link></button><button className='isbtn'><Link to={'/myquery'}>배 정보 수정하기</Link></button></>):(<button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>)}
                         {/* <button> */}
                             {/* <Link to={'/myinfo'}>배 업체 정보 수정</Link> */}
                             {/* 작성 폼 불러와서 수정 진행 Link 걸어야 함 */}

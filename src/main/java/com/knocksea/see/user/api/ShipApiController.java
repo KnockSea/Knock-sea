@@ -179,7 +179,8 @@ public class ShipApiController {
     //배 정보 가저오기
     //GET : /api/v1/ship/getshipinfo
     @GetMapping("/getshipinfo")
-    public ResponseEntity<?> loadshipinfo(@AuthenticationPrincipal TokenUserInfo userInfo,BindingResult result) {
+    public ResponseEntity<?> loadshipinfo(@AuthenticationPrincipal TokenUserInfo userInfo,
+                                          BindingResult result) {
         // 값 들어오는지 확인
         log.info("/ship/getshipinfo GET! --{}", userInfo);
 
