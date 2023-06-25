@@ -6,23 +6,22 @@ import boat from "../img/boat.jpg";
 import { API_BASE_URL, PRODUCTS } from "../../config/host-config";
 import { useLocation, useParams } from "react-router-dom";
 import { Calendar } from "react-bootstrap-icons";
-import Modal from "../class/ClassModal"
+import Modal from "../class/ClassModal";
 // import ClassDetailTap from "./ClassDetailTap";
-
+import { Link } from "react-router-dom";
 
 // datepicker
 
 import DatePicker from "react-datepicker";
-import { ko } from 'date-fns/esm/locale';
-import { addMonths } from 'date-fns';
+import { ko } from "date-fns/esm/locale";
+import { addMonths } from "date-fns";
 
 // datepicker
 
-
-import { Dropdown } from 'primereact/dropdown';
-import 'primereact/resources/themes/saga-blue/theme.css';
-import 'primereact/resources/primereact.css';
-import 'primeicons/primeicons.css';
+import { Dropdown } from "primereact/dropdown";
+import "primereact/resources/themes/saga-blue/theme.css";
+import "primereact/resources/primereact.css";
+import "primeicons/primeicons.css";
 
 const RvBtDetail = () => {
   const { productId } = useParams();
@@ -30,13 +29,9 @@ const RvBtDetail = () => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
   const cities = [
-
-      { name: '옵션선택안함', code: 'B1' },
-      { name: '초보자옵션1 (1인당 15000원)', code: 'A1' },
-    
+    { name: "옵션선택안함", code: "B1" },
+    { name: "초보자옵션1 (1인당 15000원)", code: "A1" },
   ];
-
-
 
   // const location = useLocation();
   // console.log(location)
@@ -181,15 +176,15 @@ const RvBtDetail = () => {
                 placeholder="옵션선택" className="w-full md:w-14rem" />
         </div> */}
             <div className="calendarbox">
-            <DatePicker
-      selected={startDate}
-      onChange={(date) => setStartDate(date)}
-      locale={ko}
-      monthsShown={1}
-      minDate={new Date()}
-      maxDate={addMonths(new Date(), 1)}
-      inline
-    />
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                locale={ko}
+                monthsShown={1}
+                minDate={new Date()}
+                maxDate={addMonths(new Date(), 1)}
+                inline
+              />
             </div>
             <div>
               <button
@@ -208,7 +203,7 @@ const RvBtDetail = () => {
           <div className="profilebox">
             <div className="proCircle"> </div> <h2> {sDetail.userId} </h2>{" "}
             <div className="pr1"> 호스트 확인하기 </div>{" "}
-            <button> 문의하기 </button>{" "}
+            <button> 업체 정보확인 </button> <Link to={"/host"}></Link>
           </div>{" "}
         </div>
       </div>

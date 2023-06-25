@@ -8,19 +8,6 @@ import RvBtDetail from './RvBtDetail';
 
 import { API_BASE_URL, PRODUCTS, SHIP } from '../../config/host-config';
 
-// const RvItem = ( {shipInfo}) => {
-    
-//     // 배 이미지 가져오가
-//     const [shipimg , setshipimg] = useState("");
-
-//     useEffect(()=> {
-//       fetch(`${API_BASE_URL}${SHIP}/getshipinfo`)
-//       .then(reponse => reponse.text())
-//       .then(shipimg => {
-//         setshipimg(shipimg);
-//       });
-//     },[]);
-//     // 이미지 가져오기 끝 
 
 const RvItem = ({ allAddress, pageInfo, products, count }) => {
   const [Address, setAddress] = useState(allAddress);
@@ -33,7 +20,7 @@ const RvItem = ({ allAddress, pageInfo, products, count }) => {
     fetch(`${API_BASE_URL}${PRODUCTS}/product-list`)
       .then(response => response.text())
       .then(shipimg => {
-        // setshipimg(shipimg);
+        setshipimg(shipimg);
         // console.log(shipimg);
       });
   }, []);
@@ -56,11 +43,11 @@ const RvItem = ({ allAddress, pageInfo, products, count }) => {
             </div>
             <div className='miniTitle'>
               집결장소 
-              {/* {allAddress[index].productLocationInfo} */}
+              {allAddress[index].productLocationInfo}
             </div>
             <div className='miniContent'>
               <Bullseye />차고지 : 
-              {/* {allAddress[index].productLocationInfo}  */}
+              {allAddress[index].productLocationInfo} 
               &nbsp;
               <PersonVcard/> 신분증 지참 &nbsp;
               <EmojiSmile /> 총 6명

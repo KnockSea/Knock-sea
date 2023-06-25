@@ -14,7 +14,7 @@ import RvFsMap from './RvFsMap';
 
 
 
-function RvFsMain() {
+function RvFsMain({FsProduct}) {
   return (
     <div>
 
@@ -28,9 +28,12 @@ function RvFsMain() {
                 </div>
                      <div className='cardBox'>
 
-            <RvFsItem />
-            <RvFsItem />
-            <RvFsItem />
+            <RvFsItem 
+            {...FsProduct}
+            />
+
+            {/* <RvFsItem />
+            <RvFsItem /> */}
        
          
         

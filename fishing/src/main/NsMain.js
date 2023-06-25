@@ -46,17 +46,6 @@ const NsMain = () => {
 
   const [product, setproduct] = useState(null);
 
-
-
-    const fetchShipInfo = async () => {
-      // try {
-      //   const response = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`);
-      //   const data = await response.json();
-      //   setShipInfo(data);
-      // } catch (error) {
-      //   console.error('Error fetching ship info:', error);
-      // }
-    };
   
   // 배 상품 정보를 가져오는 함수
       const fetchProduct = async () => {
@@ -88,7 +77,7 @@ const NsMain = () => {
             {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
             <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
 
-            <Route path='/fsdetail' element={<RvFsDetail/>}> </Route>
+            <Route path='/fsdetail/:productId' element={<RvFsDetail/>}> </Route>
             {/* 클래스 탭 */}
             <Route path='/class' element={<ClassMain/>}></Route>
             <Route path='/classdetail' element={<ClassDetail/>}></Route>
@@ -127,7 +116,8 @@ const NsMain = () => {
             {/* 관리자 */}
             <Route path='/admin' element={<MpAdmin/>}></Route>
             <Route path='/adminFs' element={<MpAdminFS/>}></Route>
-            <Route path='/adminCS' element={<MpAdminCS/>}></Route>     
+            <Route path='/adminCS' element={<MpAdminCS/>}></Route>   
+              
             <Route path='/host' element={<HostSearchMain/>}></Route>
         </Routes>
             
