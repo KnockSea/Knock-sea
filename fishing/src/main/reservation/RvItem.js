@@ -8,19 +8,6 @@ import RvBtDetail from './RvBtDetail';
 
 import { API_BASE_URL, PRODUCTS, SHIP } from '../../config/host-config';
 
-// const RvItem = ( {shipInfo}) => {
-    
-//     // 배 이미지 가져오가
-//     const [shipimg , setshipimg] = useState("");
-
-//     useEffect(()=> {
-//       fetch(`${API_BASE_URL}${SHIP}/getshipinfo`)
-//       .then(reponse => reponse.text())
-//       .then(shipimg => {
-//         setshipimg(shipimg);
-//       });
-//     },[]);
-//     // 이미지 가져오기 끝 
 
 const RvItem = ({ allAddress, pageInfo, products, count }) => {
   const [Address, setAddress] = useState(allAddress);
@@ -36,6 +23,7 @@ const RvItem = ({ allAddress, pageInfo, products, count }) => {
     //     // setshipimg(shipimg);
     //     // console.log(shipimg);
     //   });
+
   }, []);
 
   const dt = products.productId;
@@ -57,16 +45,19 @@ const RvItem = ({ allAddress, pageInfo, products, count }) => {
             </div>
             <br />
             <div className='miniTitle'>
+
               주소 : 
               {/* {allAddress[index].productLocationInfo} */}
               {product.locationInfo}
-              
+
             </div>
             <br />
             <div className='miniContent'>
+
               <Bullseye />상세 위치 : 
               {/* {allAddress[index].productLocationInfo}  */}
               {product.fullAddress}
+
               &nbsp;
               {/* <PersonVcard/> 신분증 지참 &nbsp; */}
               <EmojiSmile /> 최대 {product.maxUser}명
