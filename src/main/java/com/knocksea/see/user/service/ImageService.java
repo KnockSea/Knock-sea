@@ -159,10 +159,9 @@ public class ImageService {
 
         for (MultipartFile shipImage : shipImages) {
             log.warn("널뜨냐?");
-            String originalFilename = shipImage.getOriginalFilename();
-            String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
+            String uniqueFileName = UUID.randomUUID() + "_" + shipImage.getOriginalFilename();
 
-            String realUrl = s3Service.uploadToS3Bucket(originalFilename.getBytes(), uniqueFileName);
+            String realUrl = s3Service.uploadToS3Bucket(shipImage.getBytes(), uniqueFileName);
             // Save the file
 //            File uploadFile = new File(s+"/"+uniqueFileName);
 //            shipImage.transferTo(uploadFile);

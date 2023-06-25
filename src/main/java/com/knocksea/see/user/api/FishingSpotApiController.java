@@ -172,17 +172,17 @@ public class FishingSpotApiController {
     //GET : /api/v1/ship/getshipinfo
     @GetMapping("/getspotinfo")
     public ResponseEntity<?> loadshipinfo(
-            @AuthenticationPrincipal TokenUserInfo userInfo, BindingResult result
+            @AuthenticationPrincipal TokenUserInfo userInfo
     ) {
         // 값 들어오는지 확인
         log.info("/ship/getshipinfo GET! --{}", userInfo);
 
-        if (result.hasErrors()) {
-            log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
-            return ResponseEntity
-                    .badRequest()
-                    .body(result.getFieldError());
-        }
+//        if (result.hasErrors()) {
+//            log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
+//            return ResponseEntity
+//                    .badRequest()
+//                    .body(result.getFieldError());
+//        }
 
         try{
             FishingSpotInfoResponseDTO shipInfo = fishingSpotService.getShipInfo(userInfo);
