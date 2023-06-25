@@ -19,13 +19,15 @@
                
             }
             .myquerybigbox {
-                width: 80%;
+                width: 800px;
+                min-width: 760px;
                 // border: 1px solid #000;
                 margin-left: 150px;
                 margin-top: 30px;
                 // padding: 5px;
                 height: 100%;
                 border-top: 1px solid #123282;
+
                 .titlebox{
                  color: white;
                  font-weight: 700;
@@ -40,20 +42,31 @@
                  }
                  .clbox {
                      width: 180px;
-                     height: 40px;
+                     height: 55px;
                      background: #123282;
                     //  border: 1px solid #000;
                         border-bottom: 1px solid #fff;
                 }
                 .cltextbox {
                     margin-left: 20px;
+                    margin-top: 5px;
                     padding: 5px;
+
                   input{
-                    width: 600px;
-                    border-radius: 10px;
+                    width: 540px;
                     border: 1px solid #ccc;
+                    padding-left: 5px;
 
                   }
+                }
+                .category {
+                    color: #000;
+
+                    input {
+                        margin-top: 20px;
+                        margin-left: 20px;
+                        margin-right: 5px;
+                    }
                 }
              }
             //  내용 작성부분 
@@ -64,7 +77,7 @@
                 }
                 .qttext{
                     textarea {
-                        width: 600px;
+                        width: 540px;
                         height: 280px;
                         border: 1px solid #ccc;
                         resize: none;
@@ -76,6 +89,7 @@
                 // display: flex;
            .clbox {
             border-bottom: 1px solid #fff;
+        
            }
                 .cltextbox{
                     display: flex;
@@ -85,6 +99,7 @@
                     
                     input{
                         width: 150px;
+                        
                     }
                     .qtfilebtn1 {
                         font-size: 13px;
@@ -102,12 +117,26 @@
                         color: #ccc;
                     }
                 }
+
+                .filebox {
+                    margin: 10px 0px 0px 20px;
+                }
             }
              
             .qtUpdatebtn{
+                width: 150px;
+                padding: 5px 20px;
+                border: none;
                 background: #123282;
                 border-radius: 10px;
-                margin-top: 20px;
+                margin: 30px auto 0;
+
+                &:hover {
+                    font-weight: 600;
+                    background: #fff;
+                    color: #123282;
+                    border: 1px solid #123282;
+                }
             }
             }
             
