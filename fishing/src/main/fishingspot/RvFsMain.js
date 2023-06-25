@@ -11,23 +11,26 @@ import RvFsDetail from './RvFsDetail';
 // import RvFsMap from './RvFsMap';
 
 
-function RvFsMain() {
+function RvFsMain({FsProduct}) {
   return (
     <div>
 
         <div className='rvMain'>
 
             <div className='rvContent'>
-                <RvFsinnerHeader />
+                {/* <RvFsinnerHeader />
                 <div className='x1'>
                     <div>검색결과 1-30 / 총 80개</div>
                     <div>기본정렬순</div>
-                </div>
+                </div> */}
                      <div className='cardBox'>
 
-            <RvFsItem />
-            <RvFsItem />
-            <RvFsItem />
+            <RvFsItem 
+            {...FsProduct}
+            />
+
+            {/* <RvFsItem />
+            <RvFsItem /> */}
        
          
         
@@ -40,7 +43,10 @@ function RvFsMain() {
             <div>위치 확인하기</div>
             <div className='mapbox'>
 
-            {/* <RvFsMap/> */}
+            <RvFsMap
+              product={FsProduct}
+            />
+
             </div>
             </div>
         </div>
