@@ -77,7 +77,7 @@ const NsMain = () => {
             <Route path='/fsdetail' element={<RvFsDetail/>}> </Route>
             {/* 클래스 탭 */}
             <Route path='/class' element={<ClassMain/>}></Route>
-            <Route path='/classdetail' element={<ClassDetail/>}></Route>
+            <Route path='/classdetail/:eduId' element={<ClassDetail/>}></Route>
             {/* 마이페이지 */}                        
             <Route path='/my' element={<MpMain/>}> </Route>
             <Route path='/myinfo' element={<Myinfo/>}></Route>
