@@ -48,143 +48,87 @@ export const NsHeader = () => {
     const user = getLoginUserInfo();
     setUserInfo(user);
     setIsLoggedIn(!isLogin());
-
     }, [isLogin()]);
 
     useEffect(() => {
-        isLoggedIn &&
-            (async () => {
-                const res = await fetch(
-                    "http://localhost:8012/api/v1/user/load-s3",
-                    {
-                        method: "GET",
-                        headers: {
-                            Authorization: "Bearer " + getLoginUserInfo().token,
-                        },
-                    }
-                );
+    
+      isLoggedIn &&
+      (async() => {
+          const res = await fetch('http://localhost:8012/api/v1/user/load-s3', {
+              method: 'GET',
+              headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token }
+          });
+      
+          if (res.status === 200) {
+              // 서버에서 s3 url이 응답된다
+              const imgUrl = await res.text();                  
+              setProfileUrl(imgUrl);
+  
+              
+              // //서버에서 직렬화된 이미지가 응답된다.
+              // const profileBlob = await res.blob();
+              //  //해당 이미지를 imgUrl로 변경
+              // const imgUrl = window.URL.createObjectURL(profileBlob);
+              // setProfileUrl(imgUrl);
+              
+          } else {
+              const err = await res.text();
+              setProfileUrl(null);
+          }
+        })();
+      }, [isLoggedIn]);
+    
 
-                if (res.status === 200) {
-                    // 서버에서 s3 url이 응답된다
-                    const imgUrl = await res.text();
-                    setProfileUrl(imgUrl);
+  return (
+    <header>
+      <div className='header1'>
+        <div className='hdleft'>
+          <Link to={'/'}><img src={logoPath}/></Link>
+            <ul>
+                <li><Link to={'/bt'} style={linkStyle} className='hdleft-tap'> 배낚시</Link></li>
+                <li><Link to={'/fs'}  style={linkStyle} className='hdleft-tap'> 낚시터</Link></li>
+                <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap'> 클래스</Link></li>
+                {userInfo.Grade === 'ADMIN' &&(<li><Link to={'/admin'}>관리자</Link></li>)}
+                {userInfo.token &&(<li><Link to={'/my'}  style={linkStyle}>마이페이지</Link></li>)}
 
-                    // //서버에서 직렬화된 이미지가 응답된다.
-                    // const profileBlob = await res.blob();
-                    //  //해당 이미지를 imgUrl로 변경
-                    // const imgUrl = window.URL.createObjectURL(profileBlob);
-                    // setProfileUrl(imgUrl);
-                } else {
-                    const err = await res.text();
-                    setProfileUrl(null);
-                }
-            })();
-    }, [isLoggedIn]);
+ 
 
-    return (
-        <header>
-            <div className="header1">
-                <div className="hdleft">
-                    <Link to={"/"}>
-                        <img src={logoPath} />
-                    </Link>
-                    <ul>
-                        <li>
-                            <Link
-                                to={"/bt"}
-                                style={linkStyle}
-                                className="hdleft-tap"
-                            >
-                                {" "}
-                                배낚시
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to={"/fs"}
-                                style={linkStyle}
-                                className="hdleft-tap"
-                            >
-                                {" "}
-                                낚시터
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to={"/class"}
-                                style={linkStyle}
-                                className="hdleft-tap"
-                            >
-                                {" "}
-                                클래스
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to={"/admin"}>관리자</Link>
-                        </li>
-                        {userInfo.Grade === "ADMIN" && (
-                            <li>
-                                <Link to={"/my"}>마이페이지</Link>
-                            </li>
-                        )}
-                        {userInfo.token && (
-                            <li>
-                                <Link to={"/my"}>마이페이지</Link>
-                            </li>
-                        )}
-                    </ul>
-                </div>
+            </ul>
+        </div>
+   
+        <div className='hdright'>
+          {isLogin() ?(
+            <>
+                {userInfo.Grade !== 'OWNER' && userInfo.token && (<div  className='ownerGo'><Link to={'/ownercheck'} style={linkStyle}>사장님 등록</Link></div>)}
+              {/* {console.log(profileUrl)} */}
+              {/* <span/>{userInfo.userName}님</span> */}
+              <Link to={{ pathname: '/my', state: userInfo }} profileUrl>
+                <img className="my-profile"  title="마이페이지" src={profileUrl || require('./icons/defaultProfile.png')} style={{border:"1px solid darkgray"}}/>
+              </Link>
 
-                <div className="hdright">
-                    {isLogin() ? (
-                        <>
-                            {userInfo.Grade !== "OWNER" && userInfo.token && (
-                                <div>
-                                    <Link to={"/ownercheck"} style={linkStyle}>
-                                        사장님 등록
-                                    </Link>
-                                </div>
-                            )}
-                            {/* {console.log(profileUrl)} */}
-                            <span>{userInfo.userName}님</span>
-                            <Link
-                                to={{ pathname: "/my", state: userInfo }}
-                                style={linkStyle}
-                                profileUrl
-                            >
-                                <img
-                                    className="my-profile"
-                                    title="마이페이지"
-                                    src={
-                                        profileUrl || require("./icons/01d.png")
-                                    }
-                                />
-                            </Link>
-                        </>
-                    ) : (
-                        <></>
-                    )}
-                    {/* <Link to={'/my'} style={linkStyle}><img className="my-profile" title='마이페이지'
+            </>
+            ):
+            (
+              <>
+
+              </>
+            )
+          }
+           {/* <Link to={'/my'} style={linkStyle}><img className="my-profile" title='마이페이지'
             src={profileUrl || require('./icons/01d.png')}/></Link> */}
-                    <div className="userLogin">
-                        {isLogin() ? (
-                            <Link
-                                to={"/login"}
-                                style={linkStyle}
-                                onClick={resetStorage}
-                            >
-                                Log-out
-                            </Link>
-                        ) : (
-                            <>
-                                <Link to={"/login"} style={linkStyle}>
-                                    Log-in
-                                </Link>
-                            </>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </header>
-    );
-};
+          <div className='userLogin'>
+          {isLogin() ?(
+            <Link to={'/login'}  style={linkStyle} onClick={resetStorage}>Log-out</Link>
+            )
+            :(
+              <><Link to={'/login'}  style={linkStyle}>Log-in</Link></>
+            )
+          }
+          </div>
+        </div>
+      </div>
+   
+    </header>
+
+  )
+}

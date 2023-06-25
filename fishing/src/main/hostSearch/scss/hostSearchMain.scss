@@ -1,10 +1,11 @@
 
 .MyHostMainBox {
-    width: 80%;
+    width: 1136px;
+    min-width: 1136px;
     margin: 0 auto;
     display: flex;
     // border: 1px solid #000;
-    justify-content: center;
+    justify-content: space-around;
 
     .mainbox1{
         width: 80%;

@@ -10,23 +10,17 @@ import { useLocation } from 'react-router-dom';
 const handleLogin = (e) => {
     e.preventDefault();
   
-      // 회원가입 서버 요청
      
     };
     
   // 렌더링 후 실행함수
   
-  
-   
 
 function ClassDetail() {
       const [filter, setFilter] = useState(''); 
       const [modal, setModal] = useState('false'); 
-
       const { eduId } = useParams();
-
       const [oneEdu, setOneEdu] = useState([]);
-
 
       const requestHeader = {
         'content-type': 'application/json'
@@ -51,6 +45,7 @@ function ClassDetail() {
             });
     
         }, []);
+
 
 
     return(
