@@ -13,11 +13,13 @@ import lombok.*;
 @Builder
 public class EduListDataResponseDTO {
 
+    private Long eduId;
     private String eduTitle;
     private double reviewAverage;
     private String userName;
     private String eduLocation;
     private int eduPrice;
+    private String mainImage; //메인 이미지
 
     private int count; //총게시물 수
     private PageResponseDTO pageInfo; //페이지 렌더링 정보
@@ -26,5 +28,6 @@ public class EduListDataResponseDTO {
         this.eduTitle = edu.getEduTitle();
         this.eduLocation = edu.getEduLocationInfo();
         this.eduPrice = edu.getEduPrice();
+        this.eduId=edu.getEduId();
     }
 }

@@ -47,10 +47,12 @@ const fetchSpotInfo = async () => {
         const imgUrl = window.URL.createObjectURL(profileBlob);
         setProfileUrl(imgUrl);
         */
-    } else {
-        alert('서버와의 통신이 원활하지않습니다');
+    } else if(res.status===500){
+        alert('등록된 낚시터가없습니다!');
+    }else{
+      alert('서버와의 통신이 원활하지않습니다!')
     }
-  };
+  }
 
 
 
@@ -97,10 +99,10 @@ useEffect(() => {
           {spotInfo && spotInfo[0] ?(<><button className='isbtn'><Link to={'/myquery'}>글 삭제하기</Link></button><button className='isbtn'><Link to={'/myquery'}>낚시터 정보 수정하기</Link></button></>):(<button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>)}
           {/* {spotInfo===null &&(<button className="isbtn"><Link to={"/myquery"}>글 등록하기</Link></button>)} */}
           {/* {spotInfo!==null &&(<button className="isbtn"><Link to={"/myquery"}>글 수정하기</Link></button>)} */}
-            <button>
+            {/* <button> */}
               {/* <Link to={'/myinfo'}>배 업체 정보 수정</Link> */}
               {/* 작성 폼 불러와서 수정 진행 Link 걸어야 함 */}
-            </button>
+            {/* </button> */}
           </div>
         </div>
 

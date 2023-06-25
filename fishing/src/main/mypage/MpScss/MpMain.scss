@@ -1,5 +1,6 @@
 .MyPageMainBox {
-    width: 80%;
+    width: 1136px;
+    min-width: 1136px;
     margin: 0 auto;
     display: flex;
     // border: 1px solid #000;
@@ -9,9 +10,8 @@
         // background: orange;
         width: 80%;
         .mychoicebox {
-
             display: flex;
-            // justify-content: space-evenly;
+            justify-content: space-between;
             // margin-right: 600px;
             :nth-child(2){
                 margin-left: 50px;
@@ -27,38 +27,78 @@
                 font-size: 25px;
                 padding: 5px;
                 font-weight: 700;
-                border-bottom: 3px solid #123282;
-                
-               
+                border-bottom: 3px solid #123282;            
+            }
+            .ownerTap {
+                display: flex;
+                justify-content: center;
+                :link {
+                    text-decoration: none;
+                }
+                h1{
+                    text-decoration: none;
+                    font-size: 20px;
+                    border-bottom: none;
+                    color: #000;
+                    &:hover {
+                        color: #f1a5cb;
+                    }
+                }
             }
             
         }
         .userinfobox {
-            // width: 100%;
-            display: flex;
-           height: 300px;
-            justify-content: space-between;
-            // background: gray;
-            // border-right: 1px solid #000;
-            border-bottom: 1px solid #DDDDDD;
+        display: flex;
+        height: 250px;
+        justify-content: space-between;
+        border-bottom: 1px solid #DDDDDD;
+            .userinfoWrap {
+                width: 500px;
+                display: flex;
+                justify-content: space-between;
+            }
+
             .profilebox {
-                width: 120px;
-                height: 100px;
-                border: 1px solid #000;
-                border-radius: 55%;
+                width: 140px;
+                height: 140px;
+                line-height: 140px;
+                margin-top: 30px;
+                border-radius: 50%;
                 overflow: hidden;
+                background: url('../../img/ocean.png') left;
+                
                 img{
-                    width: 100%;
-                    height: 100%;
-                    
+                    width: 120px;
+                    height: 120px;
+                    border-radius: 50%;
+                    border: 2px solid rgba(255, 255, 255, 0.4); 
+                } 
+            }
+            .userWrap {
+                height: 80px;
+                text-align: left;
+                margin-top: 30px;
+                margin-right: 20px;
+                font-size: 16px;
+                
+                p, div{
+                font-family: "한컴 말랑말랑";
+                margin-bottom: 10px;
                 }
+
+                .userName {
+                    color: #123282;
+                }
+            }
+
+            .userEtc {
+                font-weight: 700;
             }
 
             .namebox{
                 border: 1px solid #000;
                 // background: red;
                 margin-top: 20px;
-                margin-right: 250px;
                 height: fit-content;
                 .nickName {
                     font-weight: 700;
@@ -74,7 +114,6 @@
                 bottom: -200px;
                margin-right: 20px;
                height: 20px;
-            //    background: #123282;
             
                .isbtn {
                 margin-right: 120px;
@@ -84,18 +123,19 @@
                 background: #123282;
                 color: white;
                 font-weight: 700;
-               border-radius: 10px;
-               border: #123282;
+                border-radius: 10px;
+                border: #123282;
                 
                }
             }
         }
         .rvbox {
-            margin-top: 10px;            height: 300px;
-            // float: left;
+            margin-top: 10px;            
+            height: 300px;
             text-align: left;
             border-bottom: 1px solid #DDDDDD;
             h2 {
+                font-size: 20px;
                 font-weight: 700;
             }
             .MpReFormItem{
@@ -130,8 +170,6 @@
             }
 
 
-
-
         }
         .rvbox2 {
             width: 100%;
@@ -145,7 +183,11 @@
             }
 
             h2 {
+                width: fit-content;
+                font-size: 25px;
+                padding: 5px;
                 font-weight: 700;
+                border-bottom: 3px solid #123282; 
             }
 
             
@@ -191,7 +233,14 @@
             }
         }
 // 예약 from 끝 
+         a{
+            color: #fff;
+            font-weight: normal;
 
+            &:hover {
+                font-weight: 600;
+            }
+        }
 
     }
 
@@ -218,3 +267,4 @@
 
     }
 }
+

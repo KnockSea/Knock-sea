@@ -40,8 +40,9 @@ public class WebSecurityConfig {
 //                .authorizeRequests()
 //                .antMatchers("/api/v1/edu/**").permitAll()
                 .antMatchers("/","/api/v1/**").permitAll()
-//                .antMatchers("/api/v1/user/load-profile").authenticated()
-//                .antMatchers("/api/v1/ship/register").authenticated()
+                .antMatchers("/api/v1/edu").authenticated()
+                .antMatchers("/api/v1/user/load-profile").authenticated()
+                .antMatchers("/api/v1/ship/register").authenticated()
 //                .antMatchers("/","/api/v1/user/**").permitAll()
                 .anyRequest().authenticated()
         ;

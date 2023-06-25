@@ -1,5 +1,6 @@
 package com.knocksea.see.validation.api;
 
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,15 +39,15 @@ public class ValidationApiController {
     /*  private MultipartFile validationShipRegiImg; //선박 등록증 이미지
         private MultipartFile validationShipLicenseImg; //선박 면허증 이미지
         private MultipartFile validationBusinessRegiImg; //사업자 등록증 이미지*/
-    @PostMapping
+    @PostMapping("/insert")
     public ResponseEntity<?> create(
 
             @Validated @RequestPart("validation") ValidationCreateDTO dto,
             @RequestPart(value = "validationImage", required = false) List<MultipartFile> validationImg
-//          ,@AuthenticationPrincipal TokenUserInfo userInfo
+            ,@AuthenticationPrincipal TokenUserInfo userInfo
             ,BindingResult result
     ) {
-        log.info("/api/v1/validation POST!!: --{}", dto);
+        log.info("/api/v1/validation POST!!: --{}", userInfo);
 
         if (dto == null) {
             return ResponseEntity
@@ -61,18 +63,18 @@ public class ValidationApiController {
         }
 
         try {
-//          validationService.insert(dto,userInfo); 토큰 사용시
-            ValidationRegisterResponseDTO insertValidation = validationService.insert(dto);
+            ValidationRegisterResponseDTO insertValidation = validationService.insert(dto, userInfo);//토큰 사용시
+//            ValidationRegisterResponseDTO insertValidation = validationService.insert(dto);
             log.info("insertValidation : "+insertValidation);
 
             if(validationImg!=null){
                 log.info("ggggg");
                 //이미지 파일들이 잘 들어왔다면 원본이름 출력시키기
                 for (MultipartFile validationImage : validationImg) {
-                    log.info("validationImage : "+validationImage.getOriginalFilename());
+                    log.info("validationImage : {}"+validationImage.getOriginalFilename());
                 }
                 //이미지 저장시키기
-                imageService.saveValidationImg(validationImg,dto);
+                imageService.saveValidationImg(validationImg,dto,userInfo);
             }
 
             return ResponseEntity.ok().body(insertValidation);

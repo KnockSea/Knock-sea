@@ -27,6 +27,8 @@ const RvinnerHeader = () => {
       { name: '서울', code: 'A7' },
       { name: '제주', code: 'A8' }
   ];
+
+  
     return (
 
     <div className='rvChoice'>

@@ -6,7 +6,7 @@ import NsFootter from './NsFootter';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { API_BASE_URL as BASE, SHIP, FISHINGSPOT, USER } from '../config/host-config';
-import { getLoginUserInfo, setLoginUserInfo} from '../Util/login-util';
+import { getLoginUserInfo, setLoginUserInfo} from './util/login-util';
 
 
 

@@ -4,11 +4,13 @@ import './scss/NsHeader.scss'
 import logoPath from './img/logo.png'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getLoginUserInfo , isLogin } from './util/login-util';
-import { useEffect } from 'react'
+import { useEffect ,useHistory} from 'react'
 
 
 export const NsHeader = () => {
+  const navi = useNavigate();
 
   const linkStyle = {
     color: 'black',
@@ -16,7 +18,7 @@ export const NsHeader = () => {
   };
 
   //프로필이미지 url 상태변수
-  const [profileUrl,setProfileUrl] = useState(null);
+  const [profileUrl,setProfileUrl] = useState('');
 
   const [isLoggedIn, setIsLoggedIn] = useState(isLogin()); 
 
@@ -29,13 +31,15 @@ export const NsHeader = () => {
     userPhone : ''
   });
 
-  const resetStorage = () =>{
+  const resetStorage = (e) =>{
+    e.preventDefault();
     const confirm =window.confirm('정말 로그아웃하시겠어요?');
     if(confirm){
       setIsLoggedIn(isLogin());
       localStorage.clear();
+      navi('/');
     }else{
-      return;
+      return false; // Add this line to prevent further actions
     }
   }
 
@@ -72,7 +76,7 @@ export const NsHeader = () => {
               setProfileUrl(null);
           }
         })();
-      }, []);
+      }, [isLoggedIn]);
     
 
   return (
@@ -85,18 +89,21 @@ export const NsHeader = () => {
                 <li><Link to={'/fs'}  style={linkStyle} className='hdleft-tap'> 낚시터</Link></li>
                 <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap'> 클래스</Link></li>
                 {userInfo.Grade === 'ADMIN' &&(<li><Link to={'/admin'}>관리자</Link></li>)}
-                {userInfo.token &&(<li><Link to={'/my'}>마이페이지</Link></li>)}
+                {userInfo.token &&(<li><Link to={'/my'}  style={linkStyle}>마이페이지</Link></li>)}
+
+ 
+
             </ul>
         </div>
    
         <div className='hdright'>
           {isLogin() ?(
             <>
-                {userInfo.Grade !== 'OWNER' && userInfo.token && (<div><Link to={'/ownercheck'} style={linkStyle}>사장님 등록</Link></div>)}
+                {userInfo.Grade !== 'OWNER' && userInfo.token && (<div  className='ownerGo'><Link to={'/ownercheck'} style={linkStyle}>사장님 등록</Link></div>)}
               {/* {console.log(profileUrl)} */}
-              <span>{userInfo.userName}님</span>
-              <Link to={{ pathname: '/my', state: userInfo }} style={linkStyle} profileUrl>
-                <img className="my-profile" title="마이페이지" src={profileUrl || require('./icons/01d.png')} />
+              {/* <span/>{userInfo.userName}님</span> */}
+              <Link to={{ pathname: '/my', state: userInfo }} profileUrl>
+                <img className="my-profile"  title="마이페이지" src={profileUrl || require('./icons/defaultProfile.png')} style={{border:"1px solid darkgray"}}/>
               </Link>
 
             </>
@@ -114,11 +121,8 @@ export const NsHeader = () => {
             <Link to={'/login'}  style={linkStyle} onClick={resetStorage}>Log-out</Link>
             )
             :(
-              <>
-                  
-                  <Link to={'/login'}  style={linkStyle}>Log-in</Link>
-              </>
-          )
+              <><Link to={'/login'}  style={linkStyle}>Log-in</Link></>
+            )
           }
           </div>
         </div>

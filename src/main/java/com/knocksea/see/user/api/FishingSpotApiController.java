@@ -172,22 +172,25 @@ public class FishingSpotApiController {
     //GET : /api/v1/ship/getshipinfo
     @GetMapping("/getspotinfo")
     public ResponseEntity<?> loadshipinfo(
-            @AuthenticationPrincipal TokenUserInfo userInfo
-    ){
+            @AuthenticationPrincipal TokenUserInfo userInfo, BindingResult result
+    ) {
         // 값 들어오는지 확인
         log.info("/ship/getshipinfo GET! --{}", userInfo);
 
-        try {
-            boolean spot = fishingSpotService.findSpot(userInfo);
-            if(spot){
-                FishingSpotInfoResponseDTO fishingSpotInfoResponseDTO= fishingSpotService.getShipInfo(userInfo);
-                return ResponseEntity.ok().body(fishingSpotInfoResponseDTO);
-            }
-            return ResponseEntity.ok().body(new FishingSpotInfoResponseDTO());
+        if (result.hasErrors()) {
+            log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
+            return ResponseEntity
+                    .badRequest()
+                    .body(result.getFieldError());
+        }
 
-        } catch (RuntimeException e) {
+        try{
+            FishingSpotInfoResponseDTO shipInfo = fishingSpotService.getShipInfo(userInfo);
+            return ResponseEntity.ok().body(shipInfo);
+        }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+
     }
 
     //파일 이미지 검증

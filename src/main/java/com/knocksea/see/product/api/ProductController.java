@@ -8,6 +8,7 @@ import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
 import com.knocksea.see.product.dto.response.ProductListResponseDTO;
 import com.knocksea.see.product.dto.response.mainListResponseDTO;
 import com.knocksea.see.product.service.ProductService;
+import com.knocksea.see.user.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,12 +29,14 @@ public class ProductController {
 
     private final ProductService productService;
 
+
     // 상품 등록
     @PostMapping
     public ResponseEntity<?> createProduct(
 
-            @Validated @RequestBody ProductRequestDTO dto, BindingResult result
-    , @AuthenticationPrincipal TokenUserInfo userInfo) throws RuntimeException {
+            @Validated @RequestPart(value = "productDTO") ProductRequestDTO dto, BindingResult result
+    , @AuthenticationPrincipal TokenUserInfo userInfo
+    , @RequestPart(value = "productImages") List<MultipartFile> productImages) throws RuntimeException {
 
 //        유저 정보 dto에서 빼서 토큰에서 뜯어 와야 된당
 //        @AuthenticationPrincipal TokenUserInfo userInfo
@@ -38,18 +45,27 @@ public class ProductController {
         log.info("/api/v1/products POST! - {}", dto);
 
         if (result.hasErrors()) {
-            log.warn(result.toString());
+            log.warn("이거 터지는거임? : {}",result.toString());
             return ResponseEntity.badRequest().body(result.getFieldError());
         }
 
+
         try {
-            ProductDetailResponseDTO productDetailResponseDTO = productService.create(dto, userInfo);
-            return ResponseEntity.ok().body(productDetailResponseDTO);
+            if(productImages!=null){
+                for (MultipartFile shipImage : productImages) {
+                    log.info("shipImages : {}",shipImage);
+                }
+
+                ProductDetailResponseDTO productDetailResponseDTO = productService.create(dto, userInfo, productImages);
+                return ResponseEntity.ok().body(productDetailResponseDTO);
+            } else {
+                return ResponseEntity.badRequest().body("이미지는 필수 입니다.");
+            }
         } catch (RuntimeException e) {
 //            e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().body("이미지 저장에 실패하였습니다.");
         }
     }
 
