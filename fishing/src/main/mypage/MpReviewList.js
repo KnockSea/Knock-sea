@@ -37,6 +37,7 @@ function MpReviewList() {
       return (
     
         <>
+
      {reviews && reviews.length > 0 && reviews.map(review => (
     <div className='MpReFormItem'>
         <div className='numbox'></div>
@@ -52,7 +53,6 @@ function MpReviewList() {
         </div> 
     ))}   
         </>
-    
       )
 
 }

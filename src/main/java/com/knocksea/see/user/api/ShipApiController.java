@@ -43,15 +43,13 @@ public class ShipApiController {
     //배 등록 요청
     //post : /api/v1/ship/register
     @PostMapping("/register")
-    public ResponseEntity<?> registerShip(@Validated @RequestPart("ship") ShipRegisterRequestDTO dto,
-                                          @RequestPart(value = "shipImage", required = false) List<MultipartFile> shipImages,
+    public ResponseEntity<?> registerShip(@Validated @RequestPart(value = "shipDTO") ShipRegisterRequestDTO dto,
+                                          @RequestPart(value = "shipImages") List<MultipartFile> shipImages,
                                           @AuthenticationPrincipal TokenUserInfo userInfo
             , BindingResult result) {
         //값 들어오는지 확인
-        log.info("/user/register POST! --{}", dto);
-
-
-
+        log.info("/user/register POST! --{} \n\n ", dto);
+        log.warn("shipimg: {}", shipImages);
 
         if (result.hasErrors()) {
             log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
@@ -60,17 +58,18 @@ public class ShipApiController {
                     .body(result.getFieldError());
         }
 
-
         try {
 
             ShipRegisterResponseDTO join = shipService.save(dto,userInfo.getUserId());
             if(shipImages!=null) {
                 //이미지 파일들이 잘 들어왔다면 원본이름 출력시키기
-                for (MultipartFile shipImage : shipImages) {
-                    log.info(shipImage.getOriginalFilename());
-                }
+//                for (MultipartFile shipImage : shipImages) {
+//                    log.info(shipImage.getOriginalFilename());
+//                }
                 //이미지 저장시키기
+                log.info("여기타고오지요?");
                 imageService.saveShipImages(shipImages, userInfo);
+
             }
             return ResponseEntity.ok().body(join);
         } catch (NoRegisteredArgumentsException e) {
@@ -89,7 +88,7 @@ public class ShipApiController {
     //post : /api/v1/ship/modify
     @RequestMapping(value = "/modify", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<?> modifyShip(
-            @Validated @RequestPart("ship") ShipModifyRequestDTO dto,
+            @Validated @RequestPart(value = "ship") ShipModifyRequestDTO dto,
             @RequestPart(value = "shipImage", required = false) List<MultipartFile> shipImages
     ,@AuthenticationPrincipal TokenUserInfo userInfo, BindingResult result) throws IOException {
 
@@ -159,44 +158,47 @@ public class ShipApiController {
 //    }
 
     //파일 이미지 검증
-    private MediaType findExtensionAndGetMediaType(String filePath) {
-        //파일 경로에서 확장자 추출하기
-        //D:/todo_upload/kfasdasdsa_abc.jpg
-        String ext = filePath.substring(filePath.lastIndexOf(".") + 1);
+//    private MediaType findExtensionAndGetMediaType(String filePath) {
+//        //파일 경로에서 확장자 추출하기
+//        //D:/todo_upload/kfasdasdsa_abc.jpg
+//        String ext = filePath.substring(filePath.lastIndexOf(".") + 1);
+//
+//        switch (ext.toUpperCase()){
+//            case "JPG": case "JPEG":
+//                return MediaType.IMAGE_JPEG;
+//            case "PNG":
+//                return MediaType.IMAGE_PNG;
+//            case "GIF":
+//                return MediaType.IMAGE_GIF;
+//            default:
+//                return null;
+//        }
+//    }
 
-        switch (ext.toUpperCase()){
-            case "JPG": case "JPEG":
-                return MediaType.IMAGE_JPEG;
-            case "PNG":
-                return MediaType.IMAGE_PNG;
-            case "GIF":
-                return MediaType.IMAGE_GIF;
-            default:
-                return null;
-        }
-    }
-    
-    
+
     //배 정보 가저오기
     //GET : /api/v1/ship/getshipinfo
     @GetMapping("/getshipinfo")
-    public ResponseEntity<?> loadshipinfo(
-            @AuthenticationPrincipal TokenUserInfo userInfo
-    ){
+    public ResponseEntity<?> loadshipinfo(@AuthenticationPrincipal TokenUserInfo userInfo,BindingResult result) {
         // 값 들어오는지 확인
         log.info("/ship/getshipinfo GET! --{}", userInfo);
 
-        try {
-            boolean ship = shipService.findShip(userInfo);
-            if(!ship){
-                ShipInfoResponseDTO shipInfo = shipService.getShipInfo(userInfo);
-                return ResponseEntity.ok().body(shipInfo);
-            }
-            return ResponseEntity.ok().body(new ShipInfoResponseDTO());
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        if (result.hasErrors()) {
+            log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
+            return ResponseEntity
+                    .badRequest()
+                    .body(result.getFieldError());
         }
+
+        try{
+            ShipInfoResponseDTO shipInfo = shipService.getShipInfo(userInfo);
+            return ResponseEntity.ok().body(shipInfo);
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+
     }
+
 
     //배 정보 삭제하기
     @DeleteMapping("/delete")

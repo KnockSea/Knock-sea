@@ -5,10 +5,11 @@ import logoPath from './img/logo.png'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { getLoginUserInfo , isLogin } from './util/login-util';
-import { useEffect } from 'react'
+import { useEffect ,useHistory} from 'react'
 
 
 export const NsHeader = () => {
+
 
   const linkStyle = {
     color: 'black',
@@ -16,7 +17,7 @@ export const NsHeader = () => {
   };
 
   //프로필이미지 url 상태변수
-  const [profileUrl,setProfileUrl] = useState(null);
+  const [profileUrl,setProfileUrl] = useState('');
 
   const [isLoggedIn, setIsLoggedIn] = useState(isLogin()); 
 
@@ -29,13 +30,14 @@ export const NsHeader = () => {
     userPhone : ''
   });
 
-  const resetStorage = () =>{
+  const resetStorage = (e) =>{
+    e.preventDefault();
     const confirm =window.confirm('정말 로그아웃하시겠어요?');
     if(confirm){
       setIsLoggedIn(isLogin());
       localStorage.clear();
     }else{
-      return;
+      return false; // Add this line to prevent further actions
     }
   }
 
@@ -72,33 +74,37 @@ export const NsHeader = () => {
               setProfileUrl(null);
           }
         })();
-      }, []);
+      }, [isLoggedIn]);
     
 
   return (
     <header>
       <div className='header1'>
         <div className='hdleft'>
-
           <Link to={'/'}><img src={logoPath}/></Link>
             <ul>
+                <li><Link to={'/bt'} style={linkStyle} className='hdleft-tap'> 배낚시</Link></li>
+                <li><Link to={'/fs'}  style={linkStyle} className='hdleft-tap'> 낚시터</Link></li>
+                <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap'> 클래스</Link></li>
+                {userInfo.Grade === 'ADMIN' &&(<li><Link to={'/admin'}>관리자</Link></li>)}
+                {userInfo.token &&(<li><Link to={'/my'}>마이페이지</Link></li>)}
+
             
-            <li><Link to={'/bt'} style={linkStyle} className='hdleft-tap'> 배낚시</Link></li>
-              <li><Link to={'/fs'}  style={linkStyle} className='hdleft-tap'> 낚시터</Link></li>
-              <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap'> 클래스</Link></li>
-              <li><Link to={'/admin'}>관리자</Link></li> 
-              {userInfo.Grade === 'ADMIN' &&( 
-              <li><Link to={'/my'}>마이페이지</Link></li>
-              )}   
+//             <li><Link to={'/bt'} style={linkStyle} className='hdleft-tap'> 배낚시</Link></li>
+//               <li><Link to={'/fs'}  style={linkStyle} className='hdleft-tap'> 낚시터</Link></li>
+//               <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap'> 클래스</Link></li>
+//               <li><Link to={'/admin'}>관리자</Link></li> 
+//               {userInfo.Grade === 'ADMIN' &&( 
+//               <li><Link to={'/my'}>마이페이지</Link></li>
+//               )}   
+
             </ul>
         </div>
    
         <div className='hdright'>
-          {userInfo.Grade === 'COMMON' && (
-            <div><Link to={'/ownercheck'} style={linkStyle}>사장님 등록</Link></div>
-          )}
           {isLogin() ?(
             <>
+                {userInfo.Grade !== 'OWNER' && userInfo.token && (<div><Link to={'/ownercheck'} style={linkStyle}>사장님 등록</Link></div>)}
               {/* {console.log(profileUrl)} */}
               <span>{userInfo.userName}님</span>
               <Link to={{ pathname: '/my', state: userInfo }} style={linkStyle} profileUrl>
@@ -120,11 +126,8 @@ export const NsHeader = () => {
             <Link to={'/login'}  style={linkStyle} onClick={resetStorage}>Log-out</Link>
             )
             :(
-              <>
-                  
-                  <Link to={'/login'}  style={linkStyle}>Log-in</Link>
-              </>
-          )
+              <><Link to={'/login'}  style={linkStyle}>Log-in</Link></>
+            )
           }
           </div>
         </div>

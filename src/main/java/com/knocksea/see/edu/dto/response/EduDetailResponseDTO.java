@@ -45,7 +45,7 @@ public class EduDetailResponseDTO {
 
     private List<ReviewDetailResponseDTO> reviewList;
 
-//    private List<ImageDetailResponseDTO> imageList;
+    private List<String> imageList;
 
 
 /*    public EduDetailResponseDTO(Edu saveEdu, List<ReservationTime> timeList) {
@@ -72,7 +72,7 @@ public class EduDetailResponseDTO {
         }
     }*/
 
-    public EduDetailResponseDTO(Edu edu, List<ReservationTimeResponseDTO> timeList, List<ReviewDetailResponseDTO> reviews/*,List<SeaImage> imageResponseList*/) {
+    public EduDetailResponseDTO(Edu edu, List<ReservationTimeResponseDTO> timeList, List<ReviewDetailResponseDTO> reviews, List<String> images) {
         this.eduTitle = edu.getEduTitle();
         this.eduFullAddress = edu.getEduFullAddress();
         this.eduPrice = edu.getEduPrice();
@@ -82,6 +82,6 @@ public class EduDetailResponseDTO {
         this.eduLocationInfo = edu.getEduLocationInfo();
         this.timeList = timeList;
         this.reviewList = reviews;
-//        this.imageList = imageResponseList;
+        this.imageList = images;
     }
 }

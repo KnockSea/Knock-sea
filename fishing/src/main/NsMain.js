@@ -16,7 +16,6 @@ import MpDrop from './mypage/MpDrop'
 import MpInquire from './mypage/MpInquire'
 import MpRvlist from './mypage/MpRvlist'
 import ProductRegistration from './product/ProductRegistration'
-import ProductRegiNext from './product/ProductRegiNext'
 import RvFsDetail from './fishingspot/RvFsDetail'
 import RvFsTemplate from './fishingspot/RvFsTemplate'
 import WeeklyWeather from './WeeklyWeather'
@@ -38,9 +37,9 @@ import MpIqInput from './mypage/MpIqInput';
 import MpAdminFS from './mypage/MpAdminFS';
 import MpAdminCS from './mypage/MpAdminCS';
 import HostSearchMain from './hostSearch/hostSearchMain'
-// import MpAdminReply from './mypage/MpAdminReply';
 
-
+import ScrollToTop from './ScrollToTop';
+import MpInquiryD from './mypage/MpInquiryD';
 
 const NsMain = () => {
 
@@ -61,16 +60,11 @@ const NsMain = () => {
       };
 
       console.log('NsMian !!!!!!!!!!!!!!!!!!setproduct', product);
-      
-    useEffect(() => {  
-      fetchProduct();
-      // 배 정보를 가져오는 함수  
-
-    }, []);
 
 
   return (
     <section>
+        <ScrollToTop />
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
             <Route path='/' element ={<MainContent product={product} />} />
@@ -87,7 +81,6 @@ const NsMain = () => {
             <Route path='/mypassword' element={<Mypassword/>}></Route>
             {/* 상품등록 */}
             <Route path='/product' element={<ProductRegistration/>}></Route>
-            <Route path='/product/next' element={<ProductRegiNext/>}></Route>
             
             <Route path='/userDrop' element={<MpUserDrop/>}></Route>
             <Route path='/drop' element={<MpDrop/>}></Route>
@@ -95,8 +88,13 @@ const NsMain = () => {
             <Route path='/iqinput' element={<MpIqInput/>}></Route>
             {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
-            {/* 문의 답장 */}
-            {/* <Route path='/amdinreply' element={<MpAdminReply/>}></Route> */}
+
+            {/* 문의답변 */}
+            <Route path='/adminreply/:inquiryId' element={<MpInquiryD/>}></Route>
+            {/* 문의 상세보기 */}
+            {/* <Route path='/inquiryDetail' element = {<MpInquiryDetail/>}></Route> */}
+            <Route path='/inquiry/:inquiryId' element={<MpInquiryD />} />
+
             <Route path='/rvlist' element={<MpRvlist/>}></Route>
            
              {/* 로그인, 회원가입 */}
@@ -116,8 +114,8 @@ const NsMain = () => {
             {/* 관리자 */}
             <Route path='/admin' element={<MpAdmin/>}></Route>
             <Route path='/adminFs' element={<MpAdminFS/>}></Route>
-            <Route path='/adminCS' element={<MpAdminCS/>}></Route>   
-              
+            <Route path='/adminCS' element={<MpAdminCS/>}></Route>
+
             <Route path='/host' element={<HostSearchMain/>}></Route>
         </Routes>
             
