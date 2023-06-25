@@ -90,9 +90,6 @@ export const NsHeader = () => {
                 <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap'> 클래스</Link></li>
                 {userInfo.Grade === 'ADMIN' &&(<li><Link to={'/admin'}>관리자</Link></li>)}
                 {userInfo.token &&(<li><Link to={'/my'}>마이페이지</Link></li>)}
-
- 
-
             </ul>
         </div>
    
