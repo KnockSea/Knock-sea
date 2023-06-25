@@ -7,18 +7,22 @@ import Calendar from './RegiCalendar';
 import TimeConverter from './Time';
 import { useNavigate } from 'react-router-dom';
 import { getUserInfo } from '../util/login-util';
-
+import { getLoginUserInfo } from '../util/login-util';
+import { addDays, format, parseISO } from "date-fns";
 
 
 function ProductRegistration() {
-  const [productLabelType, setProductCategory] = useState('');
+
+  const [token, setToken] = useState(getLoginUserInfo().token);
+  const [productCategory, setProductCategory] = useState('');
+  const [productLabelType, setProductLabelType] = useState('');
   const [productTitle, setTitle] = useState('');
   const [productInfo, setProductInfo] = useState('');
   const [productLocationInfo, setuserAddress] = useState('주소 검색 클릭');
   const [productFullAddress, setuserFullAddress] = useState('');
   const [productPrice, setPrice] = useState('');
   const [timeMaxUser, setMaxUser] = useState('');
-  const [timeDate, setRanges] = useState(null);
+  const [timeDate, setRanges] = useState([]);
   const [timeBoxes, setTimeBoxes] = useState([1]);
   const [timeStarts, setStartTimes] = useState([]);
   const [timeEnds, setEndTimes] = useState([]);
@@ -28,23 +32,39 @@ function ProductRegistration() {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [showDifficulty, setShowDifficulty] = useState(false);
   const navigate = useNavigate();
-  // const [token, setToken] = useState(getLoginUserInfo().token);
   const [productImages, setImages] = useState([]);
+  const [formData, setFormData] = useState(new FormData());
 
  // 이미지 배열
   const handleImage = e => {
     setImages([...e.target.files]);
   };
 
-//   // 주소 값 받아옴
-//   const getAddressCom = (userAddress) => {
-//      setuserAddress(userAddress)
-//   };
+  // 주소 값 받아옴
+  const getAddressCom = (userAddress) => {
+     setuserAddress(userAddress)
+  };
   
   // 날짜 값 받아옴
-  const handleGetDateRange = (timeDate) => {
-    setRanges(timeDate);
- };
+  const handleGetDateRange = (td) => {
+    const { startDate, endDate } = td.selection;
+    // console.log("날짜확인 :", startDate, endDate);
+    
+    const dates = [];
+
+    let currentDate = parseISO(startDate);
+    const finalDate = parseISO(endDate);
+
+    console.log(currentDate);
+
+    while (currentDate <= finalDate) {
+      dates.push(format(currentDate, "yyyy-MM-dd"));
+      currentDate = addDays(currentDate, 1);
+    }
+
+  // this.setState({ timeDate: dates });
+  setRanges(dates);
+  };
 
   // 시간값 props & 베열생성
   function handleTimeChange(timeString) {
@@ -54,76 +74,149 @@ function ProductRegistration() {
     console.log('Received time:', timeStarts, timeEnds);
   }
 
-//   // 시간 박스 생성
-//   const addTimeBox = () => {
-//     setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
-//   };
+  // 시간 박스 생성
+  const addTimeBox = () => {
+    setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
+  };
 
    // 취소버튼
    const handleCancel = () => {
-    navigate('/my'); // '/my' 경로로 이동
+    navigate('/my'); 
   };
 
-    // productDTO 
-     const productDTO = {
-      productLabelType: productLabelType,
-      productTitle: productTitle,
-      productInfo: productInfo,
-      productLocationInfo: productLocationInfo,
-      productFullAddress: productFullAddress,
-      productPrice: productPrice,
-      timeMaxUser: timeMaxUser,
-      timeDate: timeDate,
-      timeStart: timeStarts,
-      timeEnd: timeEnds,
-      productService: productService,
-      productImages: productImages
-    };
+  // productDTO 
+  const productDTO = {
+    productLabelType: productLabelType,
+    productTitle: productTitle,
+    productInfo: productInfo,
+    productLocationInfo: productLocationInfo,
+    productFullAddress: productFullAddress,
+    productPrice: productPrice,
+    timeMaxUser: timeMaxUser,
+    timeDate: timeDate,
+    timeStart: timeStarts,
+    timeEnd: timeEnds,
+    productService: productService
+  };
+  // eduDTO 
+  const eduDTO = {
+    eduTitle: productTitle,
+    eduInfo: productInfo,
+    eduLocationInfo: productLocationInfo,
+    eduFullAddress: productFullAddress,
+    eduPrice: productPrice,
+    timeMaxUser: timeMaxUser,
+    timeDate: timeDate,
+    timeStart: timeStarts,
+    timeEnd: timeEnds,
+    eduService: productService,
+    eduLevel: eduLevel
+  };
   
+    const userJsonBlob = new Blob(
+      [JSON.stringify(productDTO)],
+      { type: 'application/json' }
+    );
 
-    // 서버에 보낼 FormData 객체 생성
-    const formData = new FormData();
-    formData.append('productLabelType', productLabelType);
-    formData.append('productTitle', productTitle);
-    formData.append('productInfo', productInfo);
-    formData.append('productLocationInfo', productLocationInfo);
-    formData.append('productFullAddress', productFullAddress);
-    formData.append('productPrice', productPrice);
-    formData.append('timeMaxUser', timeMaxUser);
-    formData.append('timeDate', JSON.stringify(timeDate));
-    formData.append('timeStart', JSON.stringify(timeStarts));
-    formData.append('timeEnd', JSON.stringify(timeEnds));
-    formData.append('productService', productService);
-    formData.append('productDTO', JSON.stringify(productDTO));
-    formData.append('userInfo', JSON.stringify(getUserInfo));
-    productImages.forEach((image, index) => {
-      formData.append(`productImages[${index}]`, image);
-    });
+    const userJsonBlobE = new Blob(
+      [JSON.stringify(eduDTO)],
+      { type: 'application/json' }
+    );
+
+    // 난이도 옵션을 표시/숨기는 함수
+    const toggleDifficultyOptions = (selectedValue) => {
+      if (selectedValue === 'EDU') {
+        setShowDifficulty(true);
+      } else {
+        setShowDifficulty(false);
+      }
+    };
+
+     // 카테고리 선택에 따른 formData 객체
+    const handleCategoryChange = (e) => {
+      const selectedValue = e.target.value;
+      setProductLabelType(selectedValue);
+      toggleDifficultyOptions(selectedValue);
+
+      // 선택한 카테고리에 따라 다른 formdata 생성
+      let formData = null;
+      if (selectedValue === 'EDU') {
+        // edu FormData
+        formData = new FormData();
+        formData.append('eduDTO', userJsonBlobE);
+        productImages.forEach((image) => {
+          formData.append(`EduImage`, image);
+        });
+      } else {
+        // product FormData
+        formData = new FormData();
+        formData.append('productDTO', userJsonBlob);
+        productImages.forEach((image) => {
+          formData.append(`productImages`, image);
+        });
+      }
+    setFormData(formData);
+  };
+
+    // // 서버에 보낼 FormData 객체 생성
+    // // product FormData
+    // const formData = new FormData();
+    // formData.append('productDTO', userJsonBlob);
+    // productImages.forEach((image) => {
+    //   formData.append(`productImages`, image);
+    // });
+
+    // // edu FormData
+    // const formDataE = new FormData();
+    // formDataE.append('eduDTO', userJsonBlobE);
+    // productImages.forEach((image) => {
+    //   formDataE.append(`EduImage`, image);
+    // });
+
+
  
     console.log("===================== formData 값 =====================");
     for (let [key, value] of formData.entries()) {
       console.log(key, value);
     }
 
+    console.log("pDTO 오니?", productDTO);
+    console.log("eDTO 오니?", eduDTO);
+    for (let pair of formData.entries()) {
+      console.log('키: ' + JSON.stringify(pair[0]),'밸류: ' + JSON.stringify(pair[1]));
+    }
+
       const handleProductRegi = async (e) => {
         e.preventDefault();
     
         try {
-          const res = await fetch('http://localhost:8012/api/v1/products', {
-          method: 'POST',
-          headers: {
-            'Content-Type': `multipart/form-data; boundary='-----------------------3284728374828347'`
-          },
-          body: formData
-          });
-          
-            if (res.status === 200) {
-              alert('등록 성공');
+            if (productLabelType  === 'EDU') {
+              const res = await fetch('http://localhost:8012/api/v1/products', {
+                method: 'POST',
+                headers: {'Authorization': 'Bearer ' + token},
+                body: formData
+              });
+                if (res.status === 200) {
+                  alert('등록 성공');
+                  navigate('/class');
+                } else {
+                  alert(res.status);
+                }
             } else {
-              alert(res.text());
-            }
+                const res = await fetch('http://localhost:8012/api/v1/products', {
+              method: 'POST',
+              headers: {'Authorization': 'Bearer ' + token},
+              body: formData
+              });
+              
+              if (res.status === 200) {
+                alert('등록 성공');
+                navigate('/my');
+                } else {
+                  alert(res.status);
+                }}
           } catch (error) {
-            console.error('데이터 전송 실패!');
+              console.error('데이터 전송 실패!');
           }
   };
 
@@ -144,14 +237,7 @@ function ProductRegistration() {
                 <div className="regi-title">카테고리 선택<span className="imp">*</span></div>
                 <select
                     value={productLabelType}
-                    onChange={(e) => {
-                      setProductCategory(e.target.value);
-                      if (e.target.value === "EDU") {
-                        setShowDifficulty(true); // 클래스 카테고리 선택 시 난이도 옵션 표시
-                      } else {
-                        setShowDifficulty(false); // 다른 카테고리 선택 시 난이도 옵션 숨김
-                      }
-                    }}
+                    onChange={handleCategoryChange}
                     required
                     aria-required="true"
                     className="category-custom-select"
@@ -181,7 +267,7 @@ function ProductRegistration() {
                         multiple
                       />
                       </div>
-                      <span>{productImages[0] && <p>첨부된 사진 : {productImages[0].name}</p>}</span>
+                      <span>{productImages[0] && <p>첨부된 사진 : {productImages[0].name}...</p>}</span>
                     </div>
                     <div className="filebox-upload">
                     {/* <div >
@@ -345,7 +431,7 @@ function ProductRegistration() {
                     value="LOWER"
                     name="step"
                     type="radio"
-                    checked={eduLevel === "초급자 가능"}
+                    checked={eduLevel === "LOWER"}
                     onChange={(e) => setEduLevel(e.target.value)}
                   />
                   <label htmlFor="class-step1">초급자 가능</label>
@@ -354,7 +440,7 @@ function ProductRegistration() {
                     value="MIDDLE"
                     name="step"
                     type="radio"
-                    checked={eduLevel === "중급자 이상"}
+                    checked={eduLevel === "MIDDLE"}
                     onChange={(e) => setEduLevel(e.target.value)}
                   />  
                   <label htmlFor="class-step2">중급자 이상</label>
@@ -363,7 +449,7 @@ function ProductRegistration() {
                     value="UPPER"
                     name="step"
                     type="radio"
-                    checked={eduLevel === "상급자"}
+                    checked={eduLevel === "UPPER"}
                     onChange={(e) => setEduLevel(e.target.value)}
                   />
                   <label htmlFor="class-step3">상급자</label>
@@ -375,20 +461,19 @@ function ProductRegistration() {
               <button type="button" onClick={handleCancel} className="btn">
                 취소
               </button>
-
             
-//                 <button type="submit" className="btn">
-//                 등록완료
-//                 </button>
-//             </div>
-//           </form>
+                <button type="submit" className="btn">
+                등록완료
+                </button>
+            </div>
+          </form>
           
-//         </div>
-//       </div>
-//     </div>
+        </div>
+      </div>
+    </div>
 
-//  );
-//   }
+ );
+  }
 
 
 export default ProductRegistration
