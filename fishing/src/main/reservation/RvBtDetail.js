@@ -199,11 +199,16 @@ const RvBtDetail = () => {
                 <Modal closeModal={() => setModal(false)} />
               ) : null}
             </div>
+
           </div>{" "}
+
+
+
           <div className="profilebox">
             <div className="proCircle"> </div> <h2> {sDetail.userId} </h2>{" "}
             <div className="pr1"> 호스트 확인하기 </div>{" "}
             <button> 업체 정보확인 </button> <Link to={"/host"}></Link>
+        
           </div>{" "}
         </div>
       </div>
