@@ -49,9 +49,9 @@ public class Validation {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "validation", cascade = CascadeType.REMOVE)
     private List<SeaImage> seaImages;
-
 
 
     public void update(validationModifyRequestDTO dto) {
