@@ -82,18 +82,19 @@ export const NsHeader = () => {
   return (
     <header>
       <div className='header1'>
-        <div className='hdleft'>
-          <Link to={'/'}><img src={logoPath}/></Link>
-            <ul>
-                <li><Link to={'/bt'} style={linkStyle} className='hdleft-tap'> 배낚시</Link></li>
-                <li><Link to={'/fs'}  style={linkStyle} className='hdleft-tap'> 낚시터</Link></li>
-                <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap'> 클래스</Link></li>
-                {userInfo.Grade === 'ADMIN' &&(<li><Link to={'/admin'}>관리자</Link></li>)}
-                {userInfo.token &&(<li><Link to={'/my'}>마이페이지</Link></li>)}
+      <div className='hdleft'>
 
- 
+        <Link to={'/'}><img src={logoPath}/></Link>
+          <ul>
 
-            </ul>
+          <li><Link to={'/bt'} style={linkStyle} className='hdleft-tap'> 배낚시</Link></li>
+            <li><Link to={'/fs'}  style={linkStyle} className='hdleft-tap'> 낚시터</Link></li>
+            <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap'> 클래스</Link></li>
+            <li><Link to={'/admin'}>관리자</Link></li> 
+            {userInfo.Grade === 'ADMIN' &&( 
+            <li><Link to={'/my'}>마이페이지</Link></li>
+            )}
+          </ul>
         </div>
    
         <div className='hdright'>
