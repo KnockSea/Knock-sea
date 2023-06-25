@@ -3,6 +3,7 @@ import './scss/ClassDetail.scss';
 // import './scss/reset.scss';
 import ClassModal from "./ClassModal";
 import ClassDetailTap from "./ClassDetailTap";
+import Calendar from '../Calendar';
 import { Route, Routes,Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
@@ -89,13 +90,14 @@ function ClassDetail() {
                                     <div className='condition'>
                                         <ul className='condition-box'>
                                             <li>{oneEdu.eduLevel} |</li>
-                                            <li>최대 {oneEdu.timeList && oneEdu.timeList[0].timeMaxUser}명</li>
+                                            <li>최대 {oneEdu.timeList && oneEdu.timeList[0].timeMaxUser}명 |</li>
+                                            <li>{oneEdu.eduPrice}원</li>
                                         </ul>
                                     </div>
                                     </div>        
                                 <div>
                                     <button className='box btn' onClick={ () => {setModal(true)} }>바로 예약하기</button>
-                                    {modal === true ? <ClassModal closeModal={() => setModal(false)} /> : null}
+                                    {modal === true ? <ClassModal closeModal={() => setModal(false)} timeList={oneEdu.timeList} price={oneEdu.eduPrice}/> : null}
                                 </div>
                         </div>
                         </div>
