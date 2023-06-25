@@ -41,6 +41,7 @@ import HostSearchMain from "./hostSearch/hostSearchMain";
 
 import ScrollToTop from "./ScrollToTop";
 import MpInquiryD from "./mypage/MpInquiryD";
+import MpInquiryResult from "./mypage/MpInquiryResult";
 
 const NsMain = () => {
     const [product, setproduct] = useState(null);
@@ -74,6 +75,8 @@ const NsMain = () => {
             <Route path='/iqinput' element={<MpIqInput/>}></Route>
             {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
+            {/* 문의 상세보기 */}
+            <Route path='/inquiryResult/:inquiryId' element = {<MpInquiryResult/>}></Route>
 
             {/* 문의답변 */}
             <Route

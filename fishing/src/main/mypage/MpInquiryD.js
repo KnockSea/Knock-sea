@@ -108,7 +108,9 @@ const MpInquiryD = () => {
                             </div>
                         </div>
                     </div>
-                    <button onClick={handleSubmit}>답변완료</button>
+                    <button onClick={handleSubmit}>
+                        <Link to="/adminCS">답변완료</Link>
+                    </button>
                     {/* 답변완료를 누르면 관리자화면에서 답변한 게시글은 없어지거나  답변하기가 사라져야 하지않나? */}
                 </div>
             </div>
