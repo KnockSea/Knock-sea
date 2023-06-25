@@ -115,8 +115,8 @@ function ClassMain() {
                     </div>
 
                     <div className="class-list">
-                        
                         <div className='lists'>
+                        
                             {edus.map((f) => (
                             <Link to={`/classdetail/${f.eduId}` } style={{ color: 'black', textDecoration: 'none' }}> 
                                     <div className="class-list-1" key={f.eduId}>
@@ -135,8 +135,8 @@ function ClassMain() {
                                     </div>
                                     </div>
                             </Link>
-                                ))}
-                                
+                                ))}                                
+
                         </div>        
                         
                     </div>

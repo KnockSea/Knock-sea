@@ -2,12 +2,15 @@ import React, { useState ,useEffect} from 'react';
 import './scss/OwnerCheck.scss';
 import OwnerCheckHeader from './OwnerCheckHeader';
 import { getLoginUserInfo, setLoginUserInfo } from '../util/login-util';
-
+import { useNavigate } from 'react-router-dom';
 function OwnerCheckShip() {
 
   const [shipConfirmImage, setShipConfirmImage] = useState([2]);
   const [name, setName] = useState('');
   // cosnt [validationtype, setvalidationtype] = useState('SHIP');
+
+  //화면이동 함수
+  const navi = useNavigate();
 
 
   const [userInfo, setUserInfo] = useState({
@@ -53,7 +56,8 @@ function OwnerCheckShip() {
     });
 
     if(res.status===200){
-      alert('선박검증요청에 성공했습니다')
+      alert('선박검증요청에 성공했습니다');
+      navi('/');
       //window.location.href = '/login';
     }else if(res.status==500){
       const errorResponse = await res.json(); // Parse error response as JSON

@@ -7,10 +7,13 @@ import Calendar from './RegiCalendar';
 import TimeConverter from './Time';
 import { useNavigate } from 'react-router-dom';
 import { getUserInfo } from '../util/login-util';
-
+import { getLoginUserInfo } from '../util/login-util';
+import { addDays, format, parseISO } from "date-fns";
 
 
 function ProductRegistration() {
+
+  const [token, setToken] = useState(getLoginUserInfo().token);
   const [productLabelType, setProductCategory] = useState('');
   const [productTitle, setTitle] = useState('');
   const [productInfo, setProductInfo] = useState('');
@@ -18,7 +21,7 @@ function ProductRegistration() {
   const [productFullAddress, setuserFullAddress] = useState('');
   const [productPrice, setPrice] = useState('');
   const [timeMaxUser, setMaxUser] = useState('');
-  const [timeDate, setRanges] = useState(null);
+  const [timeDate, setRanges] = useState([]);
   const [timeBoxes, setTimeBoxes] = useState([1]);
   const [timeStarts, setStartTimes] = useState([]);
   const [timeEnds, setEndTimes] = useState([]);
@@ -41,10 +44,28 @@ function ProductRegistration() {
      setuserAddress(userAddress)
   };
   
-  // 날짜 값 받아옴
-  const handleGetDateRange = (timeDate) => {
-    setRanges(timeDate);
- };
+ // 날짜 값 받아옴
+ const handleGetDateRange = (td) => {
+  console.log("fnfnfn:", td);
+  const { startDate, endDate } = td.selection;
+  console.log("두개두개 :", startDate, endDate);
+  const dates = [];
+
+  let currentDate = parseISO(startDate);
+  const finalDate = parseISO(endDate);
+
+  console.log(currentDate);
+
+  while (currentDate <= finalDate) {
+    dates.push(format(currentDate, "yyyy-MM-dd"));
+    currentDate = addDays(currentDate, 1);
+  }
+
+  // this.setState({ timeDate: dates });
+  
+  setRanges(dates);
+
+};
 
   // 시간값 props & 베열생성
   function handleTimeChange(timeString) {
@@ -76,33 +97,29 @@ function ProductRegistration() {
       timeDate: timeDate,
       timeStart: timeStarts,
       timeEnd: timeEnds,
-      productService: productService,
-      productImages: productImages
+      productService: productService
     };
   
+    const userJsonBlob = new Blob(
+      [JSON.stringify(productDTO)],
+      { type: 'application/json' }
+    );
 
     // 서버에 보낼 FormData 객체 생성
     const formData = new FormData();
-    formData.append('productLabelType', productLabelType);
-    formData.append('productTitle', productTitle);
-    formData.append('productInfo', productInfo);
-    formData.append('productLocationInfo', productLocationInfo);
-    formData.append('productFullAddress', productFullAddress);
-    formData.append('productPrice', productPrice);
-    formData.append('timeMaxUser', timeMaxUser);
-    formData.append('timeDate', JSON.stringify(timeDate));
-    formData.append('timeStart', JSON.stringify(timeStarts));
-    formData.append('timeEnd', JSON.stringify(timeEnds));
-    formData.append('productService', productService);
-    formData.append('productDTO', JSON.stringify(productDTO));
-    formData.append('userInfo', JSON.stringify(getUserInfo));
-    productImages.forEach((image, index) => {
-      formData.append(`productImages[${index}]`, image);
+    formData.append('productDTO', userJsonBlob);
+    productImages.forEach((image) => {
+      formData.append(`productImages`, image);
     });
  
     console.log("===================== formData 값 =====================");
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(key, value);
+    // }
+
+    console.log(productDTO);
+    for (let pair of formData.entries()) {
+      console.log('키: ' + JSON.stringify(pair[0]),'밸류: ' + JSON.stringify(pair[1]));
     }
 
       const handleProductRegi = async (e) => {
@@ -111,20 +128,19 @@ function ProductRegistration() {
         try {
           const res = await fetch('http://localhost:8012/api/v1/products', {
           method: 'POST',
-          headers: {
-            'Content-Type': `multipart/form-data; boundary='-----------------------3284728374828347'`
-          },
+          headers: {'Authorization': 'Bearer ' + token},
           body: formData
           });
           
-            if (res.status === 200) {
-              alert('등록 성공');
-            } else {
-              alert(res.text());
-            }
-          } catch (error) {
-            console.error('데이터 전송 실패!');
+          if (res.status === 200) {
+            alert('등록 성공');
+            navigate('/my');
+          } else {
+            alert(res.status);
           }
+        } catch (error) {
+          console.error('데이터 전송 실패!');
+        }
   };
 
   return (

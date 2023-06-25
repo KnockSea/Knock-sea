@@ -69,6 +69,17 @@ header {
                 font-weight: 700;      
             }
 
+            .ownerGo {
+            :link {
+                font-size: 12px;
+                font-weight: 500;
+
+                &:hover {
+                    font-weight: 600;
+                }
+            }
+        }
+
         }
     }
     
