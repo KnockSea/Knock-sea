@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./MpScss/MpAdminCS.scss";
-import MpInquiryD from "./MpInquiryD";
+import MpInquiryD from './MpInquiryD'
 
 const MpAdminCS = () => {
     const [inquiries, setInquiries] = useState([]);

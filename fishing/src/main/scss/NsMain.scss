@@ -1,281 +1,145 @@
+section {
+    text-align: center;
+    // margin-top: 70px;
+    padding-top: 70px;
+    // background: #fff;
+    padding-bottom: 62px;
 
-.MyPageMainBox {
+    .banner {
+        width: 100%;
+        position: relative;
 
-  width: 1136px;
-  min-width: 1136px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-around;
+        img {
+            width: 100%;
+            height: 200px;
+        }
 
-  .mainbox1{
-      // border: 1px solid #000;
-      // background: orange;
-      width: 80%;
-      .mychoicebox {
-          display: flex;
-          justify-content: space-between;
-          // margin-right: 600px;
-          :nth-child(2){
-              margin-left: 50px;
-          }
-          :nth-child(3){
-              margin-left: 50px;
-          }
-          :nth-child(4){
-              margin-left: 50px;
-          }
-          h1 {
-              width: fit-content;
-              font-size: 25px;
-              padding: 5px;
-              font-weight: 700;
-              border-bottom: 3px solid #123282;            
-          }
-          .ownerTap {
+        .b1,
+        .b2 {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            z-index: 1;
+        }
+
+        .b1 {
+            left: 10px;
+        }
+
+        .b2 {
+            right: 10px;
+        }
+    }
+
+    .mainbox {
+        // background: #000;
+        width: 80%;
+        // height: 450px;
+        margin: 0 auto;
+        // margin-top: 10px;
+
+        display: flex;
+        // border: 1px solid #000;
+
+        .contentbox {
+            width: 70%;
+            // background: orange;
+            border-right: 2px solid #DDDDDD;
+
+
+
+        }
+
+        .apibox {
+            width: 30%;
+            // height: 466.5px;
+            display: flex;
+            // flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            margin-left: 20px;
+            margin-top: 20px;
+
+            .exbox {
+                width: 100%;
+                height: 30px;
+                text-align: left;
+                margin-bottom: 10px;
+                font-weight: 700;
+                font-size: 10px;
+            }
+
+            .wtbox {
+                width: 100%;
+                height: calc(100% - 40px);
+                overflow-y: auto;
+                overflow-x: hidden;
+                display: flex;
+                flex-wrap: wrap;
+                align-content: flex-start;
+                justify-content: space-between;
+                gap: 10px;
+
+                .weather {
+                    width: 100%;
+
+                    .weather-item {
+                        margin-top: 50px;
+                        width: 100%;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 10px;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+                        img {
+                            width: 64px;
+                            height: 64px;
+                        }
+
+                        p {
+                            margin: 5px 0;
+                            font-size: 10px;
+                        }
+                    }
+                }
+            }
+
+            .apiinfo {
+                font-size: 12px;
+
+                .wttopitem {
+                    display: flex;
+                    justify-content: center;
+
+                    .imgbox111 {
+                        width: 30%;
+
+                        img {
+                            width: 100%;
+                        }
+                    }
+                }
+
+            .weather-list{
               display: flex;
-              justify-content: center;
+              .weather-item{
 
-              :link {
-                  text-decoration: none;
               }
-              h1{
-                  text-decoration: none;
-                  font-size: 20px;
-                  border-bottom: none;
-                  color: #000;
-                  &:hover {
-                      color: #f1a5cb;
-                  }
-              }
+            }
+
           }
           
-      }
-      .userinfobox {
-      display: flex;
-      height: 250px;
-      justify-content: space-between;
-      border-bottom: 1px solid #DDDDDD;
-          .userinfoWrap {
-              width: 500px;
-              display: flex;
-              justify-content: space-between;
-          }
-
-          .profilebox {
-              width: 140px;
-              height: 140px;
-              line-height: 140px;
-              margin-top: 30px;
-              border-radius: 50%;
-              overflow: hidden;
-              background: url('../img/ocean.png') left;
-              
-              img{
-                  width: 120px;
-                  height: 120px;
-                  border-radius: 50%;
-                  // border: 2px solid rgba(255, 255, 255, 0.4); 
-              } 
-          }
-          .userWrap {
-              height: 80px;
-              text-align: left;
-              margin-top: 30px;
-              margin-right: 20px;
-              font-size: 16px;
-              
-              p, div{
-              font-family: "한컴 말랑말랑";
-              margin-bottom: 10px;
-              }
-
-              .userName {
-                  color: #123282;
-              }
-          }
-
-          .userEtc {
-              font-weight: 700;
-          }
-
-          .namebox{
-              border: 1px solid #000;
-              // background: red;
-              margin-top: 20px;
-              height: fit-content;
-              .nickName {
-                  font-weight: 700;
-                  font-size: 18px;
-              }
-              div {
-                  font-size: 10px;
-              }
-          }
-
-          .btbox {
-              position: relative;
-              bottom: -200px;
-             margin-right: 20px;
-             height: 20px;
           
-             .isbtn {
-              margin-right: 120px;
-              
-             }
-             button {
-              background: #123282;
-              color: white;
-              font-weight: 700;
-              border-radius: 10px;
-              border: #123282;
-              
-             }
-          }
-      }
-      .rvbox {
-          margin-top: 10px;            
-          height: 300px;
-          text-align: left;
-          border-bottom: 1px solid #DDDDDD;
-          h2 {
-              font-size: 20px;
-              font-weight: 700;
-          }
-          .MpReFormItem{
-              margin-top: 20px;
-              display: flex;
-              align-items: center;
-              .mprebox1{
-                  width: 100px;
-                  height: 100px;
-                  border: 1px solid #000;
-              }
-              .mprebox2{
-                  margin-left: 10px;
-                 
-                  
-                  .mpreAutohr{
-                      display: flex;
-                      :nth-child(1){
-                          // border: 1px solid #000;
-                          border-right: 1px solid #ccc;
-                          width: 80px;
-                      }
-                   :nth-child(2){
-                      margin-left: 40px;
-                   }
-                  }
-                  .mpstar{
-                      margin-top: 10px;
-                      margin-bottom: 10px;
-                  }
-              }
-          }
-
-
-      }
-      .rvbox2 {
-          width: 100%;
-          height: 300px;
-          margin-top: 10px;
-          text-align: left;
-
-          .inner-rvbox2 {
-              display: flex;
-              justify-content: space-between;
-          }
-
-          h2 {
-              width: fit-content;
-              font-size: 25px;
-              padding: 5px;
-              font-weight: 700;
-              border-bottom: 3px solid #123282; 
-          }
-
+        }
           
-          .isbtn {
-              height: fit-content;
-              width: 150px;
-              background: #123282;
-              color: white;
-              font-weight: 700;
-             border-radius: 10px;
-             border: #123282;
-             }
-
-
+          
+          
+        }
       }
-
-
-
-// 예약 from 시작
-      .MpRvFromInfo {
-
-          .mprvbox1{
-              display: flex;
-              font-weight: 700;
-              justify-content: space-around;
-              align-items: center;
-              border-top: 1px solid #ccc;
-              border-bottom: 1px solid #ccc;
-              height: 50px;
-              font-size: 18px;
-          }
-          .mprvbox2{
-              display: flex;
-              justify-content: space-around;
-              align-items: center;
-              height: 60px;
-              font-size: 12px;
-              border-bottom: 1px solid #ccc;
-              .mprvid{
-                  width: 40px;
-              }
-
-          }
-      }
-// 예약 from 끝 
-       a{
-          color: #fff;
-          font-weight: normal;
-
-          &:hover {
-              font-weight: 600;
-          }
-      }
-
-  }
-
-  .list {
-      width: 11%;
-      background: #123282;
-      padding: 10px;
-      border-radius: 0px 15px 15px 0px;
-      height: fit-content;
-
-      list-style-type: none;
-      color: white;
-
-      padding-bottom: 80px;
-      position: relative;
-      top: -70px;
-      li {
-          margin-top: 10px;
-          text-align: left;
-
-          a{
-          color: #fff;
-
-          &:hover{
-              border-bottom: 1px solid #fff;
-          }
-      }
-      }
-      .my {
-          margin-bottom: 60px;
-      }
-
-  }
-}
-

@@ -88,8 +88,8 @@ const MpMain = () => {
                                 <img className="my-profile" title="마이페이지" src={userProfile.profileImageUrl || require('./../img/class.jpg')}/>
                             </div>
                             <div className='userWrap userMain'>
-                                <p>나의 등급</p>
                                 <p>이름</p>
+                                <p>나의 등급</p>
                                 <p>이메일</p>
                                 <p>연락처</p>
                             </div>

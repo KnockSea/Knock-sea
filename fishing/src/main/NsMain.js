@@ -1,46 +1,45 @@
-import React, { useState, useEffect } from "react";
-import "./scss/NsMain.scss";
-import wt from "./img/wt.png";
-import NsItem from "./NsItem";
-import NsBanner from "./NsBanner";
-import { Route, Routes } from "react-router-dom";
-import RvTemplate from "./reservation/RvTemplate";
-import NsFishingSpot from "./NsFishingSpot";
-import NsClass from "./NsClass";
-import RvBtDetail from "./reservation/RvBtDetail";
-import MpMain from "./mypage/MpMain";
-import Myinfo from "./mypage/Myinfo";
-import Mypassword from "./mypage/Mypassword";
-import MpUserDrop from "./mypage/MpUserDrop";
-import MpDrop from "./mypage/MpDrop";
-import MpInquire from "./mypage/MpInquire";
-import MpRvlist from "./mypage/MpRvlist";
-import ProductRegistration from "./product/ProductRegistration";
-import RvFsDetail from "./fishingspot/RvFsDetail";
-import RvFsTemplate from "./fishingspot/RvFsTemplate";
-import WeeklyWeather from "./WeeklyWeather";
-import SignUpForm from "./account/SignUpForm";
-import Login from "./account/Login";
-import ClassMain from "./class/ClassMain";
-import ClassDetail from "./class/ClassDetail";
-import OwnerCheckMain from "./ownercheck/OwnerCheckMain";
-import OwnerCheckShip from "./ownercheck/OwnerCheckShip";
-import OwnerCheckFishing from "./ownercheck/OwnerCheckFishing";
-import MpQueryText from "./mypage/MpQueryText";
+import React, { useState, useEffect } from 'react';
+import './scss/NsMain.scss'
+import wt from './img/wt.png'
+import NsItem from './NsItem'
+import NsBanner from './NsBanner'
+import { Route, Routes } from 'react-router-dom'
+import RvTemplate from './reservation/RvTemplate'
+import NsFishingSpot from './NsFishingSpot'
+import NsClass from './NsClass'
+import RvBtDetail from './reservation/RvBtDetail'
+import MpMain from './mypage/MpMain'
+import Myinfo from './mypage/Myinfo'
+import Mypassword from './mypage/Mypassword'
+import MpUserDrop from './mypage/MpUserDrop'
+import MpDrop from './mypage/MpDrop'
+import MpInquire from './mypage/MpInquire'
+import MpRvlist from './mypage/MpRvlist'
+import ProductRegistration from './product/ProductRegistration'
+import RvFsDetail from './fishingspot/RvFsDetail'
+import RvFsTemplate from './fishingspot/RvFsTemplate'
+import WeeklyWeather from './WeeklyWeather'
+import SignUpForm from './account/SignUpForm'
+import Login from './account/Login'
+import ClassMain from './class/ClassMain'
+import ClassDetail from './class/ClassDetail'
+import OwnerCheckMain from './ownercheck/OwnerCheckMain'
+import OwnerCheckShip from './ownercheck/OwnerCheckShip'
+import OwnerCheckFishing from './ownercheck/OwnerCheckFishing'
+import MpQueryText from './mypage/MpQueryText'
 
-import MpBtInfo from "./mypage/MpBtInfo";
-import MpFsInfo from "./mypage/MpFsInfo";
-import MpClassInfo from "./mypage/MpClassInfo";
-import { API_BASE_URL, PRODUCTS, SHIP } from "../config/host-config";
+import MpBtInfo from './mypage/MpBtInfo'
+import MpFsInfo from './mypage/MpFsInfo'
+import MpClassInfo from './mypage/MpClassInfo'
+import { API_BASE_URL, PRODUCTS } from '../config/host-config';
+import MpAdmin from './mypage/MpAdmin';
+import MpIqInput from './mypage/MpIqInput';
+import MpAdminFS from './mypage/MpAdminFS';
+import MpAdminCS from './mypage/MpAdminCS';
+import HostSearchMain from './hostSearch/hostSearchMain'
 
-import MpAdmin from "./mypage/MpAdmin";
-import MpIqInput from "./mypage/MpIqInput";
-import MpAdminFS from "./mypage/MpAdminFS";
-import MpAdminCS from "./mypage/MpAdminCS";
-import HostSearchMain from "./hostSearch/hostSearchMain";
-
-import ScrollToTop from "./ScrollToTop";
-import MpInquiryD from "./mypage/MpInquiryD";
+import ScrollToTop from './ScrollToTop';
+import MpInquiryD from './mypage/MpInquiryD';
 
 const NsMain = () => {
     const [product, setproduct] = useState(null);
@@ -54,10 +53,8 @@ const NsMain = () => {
             <Route path='/' element ={<MainContent product={product} />} />
             {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
             <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
-            {/* 배낚시 탭 */}            
-            <Route path='/detail' element={<RvBtDetail/>}> </Route>
-            {/* 낚시터 탭 */}            
-            <Route path='/fsdetail' element={<RvFsDetail/>}> </Route>
+            <Route path='/fsdetail/:productId' element={<RvFsDetail/>}> </Route>
+
             {/* 클래스 탭 */}
             <Route path='/class' element={<ClassMain/>}></Route>
             <Route path='/classdetail/:eduId' element={<ClassDetail/>}></Route>
@@ -102,33 +99,35 @@ const NsMain = () => {
             <Route path="/mpfs" element={<MpFsInfo />}></Route>
             <Route path="/mpclass" element={<MpClassInfo />}></Route>
             {/* 관리자 */}
-            <Route path="/admin" element={<MpAdmin />}></Route>
-            <Route path="/adminFs" element={<MpAdminFS />}></Route>
-            <Route path="/adminCS" element={<MpAdminCS />}></Route>
-            <Route path="/host" element={<HostSearchMain />}></Route>
+
+            <Route path='/admin' element={<MpAdmin/>}></Route>
+            <Route path='/adminFs' element={<MpAdminFS/>}></Route>
+            <Route path='/adminCS' element={<MpAdminCS/>}></Route>
+
+            <Route path='/host' element={<HostSearchMain/>}></Route>
         </Routes>
-
-            {/* MainContent 컴포넌트에 shipInfo prop 전달 */}
-            {/* <MainContent shipInfo={shipInfo} /> */}
-        </section>
-    )
-  }
-
-  const MainContent = ({ isRouteActive , product}) => {
+            
+                {/* MainContent 컴포넌트에 shipInfo prop 전달 */}
+      {/* <MainContent shipInfo={shipInfo} /> */}
+    </section>
+  )
+}
+const MainContent = ({ isRouteActive , product}) => {
     return (
+        <>
+           {!isRouteActive && (
             <>
-            {!isRouteActive && (
-                <>
-                    <NsBanner />
+                   <NsBanner />
 
-                <div className='mainbox'>
-                <div className='contentbox'>
-                <NsItem 
-                product={product}
+            <div className='mainbox'>
+            <div className='contentbox'>
+            <NsItem 
+            product={product}
 
-                />
-                <NsFishingSpot />
-                <NsClass />
+            />
+            <NsFishingSpot />
+            <NsClass />
+
                 </div>
             <div className='apibox'>
                 <div className='wtbox'>

@@ -12,6 +12,8 @@ function OwnerCheckShip() {
 
   //화면이동 함수
   const navi = useNavigate();
+
+
   const [userInfo, setUserInfo] = useState({
     token: '', // Set default value for name
     userEmail: '', // Set default value for email
@@ -20,6 +22,8 @@ function OwnerCheckShip() {
     userId : '',
     userPhone : ''
   });
+
+
 
   const handleOwnerCheck = async (e) => {
     e.preventDefault();
@@ -57,14 +61,17 @@ function OwnerCheckShip() {
       alert('선박검증요청에 성공했습니다');
       navi('/');
       //window.location.href = '/login';
-      } else if(res.status==500) {
-        const errorResponse = await res.json(); // Parse error response as JSON
-        alert('등록에 오류가발생했습니다');
-      } else {
-        alert('서버와의 접속이 원활하지않습니다');
-      }
+    }else if(res.status==500){
+      const errorResponse = await res.json();
+      console.log(errorResponse);// Parse error response as JSON
+      alert('등록에 오류가발생했습니다');
+    }else{
+      alert('서버와의 접속이 원활하지않습니다');
+    }
+   
   };
   
+
 
  const handleShipConfirmImage1Change = (event) => {
     const file = event.target.files[0];
@@ -78,6 +85,7 @@ function OwnerCheckShip() {
 
 
 
+
   //화면 랜더링되자마자 로그인한 유저 설정 
   useEffect(() => {
     const user = getLoginUserInfo();
@@ -86,7 +94,9 @@ function OwnerCheckShip() {
   }, []);
 
 
+
   return (
+    
         <div className="owner-check-body">
           <form onSubmit={handleOwnerCheck} encType="multipart/form-data">
             <ul>
@@ -107,6 +117,9 @@ function OwnerCheckShip() {
                       name="shipConfirmImage1"
                     />
                     <span>
+                    {/* {shipConfirmImage.length > 0 && (
+                      <p>Attached photo: {shipConfirmImage[0] || ''}</p>
+                    )} */}
                   </span>
                   </div>
                 </div>
@@ -120,6 +133,7 @@ function OwnerCheckShip() {
                     value={shipNumber}
                     onChange={(e) => setShipNumber(e.target.value)}
                     className="form-control"
+                    maxLength="6"
                     required
                     aria-required="true"
                     placeholder="'-' 없이 선박 등록증 번호를 동일하게 입력해주세요."
@@ -161,8 +175,25 @@ function OwnerCheckShip() {
                     aria-required="true"
                     placeholder="'-' 없이 면허증 번호를 동일하게 기입해주세요."
                   />
+                  <span id="addressChk"></span>
                 </div>
               </li>
+              {/* <li>
+                <div>선박번호판<span className="imp">*</span></div>
+                <div>
+                  <input
+                    type="tel"
+                    value={phoneNo}
+                    onChange={(e) => setPhoneNo(e.target.value)}
+                    className="form-control"
+                    required
+                    aria-required="true"
+                    maxLength="15"
+                    placeholder="선박번호판을 입력해주세요."
+                  />
+                  <span id="PhoneChk"></span>
+                </div>
+              </li> */}
             </ul>
             <div className="owner-check-footer">
               <button type="submit" className="btn">
