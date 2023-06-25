@@ -30,7 +30,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/ship")
-public class ShipApiController {
+public class  ShipApiController {
 
 
     @Value("${upload.path}")

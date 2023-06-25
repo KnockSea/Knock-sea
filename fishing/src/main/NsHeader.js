@@ -51,32 +51,35 @@ export const NsHeader = () => {
     }, [isLogin()]);
 
     useEffect(() => {
+      (async () => {
+        const user = getLoginUserInfo();
+        setUserInfo(user);
+        setIsLoggedIn(!isLogin());
     
-      isLoggedIn &&
-      (async() => {
+        if (isLoggedIn) {
           const res = await fetch('http://localhost:8012/api/v1/user/load-s3', {
-              method: 'GET',
-              headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token }
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token }
           });
-      
+    
           if (res.status === 200) {
-              // 서버에서 s3 url이 응답된다
-              const imgUrl = await res.text();                  
-              setProfileUrl(imgUrl);
-  
-              
-              // //서버에서 직렬화된 이미지가 응답된다.
-              // const profileBlob = await res.blob();
-              //  //해당 이미지를 imgUrl로 변경
-              // const imgUrl = window.URL.createObjectURL(profileBlob);
-              // setProfileUrl(imgUrl);
-              
+            const imgUrl = await res.text();
+            setProfileUrl(imgUrl);
           } else {
-              const err = await res.text();
-              setProfileUrl(null);
+            const err = await res.text();
+            setProfileUrl(null);
           }
-        })();
-      }, [isLoggedIn]);
+        }
+      })();
+    }, []);
+    
+    
+    
+    
+    
+    
+    
+    
     
 
   return (
