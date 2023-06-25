@@ -8,7 +8,7 @@ import map from '../img/map.png'
 import RvFsItem from './RvFsItem';
 import { Route, Routes } from 'react-router-dom';
 import RvFsDetail from './RvFsDetail';
-// import RvFsMap from './RvFsMap';
+import RvFsMap from './RvFsMap';
 
 
 function RvFsMain({FsProduct}) {
