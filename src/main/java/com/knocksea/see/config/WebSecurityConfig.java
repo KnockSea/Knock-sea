@@ -45,6 +45,7 @@ public class WebSecurityConfig {
                 .antMatchers("/api/v1/user/register").permitAll()
                 .antMatchers("/api/v1/user/signin").permitAll()
                 .antMatchers("/api/v1/user/check").permitAll()
+                .antMatchers("/api/v1/validation/{validationType}").permitAll()
 //                .antMatchers("/api/v1/edu/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/edu").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/edu/topFour").permitAll()
@@ -53,7 +54,6 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.GET,"/api/v1/inquiries").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/inquiries/{inquiryId}").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/answers/{inquiryId}").permitAll()
-
 
                 .anyRequest().authenticated()
         ;

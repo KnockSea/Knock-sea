@@ -19,12 +19,12 @@ function RvFsMain({fetchFsProduct, FsProduct}) {
   const [products, setProducts] = useState(FsProduct);
   const type = 'SPOT';
 
-  fetchFsProduct(page, size, type);
+  // fetchFsProduct(page, size, type);
 
 
   useEffect(() => {
-
-  },[]);
+    setProducts(FsProduct);
+  },[FsProduct]);
 
   return (
     <div>
@@ -32,7 +32,7 @@ function RvFsMain({fetchFsProduct, FsProduct}) {
             <div className='rvContent'>                
               <div className='cardBox'>
                 <RvFsItem                 
-                product={FsProduct}
+                productDetail={FsProduct}
                 />
               </div>
             </div>
@@ -40,7 +40,7 @@ function RvFsMain({fetchFsProduct, FsProduct}) {
             <div>위치 확인하기</div>
               <div className='mapbox'>
                 <RvFsMap
-                  product={FsProduct} 
+                  productDetail={FsProduct} 
                 />
               </div>
             </div>

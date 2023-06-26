@@ -65,7 +65,7 @@ const MpInquire = () => {
                                     {inquiry.inquiryDateTime}
                                 </div>
                             </div>
-                            <button>   
+                            <button>
                             <Link
                                    to={`/inquiryResult/${inquiry.inquiryId}`}
                                 className="indetailbtn"
@@ -98,4 +98,3 @@ const MpInquire = () => {
 };
 
 export default MpInquire;
-
