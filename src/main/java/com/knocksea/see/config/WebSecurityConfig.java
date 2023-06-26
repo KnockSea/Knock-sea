@@ -51,6 +51,10 @@ public class WebSecurityConfig {
                 .antMatchers("/api/v1/edu/{eduId}").permitAll()
                 .antMatchers("/api/v1/edu/main/edu").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/inquiries").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v1/inquiries/{inquiryId}").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v1/answers/{inquiryId}").permitAll()
+
+
                 .anyRequest().authenticated()
         ;
 

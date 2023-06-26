@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import "./MpScss/MpInquiryD.scss";
+import "./MpScss/MpInquiryResult.scss";
 import { getLoginUserInfo } from "../util/login-util";
 
 const MpInquiryResult = () => {
@@ -83,17 +83,21 @@ const MpInquiryResult = () => {
                     </div>
                     <div className="ctntext">
                         <div className="ctntextbox1">
+                        <div className="ctnminbox">
                             <div className="answertext">
                                 {/* 작성자가 문의한 글 보여주는 곳 */}
                                 {inquiry && inquiry.inquiryDetails}
                             </div>
                             <div className="adminreplyinput">
+                                <div className="answer">
                                 {answer && answer.answerDetails}
+                                </div>
                             </div>
                         </div>
+                        </div>
                     </div>
-                    <button onClick={handleSubmitAnswer}>
-                         <Link to={`/inquiryResult/${inquiryId}`}>상세보기</Link>
+                    <button onClick={handleSubmitAnswer}className="replybtn1">
+                         <Link to="/inquire">돌아가기</Link>
                     </button>
 
                 </div>
