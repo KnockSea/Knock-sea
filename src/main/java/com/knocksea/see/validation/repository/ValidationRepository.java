@@ -20,4 +20,8 @@ public interface ValidationRepository extends JpaRepository<Validation,Long> {
     List<Validation> findByValidationType(ValidationType validationType);
 
 //    Validation findByUser_UserId(Long userId);
+    @Query("SELECT v FROM Validation v WHERE v.validationType = :validationType AND v.validationStatus = 'WAIT'")
+    List<Validation> findByValidationTypeAndValidationStatus(@Param("validationType") ValidationType validationType);
+
+
 }
