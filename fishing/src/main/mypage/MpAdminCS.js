@@ -19,7 +19,7 @@ const MpAdminCS = () => {
     
     useEffect(() => {
         fetchInquiries();
-    }, []);
+    }, [page]);
 
     const fetchInquiries = async () => {
         try {
