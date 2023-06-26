@@ -10,11 +10,6 @@ const MpAdmin = () => {
     const [validationType , setvalidationType] = useState('SHIP');
 
     //배 검증요청 리스트수정 json형식
-    const [validationData, setValidationData] = useState({
-        userName: '',
-        validationType: '',
-        validationStatus: ''
-      });
 
 //검증요청 리스트 서버에서 받아오기
 useEffect(() => {
@@ -24,7 +19,6 @@ useEffect(() => {
         // 요청 결과 처리
         console.log(data);
         setValidationList(data);
-        console.log('validationList : ',validationList);
     })
     .catch(error => {
         // 에러 처리
@@ -33,15 +27,42 @@ useEffect(() => {
 }, []);
 
 //검증요청 승인하는 함수
-const updateValidation = (e) =>{
-e.preventDefault();
-// alert('승인요청 들어옴');
-const confirm = window.confirm('정말 승인하시겠습니까?')
-if(confirm){
-    
-    // alert('승인완료!');
-}
-}
+const updateValidation = async (e, validationUserName, validationType) => {
+    e.preventDefault();
+    const confirm = window.confirm('정말 승인하시겠습니까?');
+    console.log(validationList);
+    if (confirm) {
+        // console.log(validationUserName);
+        // console.log(validationType);
+        const validationModifyRequestDTO = {
+            'userName' : validationUserName,
+            'validationType' : validationType,
+            'validationStatus' : 'YES'
+          };
+          
+          const res = fetch('http://localhost:8012/api/v1/validation', {
+            method: 'PUT', // 또는 'PATCH' 요청 메서드
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(validationModifyRequestDTO)
+          });
+          if((await res).status===200){
+            console.log(res);
+            alert('전송완료')
+            setValidationList();
+          }else{
+            alert('서버와의 통신오류')
+          }
+    }
+  };
+  
+  
+  
+  
+  
+  
+  
 
 
   return (
@@ -70,7 +91,7 @@ if(confirm){
                 {validation.validationShipRegi ? (<div className='shipregiimg'>{validation.validationShipRegi}</div>) : (<div>선박등록이미지 없음</div>)}
                 {validation.validationShipLicense ? (<div className='shipregistnum'>{validation.validationShipLicense}</div>) : (<div>선박면허증 없음</div>)}
                 <div>
-                    <button onClick={updateValidation}>승인</button>
+                    <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType)}>승인</button>
                     <button>취소</button>
                 </div>
                 <div>{validation.validationStatus}</div>

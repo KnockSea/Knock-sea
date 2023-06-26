@@ -46,6 +46,7 @@ useEffect(() => {
             {/* 본문내용 */}
             <div className='ctntext'>
                 {validationList.length > 0 ? (validationList.map(validation => (<div key={validation.validationId}>
+                {validation.userName ? (<div className='username'>{validation.userName}</div>) : (<div>등록유저이름없음</div>)}
                 {validation.validationBusinessRegi ? (<div>{validation.validationBusinessRegi}</div>) : (<div>사업자등록증 없음</div>)}
                 <div>
                     <button>승인</button>

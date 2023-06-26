@@ -93,7 +93,7 @@ public class ValidationApiController {
     //타입별 전체조회
     @GetMapping("/{validationType}")
     public ResponseEntity<?> list(@PathVariable ValidationType validationType/*, @PathVariable Long userId*/
-//                                  ,@AuthenticationPrincipal TokenUserInfo userInfo
+//
     ){
         log.info("/api/v1/validation {} GET",validationType);
 
@@ -110,10 +110,9 @@ public class ValidationApiController {
     //검증 상태 변경
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<?> update(
-            @Validated @RequestBody validationModifyRequestDTO dto
-            , BindingResult result
-            , HttpServletRequest request
+           @RequestBody validationModifyRequestDTO dto
     ){
+        log.info("Request PUT !! : {}",dto);
         String userName= dto.getUserName();
         ValidationStatus validationStatus=dto.getValidationStatus();
         ValidationType validationType=dto.getValidationType();
