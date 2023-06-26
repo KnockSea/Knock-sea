@@ -11,10 +11,8 @@ const MpInquire = () => {
     const [size, setSize] = useState(10);
     const [token, setToken] = useState(getLoginUserInfo().token);
 
-    const handleInquiryClick = (inquiryId) => {
-        // inquiryId 값을 사용하여 상세 페이지로 이동하도록 처리
-        // 예: /inquiry/:inquiryId
-    };
+
+
 
     const fetchData = () => {
         fetch(
@@ -40,6 +38,7 @@ const MpInquire = () => {
             });
     };
 
+
     useEffect(() => {
         fetchData();
     }, [page, size]);
@@ -63,13 +62,10 @@ const MpInquire = () => {
                                     {inquiry.inquiryDateTime}
                                 </div>
                             </div>
-                            <button>
+                            <button>   
                             <Link
                                 to={`/inquiryResult/${inquiry.inquiryId}`}
                                 className="indetailbtn"
-                                onClick={() =>
-                                    handleInquiryClick(inquiry.inquiryId)
-                                }
                             >
                                 상세보기
                             </Link>

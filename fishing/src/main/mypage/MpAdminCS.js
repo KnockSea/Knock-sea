@@ -2,11 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./MpScss/MpAdminCS.scss";
 import MpInquiryD from './MpInquiryD'
+import "./MpScss/Paging.css";
+import Pagination from "react-js-pagination";
+
 
 const MpAdminCS = () => {
     const [inquiries, setInquiries] = useState([]);
 
     const [inquiry, setInquiry] = useState([]);
+    const [page, setPage] = useState(1);
+
+    const handlePageChange = (page) => {
+      setPage(page);
+      console.log(page);
+    };
     
     useEffect(() => {
         fetchInquiries();
@@ -15,7 +24,8 @@ const MpAdminCS = () => {
     const fetchInquiries = async () => {
         try {
             const response = await fetch(
-                "http://localhost:8012/api/v1/inquiries"
+                `http://localhost:8012/api/v1/inquiries?page=${page}&size=10`
+
             );
             if (response.ok) {
                 const data = await response.json();
@@ -66,6 +76,15 @@ const MpAdminCS = () => {
                             </div>
                         ))}
                     </div>
+                    <Pagination
+      activePage={page}
+      itemsCountPerPage={10}
+      totalItemsCount={450}
+      pageRangeDisplayed={5}
+      prevPageText={"‹"}
+      nextPageText={"›"}
+      onChange={handlePageChange}
+    />
                 </div>
             </div>
         </section>
