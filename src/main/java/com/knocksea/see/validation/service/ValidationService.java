@@ -70,13 +70,15 @@ public class ValidationService {
         }
     }
 
-    public List<ValidationListResponseDTO> findAllByType(ValidationType validationType, TokenUserInfo userInfo)
+    public List<ValidationListResponseDTO> findAllByType(ValidationType validationType
+//            , TokenUserInfo userInfo
+    )
     throws RuntimeException{
         log.info("validationType : "+" "+validationType);
 
-        if (!(userInfo.getUserGrade().equals("ADMIN"))) {
-            throw new RuntimeException("관리자 기능입니다.");
-        }
+//        if (!(userInfo.getUserGrade().equals("ADMIN"))) {
+//            throw new RuntimeException("관리자 기능입니다.");
+//        }
 /*        User user = userRepository.findById(userId).orElseThrow(()->
                 new RuntimeException("회원 정보가 없습니다"));*/
 
