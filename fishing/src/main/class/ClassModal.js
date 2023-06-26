@@ -10,20 +10,20 @@ const handleLogin = (e) => {
     };
     
   // 렌더링 후 실행함수
+// timeList, price, address
+function ClassModal({closeModal, oneEdu}) {
 
-function ClassModal({closeModal,timeList, price}) {
+  const listSize=oneEdu.timeList.length-1;
+  const startTime=oneEdu.timeList[0].timeDate; //시작날짜
+  const EndTime=oneEdu.timeList[listSize].timeDate; //마지막 날짜
 
-  const listSize=timeList.length-1;
-  const startTime=timeList[0].timeDate; //시작날짜
-  const EndTime=timeList[listSize].timeDate; //마지막 날짜
-
-  console.log("ClassModal : ",timeList);
+  console.log("ClassModal : ",oneEdu.timeList);
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [count, setCount] = useState(0);
   const [selectedTime, setSelectedTime] = useState(null);
   const [classTimes, setClassTimes] = useState([]);
- 
+  const[timeIndex,setTimeIndex] = useState(0);
   const handleIncrease = () => {
     setCount(count + 1);
   };
@@ -40,19 +40,24 @@ function ClassModal({closeModal,timeList, price}) {
     setSelectedDate(date);
   };
 
-  const handleTimeChange = (time) => {
+  const handleTimeChange = (time,timeIndex) => {
     setSelectedTime(time);
+    setTimeIndex(timeIndex);
   }    
                   
   const handlePayment=()=>{
    
 
     const reservation = {
+      reservationType : "EDU",
       reservationDate : formattedDate, 
+      reservationAddress : oneEdu.eduFullAddress,
       reservationUserCount : count,
-      reservationPrice :  count*price,
-      reservationType : "EDU"
-
+      reservationPrice :  oneEdu.eduPrice,
+      eduLevel : oneEdu.eduLevel,
+      userId : oneEdu.userId,
+      userId : oneEdu.eduId,
+      reservationTimeId : timeIndex
     };
     
     console.log("click button : ", reservation);
@@ -69,23 +74,23 @@ function ClassModal({closeModal,timeList, price}) {
               <ClassCalendar className='datePicker' handleDateChange={handleDateChange} startTime={startTime} EndTime={EndTime}/>
             </div>
 
-                {timeList.map((time, index) => {
+                {oneEdu.timeList.map((time, index) => {
                   const timeDate = new Date(time.timeDate);
                   const selectedLocalDate = selectedDate ? new Date(selectedDate.getTime() - (selectedDate.getTimezoneOffset() * 60000)) : null;
 
                   if (selectedLocalDate && timeDate.getTime() === selectedLocalDate.getTime()) {
                     return (
-                      <div className='class-select-time' key={index}>
-                        <div className='selected-time' onClick={() => handleTimeChange(`${time.timeStart}~${time.timeEnd}`)}>
+                      <div className='class-select-time' key={oneEdu.timeList[index].timeId}>
+                        <div className='selected-time' onClick={() => handleTimeChange(`${time.timeStart}~${time.timeEnd}`,`${oneEdu.timeList[index].timeId}` )}>
                           {time.timeStart}~{time.timeEnd}
                         </div>
-                        <div className='selected-time'>남은 인원: {timeList[index].timeMaxUser - timeList[index].timeCurrentUser}명</div>
+                        <div className='selected-time'>남은 인원: {oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser}명</div>
                         
-                        {classTimes.map((time, index) => (
-                          <div key={index} className='selected-time' onClick={() => handleTimeChange(time)}>
+                        {/* {classTimes.map((time, index) => (
+                          <div key={index} className='selected-time' onClick={() => handleTimeChange(time,oneEdu.timeList[index].timeId)}>
                             {time}
                           </div>
-                        ))}
+                        ))} */}
                       </div>
                     );
                   }
@@ -114,7 +119,7 @@ function ClassModal({closeModal,timeList, price}) {
                   </ul>
                   <div className='total-price'>
                     <span>결제 총계 </span>
-                    <span> {count*price}원 </span>
+                    <span> {count*oneEdu.eduPrice}원 </span>
                   </div>
                 <p className='total-result'>{formattedDate} {selectedTime} / {count}명</p>
                 <button className='class-pay-btn custom-button' onClick={handlePayment}>결제하기</button>
