@@ -30,7 +30,7 @@ useEffect(() => {
         // 에러 처리
         console.error('Error:', error);
     });
-}, [validationList]);
+}, []);
 
 //검증요청 승인하는 함수
 const updateValidation = (e) =>{
