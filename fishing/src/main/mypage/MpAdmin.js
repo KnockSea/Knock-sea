@@ -1,9 +1,31 @@
 import React from 'react'
 import './MpScss/MpAdmin.scss'
 import { Link } from 'react-router-dom'
+import { useState,useEffect } from 'react'
 
 
 const MpAdmin = () => {
+
+    const [validationList, setValidationList] = useState([]);
+    const [validationType , setvalidationTtpe] = useState('SHIP');
+
+    // API 요청
+useEffect(() => {
+        fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
+        .then(response => response.json())
+        .then(data => {
+            // 요청 결과 처리
+            console.log(data);
+            setValidationList(data);
+            console.log('validationList : ',validationList);
+        })
+        .catch(error => {
+            // 에러 처리
+            console.error('Error:', error);
+        });
+  }, [validationList]);
+
+
   return (
 <section>
 
@@ -25,14 +47,15 @@ const MpAdmin = () => {
 
             {/* 본문내용 */}
             <div className='ctntext'>
-                <div className='ctntextbox1'>
-                <div>dasdas</div>
-                <div>선박등록이미지</div>
-                <div>12-**-1213</div>
-                <div>75-454-44577-45</div>
-                <div>대기</div>
-                <div>2023-06-21</div>
+                {validationList.length > 0 ? (validationList.map(validation => (<div key={validation.validationId}>
+                {validation.validationShipRegi ? (<div>{validation.validationShipRegi}</div>) : (<div>선박등록이미지 없음</div>)}
+                {validation.validationShipLicense ? (<div>{validation.validationShipLicense}</div>) : (<div>선박면허증 없음</div>)}
+                <div>
+                    <button>승인</button>
+                    <button>취소</button>
                 </div>
+                <div>{validation.validationStatus}</div>
+                </div>))) : (<div>데이터 없음</div>)}
             </div>
         </div>
     </div>
