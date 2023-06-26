@@ -6,7 +6,7 @@ function MpReviewList() {
       const [reviews, setReviews] = useState([]);
       const [token, setToken] = useState(getLoginUserInfo().token);
       const [page, setPage] = useState(1);
-      const [size, setSize] = useState(10);
+      const [size, setSize] = useState(3);
       const fetchData = () => {
         fetch(`http://localhost:8012/api/v1/reviews/myReview?page=${page}&size=${size}`, {
           method: 'GET',
@@ -30,7 +30,7 @@ function MpReviewList() {
       
       useEffect(() => {
         fetchData();
-      }, [page, size]);
+      }, [page, size, reviews.length]);
       
    
      

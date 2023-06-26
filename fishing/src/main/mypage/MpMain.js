@@ -107,17 +107,15 @@ const MpMain = () => {
                     </div>
 
 
-
+{/* 
                 <div className='rvbox'>
-                       <h2>리뷰 게시판</h2>
-                       <p>아직 작성된 리뷰가 없습니다</p>
                        <MpReFormItem/>
-                </div>
-
+                </div> */}
+                {userInfo.userGrade==='OWNER' || userInfo.userGrade==='COMMON' &&(
                 <div className='rvbox'>
                     <MpReviewList />
                 </div>
-
+                )}
                 {userInfo.userGrade==='OWNER' &&(<div className='rvbox2'>
                     <div className='inner-rvbox2'>
                         <div>
