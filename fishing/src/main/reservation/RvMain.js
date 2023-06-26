@@ -19,14 +19,14 @@ function RvMain({fetchFsProduct, FsProduct}) {
   const [products, setProducts] = useState(FsProduct);
   const type = 'SHIP';
 
-  
+  console.log('안녕 나는 rvmain이야 ');
   
   useEffect(() => {
-    fetchFsProduct(page, size, type);
-    
-    console.log(products);
-  },[fetchFsProduct, page, size, type]);
+    // fetchFsProduct(page, size, type);
+    setProducts(FsProduct);    
+  },[FsProduct]);
   
+  console.log('얘는 존재 해?', FsProduct);
 
   return (
     <div>
@@ -34,7 +34,7 @@ function RvMain({fetchFsProduct, FsProduct}) {
             <div className='rvContent'>                
               <div className='cardBox'>
                 <RvItem                 
-                product={FsProduct}
+                productDetail={FsProduct}
                 />
               </div>
             </div>
@@ -42,7 +42,7 @@ function RvMain({fetchFsProduct, FsProduct}) {
             <div>위치 확인하기</div>
               <div className='mapbox'>
                 <RvMap
-                  product={FsProduct} 
+                  productDetail={FsProduct} 
                 />
               </div>
             </div>
@@ -52,4 +52,4 @@ function RvMain({fetchFsProduct, FsProduct}) {
   )
 }
 
-export default RvMain
+export default RvMain;

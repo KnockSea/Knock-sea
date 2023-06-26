@@ -11,11 +11,13 @@ import { API_BASE_URL, PRODUCTS, SHIP } from '../../config/host-config';
 
 const RvItem = ({productDetail}) => {
 
-  const [pro, setPro] = useState(productDetail);
-
+  // const [pro, setPro] = useState(productDetail);
+  
+  // console.log('안녕 나는 rvItem이야 ', productDetail);
+  const productList = productDetail.productDetail;
   return (
     <div className='shipsection'>
-      {!pro && pro.map((product, index) => (
+      {productList && productList.map((product, index) => (
         <div key={index} className='contentCard'>          
   
           <Link to={`/detail/${product.productId}`}>
