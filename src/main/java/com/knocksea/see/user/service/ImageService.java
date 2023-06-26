@@ -2,7 +2,12 @@ package com.knocksea.see.user.service;
 
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.aws.S3Service;
+import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
+import com.knocksea.see.edu.entity.Edu;
+import com.knocksea.see.edu.repository.EduRepository;
+import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ProductCategory;
+import com.knocksea.see.product.repository.ProductRepository;
 import com.knocksea.see.user.entity.FishingSpot;
 import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.Ship;
@@ -28,6 +33,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.knocksea.see.validation.entity.ValidationType.SHIP;
@@ -39,11 +45,10 @@ import static com.knocksea.see.validation.entity.ValidationType.SPOT;
 @Transactional
 public class ImageService {
 
-    //아마존 s3 접근용
-    private final S3Service s3Service;
 
     //배정보 얻기용
     private final ShipRepository shipRepository;
+    private final ProductRepository productRepository;
 
     //이미지 저장용
     private final ImageRepository imageRepository;
@@ -52,32 +57,31 @@ public class ImageService {
 
     private final ValidationRepository validationRepository;
 
+    private final EduRepository eduRepository;
+    private final S3Service s3Service;
+
+
     @Value("${upload.path}")
     private String uploadRootPath2;
+
+    @Value("${aws.bucketName}")
+    private String bucket;
 
 
     //DB에 선박 이미지경로 저장함수
     public void saveShipImages(List<MultipartFile> shipImages, TokenUserInfo userInfo) throws IOException {
 
-        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("유저 없어 새꺄"));
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
         Ship foundShipByUserId = shipRepository.findByUser(user);
-
-        List<String> uniqueFileNames = new ArrayList<>();
-
-        //실제로 배 이미지 저장하기
-        for (MultipartFile shipImage : shipImages) {
-            //파일명을 유니크하게 변경
-            String uniqueFileName = UUID.randomUUID() + "_" + shipImage.getOriginalFilename();
-            String s = s3Service.uploadToS3Bucket(shipImage.getBytes(), uniqueFileName);
-            uniqueFileNames.add(s);
-        }
-
+        log.warn("유저123 : {} ", foundShipByUserId);
+        List<String> urls = uploadShipImage(shipImages);
+        log.warn("이미지 이름333 : {} ", urls.toArray());
         Long typeNumber = 1L;
 
-        for (String string : uniqueFileNames) {
+        for (String url : urls) {
             SeaImage save = imageRepository.save(SeaImage
                     .builder()
-                    .imageName(string)
+                    .imageName(url)
                     .ship(foundShipByUserId)
                     .typeNumber(typeNumber++)
                     .imageType(ProductCategory.SHIP).build());
@@ -86,40 +90,13 @@ public class ImageService {
     }
 
 
-//    //배 실제 이미지 저장함수
-//    public List<String> uploadShipImage(List<MultipartFile> shipImages) throws IOException {
-//        //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
-//        List<String> uniqueFilenames = new ArrayList<>();
-//
-////        String s = makeDateFormatDirectory(uploadRootPath2);
-//
-//
-//        for (MultipartFile shipImage : shipImages) {
-//            String originalFilename = shipImage.getOriginalFilename();
-//            String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
-//
-//            // Save the file
-////            File uploadFile = new File(s+"/"+uniqueFileName);
-////            shipImage.transferTo(uploadFile);
-//
-//            uniqueFilenames.add(uniqueFileName);
-//
-//        }
-//
-//        for (String uniqueFilename : uniqueFilenames) {
-//            s3Service.uploadToS3Bucket(uniqueFilename.getBytes(), uniqueFilename);
-//        }
-//
-//        return uniqueFilenames;
-//
-//    }
-
-    public void saveValidationImg(List<MultipartFile> validationImg, ValidationCreateDTO dto) throws IOException {
-        User user = userRepository.findById(dto.getUserId())
+    //검증테이블 이미지 저장
+    public void saveValidationImg(List<MultipartFile> validationImg, ValidationCreateDTO dto,TokenUserInfo userInfo) throws IOException {
+        User user = userRepository.findById(userInfo.getUserId())
                 .orElseThrow(() -> new RuntimeException("ImageService : 존재하지 않는 유저입니다."));
         log.info("ImageService user : " + user);
 
-        List<Validation> fondByUserAndValidationType = validationRepository.findByUserAndValidationType(user, dto.getValidationType());
+        Validation fondByUserAndValidationType = validationRepository.findByUserAndValidationType(user, dto.getValidationType());
         log.info("fondByUserAndValidationType : "+fondByUserAndValidationType);
 
         List<String> listValidationImg = uploadValidationImage(validationImg);
@@ -129,15 +106,15 @@ public class ImageService {
             log.info("SHIP 들어옴");
             imageRepository.save(
                     SeaImage.builder()
-                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(0))
-                            .validation(fondByUserAndValidationType.get(0))
+                            .imageName(listValidationImg.get(0))
+                            .validation(fondByUserAndValidationType)
                             .imageType(ProductCategory.VALIDATIONSHIPREGI)
                             .build());
 
             imageRepository.save(
                     SeaImage.builder()
-                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(1))
-                            .validation(fondByUserAndValidationType.get(0))
+                            .imageName(listValidationImg.get(1))
+                            .validation(fondByUserAndValidationType)
                             .imageType(ProductCategory.VALIDATIONSHIPLICENSE)
                             .build());
 
@@ -145,8 +122,8 @@ public class ImageService {
             log.info("SPOT 들어옴");
            imageRepository.save(
                     SeaImage.builder()
-                            .imageName(makeDateFormatDirectory(uploadRootPath2)+"/"+ listValidationImg.get(0))
-                            .validation(fondByUserAndValidationType.get(0))
+                            .imageName(listValidationImg.get(0))
+                            .validation(fondByUserAndValidationType)
                             .imageType(ProductCategory.VALIDATIONBUSINESSREGI)
                             .build());
         }
@@ -157,17 +134,16 @@ public class ImageService {
         //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
         List<String> uniqueFilenames = new ArrayList<>();
 
-        String s = makeDateFormatDirectory(uploadRootPath2);
+//        String s = makeDateFormatDirectory(uploadRootPath2);
 
         for (MultipartFile validationImage : validationImg) {
             String originalFilename = validationImage.getOriginalFilename();
             String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
 
-            // Save the file
-            File uploadFile = new File(s+"/"+uniqueFileName);
-            validationImage.transferTo(uploadFile);
+            //aws 이미지 저장
+            String s1 = s3Service.uploadToS3Bucket(validationImage.getBytes(), uniqueFileName);
 
-            uniqueFilenames.add(uniqueFileName);
+            uniqueFilenames.add(s1);
         }
         return uniqueFilenames;
     }
@@ -178,18 +154,19 @@ public class ImageService {
         //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
         List<String> uniqueFilenames = new ArrayList<>();
 
-        String s = makeDateFormatDirectory(uploadRootPath2);
-
+//        String s = makeDateFormatDirectory(uploadRootPath2);
+        log.warn("이미지 s3 저장 시키는거");
 
         for (MultipartFile shipImage : shipImages) {
-            String originalFilename = shipImage.getOriginalFilename();
-            String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
+            log.warn("널뜨냐?");
+            String uniqueFileName = UUID.randomUUID() + "_" + shipImage.getOriginalFilename();
 
+            String realUrl = s3Service.uploadToS3Bucket(shipImage.getBytes(), uniqueFileName);
             // Save the file
-            File uploadFile = new File(s+"/"+uniqueFileName);
-            shipImage.transferTo(uploadFile);
+//            File uploadFile = new File(s+"/"+uniqueFileName);
+//            shipImage.transferTo(uploadFile);
 
-            uniqueFilenames.add(uniqueFileName);
+            uniqueFilenames.add(realUrl);
 
         }
 
@@ -199,26 +176,17 @@ public class ImageService {
 
 
 
-
     //db에 이미지 경로 저장함수
     public void saveSpotImages(List<MultipartFile> spotImages, TokenUserInfo userInfo) throws IOException {
 
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("유저가 존재하지않습니다"));
         FishingSpot findBySpot = fishingSpotRepository.findByUser(user);
 
-        List<String> uniqueFileNames = new ArrayList<>();
-
-        //실제로 낚시터 이미지 저장하기
-        for (MultipartFile spotImage : spotImages) {
-            //파일명을 유니크하게 변경
-            String uniqueFileName = UUID.randomUUID() + "_" + spotImage.getOriginalFilename();
-            String s = s3Service.uploadToS3Bucket(spotImage.getBytes(), uniqueFileName);
-            uniqueFileNames.add(s);
-        }
+        List<String> strings = uploadSpotImage(spotImages);
 
         Long typeNumber = 1L;
 
-        for (String string : uniqueFileNames) {
+        for (String string : strings) {
             SeaImage save = imageRepository
                     .save(SeaImage.builder()
                             .imageName(string)
@@ -228,32 +196,33 @@ public class ImageService {
 
         }
 
+
+
     }
 
-//    //낚시터 실제 이미지 저장함수
-//    private List<String> uploadSpotImage(List<MultipartFile> spotImages) throws IOException {
-//        //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
-//        List<String> uniqueFilenames = new ArrayList<>();
-//
-//        String s = makeDateFormatDirectory(uploadRootPath2);
-//
-//
-//        for (MultipartFile spotImage : spotImages) {
-//            String originalFilename = spotImage.getOriginalFilename();
-//            String uniqueFileName = UUID.randomUUID() + "_" + originalFilename;
-//
-//            // Save the file
+    //낚시터 실제 이미지 저장함수
+    private List<String> uploadSpotImage(List<MultipartFile> spotImages) throws IOException {
+        //루트 디렉토리가 존재하는지 확인후 존재하지않으면 생성하는 코드
+        List<String> uniqueFilenames = new ArrayList<>();
+
+
+        for (MultipartFile spotImage : spotImages) {
+            log.warn("널뜨냐?");
+            String uniqueFileName = UUID.randomUUID() + "_" + spotImage.getOriginalFilename();
+
+            String realUrl = s3Service.uploadToS3Bucket(spotImage.getBytes(), uniqueFileName);
+            // Save the file
 //            File uploadFile = new File(s+"/"+uniqueFileName);
-//            spotImage.transferTo(uploadFile);
-//
-//            uniqueFilenames.add(uniqueFileName);
-//
-//        }
-//
-//
-//        return uniqueFilenames;
-//
-//    }
+//            shipImage.transferTo(uploadFile);
+
+            uniqueFilenames.add(realUrl);
+
+        }
+
+
+        return uniqueFilenames;
+
+    }
 
     /*
      * 루트 경로를 받아서 일자별로 폴더를 생성하 후
@@ -369,6 +338,52 @@ public class ImageService {
                     .typeNumber(typeNumber++)
                     .imageType(ProductCategory.SPOT).build());
         }
+
+    }
+
+    public void saveEduImg(List<MultipartFile> eduImg, Long userId) throws IOException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new RuntimeException("유저 없음"));
+
+        Edu byUserUserId = eduRepository.findByUserUserId(user);
+
+        List<String> list=new ArrayList<>();
+
+        for (MultipartFile s : eduImg) {
+            String uniqueFileName=UUID.randomUUID()+"_"+s.getOriginalFilename();
+            String s1 = s3Service.uploadToS3Bucket(s.getBytes(), uniqueFileName);
+            list.add(s1);
+        }
+
+        for (String s : list) {
+            SeaImage save = imageRepository.save(SeaImage.builder()
+                    .imageName(s)
+                    .edu(byUserUserId)
+                    .imageType(ProductCategory.EDU)
+                    .build());
+        }
+    }
+
+    public void saveProductImg(List<MultipartFile> productImages, TokenUserInfo userInfo, Product product) throws IOException {
+
+        List<String> list = new ArrayList<>();
+
+        for (MultipartFile s : productImages) {
+            String uniqueFileName=UUID.randomUUID()+"_"+s.getOriginalFilename();
+            String s1 = s3Service.uploadToS3Bucket(s.getBytes(), uniqueFileName);
+            list.add(s1);
+        }
+
+        for (String s : list) {
+            SeaImage save = imageRepository.save(SeaImage.builder()
+                    .imageName(s)
+                    .product(product)
+                    .imageType(ProductCategory.valueOf(product.getProductType()))
+                    .build());
+        }
+    }
+
+    public void deleteEduImg(List<MultipartFile> Img, Long userId){
 
     }
 

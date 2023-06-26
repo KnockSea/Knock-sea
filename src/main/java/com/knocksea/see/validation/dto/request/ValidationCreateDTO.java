@@ -20,7 +20,7 @@ import static com.knocksea.see.validation.entity.ValidationStatus.WAIT;
 @NoArgsConstructor
 @Builder @Slf4j
 public class ValidationCreateDTO {
-    private Long userId;
+//    private Long userId;
     private ValidationType validationType; //SHIP/SPOT
     private String validationShipRegi; //선박등록증 번호 //배 등록때만 사용
     private String validationShipLicense; //선박면허증 번호 //배 등록때만 사용

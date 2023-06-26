@@ -1,39 +1,43 @@
 import React, { useEffect, useState } from 'react'
 import { NsHeader } from '../NsHeader'
 import RvMain from './RvMain'
-import { API_BASE_URL, PRODUCTS, SHIP } from '../../config/host-config';
+
+import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
 function RvTemplate() {
 
-  const [shipInfo, setShipInfo] = useState(null);
+  const [Fsproduct , setFsproduct] = useState(null);
 
-  const [product, setproduct] = useState(null);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(6);  
+  const [type, setType] = useState("SHIP");
+  console.log('안녕 나는 rvtemplate이야', Fsproduct);
+  // 배 상품 정보를 전체 가져오는 함수
+  const fetchFsProduct = async ({p,s,t}) => {
+    console.log('안녕 나는 rvtemplate fetch야');
+    
+      fetch(`${API_BASE_URL}${PRODUCTS}/product-list?page=${page}&size=${size}&type=${type}`)
+          .then(response => response.json())
+          .then(res => {
+            setFsproduct(res);
+            
+        });    
+      
+    
+  };
 
-
-
-  // useEffect(() => {
-  //   // 배 정보를 가져오는 함수
-  //   const fetchProduct = async () => {
-  //     try {
-  //       const response = await fetch(`${API_BASE_URL}${PRODUCTS}/`);
-  //       const data = await response.json();
-  //       // setShipInfo(data);
-  //     } catch (error) {
-  //       console.error('Error fetching ship info:', error);
-  //     }
-  //   };
-
-  //   // fetchShipInfo();
-  // }, []);
-
-
+  useEffect(() => {
+    fetchFsProduct({ p: page, s: size, t: type });
+  }, []);
 
   return (
 
+    Fsproduct &&
     <div>
         <NsHeader />
         <RvMain
-        shipInfo={shipInfo}
+        fetchFsProduct={fetchFsProduct}
+        FsProduct={Fsproduct}
         />
     </div>
 

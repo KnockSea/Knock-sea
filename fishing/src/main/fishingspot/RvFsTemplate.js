@@ -1,13 +1,48 @@
-import React from 'react'
+import React ,{ useEffect, useState} from 'react'
 import { NsHeader } from '../NsHeader'
 import RvFsMain from './RvFsMain'
+import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
+
 
 function RvFsTemplate() {
-  return (
 
+  const [Fsproduct , setFsproduct] = useState(null);
+
+  const [page, setPage] = useState();
+  const [size, setSize] = useState();
+  
+  const [type, setType] = useState("SPOT");
+  // 낚시터 상품 정보 전체를 가져오는 함수
+  const fetchFsProduct = async ({p,s,t}) => {
+    try {
+
+      fetch(`${API_BASE_URL}${PRODUCTS}/product-list`)
+        .then(response => response.json())
+        .then(res => {
+          setFsproduct(res);
+          
+      });      
+
+    }catch (error) {
+      console.error('Error fetching Fsproduct info:', error);
+    }
+    
+  };
+  
+  useEffect(() => {
+
+
+  }, [page, size]);
+
+
+  return (
+    !Fsproduct &&
     <div>
         <NsHeader />
-        <RvFsMain />
+        <RvFsMain 
+        fetchFsProduct={fetchFsProduct}
+        FsProduct={Fsproduct}
+        />
     </div>
 
   )

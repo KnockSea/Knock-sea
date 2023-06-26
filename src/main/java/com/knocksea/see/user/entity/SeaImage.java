@@ -1,6 +1,8 @@
 package com.knocksea.see.user.entity;
 
 import com.knocksea.see.edu.entity.Edu;
+import com.knocksea.see.edu.repository.EduRepository;
+import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ProductCategory;
 import com.knocksea.see.validation.entity.Validation;
 import lombok.*;
@@ -43,4 +45,13 @@ public class SeaImage {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "validation_id")
     private Validation validation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "edu_id")
+    private Edu edu;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
 }

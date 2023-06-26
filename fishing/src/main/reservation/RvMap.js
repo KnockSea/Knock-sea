@@ -1,33 +1,39 @@
 /* global kakao */
 import React, { useEffect } from "react";
-import { Map , MapMarker} from "react-kakao-maps-sdk";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 const { kakao } = window;
 
-const RvMap = () => {
-//   useEffect(() => {
-//     let container = document.getElementById("map");
+const RvMap = ({ productDetail }) => {
+  useEffect(() => {
+    const container = document.getElementById("map");
+    const options = {
+      center: new kakao.maps.LatLng(35.85133, 127.734086),
+      level: 13,
+    };
+    const map = new kakao.maps.Map(container, options);
 
-//     let options = {
-//       center: new window.kakao.maps.LatLng(35.85133, 127.734086),
-//       level: 13,
-//     };
+    // 주소 검색 결과를 순회하며 좌표값을 가져와 마커를 생성합니다.
+    productDetail.allAddress.forEach((address) => {
+      const geocoder = new kakao.maps.services.Geocoder();
 
-//     let map = new window.kakao.maps.Map(container, options);
-
-//     console.log("loading kakaomap");
-//   }, []);
+      geocoder.addressSearch(address.productLocationInfo, (result, status) => {
+        if (status === kakao.maps.services.Status.OK) {
+          const markerPosition = new kakao.maps.LatLng(
+            result[0].y,
+            result[0].x
+          );
+          const marker = new kakao.maps.Marker({
+            position: markerPosition,
+          });
+          marker.setMap(map);
+        }
+      });
+    });
+  }, [productDetail]);
 
   return (
-    <Map 
-    center={{ lat: 35.5, lng: 130.5 }} // 대한민국 중심 좌표
-    style={{ width: '800px', height: '600px' }} // 지도 크기
-    level={13} // 지도 확대 레벨
-  >
-
-
-    
-      <MapMarker position={{ lat: 33.55635, lng: 126.795841 }}> 안녕</MapMarker> // 마커 좌표
-  </Map>);
+    <div id="map" style={{ width: "800px", height: "600px" }}></div>
+  );
 };
 
 export default RvMap;

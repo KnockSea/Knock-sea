@@ -25,7 +25,7 @@ public class InquiryDetailResponseDTO {
 
     private String userName;
 
-    private String title;
+    private String inquiryTitle;
 
     public InquiryDetailResponseDTO(Inquiry inquiry) {
         this.inquiryId = inquiry.getInquiryId();
@@ -33,7 +33,7 @@ public class InquiryDetailResponseDTO {
         this.inquiryDateTime = inquiry.getInquiryDateTime();
         this.userId = inquiry.getUser().getUserId();
         this.userName = inquiry.getUser().getUserName();
-        this.title = inquiry.getInquiryTitle();
+        this.inquiryTitle = inquiry.getInquiryTitle();
     }
 }
 

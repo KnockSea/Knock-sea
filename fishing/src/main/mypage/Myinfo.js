@@ -76,10 +76,9 @@ function Myinfo () {
         setuseremail(e.target.value);
       }
       //사진 파일값 읽어오는 함수
-      const handleFileChange = (event) => {
+      const handleFileChange = (e) => {
          //첨부된 파일 정보
-  
-        const file = event.target.files[0];
+        const file = e.target.files[0];
         console.log(file);
         setSelectedFile(file);
       };
@@ -94,7 +93,6 @@ function Myinfo () {
       userPhone: userphone,
       userAddress: userAddress,
       userFullAddress: userFullAddress,
-      // userFullAddress: '뉴욕',
       userName: username,
     };
 
@@ -121,17 +119,20 @@ function Myinfo () {
     if(res.status===200){
       alert('회원정보수정에 성공했습니다')
       //window.location.href = '/login';
+      localStorage.clear();
       redirection('/');
+    }else if(res.status==500){
+      const errorResponse = await res.json(); // Parse error response as JSON
+      alert('이메일이 중복되었습니다!');
     }else{
-      alert('서버와의 통신이 원활하지 않습니다')
+      alert('서버와의 접속이 원활하지않습니다');
     }
-
 };
 
 
       //버튼누르면 수정요청 보내는 함수
       const modifyHandler = () =>{
-        const confirm = window.confirm('정말 수정하시겠습니까?');
+        const confirm = window.confirm('정말 수정하시겠습니까? (정보수정후에 재 로그인하셔야합니다)');
         if(confirm){
           fetchSignUpPost();
           console.log(userInfo.token);
@@ -140,11 +141,19 @@ function Myinfo () {
       }
 
      
-  useEffect(() => {
-    const user = getLoginUserInfo();
-    console.log(user);
-    setUserInfo(user);
-  }, []);
+      useEffect(() => {
+        const fetchUserInfo = async () => {
+          const user = await getLoginUserInfo();
+          setUserInfo(user);
+          setuserAddress(user.userAddress);
+          setuseremail(user.userEmail);
+          setusername(user.userName);
+          setuserFullAddress(user.userFullAddress);
+          setuserphone(user.userPhone);
+        };
+      
+        fetchUserInfo();
+      }, [getLoginUserInfo]);
 
 
   return (
@@ -152,15 +161,12 @@ function Myinfo () {
     <section className='MyPageBox'>
     <div className='box1'>
 
-                <h1>정보 수정하기</h1>
+            <h1>정보 수정하기</h1>
             <div className='userbox'>
             <div className='name'>
                 <div className='title'>이름</div>
               <div className='inputbox'>  
-              <input
-                placeholder="이름"
-                {...userInfo.userName}
-                onChange={usernameHandler} /> 
+              <input placeholder="이름" onChange={usernameHandler} value={username}/>
               </div>
             </div>
 
@@ -168,17 +174,13 @@ function Myinfo () {
             <div className='title'>이메일</div>
             <input
                 placeholder="이메일"
-                {...userInfo.userEmail}
-                onChange={userEmailHandler} /> 
+                onChange={userEmailHandler} value={useremail}/> 
                 <button className='btn1'><Link to={'/mypassword'}>비밀번호 변경</Link></button> 
-
             </div>
             <div className='phoneNum'>
             <div className='title'>전화번호</div>
-            <input
-                placeholder="전화번호"
-                {...userInfo.userphone}
-                onChange={userphoneHandler} /> 
+            <input placeholder="전화번호" onChange={userphoneHandler} value={userphone} />
+
             </div>
 
             <div className='addr'>
@@ -201,12 +203,9 @@ function Myinfo () {
                       </div>
                       <span 
                           className='postSee' 
-                          style={{marginLeft:"10px", fontSize:"15px"}}>
-                            {userAddress}
-//                           style={{marginLeft:"10px", fontSize:"15px"}}
-//                           onChange={(e) => setuserAddress(e.target.value)}>
-//                             {userAddress}
-    
+                          style={{marginLeft:'10px', fontSize:'15px'}}>
+                            
+                    {userAddress}                     
                       </span>
                       </div>
                       <input

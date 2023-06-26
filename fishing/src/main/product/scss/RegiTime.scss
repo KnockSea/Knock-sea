@@ -1,0 +1,34 @@
+.RegiTime {
+    * {
+        margin-right: 5px;
+    }
+    select {
+        width: 60px;
+        height: 28px;
+        border: 1px solid #a8a8a8;
+        border-radius: 10px;
+    }
+    .convertedTimeBtn {
+        border: none;
+        border-radius: 25px;
+        background: #8d8d8d;
+        padding: 3px;
+        margin: 0 8px;
+        color: white;
+        font-size: 11px;
+        line-height: 19px;
+    
+        &:hover {
+            background: #123282;
+        }
+    }
+    
+    .convertedTimeSpan {
+        width: 133px;
+        height: 18px;
+        font-size: 13px;
+    }
+
+}
+
+

@@ -1,8 +1,6 @@
 import React, { useState, useRef } from 'react';
 
-const ProfileUpload = ({getFile}) => {
-
-  
+const ProfileUpload = ({ getFile }) => {
   const [profileImg, setProfileImg] = useState(
     'https://cdn-icons-png.flaticon.com/128/5599/5599433.png'
   );
@@ -12,25 +10,27 @@ const ProfileUpload = ({getFile}) => {
   };
 
   const handleFileChange = (e) => {
-    const files = e.target.files[0];
+    const files = e.target.files;
 
-    const reader = new FileReader();
-    reader.readAsDataURL(files);
+    if (files && files[0]) {
+      const reader = new FileReader();
+      reader.readAsDataURL(files[0]);
 
-    reader.onloadend = () => {
-      setProfileImg(reader.result);
-
-      getFile(files);
-    };
-  };
+      reader.onloadend = () => {
+        setProfileImg(reader.result);
+        getFile(files[0]);
+      };
+    }
+  }
 
   return (
     <div>
-      <div className="profile" >
+      <div className="profile">
         <div className="thumbnail-box" onClick={handleProfileClick}>
           <img src={profileImg} alt="프로필 썸네일" />
         </div>
-        <label htmlFor="profile-img" onClick={handleProfileClick}>프로필 이미지</label>
+        <label htmlFor="profile-img">프로필 이미지</label>
+
       </div>
       <input
         id="profile-img"

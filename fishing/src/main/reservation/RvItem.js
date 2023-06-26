@@ -1,60 +1,64 @@
-import React from 'react'
-import './RvScss/RvItem.scss'
-import boat from '../img/boat.jpg'
+import React, { useState, useEffect } from 'react';
+import './RvScss/RvItem.scss';
+import boat from '../img/boat.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Bullseye, Calendar2Check, EmojiSmile, PersonVcard, CheckCircleFill } from 'react-bootstrap-icons';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import RvBtDetail from './RvBtDetail';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { API_BASE_URL, SHIP } from '../../config/host-config';
+
+import { API_BASE_URL, PRODUCTS, SHIP } from '../../config/host-config';
 
 
-const RvItem = ( {shipInfo}) => {
-    
+const RvItem = ({productDetail}) => {
+
+  // const [pro, setPro] = useState(productDetail);
   
-
-
-
-    // 배 이미지 가져오가
-    const [shipimg , setshipimg] = useState("");
-
-    useEffect(()=> {
-      fetch(`${API_BASE_URL}${SHIP}/getshipinfo`)
-      .then(reponse => reponse.text())
-      .then(shipimg => {
-        setshipimg(shipimg);
-      });
-    },[]);
-    // 이미지 가져오기 끝 
-
-
+  // console.log('안녕 나는 rvItem이야 ', productDetail);
+  const productList = productDetail.productDetail;
   return (
-    <div className='contentCard'>
-      <Link to={"/detail"}>
+    <div className='shipsection'>
+      {productList && productList.map((product, index) => (
+        <div key={index} className='contentCard'>          
+  
+          <Link to={`/detail/${product.productId}`}>
+            상세 보기
+            <div className='imgbox'>
+              <img src={product.mainImgUrl} alt="Ship" />
+            </div>
+            
+            <div className='cardTitle'>
+              <CheckCircleFill />
+              {product.title}
+            </div>
+            <br />
+            <div className='miniTitle'>
 
-    <div className='imgbox'>
-        <img src={setshipimg} />
-    
-    </div>
-    <div className='cardTitle'>
-    <CheckCircleFill />[제부도5시간] 카날리나 1호 쭈꾸미 낚시
-    </div>
-    <div className='miniTitle'>집결장소 제부도 주차장 1호</div>
-    <div className='miniContent'>
-    <Bullseye />차고지 : 제부도 주차장 &nbsp;
-    <PersonVcard/>
-    신분증 지참 &nbsp;
-    <EmojiSmile />
-     총 6명
-    </div>
-    <div className='calendar'>
-    <Calendar2Check style={{color:'#3974D9', float:'left',marginTop:'5'}}/> 130,000원
-    </div>
-      </Link>
-</div>
+              주소 : 
+              {/* {allAddress[index].productLocationInfo} */}
+              {product.locationInfo}
 
-  )
-}
+            </div>
+            <br />
+            <div className='miniContent'>
 
-export default RvItem
+              <Bullseye />상세 위치 : 
+              {/* {allAddress[index].productLocationInfo}  */}
+              {product.fullAddress}
+
+              &nbsp;
+              {/* <PersonVcard/> 신분증 지참 &nbsp; */}
+              <EmojiSmile /> 최대 {product.maxUser}명
+            </div>
+            <div className='calendar'>
+              <Calendar2Check style={{color:'#3974D9', float:'left',marginTop:'5'}}/>
+              {product.price}
+            </div>
+          </Link>
+        </div>
+      ))}
+
+    </div>
+  );
+};
+
+export default RvItem;

@@ -1,11 +1,11 @@
 package com.knocksea.see.validation.service;
 
-import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.user.entity.User;
-import com.knocksea.see.user.entity.UserGrade;
 import com.knocksea.see.user.repository.UserRepository;
 import com.knocksea.see.validation.dto.request.ValidationCreateDTO;
+import com.knocksea.see.validation.dto.request.validationModifyRequestDTO;
 import com.knocksea.see.validation.dto.response.ValidationListResponseDTO;
 import com.knocksea.see.validation.dto.response.ValidationRegisterResponseDTO;
 import com.knocksea.see.validation.entity.Validation;
@@ -21,7 +21,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.knocksea.see.validation.entity.ValidationStatus.*;
+import static com.knocksea.see.user.entity.UserGrade.OWNER;
 import static com.knocksea.see.validation.entity.ValidationStatus.YES;
 import static com.knocksea.see.validation.entity.ValidationType.SHIP;
 import static com.knocksea.see.validation.entity.ValidationType.SPOT;
@@ -36,8 +36,8 @@ public class ValidationService {
     private final ValidationRepository validationRepository;
 
 
-    public ValidationRegisterResponseDTO insert(final ValidationCreateDTO dto/*, TokenUserInfo userInfo*/) {
-        log.info("검증 정보 : ",dto);
+    public ValidationRegisterResponseDTO insert(final ValidationCreateDTO dto,/*, TokenUserInfo userInfo*/TokenUserInfo userInfo) {
+        log.info("검증 정보 : {}",dto);
         if(dto.getValidationType().equals(SHIP)){
             if(dto.getValidationShipRegi()==null||dto.getValidationShipLicense()==null){
                 throw new NoRegisteredArgumentsException("SHIP 검증에서 필수로 입력해야 하는 정보가 없습니다");
@@ -52,14 +52,14 @@ public class ValidationService {
         /* User user = userRepository.findById(userInfo.getUserId()).orElseThrow(()->
                 new RuntimeException("회원 정보가 없습니다")); */
 
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(()->
                 new RuntimeException("회원 정보가 없습니다"));
 
         //등록된 검증이 없다면 등록할 수 있게
         //유저 Id와 검증구분 동시에 사용
-        List<Validation> byUserAndValidationType = validationRepository.findByUserAndValidationType(user, dto.getValidationType());
+        Validation byUserAndValidationType = validationRepository.findByUserAndValidationType(user, dto.getValidationType());
         log.info("byUserAndValidationType : "+byUserAndValidationType);
-        if(byUserAndValidationType.isEmpty()){
+        if(byUserAndValidationType==null){
             //dto를 entity로 변환
             Validation savedValidation = validationRepository.save(dto.toValidationEntity(user));
             log.info("savedValidation : "+savedValidation);
@@ -89,21 +89,29 @@ public class ValidationService {
         return collectValidation;
     }
 
-    public EduDetailResponseDTO modifyStatus(String userName, ValidationStatus validationStatus) {
+    public ValidationStatus modifyStatus(validationModifyRequestDTO dto) {
+
+        String userName = dto.getUserName();
+        ValidationStatus validationStatus = dto.getValidationStatus();
+        ValidationType validationType=dto.getValidationType();
 
         User user = userRepository.findByUserName(userName);
-        Validation validation = validationRepository.findByUser_UserId(user.getUserId());
+        Validation validation = validationRepository.findByUserAndValidationType(user, validationType);
 
-        //validationStatus이 YES
-        //validationStatus이 NO
-
-        if(validationStatus== YES){ //=> UserGrade를 OWNER로, ValidationType YES로 변경
-
-        }else if(validationStatus== NO){ //=>  validationStatus NO로 변경
-
+        Validation save=null;
+        if(validationStatus== YES){
+            user.setUserGrade(OWNER);
+            User userSaved = userRepository.save(user);
         }
+        return changeValidationStatus(validation,dto);
 
-
-        return null;
     }
+
+    //검증 상태 변경
+    public ValidationStatus changeValidationStatus(Validation validation,validationModifyRequestDTO dto){
+        validation.update(dto);
+        Validation validationSaved = validationRepository.save(validation);
+        return validationSaved.getValidationStatus();
+    }
+
 }

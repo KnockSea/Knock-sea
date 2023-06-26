@@ -1,9 +1,13 @@
 package com.knocksea.see.validation.entity;
 
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.validation.dto.request.validationModifyRequestDTO;
 import lombok.*;
 
 import javax.persistence.*;
+
+import java.util.List;
 
 import static com.knocksea.see.validation.entity.ValidationStatus.WAIT;
 
@@ -45,4 +49,12 @@ public class Validation {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ToString.Exclude
+    @OneToMany(mappedBy = "validation", cascade = CascadeType.REMOVE)
+    private List<SeaImage> seaImages;
+
+
+    public void update(validationModifyRequestDTO dto) {
+        this.validationStatus=dto.getValidationStatus();
+    }
 }

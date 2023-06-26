@@ -6,8 +6,20 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Link } from 'react-router-dom';
+import { getLoginUserInfo } from '../util/login-util';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function MpModal() {
+export default function MpModal({ user }) {
+
+//화면이동 함수
+  const navi = useNavigate();  
+
+  const { email, password } = user;
+  console.log(email);
+  console.log(password);
+  console.log(getLoginUserInfo().token);
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -16,6 +28,42 @@ export default function MpModal() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+
+
+
+
+  // //회원탈퇴하는 함수
+  const deleteuser = async () => {
+    const userDeleteRequest = {
+      userEmail: email, // 사용자 이메일 입력
+      userPassword: password // 사용자 비밀번호 입력
+    };
+
+    try {
+      const res = await fetch('http://localhost:8012/api/v1/user/userDelete', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userDeleteRequest)
+      });
+
+      if (res.status === 200) {
+        const json = await res.json();
+        alert('회원을 삭제했습니다.');
+        localStorage.clear();
+        navi('/');
+      } else if(res.status===400){
+        alert('서버와의 통신오류가있습니다');
+      }else{
+        alert('비밀번호가 다릅니다');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -47,7 +95,7 @@ export default function MpModal() {
           <Button onClick={handleClose} 
           style={{color:'red'}}
           autoFocus>
-           <Link to={'/drop'} style={{textDecoration:'none'}}> 탈퇴하기</Link>
+           <Link to={'/drop'} style={{textDecoration:'none'}} onClick={deleteuser}> 탈퇴하기</Link>
           </Button>
         </DialogActions>
       </Dialog>

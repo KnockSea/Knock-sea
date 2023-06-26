@@ -28,6 +28,7 @@ public class ProductDetailResponseDTO {
     private String info;
     private String locationInfo;
     private Long userId;
+    private int maxUser;
 
     // 예약 가능 시간 list있어야함
     // -> 예약 가능 시간 dto만들어서 그걸 list화 해야 되겠는데?
@@ -35,7 +36,12 @@ public class ProductDetailResponseDTO {
 
     private List<ReviewDetailResponseDTO> reviewList;
 
-    public ProductDetailResponseDTO(Product product) {
+    // 이미지 경로들
+    private List<String> imgUrl;
+
+    private String mainImgUrl;
+
+    public ProductDetailResponseDTO(Product product, String imageName, int timeMaxUser) {
         this.productId = product.getProductId();
         this.title = product.getProductTitle();
         this.price = product.getProductPrice();
@@ -45,14 +51,18 @@ public class ProductDetailResponseDTO {
         this.info = product.getProductInfo();
         this.locationInfo = product.getProductLocationInfo();
         this.userId = product.getUser().getUserId();
+        this.maxUser = timeMaxUser;
+        this.mainImgUrl = imageName;
     }
 
 
     public ProductDetailResponseDTO(Product product
             , List<ReservationTimeResponseDTO> dtoTimeList
-            , List<ReviewDetailResponseDTO> dtoReviewList) {
+            , List<ReviewDetailResponseDTO> dtoReviewList
+            , List<String> imgUrls) {
         this.timeList = new ArrayList<>();
         this.reviewList = new ArrayList<>();
+        this.imgUrl = new ArrayList<>();
         this.productId = product.getProductId();
         this.title = product.getProductTitle();
         this.price = product.getProductPrice();
@@ -64,5 +74,7 @@ public class ProductDetailResponseDTO {
         this.userId = product.getUser().getUserId();
         this.timeList = dtoTimeList;
         this.reviewList = dtoReviewList;
+        this.imgUrl = imgUrls;
+//        this.maxUser = product.getMaxUser();
     }
 }

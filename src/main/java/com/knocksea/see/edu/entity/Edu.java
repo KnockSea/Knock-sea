@@ -5,6 +5,7 @@ import com.knocksea.see.edu.dto.response.EduModifyDTO;
 import com.knocksea.see.heart.entity.Heart;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.review.entity.Review;
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -53,10 +54,6 @@ public class Edu {
     @Column(nullable = false, length = 2000)
     private String eduInfo;
 
-    @Column(nullable = false, length = 2000)
-    private String eduLocationInfo;
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -73,6 +70,10 @@ public class Edu {
     @Builder.Default
     private List<Review> reviews = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private SeaImage seaImage;
+
 
     // 수정메서드
     public void update(EduAndReservationTimeCreateDTO dto) {
@@ -82,7 +83,6 @@ public class Edu {
         this.eduService=dto.getEduService();
         this.eduLevel=dto.getEduLevel();
         this.eduInfo=dto.getEduInfo();
-        this.eduLocationInfo=dto.getEduLocationInfo();
     }
 
 }

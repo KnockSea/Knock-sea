@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3307/knocksea
+    url: jdbc:mariadb://localhost:3306/knocksea
     username: root
     password: 1234
     driver-class-name: org.mariadb.jdbc.Driver
@@ -20,6 +20,7 @@ spring:
     database: mysql
   servlet:
     multipart:
+      enabled: true
       max-file-size: 10MB #1개의 파일의 최대사이즈
       max-request-size: 20MB # 전체 요청의 최대사이즈
 
@@ -53,3 +54,4 @@ aws:
     secretKey: x6RUIUwGR0XKhLplS5MJN6GXBD7wttaAxFP270sO
   region: ap-northeast-2
   bucketName: jiseung-upload-bucket
+

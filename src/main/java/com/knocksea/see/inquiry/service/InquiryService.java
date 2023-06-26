@@ -44,6 +44,8 @@ public class InquiryService {
 
         List<Inquiry> inquiryList = inquiries.getContent();
 
+
+
         List<InquiryDetailResponseDTO> detailList = inquiryList.stream()
                 .map(InquiryDetailResponseDTO::new)
                 .collect(Collectors.toList());
@@ -94,7 +96,13 @@ public class InquiryService {
                 );
         return inquiryEntity;
     }
-
+    public InquiryDetailResponseDTO findByInquiry(Long inquiryId) {
+        Inquiry inquiry = inquiryRepository.findById(inquiryId).orElseThrow(() -> {
+            return new RuntimeException("문의가 없습니다.");
+        });
+        InquiryDetailResponseDTO dto = new InquiryDetailResponseDTO(inquiry);
+        return dto;
+    }
 
     public InquiryDetailResponseDTO insert(final InquiryCreateRequestDTO dto, final TokenUserInfo userInfo)
         throws RuntimeException {
@@ -133,4 +141,6 @@ public class InquiryService {
 
         }
     }
+
+
 }

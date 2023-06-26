@@ -1,33 +1,42 @@
 package com.knocksea.see.edu.service;
 
-import com.knocksea.see.edu.dto.response.EduListDataResponseDTO;
-import com.knocksea.see.edu.dto.response.EduTopFourListResponseDTO;
-import com.knocksea.see.edu.dto.response.EduListResponseDTO;
+import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
+import com.knocksea.see.edu.dto.response.EduListDataResponseDTO;
+import com.knocksea.see.edu.dto.response.EduTopFourListResponseDTO;
+import com.knocksea.see.edu.dto.response.ResponseMyEduDTO;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
-import com.knocksea.see.heart.entity.Heart;
 import com.knocksea.see.heart.repository.HeartRepository;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
+import com.knocksea.see.product.dto.response.ReservationTimeResponseDTO;
+import com.knocksea.see.product.dto.response.mainListResponseDTO;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.repository.ReservationRepository;
 import com.knocksea.see.product.repository.ReservationTimeRepository;
+import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.repository.ReviewRepository;
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.UserRepository;
+import com.knocksea.see.user.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +55,15 @@ public class EduService {
     private final ReviewRepository reviewRepository;
     private final HeartRepository heartRepository;
     public List<ReservationTime> timeList;
+    private final ImageRepository imageRepository;
+    private final ImageService imageService;
+
+
+//    private final S3Client s3Client;
+
+    @Value("${aws.bucketName}")
+    private String bucketName;
+
 
     //좋아요 상위 4개 조회
     public EduTopFourListResponseDTO findTopFour(){
@@ -76,6 +94,7 @@ public class EduService {
             EduListDataResponseDTO edus = new EduListDataResponseDTO(edu);
             double reviewTotal = 0;
             User user = userRepository.findById(edu.getUser().getUserId()).get();
+
             edus.setUserName(user.getUserName());
             List<Review> reviews = edu.getReviews();
 
@@ -89,6 +108,13 @@ public class EduService {
             }else {
                 edus.setReviewAverage(0);
             }
+            List<SeaImage> mainImage = imageRepository.findAllByEdu(edu);
+//            edus.setMainImage(mainImage.get(0).getImageName());
+            mainImage.forEach(seaImage -> {
+                String imageName = seaImage.getImageName();
+                edus.setMainImage(imageName);
+                log.info("mainImage : "+imageName);
+            });
             return edus;
         }).collect(Collectors.toList());
 
@@ -96,19 +122,38 @@ public class EduService {
     }
 
     // 상품 상세조회 기능 (예약 가능 시간 정보 포함)
-    public EduDetailResponseDTO getDetail(Long eduId) { //edu,reservationTime, review, like, reservation
+    //이미지 찾아와야 함
+    public EduDetailResponseDTO getDetail(Long eduId) {
       Edu edu = getEdu(eduId);
-
-        /* // 리뷰 목록(상품번호로 조회)  // null 뜨는지 확인해야댐
-        List<ReviewDetailResponseDTO> reviewResponseList = reviewRepository.findAllByEdu(edu).stream()
-                .map(ReviewDetailResponseDTO::new).collect(Collectors.toList());
-
-         // 예약 가능 시간 목록(상품번호로 조회)
+      log.info("edu : "+edu);
+        // 예약 가능 시간 목록(상품번호로 조회)
         List<ReservationTimeResponseDTO> timeResponseDTOList = reservationTimeRepository.findAllByEdu(edu).stream()
                 .map(ReservationTimeResponseDTO::new).collect(Collectors.toList());
+        log.info("timeResponseDTOList : "+timeResponseDTOList);
 
-        return new EduDetailResponseDTO(edu, timeResponseDTOList, reviewResponseList);*/
-        return null;
+         // 리뷰 목록(상품번호로 조회)  // null 뜨는지 확인해야댐
+        List<ReviewDetailResponseDTO> reviewResponseList = reviewRepository.findAllByEdu(edu).stream()
+                .map(review -> {
+                            ReviewDetailResponseDTO reviewDetailResponseDTO = new ReviewDetailResponseDTO();
+                            reviewDetailResponseDTO.setReviewId(review.getReviewId());
+                            reviewDetailResponseDTO.setReviewContent(review.getReviewContent());
+                            reviewDetailResponseDTO.setReviewRating(review.getReviewRating());
+                            reviewDetailResponseDTO.setReviewType(review.getReviewType());
+                            reviewDetailResponseDTO.setEduId(review.getEdu().getEduId());
+                            reviewDetailResponseDTO.setReviewRating(review.getReviewRating());
+                            reviewDetailResponseDTO.setInquiryDateTime(review.getInquiryDateTime());
+                            return reviewDetailResponseDTO;
+                        }
+                        ).collect(Collectors.toList());
+        log.info("reviewResponseList : "+reviewResponseList);
+
+        List<String> imgUrls = new ArrayList<>();
+        imageRepository.findAllByEdu(edu).forEach( i -> {
+            imgUrls.add(i.getImageName());
+            log.info("images : "+i.getImageName());
+        });
+
+        return new EduDetailResponseDTO(edu, timeResponseDTOList, reviewResponseList,imgUrls);
     }
 
 
@@ -119,11 +164,6 @@ public class EduService {
         //유저 정보는 토큰을 이용해서 저장. 토큰하기 전까지만 이렇게
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않은 회원입니다."));
-
-
-        Optional<Edu> byId = eduRepository.findById(userId);
-        log.info("userId : "+userId);
-        log.info("byId : "+byId);
 
         if (eduRepository.findByUserUserId(user)!=null){
             throw new RuntimeException("이미 등록한 클래스가 있습니다.");
@@ -146,8 +186,7 @@ public class EduService {
     }
 
     //클래스 수정
-    public EduDetailResponseDTO modify(EduAndReservationTimeCreateDTO dto) throws RuntimeException{
-
+    public EduDetailResponseDTO modify(EduAndReservationTimeCreateDTO dto, List<MultipartFile> eduImg) throws RuntimeException, IOException {
         Long userId = dto.getUserId();
 
         User user = userRepository.findById(userId)
@@ -160,9 +199,16 @@ public class EduService {
         if(reservationCount>0){
             throw new RuntimeException("신청 인원이 한명 이상이므로 수정할 수 없음");
         }
+//        List<SeaImage> eduImgs = imageRepository.findAllByEdu(edu);
+//        for (SeaImage img : eduImgs) {
+//            s3Client.deleteObject
+//
+//        }
+
 
         //ReservationTime 아예 삭제시키고 다시 등록시킴
          reservationTimeRepository.deleteByEduEduId(edu.getEduId());
+         imageRepository.deleteByEduEduId(edu.getEduId());
 
         //수정한 예약시간 개수만큼 save
         for (int i = 0; i < dto.getTimeDate().size(); i++) {
@@ -171,6 +217,10 @@ public class EduService {
                         = reservationTimeRepository.save(dto.toReservationTimeEntity(i, j, edu));
             }
         }
+
+
+        //이미지 다시 저장
+        imageService.saveEduImg(eduImg,dto.getUserId());
 
         edu.update(dto);
         eduRepository.save(edu);
@@ -209,9 +259,49 @@ public class EduService {
             throw new RuntimeException("예약이 존재하여 삭제할 수 없습니다.");
         } else {
            log.info("삭제중!! "+i);
+            imageRepository.deleteByEdu(edu);
             reservationTimeRepository.deleteByEduEduId(eduId);
             log.info("reservationTime 삭제 : ");
             eduRepository.deleteByEduId(eduId);
         }
+    }
+
+    public List<mainListResponseDTO> eduMainList() {
+        List<Edu> eduList = eduRepository.findTop9ByOrderByCreateDateDesc();
+
+        return eduList.stream()
+                .map(p -> {
+                    SeaImage seaImage = imageRepository.findById(p.getSeaImage().getImageId()).orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
+                    return new mainListResponseDTO(p, seaImage);
+                }).collect(Collectors.toList());
+    }
+
+    public ResponseMyEduDTO getMyEdu( @AuthenticationPrincipal TokenUserInfo userInfo) {
+
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow();
+
+        Edu byUserUserId = eduRepository.findByUserUserId(user);
+
+        if (byUserUserId==null){
+            new RuntimeException("등록된 클래스가없습니다");
+        }
+
+        List<String> eduImageUrl = new ArrayList<>();
+        List<SeaImage> allByEdu = imageRepository.findAllByEdu(byUserUserId);
+
+        for (SeaImage seaImage : allByEdu) {
+            String imageName = seaImage.getImageName();
+            eduImageUrl.add(imageName);
+        }
+
+        ResponseMyEduDTO responseMyEduDTO = new ResponseMyEduDTO();
+        responseMyEduDTO.setEduLevel(byUserUserId.getEduLevel());
+        responseMyEduDTO.setDescription(byUserUserId.getEduService());
+        responseMyEduDTO.setUserName(byUserUserId.getUser().getUserName());
+        responseMyEduDTO.setEduTitle(byUserUserId.getEduTitle());
+        responseMyEduDTO.setEduImageList(eduImageUrl);
+
+        return responseMyEduDTO;
+
     }
 }

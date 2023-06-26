@@ -3,8 +3,92 @@ import { Link } from 'react-router-dom'
 import MpList from './MpList'
 import MpRvFormItem from './MpRvFormItem'
 import MpReFormItem from './MpReFormItem'
-
+import {getLoginUserInfo, isLogin } from '../util/login-util';
+import { useEffect } from 'react';
+import { useState } from 'react';
 const MpBtInfo = () => {
+
+
+    const [shipinfo, setShipinfo] = useState({
+        shipId: 0,
+        category: null,
+        shipDescription: '',
+        shipLikeCount: 0,
+        shipName: '',
+        userName: '',
+        shipImageLocation: []
+      });
+
+
+      const [userInfo, setUserInfo] = useState({
+        token: '', // Set default value for name
+        userEmail: '', // Set default value for email
+        userName : '',
+        userGrade : '',
+        userId : '',
+        userPhone : ''
+      });
+    
+      //배 정보 가져오기
+      const fetchShipInfo = async () => {
+        const res = await fetch('http://localhost:8012/api/v1/ship/getshipinfo', {
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
+        });
+    
+        if (res.status === 200) {
+            const json = await res.json(); // JSON 데이터 파싱
+            setShipinfo(json);    
+            // console.log(shipinfo);
+        } else if(res.status===500){
+            alert('등록된 선박이없습니다!');
+        }else{
+          alert('서버와의 통신이 원활하지않습니다!')
+        }
+      }
+      
+      //배정보 삭제하기
+      const deleteShip = async (e) =>{
+        
+        e.preventDefault();
+
+        const confirm = window.confirm('정말로 삭제하시겠습니까?');
+
+        if(confirm){
+        const res = await fetch('http://localhost:8012/api/v1/ship/delete', {
+            method: 'DELETE',
+            headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
+        });
+        if (res.status === 200) {
+            const json = await res.json(); // JSON 데이터 파싱
+            // console.log(shipinfo);
+            alert('배정보 삭제완료');
+            fetchShipInfo();
+        } else if(res.status===500){
+            alert('배정보 삭제에 실패했습니다');
+        }else{
+          alert('서버와의 통신이 원활하지않습니다!')
+        }
+      }else{
+        return ;
+      }
+    }
+    
+    
+    useEffect(() => {
+        // const user = getLoginUserInfo();
+        // setUserInfo(user);
+        // console.log(userInfo);
+        // 배 정보를 가져오는 함수
+        const user = getLoginUserInfo();
+        setUserInfo(user);
+        fetchShipInfo();
+      }, []);
+    
+      useEffect(() => {
+        // console.log(shipinfo);
+      }, [fetchShipInfo]);
+      
 
     
   return (
@@ -15,29 +99,46 @@ const MpBtInfo = () => {
             <div className='mainbox1'>
                     
                     <div className='mychoicebox'>
-                        <h1><Link to={'/my'}>마이페이지</Link></h1>
-
-
-                        <h1><Link to={'/mpbt'}>배</Link></h1>
-                        <h1><Link to={'/mpfs'}>낚시터</Link></h1>
-                        <h1><Link to={'/mpclass'}>클래스</Link></h1>
+                        <div className='mpTitle'>
+                            <h1>마이페이지</h1>
+                        </div>
+                        <div className='ownerTap'>
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>⛵ 배</h1></Link>)}
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>🚩 낚시터</h1></Link>)}
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)}
+                        </div>
                     </div>
                    
                    
-                    <div className='userinfobox'>
-                        <div className='profilebox'>
-                            <img />
+                        <div className='userinfobox'>
+                                            <div className='profilebox'>
+                        {shipinfo.shipImageLocation && shipinfo.shipImageLocation.length > 0 ? (
+                            <img className="my-profile" title="마이페이지" src={shipinfo.shipImageLocation[0]} />
+                        ) : (
+                            <img className="my-profile" title="마이페이지" src={require('./../icons/unknown.png')} />
+                        )}
                         </div>
                         <div className='namebox'>
-                            <div className='nickName'>LOVETMORROW</div>
-                            <div>업체정보를 입력하세요</div>
+                        <div className="nickName">
+                        {shipinfo.shipName ? <span>{shipinfo.shipName}</span> : <span>등록된 배가  없습니다.</span>}
+                        </div>
+                        <div>
+                        {shipinfo.shipDescription ? <span>{shipinfo.shipDescription}</span> : <span>배를 등록해주세요.</span>}
+                        </div>
+                        <div>
+                        {shipinfo.shipLikeCount ||<span>{setShipinfo.shipLikeCount}</span>}
+                        </div> 
+                        
                         </div>
                         <div className='btbox'>
-                        <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
-                        <button>
-                            {/* <Link to={'/myinfo'}>배 업체 정보 수정</Link> */}
-                            {/* 작성 폼 불러와서 수정 진행 Link 걸어야 함 */}
-                            </button>
+                        {shipinfo && shipinfo.shipId ? (
+                            <>
+                            <button className='isbtn' onClick={deleteShip}>배 정보 삭제하기</button>
+                            <button className='isbtn'>배 정보 수정하기</button>
+                            </>
+                            ) : (
+                            <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
+                            )}
                         </div>
                     </div>
 

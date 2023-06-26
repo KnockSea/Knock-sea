@@ -49,8 +49,7 @@ public class FishingSpotApiController {
     @PostMapping("/register")
     public ResponseEntity<?> registerShip(@Validated @RequestPart("spot") FishingSpotRegisterRequestDTO dto,
                                           @RequestPart(value = "spotImage", required = false) List<MultipartFile> spotImages,
-                                          @AuthenticationPrincipal TokenUserInfo userInfo
-            , BindingResult result) {
+                                          @AuthenticationPrincipal TokenUserInfo userInfo) {
         //값 들어오는지 확인
         log.info("/fishing/register POST! --{}", dto);
 
@@ -60,12 +59,12 @@ public class FishingSpotApiController {
 //            savePath = FileUtil.uploadFile(dto.getProfileImage(), rootPath);
 //        }
 
-        if (result.hasErrors()) {
-            log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
-            return ResponseEntity
-                    .badRequest()
-                    .body(result.getFieldError());
-        }
+//        if (result.hasErrors()) {
+//            log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
+//            return ResponseEntity
+//                    .badRequest()
+//                    .body(result.getFieldError());
+//        }
         try {
             FishingSpotRegisterResponseDto fishingSpotRegisterResponseDto = fishingSpotService.save(dto, userInfo.getUserId());
 
@@ -173,17 +172,24 @@ public class FishingSpotApiController {
     @GetMapping("/getspotinfo")
     public ResponseEntity<?> loadshipinfo(
             @AuthenticationPrincipal TokenUserInfo userInfo
-    ){
+    ) {
         // 값 들어오는지 확인
         log.info("/ship/getshipinfo GET! --{}", userInfo);
 
-        try {
-            FishingSpotInfoResponseDTO fishingSpotInfoResponseDTO= fishingSpotService.getShipInfo(userInfo);
-            return ResponseEntity.ok().body(fishingSpotInfoResponseDTO);
+//        if (result.hasErrors()) {
+//            log.warn("DTO 검증 에러 발생 : {}", result.getFieldError());
+//            return ResponseEntity
+//                    .badRequest()
+//                    .body(result.getFieldError());
+//        }
 
-        } catch (RuntimeException e) {
+        try{
+            FishingSpotInfoResponseDTO shipInfo = fishingSpotService.getShipInfo(userInfo);
+            return ResponseEntity.ok().body(shipInfo);
+        }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+
     }
 
     //파일 이미지 검증

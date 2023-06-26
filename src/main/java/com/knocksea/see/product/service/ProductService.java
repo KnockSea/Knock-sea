@@ -7,15 +7,19 @@ import com.knocksea.see.exception.NoneMatchUserException;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
 import com.knocksea.see.product.dto.response.*;
 import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.entity.ViewProduct;
 import com.knocksea.see.product.repository.*;
 import com.knocksea.see.product.dto.request.PageDTO;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.repository.ReviewRepository;
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.FishingSpotRepository;
+import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.ShipRepository;
 import com.knocksea.see.user.repository.UserRepository;
+import com.knocksea.see.user.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,7 +27,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +49,8 @@ public class ProductService implements ProductDetailService {
     private final FishingSpotRepository fishingSpotRepository;
     private final EduRepository eduRepository;
     private final ViewProductRepository viewProductRepository;
+    private final ImageRepository imageRepository;
+    private final ImageService imageService;
 
     public Product getProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(() ->
@@ -56,19 +65,27 @@ public class ProductService implements ProductDetailService {
                     , Sort.by("productInputDate").descending()
                 );
 //        type, keyword
-        Page<Product> products = productRepository.findAll(pageable);
+//        Page<Product> products = productRepository.findAll(pageable);
+        Page<Product> products = productRepository.findAllByType(pageable, pageDTO.getType());
 
         List<ProductDetailResponseDTO> prodDetailList = products.stream()
-                .map(ProductDetailResponseDTO::new)
-                .collect(Collectors.toList());
+                .map(product -> {
+                        List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
+                        List<ReservationTime> rt = reservationTimeRepository.findAllByProduct_ProductId(product.getProductId());
+                        return new ProductDetailResponseDTO(product, allByProduct.get(0).getImageName(), rt.get(0).getTimeMaxUser());
+                    }
+                ).collect(Collectors.toList());
 
         List<ViewProduct> allAddress = viewProductRepository.findAll();
         // 이러면.. 페이지 넘길때마다 지도 다시 뿌리는건데 어쩌지
 
+        // 이미지랑 예약 가능 유저 수
+
+
         return ProductListResponseDTO.builder()
                 .count(prodDetailList.size())
                 .pageInfo(new PageResponseDTO(products))
-                .products(prodDetailList)
+                .productDetail(prodDetailList)
                 .allAddress(allAddress)
                 .build();
 
@@ -79,7 +96,11 @@ public class ProductService implements ProductDetailService {
     public ProductDetailResponseDTO getDetail(Long productId) {
         Product product = getProduct(productId);
         User user = product.getUser();
-
+//        List<SeaImage> images = imageRepository.findAllByProduct(product);
+        List<String> imgUrls = new ArrayList<>();
+        imageRepository.findAllByProduct(product).forEach( i -> {
+            imgUrls.add(i.getImageName());
+        });
         // 리뷰 목록(상품번호로 조회)  // null 뜨는지 확인해야댐
         List<ReviewDetailResponseDTO> reviewResponseList = reviewRepository.findAllByProduct(product).stream()
                 .map(ReviewDetailResponseDTO::new).collect(Collectors.toList());
@@ -88,12 +109,15 @@ public class ProductService implements ProductDetailService {
         List<ReservationTimeResponseDTO> timeResponseDTOList = reservationTimeRepository.findAllByProduct(product).stream()
                 .map(ReservationTimeResponseDTO::new).collect(Collectors.toList());
 
-        return new ProductDetailResponseDTO(product, timeResponseDTOList, reviewResponseList);
+        return new ProductDetailResponseDTO(product, timeResponseDTOList, reviewResponseList, imgUrls);
     }
 
     // 상품 등록 기능
-    public ProductDetailResponseDTO create(ProductRequestDTO dto, TokenUserInfo userInfo) throws RuntimeException{
+    public ProductDetailResponseDTO create(ProductRequestDTO dto, TokenUserInfo userInfo,
+                                           List<MultipartFile> productImages
+    ) throws RuntimeException, IOException {
         // 상품을 먼저 등록하고 -> 시간 정보를 등록해야 한다.
+        log.warn("여기까지 들어옵니까?");
         User user = userRepository.findById(userInfo.getUserId()).
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
 
@@ -105,11 +129,15 @@ public class ProductService implements ProductDetailService {
             throw new RuntimeException("이미 등록된 상품입니다.");
         }
 
+
         Product saveProduct = productRepository.save(dto.toProductEntity(user));
+        log.warn("사베 프로덕트 : {}", saveProduct);
+        imageService.saveProductImg(productImages, userInfo, saveProduct);
 
         for (int i = 0; i < dto.getTimeDate().size(); i++) {
             for (int j = 0; j < dto.getTimeStart().size(); j++) {
                 reservationTimeRepository.save(dto.toReservationTimeEntity(i, j, saveProduct));
+                log.warn("돌고 있니? : {}", j);
             }
         }
 
@@ -171,28 +199,26 @@ public class ProductService implements ProductDetailService {
         return productRepository.findById(productId).isPresent();
     }
 
-
-    // 메인페이지 3개만 보여주기 -> 3개씩 보여주기 만들어야 되나?
+    // 메인페이지 9개만 달래~
     public List<mainListResponseDTO> shipMainList() {
         List<Product> productsShip = productRepository.findTop9ByProductTypeOrderByProductInputDateDesc("SHIP");
-//
-//        List<Product> productsSpot = productRepository.findTop3ByProductTypeOrderByProductInputDateDesc("SPOT");
-//
-//        List<Edu> edu = eduRepository.findTop3ByOrderByCreateDate();
 
-        return productsShip.stream()
-                .map(mainListResponseDTO::new).collect(Collectors.toList());
+        return getCollect(productsShip);
     }
 
     public List<mainListResponseDTO> spotMainList() {
-        List<Product> productsShip = productRepository.findTop9ByProductTypeOrderByProductInputDateDesc("SHIP");
-//
-//        List<Product> productsSpot = productRepository.findTop3ByProductTypeOrderByProductInputDateDesc("SPOT");
-//
-//        List<Edu> edu = eduRepository.findTop3ByOrderByCreateDate();
+        List<Product> productsSpot = productRepository.findTop9ByProductTypeOrderByProductInputDateDesc("SHIP");
 
-        return productsShip.stream()
-                .map(mainListResponseDTO::new).collect(Collectors.toList());
+        return getCollect(productsSpot);
+
+    }
+
+    private List<mainListResponseDTO> getCollect(List<Product> product) {
+        return product.stream()
+                .map(p -> {
+                    SeaImage seaImage = imageRepository.findById(p.getSeaImage().getImageId()).orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
+                    return new mainListResponseDTO(p, seaImage);
+                }).collect(Collectors.toList());
     }
 
 //    public autoTrans

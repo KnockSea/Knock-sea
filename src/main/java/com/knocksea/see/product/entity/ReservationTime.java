@@ -8,6 +8,7 @@ import com.knocksea.see.product.dto.request.ReservationTimeRequestDTO;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -36,6 +37,9 @@ public class ReservationTime {
     private LocalTime timeStart;
     private LocalTime timeEnd;
     private int timeMaxUser;
+
+    @Builder.Default
+    private String statusValid = "ACTIVE";
     // 한 타임정보에 최대 인원 수만큼 예약을 여러번 받아야 되네?
     @Builder.Default
     private int timeCurrentUser = 0;
