@@ -78,6 +78,7 @@ const MpInquire = () => {
                             {/* MpInquiryResult 임시 상세보기 만들었습니다@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */}
                         </div>
                     ))}
+                    <div className="page">
                          <Pagination
             activePage={page}
             itemsCountPerPage={10}
@@ -87,6 +88,7 @@ const MpInquire = () => {
             nextPageText={"›"}
             onChange={handlePageChange}
           />     
+            </div>
             </div>
 
             <MpList />
