@@ -9,6 +9,13 @@ const MpAdmin = () => {
     const [validationList, setValidationList] = useState([]);
     const [validationType , setvalidationType] = useState('SHIP');
 
+    //배 검증요청 리스트수정 json형식
+    const [validationData, setValidationData] = useState({
+        userName: '',
+        validationType: '',
+        validationStatus: ''
+      });
+
 //검증요청 리스트 서버에서 받아오기
 useEffect(() => {
         fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
@@ -31,7 +38,8 @@ useEffect(() => {
     // alert('승인요청 들어옴');
     const confirm = window.confirm('정말 승인하시겠습니까?')
     if(confirm){
-        alert('승인완료!');
+        
+        // alert('승인완료!');
     }
   }
 
