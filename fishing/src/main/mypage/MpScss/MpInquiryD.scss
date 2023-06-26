@@ -84,6 +84,7 @@
             align-items: center;
           }
 
+
           .adminreplyinput {
             margin-top: 10px;
             height: 150px;
@@ -92,10 +93,13 @@
             text-align: center;
             align-items: center;
             justify-content: center;
-
-            textarea {
+            resize: none;
+            .answer {
               width: 100%;
               height: 90%;
+              border: 1px solid #000;
+              border-radius: 10px;
+
               resize: none;
             }
           }
@@ -113,3 +117,4 @@
     }
   }
 }
+

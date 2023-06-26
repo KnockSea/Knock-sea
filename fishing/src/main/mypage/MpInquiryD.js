@@ -46,7 +46,7 @@ const MpInquiryD = () => {
         console.log(answerDetails);
         console.log(inquiryId);
         console.log(inquiry);
-        console.log(inquiry?.inquiryDetails);
+        console.log(inquiry.inquiryDetails);
         // Reset the answer field
         setAnswerDetails("");
     };

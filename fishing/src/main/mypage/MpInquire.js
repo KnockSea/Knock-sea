@@ -4,19 +4,22 @@ import { Link } from "react-router-dom";
 import MpList from "./MpList";
 import { getLoginUserInfo } from "../util/login-util";
 import Stack from "@mui/material/Stack";
+import Pagination from "react-js-pagination";
 
 const MpInquire = () => {
     const [inquiries, setInquiries] = useState([]);
-    const [page, setPage] = useState(1);
-    const [size, setSize] = useState(10);
     const [token, setToken] = useState(getLoginUserInfo().token);
+    const [totalItemCount, setTotalItemCount] = useState(0);
+    const [page, setPage] = useState(1);
 
-
-
+    const handlePageChange = (page) => {
+        setPage(page);
+        console.log(page);
+      };
 
     const fetchData = () => {
         fetch(
-            `http://localhost:8012/api/v1/inquiries/myInquiry?page=${page}&size=${size}`,
+            `http://localhost:8012/api/v1/inquiries/myInquiry?page=${page}&size=10`,
             {
                 method: "GET",
                 headers: {
@@ -29,6 +32,7 @@ const MpInquire = () => {
             .then((data) => {
                 if (data) {
                     setInquiries(data.inquiries);
+                    setTotalItemCount(data.pageInfo.totalCount);
                 } else {
                     // 처리할 에러에 대한 로직 추가
                 }
@@ -41,13 +45,12 @@ const MpInquire = () => {
 
     useEffect(() => {
         fetchData();
-    }, [page, size]);
+    }, [inquiries.length, page]);
 
     return (
         <section className="MyPageMainBox">
             <div className="mainbox1">
                 <h1>문의 현황</h1>
-
                 {inquiries && inquiries.length > 0 &&
                     inquiries.map((inquiry) => (
                         <div key={inquiry.inquiryId} className="inbox">
@@ -64,7 +67,7 @@ const MpInquire = () => {
                             </div>
                             <button>
                             <Link
-                                to={`/inquiryResult/${inquiry.inquiryId}`}
+                                   to={`/inquiryResult/${inquiry.inquiryId}`}
                                 className="indetailbtn"
                             >
                                 상세보기
@@ -75,9 +78,21 @@ const MpInquire = () => {
                             {/* MpInquiryResult 임시 상세보기 만들었습니다@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */}
                         </div>
                     ))}
+                    <div className="page">
+                         <Pagination
+            activePage={page}
+            itemsCountPerPage={10}
+            totalItemsCount={totalItemCount}
+            pageRangeDisplayed={5}
+            prevPageText={"‹"}
+            nextPageText={"›"}
+            onChange={handlePageChange}
+          />     
+            </div>
             </div>
 
             <MpList />
+
         </section>
     );
 };

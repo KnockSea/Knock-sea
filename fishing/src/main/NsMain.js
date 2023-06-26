@@ -41,6 +41,7 @@ import EduRegistration from './product/EduRegistration';
 
 import ScrollToTop from './ScrollToTop';
 import MpInquiryD from './mypage/MpInquiryD';
+import MpInquiryResult from './mypage/MpInquiryResult';
 
 const NsMain = () => {
 
@@ -76,11 +77,8 @@ const NsMain = () => {
                 path="/adminreply/:inquiryId"
                 element={<MpInquiryD />}
             ></Route>
-            {/* 문의 상세보기 */}
-            {/* <Route path='/inquiryDetail' element = {<MpInquiryDetail/>}></Route> */}
-            <Route path="/inquiry/:inquiryId" element={<MpInquiryD />} />
-            {/* @@@@@@@@@@@@@@@@@@@@@@@@@ 유저 문의 상세보기 눌렀을때 나오는 폼 만들어주세요@@@@@@@@@@@@@@@@@@@@@ */}
-
+            {/* 유저 문의 상세보기 */}
+            <Route path="/inquiryResult/:inquiryId" element={<MpInquiryResult />} />
             <Route path="/rvlist" element={<MpRvlist />}></Route>
 
             {/* 로그인, 회원가입 */}
