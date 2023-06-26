@@ -51,6 +51,7 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.GET, "/api/v1/edu/topFour").permitAll()
                 .antMatchers("/api/v1/edu/{eduId}").permitAll()
                 .antMatchers("/api/v1/edu/main/edu").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v1/inquiries").permitAll()
                 .anyRequest().authenticated()
         ;
 

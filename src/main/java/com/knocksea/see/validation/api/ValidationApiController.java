@@ -93,13 +93,15 @@ public class ValidationApiController {
     //타입별 전체조회
     @GetMapping("/{validationType}")
     public ResponseEntity<?> list(@PathVariable ValidationType validationType/*, @PathVariable Long userId*/
-                                  ,@AuthenticationPrincipal TokenUserInfo userInfo
+//                                  ,@AuthenticationPrincipal TokenUserInfo userInfo
     ){
         log.info("/api/v1/validation {} GET",validationType);
 
         try {
-            List<ValidationListResponseDTO> allByType = validationService.findAllByType(validationType, userInfo);
+//            List<ValidationListResponseDTO> allByType = validationService.findAllByType(validationType, userInfo);
+            List<ValidationListResponseDTO> allByType = validationService.findAllByType(validationType);
             return ResponseEntity.ok().body(allByType);
+
         } catch (RuntimeException e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }

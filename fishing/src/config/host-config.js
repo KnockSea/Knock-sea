@@ -5,7 +5,7 @@ const clientHostNmae = window.location.hostname;
 let backEndHostName; // 백엔드 서버 호스트 이름
 
 if(clientHostNmae === 'localhost'){
-    backEndHostName = 'http://172.30.1.28:8012';
+    backEndHostName = 'http://localhost:8012';
 } else if (clientHostNmae === 'vanila.com'){
     backEndHostName = 'https://api.vanila.co.kr';
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "../scss/Calendar.scss"
 import "./scss/ClassModal.scss";
 import ClassCalendar from './ClassCalendar';
@@ -34,9 +34,7 @@ function ClassModal({closeModal,timeList, price}) {
     }
   };
 
-  const formattedDate = selectedDate
-  ? selectedDate.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
-  : '';
+  const formattedDate = selectedDate ? selectedDate.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -45,7 +43,20 @@ function ClassModal({closeModal,timeList, price}) {
   const handleTimeChange = (time) => {
     setSelectedTime(time);
   }    
-                    
+                  
+  const handlePayment=()=>{
+   
+
+    const reservation = {
+      reservationDate : formattedDate, 
+      reservationUserCount : count,
+      reservationPrice :  count*price,
+      reservationType : "EDU"
+
+    };
+    
+    console.log("click button : ", reservation);
+  }
 
 
     return (
@@ -57,19 +68,6 @@ function ClassModal({closeModal,timeList, price}) {
             <div className='calendar'>
               <ClassCalendar className='datePicker' handleDateChange={handleDateChange} startTime={startTime} EndTime={EndTime}/>
             </div>
-
-                {/* <div className='class-select-time'>
-                  <div className='selected-time' onClick={() => handleTimeChange(`${timeList[0].timeStart}~${timeList[0].timeEnd}`)}>
-                    {timeList[0].timeStart}~{timeList[0].timeEnd}
-                  </div>
-                  <div className='selected-time'>남은 인원: {timeList[0].timeMaxUser - timeList[0].timeCurrentUser}명 {timeList[0].timeDate}</div>
-                  
-                  {classTimes.map((time, index) => (
-                    <div key={index} className='selected-time' onClick={() => handleTimeChange(time)}>
-                      {time}
-                    </div>
-                  ))}
-                </div> */}
 
                 {timeList.map((time, index) => {
                   const timeDate = new Date(time.timeDate);
@@ -119,8 +117,7 @@ function ClassModal({closeModal,timeList, price}) {
                     <span> {count*price}원 </span>
                   </div>
                 <p className='total-result'>{formattedDate} {selectedTime} / {count}명</p>
-                <button className='class-pay-btn custom-button'
-                 >결제하기</button>
+                <button className='class-pay-btn custom-button' onClick={handlePayment}>결제하기</button>
             </div>
           </div>
         </div>
