@@ -17,7 +17,7 @@ const MpAdminCS = () => {
 
   useEffect(() => {
     fetchInquiries();
-  }, [page]);
+  }, [page, inquiries.length]);
 
   const fetchInquiries = async () => {
     try {
@@ -62,11 +62,13 @@ const MpAdminCS = () => {
                 <div>{inquiry.inquiryTitle}</div>
                 <div>{inquiry.inquiryDetails}</div>
                 <div>{inquiry.inquiryDateTime}</div>
+                {inquiry.answerDetails===null &&(
                 <Link
                   to={{ pathname: `/adminreply/${inquiry.inquiryId}` }}
                 >
                   답변하기
                 </Link>
+                )}
               </div>
             ))}
           </div>
