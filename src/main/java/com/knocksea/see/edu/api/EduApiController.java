@@ -74,6 +74,7 @@ public class EduApiController {
     @PostMapping
     public ResponseEntity<?> create(
             @Validated @RequestPart(value = "Edu") EduAndReservationTimeCreateDTO dto
+            , @AuthenticationPrincipal TokenUserInfo userInfo
             , @RequestPart(value = "EduImage", required = false) List<MultipartFile> EduImg
             , BindingResult result
     ) {
@@ -90,16 +91,15 @@ public class EduApiController {
         if (fieldErros != null) return fieldErros;
 
         try {
-            EduDetailResponseDTO responseDTO = eduService.insert(dto);
+            EduDetailResponseDTO responseDTO = eduService.insert(dto,userInfo);
 
             if (EduImg != null) {
-                log.info("ggggg");
                 //이미지 파일들이 잘 들어왔다면 원본이름 출력시키기
                 for (MultipartFile validationImage : EduImg) {
                     log.info("validationImage : " + validationImage.getOriginalFilename());
                 }
                 //이미지 저장시키기
-                imageService.saveEduImg(EduImg, dto.getUserId());
+                imageService.saveEduImg(EduImg, userInfo);
             }
 
             return ResponseEntity
@@ -137,7 +137,7 @@ public class EduApiController {
     public ResponseEntity<?> update(
             @Validated @RequestPart(value = "Edu") EduAndReservationTimeCreateDTO dto
             , @RequestPart(value = "EduImage", required = false) List<MultipartFile> EduImg
-            , BindingResult result
+            , @AuthenticationPrincipal TokenUserInfo userInfo
             , HttpServletRequest request
     ) {
         log.info("클래스 수정");
@@ -145,7 +145,7 @@ public class EduApiController {
 
         try {
             EduDetailResponseDTO responseDTO
-                    = eduService.modify(dto, EduImg);
+                    = eduService.modify(dto,userInfo,EduImg);
             return ResponseEntity.ok().body(responseDTO);
         } catch (Exception e) {
             return ResponseEntity
