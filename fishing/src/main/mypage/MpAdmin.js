@@ -1,8 +1,6 @@
 import React , { useState,useEffect  }from 'react'
 import './MpScss/MpAdmin.scss'
 import { Link } from 'react-router-dom'
-import { useState,useEffect } from 'react'
-
 
 const MpAdmin = () => {
     const [validationList, setValidationList] = useState([]);
