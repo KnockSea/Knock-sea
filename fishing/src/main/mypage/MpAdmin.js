@@ -18,30 +18,30 @@ const MpAdmin = () => {
 
 //검증요청 리스트 서버에서 받아오기
 useEffect(() => {
-        fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
-        .then(response => response.json())
-        .then(data => {
-            // 요청 결과 처리
-            console.log(data);
-            setValidationList(data);
-            console.log('validationList : ',validationList);
-        })
-        .catch(error => {
-            // 에러 처리
-            console.error('Error:', error);
-        });
-  }, [validationList]);
+    fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
+    .then(response => response.json())
+    .then(data => {
+        // 요청 결과 처리
+        console.log(data);
+        setValidationList(data);
+        console.log('validationList : ',validationList);
+    })
+    .catch(error => {
+        // 에러 처리
+        console.error('Error:', error);
+    });
+}, [validationList]);
 
-  //검증요청 승인하는 함수
-  const updateValidation = (e) =>{
-    e.preventDefault();
-    // alert('승인요청 들어옴');
-    const confirm = window.confirm('정말 승인하시겠습니까?')
-    if(confirm){
-        
-        // alert('승인완료!');
-    }
-  }
+//검증요청 승인하는 함수
+const updateValidation = (e) =>{
+e.preventDefault();
+// alert('승인요청 들어옴');
+const confirm = window.confirm('정말 승인하시겠습니까?')
+if(confirm){
+    
+    // alert('승인완료!');
+}
+}
 
   return (
 <section>
