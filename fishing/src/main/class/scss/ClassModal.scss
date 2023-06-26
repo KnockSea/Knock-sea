@@ -1,0 +1,156 @@
+.modal-overlay {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* 배경 어둡게 설정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-box {
+    position: relative;
+    top: 30px;
+    background-color: white;
+    border-radius: 10px 0px 10px 10px;
+    width: 550px;
+    height: 700px;
+    padding: 20px;
+    overflow-y: auto;
+    overflow-x:hidden;
+
+    .class-select-time {
+      margin: 10px auto;
+      width: 500px;
+      background: rgba(162, 198, 228, 0.2);
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+
+      .selected-time {
+        // border: 1px solid #000;
+        margin: 10px;
+        cursor: pointer;
+
+        &:hover {
+          font-weight: bold;
+          color: #123282;
+        }
+      }
+    }
+    
+  }
+
+  .select-date {
+    font-size: 20px;
+  }
+ 
+  .calendar {
+    margin: 0 auto;
+    width: 98%;
+    height: 300px;
+}
+
+
+.result {
+  margin: 10px;
+ 
+
+    .result-ul {
+      text-align: left;
+      // margin: 10px;
+      padding: 0;
+    }
+
+    .result-li {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px;
+
+          span {
+            width: 150px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+          }
+
+          .NumberCounter {
+            display: flex;
+            justify-content: center;
+            width: 150px;
+          }
+          .NumberCounter__button {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            background-color: #ccc;
+            color: #fff;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+          }
+          
+          .NumberCounter__button:hover {
+            background-color: #aaa;
+          }
+
+          .NumberCounter__input {
+            width: 50px;
+            border: none;
+            outline: none;
+            text-align: center;
+          }
+      }
+
+      .total-price {
+        display: flex;
+        justify-content: space-between;
+        text-align: left;
+        padding: 10px;
+        width: 500px;
+        background: rgba(196, 208, 216, 0.2);
+        border-radius: 10px;
+      }
+
+      .class-pay-btn {
+        background-color:#123282;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 8px 30px;
+        font-size: 15px;
+
+        &:hover {
+          background-color: #0a2057;
+        }
+        
+      }
+}
+
+.total-result {
+  margin-top: 20px;
+}
+
+  .modal-box .close-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 20px; 
+    color: #fff;
+    background: pink;
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+  .custom-calendar .react-datepicker__day {
+    margin: 2px 21px;
+   }

@@ -1,0 +1,208 @@
+
+* {
+    box-sizing: border-box;
+    font-family: 'Noto Sans', 'Source Sans Pro';
+    list-style: none;
+}
+body{
+    /* background-color: #072000; */
+    background-color:#ffffff;
+}
+
+.container {
+    width: 700px;
+    min-width: 700px;
+    margin: 50px auto;
+}
+
+span[id] {
+    display: block;
+    /* width: 160px; */
+    padding: 5px 0 0 15px;
+}
+
+/* 로그인 상단부 */
+#sign-in-header{
+    padding: 30px 0;
+    text-align: center;
+    background: #ffffff;
+}
+.header {
+    align-items: center;
+    background-color: #123282;
+    border-radius:25px;
+    box-sizing:border-box;
+    color:#ffffff;
+    display:flex;
+    font-size:16px;
+    font-weight:500;
+    height:50px;
+    width: 100px;
+    margin: 0 auto;
+    justify-content:center;
+    margin-bottom:20px;
+    white-space:nowrap;
+}
+
+.head2 {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.head2 span{
+    font-weight: 700;
+}
+
+#sign-in-header img{
+    width: 100px;
+    height: 100px;
+}
+
+/* 로그인 중앙부 */
+.sign-in-body {
+    background-color: #f0f3f7;
+    border-radius: 10px;
+}
+
+#profile-image > div > div > label {
+    &:hover {
+        color: rgb(192, 75, 94);
+    }
+}
+
+.sign-in-body form ul {
+    /* border: 1px solid #000; */
+    padding: 0;
+    padding: 50px 0;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.sign-in-body form ul .signIn-input {
+    margin-bottom: 40px;
+}
+
+
+.sign-in-body #signInForm li {
+    display: flex;
+    margin-bottom: 20px;
+    list-style: none;
+    justify-content: center;
+}
+
+.sign-in-body #signInForm li .form-control {
+    width: 420px;
+    height: 40px;
+    padding : 0;
+    padding-left: 10px;
+    border: 2px solid #d9d9de;
+    border-radius: 10px;
+}
+
+.login-etc {
+    margin-top: -10px;
+    display: flex;
+    justify-content: space-between !important;
+    align-items: center;
+
+    label[for="auto-login"] {
+        position: relative;
+        top: -1.5px;
+        left: 2px;
+        color: #8a8a8a;
+        font-size: 12px;
+      }
+
+    .sign-up{
+        margin-right: 10px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+        color: #414141;
+    }
+}
+
+
+
+
+/* 로그인 하단부 */
+.sign-in-wrap #sign-btn .sign-btn {
+    background:#123282;
+    padding: 0;
+    margin: auto;
+
+    width: 320px;
+    height: 38px;
+    border-style: none;
+    border-radius: 3px;
+
+    font-size: 0.8em;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.sign-btn {
+    padding-bottom: 50px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.sign-in-btn {
+    width: 320px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    div{
+        font-size: 0.8em;
+        text-decoration: none;
+        padding: 10px 25px;
+        color:#fff;
+        border-radius: 25px;
+        cursor: pointer;
+
+        
+    }
+}
+
+.naver-btn {
+    width: 130px;
+    height: 35px;
+}
+.kakao-btn {
+    width: 150px;
+    height: 35px;
+}
+
+.line_lr {
+    display:flex;
+    flex-basis:100%;
+    align-items:center;
+    color:#777777;
+    font-size:12px;
+    margin: 30px 0 15px 0;
+}
+.line_lr::before{
+    content:"";
+    flex-grow:1;
+    margin:0px 14px;
+    background:#acacac;
+    height:1px;
+    display:inline-block;
+    text-shadow:none;
+}
+.line_lr::after {
+    content:"";
+    flex-grow:1;
+    margin:0px 14px;
+    background:#acacac;
+    height:1px;
+    display:inline-block;
+    text-shadow:none;
+}

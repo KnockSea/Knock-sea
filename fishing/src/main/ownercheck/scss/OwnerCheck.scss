@@ -1,0 +1,186 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Noto Sans', 'Source Sans Pro';
+}
+
+
+body {
+    background-color: #ffffff;
+}
+
+.container {
+    width: 1136px;
+    min-width: 700px;
+    margin: 100px auto 0;
+    /* border: 1px solid #000; */
+}
+
+span[id] {
+    display: block;
+    width: 250px;
+    padding: 5px 0 0 15px;
+}
+
+
+/* 업체등록 상단부 */
+hr {
+    margin-top: 40px;
+}
+.owner-check-header {
+    padding: 30px 0 0;
+    text-align: center;
+    background: #ffffff;
+}
+
+.owner-check-header .head-title {
+    font-size: 25px;
+    font-weight: 700;
+
+    img {
+        margin: 20px;
+        width: 80px;
+        height: 80px;
+    }
+}
+
+
+/* 업체등록 중앙부 */
+.owner-check-body form {
+    // margin-top: -60px;
+}
+.owner-check-body ul li .category {
+    margin-top: 50px;
+    display: flex;
+    width: 450px;
+}
+
+.owner-check-body ul li .category-select {
+    background-color: #9A9A9A;
+    border-radius: 25px;
+    color:#ffffff;
+    text-align: center;
+    font-size:16px;
+    font-weight:700;
+    text-decoration: none;
+    
+    line-height: 40px;
+    margin-right: 50px;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        background-color: #123282;
+}}
+
+.owner-check-body ul li .ship, .fishing{
+    width: 100px;
+}
+
+.owner-check-body ul {
+    padding: 0;
+    width: 680px;
+    margin: 0 auto;
+    padding: 30px auto;
+}
+
+.owner-check-body li {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 40px;
+    /* margin-left: 140px; */
+    list-style: none;
+}
+
+.owner-check-body li div {
+    font-size: 15px;
+    width: 200px;
+    text-align: left;
+}
+.owner-check-body ul li span{
+    width: 320px;
+}
+
+.owner-check-body li .form-control {
+    width: 450px;
+    height: 40px;
+    padding-left: 10px;
+    border: 1px solid #d9d9de;
+    border-radius: 5px;
+}
+
+.filebox label {
+    display: inline-block;
+    padding: .4em 1.8em;
+    margin-top: 2px;
+    color: #123282;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: normal;
+    vertical-align: middle;
+    background: #fff;
+    border: 1px solid #123282;
+    border-radius: 1em;
+    cursor: pointer;
+    -webkit-transition: background-color 0.2s;
+    transition: background-color 0.2s;
+  }
+  
+  .filebox label:hover {
+    background-color: #5a73b4;
+    border: 1px solid #5a73b4;
+    color: #FFF;
+  }
+  
+  .filebox {
+    span {
+        margin: 10px;
+        font-size: 12px;
+        display: block;
+    }
+    
+    input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+}
+
+/* 회원가입 하단부 */
+.owner-check-footer {
+    /* border: 1px solid #000; */
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.owner-check-footer .btn {
+    background:#123282;
+    margin: 20px;
+
+    width: 200px;
+    height: 40px;
+    border-style: none;
+    border-radius: 10px;
+
+    font-size: 1em;
+    color: white;
+
+    cursor: pointer;
+}
+
+.owner-check-footer .btn:hover {
+    background: #fff;
+    border: 1px solid #123282;
+    color : #123282;
+}
+
+/* 기타 */
+.imp {
+    color: red;
+    font-weight: 700;
+}

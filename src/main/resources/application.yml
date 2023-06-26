@@ -13,11 +13,16 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.MariaDB106Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
     database: mysql
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB #1개의 파일의 최대사이즈
+      max-request-size: 20MB # 전체 요청의 최대사이즈
 
 logging.level:
   org.hibernate.SQL: debug
@@ -26,3 +31,27 @@ logging.level:
 springdoc:
   swagger-ui:
     path: /myapi.html
+
+jwt:
+  secret: KfvIJyXEhbOrrzxCCI+qmsIuslRItPtj2Ee+fhUUU0Ik9CBCpM/KV+N6Fc+H7mYJL7GBeOqpzEMaoe5C8+M5Mw==
+
+# 업로드파일 저장 경로
+upload:
+  path: D:/knocksea_upload
+
+#마이바티스
+mybatis:
+  config-location: classpath:mybatis-config.xml
+
+kakao:
+  admin:
+    key: b0e82271a5b48b26d2e65429c52085c1
+
+# s3 접근 설정
+aws:
+  credentials:
+    accessKey: AKIAZTDGW32PDTCET35M
+    secretKey: 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
+  region: ap-northeast-2
+  bucketName: jiseung-upload-bucket
+

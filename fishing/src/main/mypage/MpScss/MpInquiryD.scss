@@ -1,0 +1,120 @@
+.adminbox {
+  height: 600px;
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+
+  .mgbox {
+    width: 15%;
+
+    .mgtitle {
+      font-weight: 700;
+      height: 90px;
+      position: relative;
+      background: #123282;
+      p {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+      }
+    }
+
+    .mglist {
+      margin-top: 40px;
+      font-weight: 700;
+      color: white;
+      background: #123282;
+      padding-top: 20px;
+      padding-bottom: 160px;
+      .ch2 {
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+    }
+  }
+
+  .mgcontentbox {
+    margin-left: 5%;
+    border: 1px solid #ccc;
+    width: 80%;
+    //   display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .ctntitle {
+      font-weight: 700;
+      height: 50px;
+
+      // display: flex;
+      border-bottom: 1px solid #ccc;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ctntext {
+      margin-top: 20px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      padding: 5px;
+      margin-top: 7px;
+      margin-bottom: 7px;
+
+      .ctntextbox1 {
+        width: 100%;
+        border: none;
+
+        .ctnminbox {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+
+          .answertext {
+            width: 70%;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            height: 200px;
+            align-items: center;
+          }
+
+
+          .adminreplyinput {
+            margin-top: 10px;
+            height: 150px;
+            width: 70%;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            resize: none;
+            .answer {
+              width: 100%;
+              height: 90%;
+              border: 1px solid #000;
+              border-radius: 10px;
+
+              resize: none;
+            }
+          }
+        }
+      }
+    }
+
+    .replybtn1 {
+      height: 50px;
+      color: white;
+      background: #123282;
+      border: 1px solid #123282;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+  }
+}
+

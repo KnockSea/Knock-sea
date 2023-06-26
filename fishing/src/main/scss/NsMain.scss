@@ -1,17 +1,21 @@
-  section{
-        text-align: center;
-        // margin-top: 70px;
-        padding-top: 70px;
-        // background: #fff;
-        padding-bottom: 62px;
+section {
+    text-align: center;
+    // margin-top: 70px;
+    padding-top: 70px;
+    // background: #fff;
+    padding-bottom: 62px;
+
     .banner {
         width: 100%;
         position: relative;
+
         img {
             width: 100%;
             height: 200px;
         }
-        .b1, .b2 {
+
+        .b1,
+        .b2 {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -23,13 +27,16 @@
             font-size: 20px;
             z-index: 1;
         }
+
         .b1 {
             left: 10px;
         }
+
         .b2 {
             right: 10px;
         }
     }
+
     .mainbox {
         // background: #000;
         width: 80%;
@@ -39,80 +46,99 @@
 
         display: flex;
         // border: 1px solid #000;
-        
+
         .contentbox {
             width: 70%;
             // background: orange;
             border-right: 2px solid #DDDDDD;
-            
-            
-            // 컨텐츠 박스들 시작
-            // .ship{
-            //     // border: 1px solid #000;
-            //     .title {
-            //         display: flex;
-            //         justify-content: space-between;
-            //         align-items: center;
-            //         .t1 {
-            //             margin-left: 100px;
-            //             font-size: 13px;
-            //             font-weight: 700;
-            //         }
-            //         .t2 {
-            //             font-size: 10px;
-            //             margin-right: 10px;
-            //             text-decoration: underline;
-            //         }
-            //     }   
-            // .shipboxs {
-            //     width: 100%;
-            //     height: 100px;
-            //     // background: blue;
-
-            //     display: flex;
-            //     justify-content: flex-end;
-            //     align-items: center;
-                
-            //     div {
-
-            //         margin-right: 60px;
-
-            //         width: 120px;
-            //         height: 100px;
-            //         background: green;
-            //         border: 1px solid #000;
-            //         overflow: hidden;
-            //         img {
-            //             width:100%;
-            //             height:100%;
-            //             object-fit: cover;
-            //         }
-            //     }
-            // }
 
 
-            // }
-            // 컨텐츠 박스들 끝
 
         }
 
         .apibox {
             width: 30%;
-            // background: red;
-            // border: 1px solid #000;
+            // height: 466.5px;
+            display: flex;
+            // flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            margin-left: 20px;
+            margin-top: 20px;
 
             .exbox {
                 width: 100%;
-                height: 300px;
+                height: 30px;
                 text-align: left;
-                margin-left: 20px;
-                margin-top: 20px;
-
+                margin-bottom: 10px;
                 font-weight: 700;
                 font-size: 10px;
-                // background: pink;
             }
+
+            .wtbox {
+                width: 100%;
+                height: calc(100% - 40px);
+                overflow-y: auto;
+                overflow-x: hidden;
+                display: flex;
+                flex-wrap: wrap;
+                align-content: flex-start;
+                justify-content: space-between;
+                gap: 10px;
+
+                .weather {
+                    width: 100%;
+
+                    .weather-item {
+                        margin-top: 50px;
+                        width: 100%;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 10px;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+                        img {
+                            width: 64px;
+                            height: 64px;
+                        }
+
+                        p {
+                            margin: 5px 0;
+                            font-size: 10px;
+                        }
+                    }
+                }
+            }
+
+            .apiinfo {
+                font-size: 12px;
+
+                .wttopitem {
+                    display: flex;
+                    justify-content: center;
+
+                    .imgbox111 {
+                        width: 30%;
+
+                        img {
+                            width: 100%;
+                        }
+                    }
+                }
+
+                .weather-list {
+                    display: flex;
+
+                    .weather-item {}
+                }
+
+            }
+
+
         }
-        
+
+
+
     }
 }

@@ -1,64 +1,55 @@
-import React from 'react'
+import React, { useState ,useEffect } from 'react'
 import './RvScss/RvMain.scss'
+import boat from '../img/boat.jpg'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Bullseye,Calendar2Check,EmojiSmile,PersonVcard, CheckCircleFill } from 'react-bootstrap-icons';
+import RvinnerHeader from './RvinnerHeader';
+import map from '../img/map.png'
+import RvItem from './RvItem';
+import { Link, Route, Routes } from 'react-router-dom';
+import RvBtDetail from './RvBtDetail';
+import RvMap from './RvMap';
 
 
-function RvMain() {
+function RvMain({fetchFsProduct, FsProduct}) {
+
+
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(6);
+  const [products, setProducts] = useState(FsProduct);
+  const type = 'SHIP';
+
+  console.log('안녕 나는 rvmain이야 ');
+  
+  useEffect(() => {
+    // fetchFsProduct(page, size, type);
+    setProducts(FsProduct);    
+  },[FsProduct]);
+  
+  console.log('얘는 존재 해?', FsProduct);
+
   return (
-
-    <div>RvMain
+    <div>
         <div className='rvMain'>
-            <div className='rvContent'>
-
-                <div className='rvChoice'>
-                    <div className='rvbox'>
-
-                    <div>날짜선택
-                        <div>
-                        <select>
-                            <option>06-08</option>
-                            <option>06-09</option>
-                            <option>06-10</option>
-                        </select>
-                        </div>
-                    </div>
-
-                    <div>지역선택
-                    <div>
-                        <select>
-                            <option>06-08</option>
-                            <option>06-09</option>
-                            <option>06-10</option>
-                        </select>
-                        </div>
-                    </div>
-                    <div>세부검색
-                    <div>
-                        <select>
-                            <option>06-08</option>
-                            <option>06-09</option>
-                            <option>06-10</option>
-                        </select>
-                        </div>
-                    </div>
-                    </div>
-                  
-                    <button>선택</button>
-                </div>
-
-            
-
-
-
+            <div className='rvContent'>                
+              <div className='cardBox'>
+                <RvItem                 
+                productDetail={FsProduct}
+                />
+              </div>
             </div>
-
-
-
-            <div className='rvApibox'></div>
+            <div className='rvApibox'>
+            <div>위치 확인하기</div>
+              <div className='mapbox'>
+                <RvMap
+                  productDetail={FsProduct} 
+                />
+              </div>
+            </div>
         </div>
-
+        {/* 페이징 버튼 영역 */}
     </div>
-
   )
 }
 
-export default RvMain
+export default RvMain;

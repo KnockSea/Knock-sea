@@ -1,0 +1,56 @@
+.rvChoice {
+
+
+    border-bottom: 1px solid #DDDDDD;
+
+    height: 100px;
+
+    .rvbox {
+
+        display: flex;
+        text-align: left;
+        font-weight: 700;
+
+        align-items: center;
+        justify-content: space-around;
+        margin-right: 70px;
+
+        div {
+
+                
+
+            .react-datepicker__header{
+                background: #123282;
+            }
+            .search-wrapper {
+               height: 28px;
+               width: 180px;
+               font-size: 10px;
+                // text-align: center;
+                // align-items: center;
+                // font-size: 13px;
+            }
+         
+        }
+        .w-full {
+            color: black;
+            border-color: #000;
+            // width: 80px;
+            font-size: 11px;
+            height: 30px;
+        }
+    }
+
+    .search {
+        float: left;
+        width: 80px;
+        margin-top: 5px;
+        margin-left: 80px;
+        color: #fff;
+        font-weight: 700;
+        background: #123282;
+        border: none;
+        border-radius: 10px;
+    }
+
+}

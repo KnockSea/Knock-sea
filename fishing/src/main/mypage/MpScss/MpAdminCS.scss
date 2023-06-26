@@ -1,0 +1,73 @@
+.adminbox {
+    // border: 1px solid #000;
+    height: 600px;
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    // 관리자목록박스
+    .mgbox{ 
+        // border: 1px solid #000;
+        width: 15%;
+        .mgtitle{
+            font-weight: 700;
+            // border: 1px solid #000;
+            height: 90px;
+            position: relative;
+            background: #123282;
+            p{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: white;
+            }
+        }
+
+        .mglist {
+            // border: 1px solid #000;
+            margin-top: 40px;
+            font-weight: 700;
+            color: white;
+            background: #123282;
+            padding-top: 20px;
+            padding-bottom: 160px;
+            .ch2{
+                margin-top: 50px;
+                margin-bottom: 50px;
+            }
+            
+        }
+    }
+
+
+
+
+    .mgcontentbox{
+        margin-left: 5%;
+        border: 1px solid #CCC;
+        width: 80%;
+        .ctntitle {
+            font-weight: 700;
+            height: 50px;
+            // border: 1px solid #000;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+        }
+        .ctntext {
+            margin-top: 20px;
+          
+            .ctntextbox11{
+                padding: 5px;
+                margin-top: 7px;
+            margin-bottom: 7px;
+            border: 1px solid #CCC;
+            height: 50px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+           }
+        }
+        }
+    }
