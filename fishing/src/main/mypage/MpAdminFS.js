@@ -22,7 +22,7 @@ useEffect(() => {
         // 에러 처리
         console.error('Error:', error);
     });
-}, [validationList]);
+}, []);
 
   return (
     <section>
