@@ -16,7 +16,7 @@ public class ProductListResponseDTO {
 
     private int count;
     private PageResponseDTO pageInfo;
-    private List<ProductDetailResponseDTO> products;
+    private List<ProductDetailResponseDTO> productDetail;
 
     private List<ViewProduct> allAddress;
 }

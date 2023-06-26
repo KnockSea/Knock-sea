@@ -53,6 +53,7 @@ useEffect(() => {
                 <div>
                     <button>승인</button>
                     <button>취소</button>
+
                 </div>
                 <div>{validation.validationStatus}</div>
                 </div>))) : (<div>데이터 없음</div>)}

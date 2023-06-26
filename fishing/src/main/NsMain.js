@@ -42,19 +42,16 @@ import ScrollToTop from './ScrollToTop';
 import MpInquiryD from './mypage/MpInquiryD';
 
 const NsMain = () => {
-    const [product, setproduct] = useState(null);
-
 
   return (
     <section>
         <ScrollToTop />
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
-            <Route path='/' element ={<MainContent product={product} />} />
+            <Route path='/' element ={<MainContent />} />
             {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
             <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
             <Route path='/fsdetail/:productId' element={<RvFsDetail/>}> </Route>
-
             {/* 클래스 탭 */}
             <Route path='/class' element={<ClassMain/>}></Route>
             <Route path='/classdetail/:eduId' element={<ClassDetail/>}></Route>
@@ -107,12 +104,10 @@ const NsMain = () => {
             <Route path='/host' element={<HostSearchMain/>}></Route>
         </Routes>
             
-                {/* MainContent 컴포넌트에 shipInfo prop 전달 */}
-      {/* <MainContent shipInfo={shipInfo} /> */}
     </section>
   )
 }
-const MainContent = ({ isRouteActive , product}) => {
+const MainContent = ({ isRouteActive }) => {
     return (
         <>
            {!isRouteActive && (
@@ -122,7 +117,6 @@ const MainContent = ({ isRouteActive , product}) => {
             <div className='mainbox'>
             <div className='contentbox'>
             <NsItem 
-            product={product}
 
             />
             <NsFishingSpot />
