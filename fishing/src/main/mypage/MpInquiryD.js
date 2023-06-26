@@ -69,20 +69,24 @@ const MpInquiryD = () => {
 
           <div className="ctntext">
             <div className="ctntextbox1">
-                <div className="ctnminbox">
-
-              <div className="answertext">
-                {/* 작성자가 문의한 글 보여주는 곳 */}
-                {inquiry && inquiry.inquiryDetails}
-              </div>
-              <div className="adminreplyinput">
-                <textarea value={answerDetails} onChange={handleAnswerChange}  />
-              </div>
+              <div className="ctnminbox">
+                <div className="answertext">
+                  {/* 작성자가 문의한 글 보여주는 곳 */}
+                  {inquiry && inquiry.inquiryDetails}
                 </div>
+                <div className="adminreplyinput">
+                  <textarea
+                    value={answerDetails}
+                    onChange={handleAnswerChange}
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
-          <button onClick={handleSubmitAnswer} className="replybtn1">답변완료</button>
+          <button onClick={handleSubmitAnswer} className="replybtn1">
+            답변완료
+          </button>
           {/* 답변완료를 누르면 관리자화면에서 답변한 게시글은 없어지거나  답변하기가 사라져야 하지않나? */}
         </div>
       </div>

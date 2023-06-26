@@ -62,7 +62,7 @@ const WeeklyWeather = () => {
 
   const imgSrc = `https://openweathermap.org/img/w/${icon}.png`;
   const imgsSrc = `./icons/${icon}.png`;
-console.log('img', imgsSrc)
+  console.log("img", imgsSrc);
   return (
     <div className="weather">
       {loading ? (

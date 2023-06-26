@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { NsHeader } from '../NsHeader'
-import RvMain from './RvMain'
-import { API_BASE_URL, PRODUCTS, SHIP } from '../../config/host-config';
+import React, { useEffect, useState } from "react";
+import { NsHeader } from "../NsHeader";
+import RvMain from "./RvMain";
+import { API_BASE_URL, PRODUCTS, SHIP } from "../../config/host-config";
 
 function RvTemplate() {
-
-  const [Fsproduct , setFsproduct] = useState();
-  const [Allproduct , setAllproduct] = useState();
+  const [Fsproduct, setFsproduct] = useState();
+  const [Allproduct, setAllproduct] = useState();
 
   const [page, setPage] = useState();
   const [size, setSize] = useState();
   const [type, setType] = useState("SHIP");
-
 
   // 배 상품 정보를 전체 가져오는 함수
   // const fetchFsProduct = async ({p,s,t}) => {
@@ -27,31 +25,26 @@ function RvTemplate() {
   //   }
   // };
 
-
   useEffect(() => {
     fetch(`${API_BASE_URL}${PRODUCTS}/product-list`)
-    .then( response => response.json())
-    .then(all => {
-      setAllproduct(all);
-    });
-        console.log('Fsproduct:', Allproduct);
-
-  },[]);
-
-
+      .then((response) => response.json())
+      .then((all) => {
+        setAllproduct(all);
+      });
+    console.log("Fsproduct:", Allproduct);
+  }, []);
 
   return (
-
-    Fsproduct &&
-    <div>
+    Fsproduct && (
+      <div>
         <NsHeader />
         <RvMain
-        // fetchFsProduct={fetchFsProduct}
-        FsProduct={Fsproduct}
+          // fetchFsProduct={fetchFsProduct}
+          FsProduct={Fsproduct}
         />
-    </div>
-
-  )
+      </div>
+    )
+  );
 }
 
-export default RvTemplate
+export default RvTemplate;
