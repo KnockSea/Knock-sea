@@ -26,7 +26,6 @@ function RvTemplate() {
     
   };
 
-
   useEffect(() => {
     fetchFsProduct({ p: page, s: size, t: type });
   }, []);
