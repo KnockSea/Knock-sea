@@ -68,7 +68,6 @@ public class InquiryApiController {
     } catch (Exception e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
-
   }
 
   // 문의 등록

@@ -108,17 +108,17 @@ const MpMain = () => {
 
 
 
-                {/*<div className='rvbox'>*/}
-                {/*        <h2>리뷰 게시판</h2>*/}
-                {/*        <p>아직 작성된 리뷰가 없습니다</p>*/}
-                {/*        <MpReFormItem/>*/}
-                {/*</div> */}
+                <div className='rvbox'>
+                       <h2>리뷰 게시판</h2>
+                       <p>아직 작성된 리뷰가 없습니다</p>
+                       <MpReFormItem/>
+                </div>
 
                 <div className='rvbox'>
                     <MpReviewList />
                 </div>
 
-                <div className='rvbox2'>
+                {userInfo.userGrade==='OWNER' &&(<div className='rvbox2'>
                     <div className='inner-rvbox2'>
                         <div>
                             <h2>예약 현황</h2>
@@ -128,7 +128,7 @@ const MpMain = () => {
                         <button className='isbtn'><Link to={'/product'}>NEW 예약 등록</Link></button>
                         </div>
                     </div>
-                </div>
+                </div>)}
             </div>
         
                 <MpList style={{position:"fixed"}} />

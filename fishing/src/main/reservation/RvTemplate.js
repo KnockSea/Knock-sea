@@ -5,7 +5,6 @@ import RvMain from './RvMain'
 import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
 function RvTemplate() {
-
   const [Fsproduct , setFsproduct] = useState(null);
 
   const [page, setPage] = useState(1);
@@ -26,7 +25,6 @@ function RvTemplate() {
     
   };
 
-
   useEffect(() => {
     fetchFsProduct({ p: page, s: size, t: type });
   }, []);
@@ -37,7 +35,7 @@ function RvTemplate() {
     <div>
         <NsHeader />
         <RvMain
-        fetchFsProduct={fetchFsProduct}
+        // fetchFsProduct={fetchFsProduct}
         FsProduct={Fsproduct}
         />
     </div>

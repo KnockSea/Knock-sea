@@ -52,4 +52,4 @@ function RvMain({fetchFsProduct, FsProduct}) {
   )
 }
 
-export default RvMain
+export default RvMain;

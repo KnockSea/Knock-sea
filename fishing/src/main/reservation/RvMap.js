@@ -7,7 +7,7 @@ const RvMap = ({ productDetail }) => {
   useEffect(() => {
     const container = document.getElementById("map");
     const options = {
-      center: new kakao.maps.LatLng(35.85133, 127.734086),
+      center: new kakao.maps.LatLng(35.41, 130.134),
       level: 13,
     };
     const map = new kakao.maps.Map(container, options);
