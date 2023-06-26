@@ -28,7 +28,6 @@ function RvTemplate() {
   }, []);
 
   return (
-
     Fsproduct &&
     <div>
         <NsHeader />

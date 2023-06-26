@@ -2,27 +2,18 @@ import React, { useState, useEffect } from "react";
 import "./RvScss/RvItem.scss";
 import boat from "../img/boat.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  Bullseye,
-  Calendar2Check,
-  EmojiSmile,
-  PersonVcard,
-  CheckCircleFill,
-} from "react-bootstrap-icons";
-import { Link, Route } from "react-router-dom";
+import {Bullseye,Calendar2Check,EmojiSmile,PersonVcard,CheckCircleFill} from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 import RvBtDetail from "./RvBtDetail";
 
 import { API_BASE_URL, PRODUCTS, SHIP } from "../../config/host-config";
 
 const RvItem = ({ productDetail }) => {
-  // const [pro, setPro] = useState(productDetail);
 
-  // console.log('안녕 나는 rvItem이야 ', productDetail);
   const productList = productDetail.productDetail;
   return (
     <div className="shipsection">
-      {productList &&
-        productList.map((product, index) => (
+      {productList && productList.map((product, index) => (
           <div key={index} className="ShipcontentCard">
             <Link to={`/detail/${product.productId}`}>
               {/* 상세 보기 */}
@@ -41,7 +32,7 @@ const RvItem = ({ productDetail }) => {
                 <Bullseye />
                 상세 위치 :{product.fullAddress}
                 &nbsp;
-                <PersonVcard /> 신분증 지참 &nbsp;
+                {/* <PersonVcard /> 신분증 지참 &nbsp; */}
                 <EmojiSmile /> 최대 {product.maxUser}명
               </div>
               <div className="calendar">
