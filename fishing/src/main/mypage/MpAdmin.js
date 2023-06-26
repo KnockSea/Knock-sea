@@ -7,9 +7,9 @@ import { useState,useEffect } from 'react'
 const MpAdmin = () => {
 
     const [validationList, setValidationList] = useState([]);
-    const [validationType , setvalidationTtpe] = useState('SHIP');
+    const [validationType , setvalidationType] = useState('SHIP');
 
-    // API 요청
+//검증요청 리스트 서버에서 받아오기
 useEffect(() => {
         fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
         .then(response => response.json())
@@ -25,6 +25,15 @@ useEffect(() => {
         });
   }, [validationList]);
 
+  //검증요청 승인하는 함수
+  const updateValidation = (e) =>{
+    e.preventDefault();
+    // alert('승인요청 들어옴');
+    const confirm = window.confirm('정말 승인하시겠습니까?')
+    if(confirm){
+        alert('승인완료!');
+    }
+  }
 
   return (
 <section>
@@ -48,10 +57,11 @@ useEffect(() => {
             {/* 본문내용 */}
             <div className='ctntext'>
                 {validationList.length > 0 ? (validationList.map(validation => (<div key={validation.validationId}>
-                {validation.validationShipRegi ? (<div>{validation.validationShipRegi}</div>) : (<div>선박등록이미지 없음</div>)}
-                {validation.validationShipLicense ? (<div>{validation.validationShipLicense}</div>) : (<div>선박면허증 없음</div>)}
+                {validation.userName ? (<div className='username'>{validation.userName}</div>) : (<div>등록유저이름없음</div>)}
+                {validation.validationShipRegi ? (<div className='shipregiimg'>{validation.validationShipRegi}</div>) : (<div>선박등록이미지 없음</div>)}
+                {validation.validationShipLicense ? (<div className='shipregistnum'>{validation.validationShipLicense}</div>) : (<div>선박면허증 없음</div>)}
                 <div>
-                    <button>승인</button>
+                    <button onClick={updateValidation}>승인</button>
                     <button>취소</button>
                 </div>
                 <div>{validation.validationStatus}</div>
