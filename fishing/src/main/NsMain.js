@@ -52,7 +52,6 @@ const NsMain = () => {
             {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
             <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
             <Route path='/fsdetail/:productId' element={<RvFsDetail/>}> </Route>
-
             {/* 클래스 탭 */}
             <Route path='/class' element={<ClassMain/>}></Route>
             <Route path='/classdetail/:eduId' element={<ClassDetail/>}></Route>

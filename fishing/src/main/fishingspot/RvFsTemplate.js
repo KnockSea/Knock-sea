@@ -15,7 +15,7 @@ function RvFsTemplate() {
   const fetchFsProduct = async ({p,s,t}) => {
     try {
 
-      fetch(`${API_BASE_URL}${PRODUCTS}/product-list?page=${p}&size=${s}&type=${t}`)
+      fetch(`${API_BASE_URL}${PRODUCTS}/product-list`)
         .then(response => response.json())
         .then(res => {
           setFsproduct(res);
@@ -48,7 +48,7 @@ function RvFsTemplate() {
   },[]);
 
   return (
-    Fsproduct &&
+    !Fsproduct &&
     <div>
         <NsHeader />
         <RvFsMain 

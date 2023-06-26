@@ -5,46 +5,29 @@ import RvMain from './RvMain'
 import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
 function RvTemplate() {
+  const [Fsproduct , setFsproduct] = useState(null);
 
-  const [Fsproduct , setFsproduct] = useState();
-  const [Allproduct , setAllproduct] = useState();
-
-  const [page, setPage] = useState();
-  const [size, setSize] = useState();
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(6);  
   const [type, setType] = useState("SHIP");
-
-
+  console.log('안녕 나는 rvtemplate이야', Fsproduct);
   // 배 상품 정보를 전체 가져오는 함수
-  // const fetchFsProduct = async ({p,s,t}) => {
-  //   try {
-
-  //     fetch(`${API_BASE_URL}${PRODUCTS}/product-list?page=${p}&size=${s}&type=${t}`)
-  //       .then(response => response.json())
-  //       .then(res => {
-  //         setFsproduct(res);
-  //     });      
-  //   }catch (error) {
-  //     console.error('Error fetching Fsproduct info:', error);
-  //   }
-  // };
-
+  const fetchFsProduct = async ({p,s,t}) => {
+    console.log('안녕 나는 rvtemplate fetch야');
+    
+      fetch(`${API_BASE_URL}${PRODUCTS}/product-list?page=${page}&size=${size}&type=${type}`)
+          .then(response => response.json())
+          .then(res => {
+            setFsproduct(res);
+            
+        });    
+      
+    
+  };
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}${PRODUCTS}/product-list`)
-    .then( response => response.json())
-    .then(all => {
-      setAllproduct(all);
-    });
-        console.log('Fsproduct:', Allproduct);
-
-  },[]);
-
-
-  // useEffect(() => {
-    
-
-  //   console.log(`@!@!@!@!@!@!@!@!@!@!@!`, fetchFsProduct())
-  // }, [fetchFsProduct, page, size, type]);
+    fetchFsProduct({ p: page, s: size, t: type });
+  }, []);
 
   return (
 
