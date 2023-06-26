@@ -272,6 +272,14 @@
         li {
             margin-top: 10px;
             text-align: left;
+            
+            a{
+                color: #fff;
+
+                &:hover {
+                    border-bottom: 1px solid #f8f8f8;
+                }
+            }
         }
         .my {
             margin-bottom: 60px;
