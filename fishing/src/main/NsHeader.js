@@ -74,14 +74,6 @@ export const NsHeader = () => {
       })();
     }, []);
     
-    
-    
-    
-    
-    
-    
-    
-    
 
   return (
     <header>
