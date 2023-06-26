@@ -4,6 +4,7 @@ import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.ReservationTime;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -21,7 +22,9 @@ public class ReservationTimeResponseDTO {
     private int timeMaxUser;
     private int timeCurrentUser;
     private LocalDate timeDate;
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime timeStart;
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime timeEnd;
 
     public ReservationTimeResponseDTO(ReservationTime time) {

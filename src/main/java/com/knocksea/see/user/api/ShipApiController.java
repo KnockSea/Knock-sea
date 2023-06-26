@@ -180,7 +180,7 @@ public class ShipApiController {
     //GET : /api/v1/ship/getshipinfo
     @GetMapping("/getshipinfo")
     public ResponseEntity<?> loadshipinfo(@AuthenticationPrincipal TokenUserInfo userInfo
-                                          ) {
+                                         ) {
         // 값 들어오는지 확인
         log.info("/ship/getshipinfo GET! --{}", userInfo);
 

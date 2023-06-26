@@ -42,8 +42,6 @@ public class EduDetailResponseDTO {
 
     private String eduInfo;
 
-    private String eduLocationInfo;
-
     private List<ReservationTimeResponseDTO> timeList;
 
     private List<ReviewDetailResponseDTO> reviewList;
@@ -87,7 +85,6 @@ public class EduDetailResponseDTO {
         this.eduService = edu.getEduService();
         this.eduLevel = edu.getEduLevel();
         this.eduInfo = edu.getEduInfo();
-        this.eduLocationInfo = edu.getEduLocationInfo();
         this.timeList = timeList;
         this.reviewList = reviews;
         this.imageList = images;

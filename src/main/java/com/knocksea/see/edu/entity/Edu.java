@@ -54,10 +54,6 @@ public class Edu {
     @Column(nullable = false, length = 2000)
     private String eduInfo;
 
-    @Column(nullable = false, length = 2000)
-    private String eduLocationInfo;
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -87,7 +83,6 @@ public class Edu {
         this.eduService=dto.getEduService();
         this.eduLevel=dto.getEduLevel();
         this.eduInfo=dto.getEduInfo();
-        this.eduLocationInfo=dto.getEduLocationInfo();
     }
 
 }
