@@ -58,27 +58,25 @@ public class ProductService implements ProductDetailService {
     }
 
     // 메인에서 보이는 상품 전체 목록
-    public ProductListResponseDTO findAll(PageDTO pageDTO) {
+    public ProductListResponseDTO findAll(PageDTO pageDTO) throws RuntimeException{
         PageRequest pageable =
                 PageRequest.of(pageDTO.getPage() - 1
                     , pageDTO.getSize()
                     , Sort.by("productInputDate").descending()
                 );
 //        type, keyword
-        Page<Product> products = productRepository.findAll(pageable);
+//        Page<Product> products = productRepository.findAll(pageable);
+        Page<Product> products = productRepository.findAllByType(pageable, pageDTO.getType());
 
         List<ProductDetailResponseDTO> prodDetailList = products.stream()
                 .map(product -> {
-                        if (product.getProductType().equals("SHIP")) {
-                            List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
-                            List<ReservationTime> rt = reservationTimeRepository.findAllByProduct_ProductId(product.getProductId());
-                            return new ProductDetailResponseDTO(product, allByProduct.get(0).getImageName(), rt.get(0).getTimeMaxUser());
-                        } else {
-                            List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
-                            List<ReservationTime> rt = reservationTimeRepository.findAllByProduct_ProductId(product.getProductId());
-                            return new ProductDetailResponseDTO(product, allByProduct.get(0).getImageName(), rt.get(0).getTimeMaxUser());
+                        List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
+                        if (allByProduct == null) {
+                            throw new RuntimeException("상품이 없습니다.");
                         }
-                }
+                        List<ReservationTime> rt = reservationTimeRepository.findAllByProduct_ProductId(product.getProductId());
+                        return new ProductDetailResponseDTO(product, allByProduct.get(0).getImageName(), rt.get(0).getTimeMaxUser());
+                    }
                 ).collect(Collectors.toList());
 
         List<ViewProduct> allAddress = viewProductRepository.findAll();
@@ -90,7 +88,7 @@ public class ProductService implements ProductDetailService {
         return ProductListResponseDTO.builder()
                 .count(prodDetailList.size())
                 .pageInfo(new PageResponseDTO(products))
-                .products(prodDetailList)
+                .productDetail(prodDetailList)
                 .allAddress(allAddress)
                 .build();
 
@@ -133,7 +131,6 @@ public class ProductService implements ProductDetailService {
         if (productRepository.existsByProductTypeAndUserUserId(dto.getProductLabelType(), user.getUserId())) {
             throw new RuntimeException("이미 등록된 상품입니다.");
         }
-
 
         Product saveProduct = productRepository.save(dto.toProductEntity(user));
         log.warn("사베 프로덕트 : {}", saveProduct);

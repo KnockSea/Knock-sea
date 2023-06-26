@@ -10,9 +10,9 @@ import { getUserInfo } from "../util/login-util";
 import { getLoginUserInfo } from "../util/login-util";
 import { addDays, format, parseISO } from "date-fns";
 
-function ProductRegistration() {
+function EduRegistration() {
   const [token, setToken] = useState(getLoginUserInfo().token);
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState(getLoginUserInfo().userId);
   const [productCategory, setProductCategory] = useState("");
   const [productLabelType, setProductLabelType] = useState("");
   const [productTitle, setTitle] = useState("");
@@ -32,16 +32,15 @@ function ProductRegistration() {
   const [showDifficulty, setShowDifficulty] = useState(false);
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
-  const [formData, setFormData] = useState(new FormData());
 
   // 이미지 배열
   const handleImage = (e) => {
-    setImages([...e.target.files]);
+     setImages([...e.target.files]);
   };
 
   // 주소 값 받아옴
   const getAddressCom = (userAddress) => {
-    setuserAddress(userAddress);
+     setuserAddress(userAddress);
   };
 
   // 날짜 값 받아옴
@@ -57,168 +56,88 @@ function ProductRegistration() {
     console.log(currentDate);
 
     while (currentDate <= finalDate) {
-      dates.push(format(currentDate, "yyyy-MM-dd"));
-      currentDate = addDays(currentDate, 1);
+        dates.push(format(currentDate, "yyyy-MM-dd"));
+        currentDate = addDays(currentDate, 1);
     }
-
-    // this.setState({ timeDate: dates });
     setRanges(dates);
   };
 
-  // 시간값 props & 베열생성
+  // 시간값 props & 배열생성
   function handleTimeChange(timeString) {
-    const [timeStart, timeEnd] = timeString.split(" - ");
-    setStartTimes([...timeStarts, timeStart]);
-    setEndTimes([...timeEnds, timeEnd]);
-    console.log("Received time:", timeStarts, timeEnds);
+        const [timeStart, timeEnd] = timeString.split(" - ");
+        setStartTimes([...timeStarts, timeStart]);
+        setEndTimes([...timeEnds, timeEnd]);
+        console.log("Received time:", timeStarts, timeEnds);
   }
 
   // 시간 박스 생성
   const addTimeBox = () => {
-    setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
+      setTimeBoxes([...timeBoxes, timeBoxes.length + 1]);
   };
 
   // 취소버튼
   const handleCancel = () => {
-    navigate("/my");
+      navigate("/my");
   };
 
-  // productDTO
-  const productDTO = {
-    productLabelType: productLabelType,
-    productTitle: productTitle,
-    productInfo: productInfo,
-    productLocationInfo: productLocationInfo,
-    productFullAddress: productFullAddress,
-    productPrice: productPrice,
-    timeMaxUser: timeMaxUser,
-    timeDate: timeDate,
-    timeStart: timeStarts,
-    timeEnd: timeEnds,
-    productService: productService,
-  };
+
   // eduDTO
   const eduDTO = {
-    eduTitle: productTitle,
-    eduInfo: productInfo,
-    eduLocationInfo: productLocationInfo,
-    eduFullAddress: productFullAddress,
-    eduPrice: productPrice,
-    timeMaxUser: timeMaxUser,
-    timeDate: timeDate,
-    timeStart: timeStarts,
-    timeEnd: timeEnds,
-    eduService: productService,
-    eduLevel: eduLevel,
-    userId: userId,
+      eduTitle: productTitle,
+      eduInfo: productInfo,
+      // eduLocationInfo: productLocationInfo,
+      eduFullAddress: productFullAddress,
+      eduPrice: productPrice,
+      timeMaxUser: timeMaxUser,
+      timeDate: timeDate,
+      timeStart: timeStarts,
+      timeEnd: timeEnds,
+      eduService: productService,
+      eduLevel: eduLevel,
+      // userId : userId,
   };
 
-  const userJsonBlob = new Blob([JSON.stringify(productDTO)], {
-    type: "application/json",
+  console.log(eduDTO.eduLevel);
+
+  const userJsonBlobE = new Blob(
+        [JSON.stringify(eduDTO)], {
+        type: "application/json",
   });
 
-  const userJsonBlobE = new Blob([JSON.stringify(eduDTO)], {
-    type: "application/json",
-  });
-
-  // 난이도 옵션을 표시/숨기는 함수
-  const toggleDifficultyOptions = (selectedValue) => {
-    if (selectedValue === "EDU") {
-      setShowDifficulty(true);
-    } else {
-      setShowDifficulty(false);
-    }
-  };
 
   // 카테고리 선택에 따른 formData 객체
-  const handleCategoryChange = (e) => {
-    const selectedValue = e.target.value;
-    setProductLabelType(selectedValue);
-    toggleDifficultyOptions(selectedValue);
-
-    // 선택한 카테고리에 따라 다른 formdata 생성
-    let updatedFormData = null;
-    if (selectedValue === "EDU") {
-      // edu FormData
-      updatedFormData = new FormData();
-      updatedFormData.append("Edu", userJsonBlobE);
-      if (images && images.length > 0) {
-        images.forEach((image) => {
-          updatedFormData.append(`EduImage`, image);
-        });
-      }
-    } else {
-      // product FormData
-      updatedFormData = new FormData();
-      updatedFormData.append("productDTO", userJsonBlob);
-      images.forEach((image) => {
-        updatedFormData.append(`productImages`, image);
-      });
-    }
-    setFormData(updatedFormData);
-  };
-
-  // // 서버에 보낼 FormData 객체 생성
-  // // product FormData
-  // const formData = new FormData();
-  // formData.append('productDTO', userJsonBlob);
-  // productImages.forEach((image) => {
-  //   formData.append(`productImages`, image);
-  // });
-
-  // // edu FormData
-  // const formDataE = new FormData();
-  // formDataE.append('eduDTO', userJsonBlobE);
-  // productImages.forEach((image) => {
-  //   formDataE.append(`EduImage`, image);
-  // });
-
+  const formData = new FormData();
+  formData.append("Edu", userJsonBlobE);
+  images.forEach((image) => {
+    formData.append(`EduImage`, image);
+  });
+  
+  
   console.log("===================== formData 값 =====================");
-  // for (let [key, value] of formData.entries()) {
-  //   console.log(key, value);
-  // }
 
   for (let pair of formData.entries()) {
-    // console.log('키: ' + JSON.stringify(pair[0]),'밸류: ' + JSON.stringify(pair[1]));
+    console.log('키: ' + JSON.stringify(pair[0]),'밸류: ' + JSON.stringify(pair[1]));
   }
   
   
-  
   const handleProductRegi = async () => {
-    console.log("pDTO 오니?", productDTO);
-    console.log("eDTO 오니?", eduDTO);
     console.log("Eformdata?", formData);
 
-    try {
-      if (productLabelType === "EDU") {
-        console.log("EDU 넘어가는듕~");
-        console.log("EduLevel : ".eduLevel);
-        const res = await fetch("http://localhost:8012/api/v1/edu", {
-          method: "POST",
-          headers: { Authorization: "Bearer " + token },
-          body: formData,
-        });
-        if (res.status === 200) {
-          alert("등록 성공");
-          navigate("/");
-        } else {
-          alert(res.status);
-        }
-      } else {
-        console.log("product 넘어가는듕~");
-        const res = await fetch("http://localhost:8012/api/v1/products", {
-          method: "POST",
-          headers: { Authorization: "Bearer " + token },
-          body: formData,
-        });
 
-        if (res.status === 200) {
-          alert("등록 성공");
-          navigate("/my");
-        } else {
-          alert(res.status);
-        }
-      }
+    try {
+      console.log("EduLevel : " ,eduLevel);
+      const res = await fetch("http://localhost:8012/api/v1/edu", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token },
+          body: formData,
+      });
+          if (res.status === 200) {
+            alert("등록 성공");
+            navigate("/");
+          } else {
+            alert(res.status);
+          }
+
     } catch (error) {
       console.error("데이터 전송 실패!");
     }
@@ -249,20 +168,9 @@ function ProductRegistration() {
             <ul>
               <li>
                 <div className="regi-title">
-                  카테고리 선택<span className="imp">*</span>
+                  카테고리<span className="imp">*</span>
                 </div>
-                <select
-                  value={productLabelType}
-                  onChange={handleCategoryChange}
-                  required
-                  aria-required="true"
-                  className="category-custom-select"
-                >
-                  <option value="">카테고리 선택</option>
-                  <option value="SHIP">선박</option>
-                  <option value="SPOT">낚시터</option>
-                  <option value="EDU">클래스</option>
-                </select>
+                <div>선박 및 낚시터</div>
               </li>
               <li>
                 <div className="regi-title">
@@ -288,22 +196,6 @@ function ProductRegistration() {
                       <span>
                         {images[0] && <p>첨부된 사진 : {images[0].name}...</p>}
                       </span>
-                    </div>
-                    <div className="filebox-upload">
-                      {/* <div >
-                      <label htmlFor="photo2">사진 선택(2)</label>
-                      <input
-                        type="file"
-                        onChange={(e) => setPhoto2(e.target.files[0])}
-                        id="photo2"
-                        className="form-control"
-                        required
-                        aria-required="true"
-                        accept="image/*"
-                        name="shipConfirmImage"
-                        />
-                      </div> */}
-                      {/* <span>{photo2 && <p>첨부된 사진 : {photo2.name}</p>}</span> */}
                     </div>
                   </div>
                 </div>
@@ -476,7 +368,6 @@ function ProductRegistration() {
                   />
                 </div>
               </li>
-              {showDifficulty && (
                 <li className="difficulty">
                   <div className="regi-title">
                     난이도
@@ -515,7 +406,6 @@ function ProductRegistration() {
                     <label htmlFor="class-step3">상급자</label>
                   </div>
                 </li>
-              )}
             </ul>
             <div className="product-regi-footer">
               <button type="button" onClick={handleCancel} className="btn">
@@ -533,4 +423,4 @@ function ProductRegistration() {
   );
 }
 
-export default ProductRegistration;
+export default EduRegistration;
