@@ -39,6 +39,7 @@ public class WebSecurityConfig {
                 //어딴 요청에서 인증을 안할 것인지 설정, 언제 할 것인지 설정
 //                .authorizeRequests()
 //                .antMatchers("/api/v1/edu/**").permitAll()
+                .antMatchers("/health-check").permitAll()
                 .antMatchers("/","/api/v1/**").permitAll()
                 .antMatchers("/api/v1/edu").authenticated()
                 .antMatchers("/api/v1/user/load-profile").authenticated()

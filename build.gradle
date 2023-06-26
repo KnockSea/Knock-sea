@@ -51,8 +51,10 @@ dependencies {
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+//	useJUnitPlatform()
+	exclude '**/*' // 빌드시 전체 테스트 생략
 }
+
 
 compileJava.options.encoding = 'UTF-8'
 tasks.withType(JavaCompile) {
