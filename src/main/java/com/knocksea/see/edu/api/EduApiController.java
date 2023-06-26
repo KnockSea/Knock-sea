@@ -79,6 +79,7 @@ public class EduApiController {
             , BindingResult result
     ) {
         log.info("/api/v1/edu POST!! - payload: {}", dto);
+        log.info("Token : "+userInfo);
 
         if (dto == null) {
             return ResponseEntity

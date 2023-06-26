@@ -37,6 +37,7 @@ import MpIqInput from './mypage/MpIqInput';
 import MpAdminFS from './mypage/MpAdminFS';
 import MpAdminCS from './mypage/MpAdminCS';
 import HostSearchMain from './hostSearch/hostSearchMain'
+import EduRegistration from './product/EduRegistration';
 
 import ScrollToTop from './ScrollToTop';
 import MpInquiryD from './mypage/MpInquiryD';
@@ -64,6 +65,7 @@ const NsMain = () => {
             <Route path='/mypassword' element={<Mypassword/>}></Route>
             {/* 상품등록 */}
             <Route path='/product' element={<ProductRegistration/>}></Route>
+            <Route path='/edu' element={<EduRegistration/>}></Route>
             
             <Route path='/userDrop' element={<MpUserDrop/>}></Route>
             <Route path='/drop' element={<MpDrop/>}></Route>

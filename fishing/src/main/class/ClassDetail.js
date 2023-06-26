@@ -47,13 +47,12 @@ function ClassDetail() {
         }, []);
 
 
-
     return(
     <div className="class-detail-container">
         <div className="class-detail-wrap">
             <div id="class-detail-header">
                 <div className="detail-main-photo1">
-                {/* <img src={oneEdu.imageList && oneEdu.imageList[0]}/> */}
+                {/* <img src={oneEdu.imageList && oneEdu.imageList[0]}/>  */}
                 </div>
                 <div className="photo detail-main-photo2">
                 <img src={oneEdu.imageList && oneEdu.imageList[1]}/>
