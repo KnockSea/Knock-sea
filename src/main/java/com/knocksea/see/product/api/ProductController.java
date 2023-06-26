@@ -133,9 +133,12 @@ public class ProductController {
     public ResponseEntity<?> productList(PageDTO pageDTO) {
 
         log.info("/api/v1/products/product-list GET ! - {} ", pageDTO);
-        ProductListResponseDTO listResponseDTO = productService.findAll(pageDTO);
-
-        return ResponseEntity.ok().body(listResponseDTO);
+        ProductListResponseDTO listResponseDTO = null;
+        try {
+            listResponseDTO = productService.findAll(pageDTO);
+            return ResponseEntity.ok().body(listResponseDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
-
 }

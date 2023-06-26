@@ -58,7 +58,7 @@ public class ProductService implements ProductDetailService {
     }
 
     // 메인에서 보이는 상품 전체 목록
-    public ProductListResponseDTO findAll(PageDTO pageDTO) {
+    public ProductListResponseDTO findAll(PageDTO pageDTO) throws RuntimeException{
         PageRequest pageable =
                 PageRequest.of(pageDTO.getPage() - 1
                     , pageDTO.getSize()
@@ -71,6 +71,9 @@ public class ProductService implements ProductDetailService {
         List<ProductDetailResponseDTO> prodDetailList = products.stream()
                 .map(product -> {
                         List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
+                        if (allByProduct == null) {
+                            throw new RuntimeException("상품이 없습니다.");
+                        }
                         List<ReservationTime> rt = reservationTimeRepository.findAllByProduct_ProductId(product.getProductId());
                         return new ProductDetailResponseDTO(product, allByProduct.get(0).getImageName(), rt.get(0).getTimeMaxUser());
                     }
