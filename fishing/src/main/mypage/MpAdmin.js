@@ -29,8 +29,10 @@ const MpAdmin = () => {
                 <div>dasdas</div>
                 <div>선박등록이미지</div>
                 <div>12-**-1213</div>
-                <div>75-454-44577-45</div>
-                <div>대기</div>
+                <div>
+                <button>승인</button>
+                <button>취소</button>
+                </div>
                 <div>2023-06-21</div>
                 </div>
             </div>
