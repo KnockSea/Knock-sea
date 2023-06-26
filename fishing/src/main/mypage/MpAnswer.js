@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MpList from './MpList';
 import { getLoginUserInfo } from '../util/login-util';
-import { useLocation } from 'react-router-dom';
 
 function MpAnswer() {
     

@@ -9,29 +9,16 @@ import RvBtDetail from './RvBtDetail';
 import { API_BASE_URL, PRODUCTS, SHIP } from '../../config/host-config';
 
 
-const RvItem = ({ allAddress, pageInfo, products, count }) => {
-  const [Address, setAddress] = useState(allAddress);
-  const [pgInfo, setpgInfo] = useState(pageInfo);
-  const [pdt, setpdt] = useState(products);
-  const [ct, setct] = useState(count);
-  const [shipimg, setshipimg] = useState("");
+const RvItem = ({productDetail}) => {
 
-  useEffect(() => {
-    // fetch(`${API_BASE_URL}${PRODUCTS}/product-list`)
-    //   .then(response => response.text())
-    //   .then(shipimg => {
-    //     // setshipimg(shipimg);
-    //     // console.log(shipimg);
-    //   });
-
-  }, []);
-
-  const dt = products.productId;
+  // const [pro, setPro] = useState(productDetail);
+  
+  // console.log('안녕 나는 rvItem이야 ', productDetail);
+  const productList = productDetail.productDetail;
   return (
     <div className='shipsection'>
-      {products.map((product, index) => (
-        <div key={index} className='contentCard'>
-          {/* <Link to={{ pathname: '/detail', state: { pdtId: product.productId } }}> */}
+      {productList && productList.map((product, index) => (
+        <div key={index} className='contentCard'>          
   
           <Link to={`/detail/${product.productId}`}>
             상세 보기

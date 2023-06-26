@@ -5,36 +5,38 @@ import RvMain from './RvMain'
 import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
 function RvTemplate() {
+  const [Fsproduct , setFsproduct] = useState(null);
 
-  const [product, setproduct] = useState();
-
-
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(6);  
+  const [type, setType] = useState("SHIP");
+  console.log('안녕 나는 rvtemplate이야', Fsproduct);
   // 배 상품 정보를 전체 가져오는 함수
-  const fetchProduct = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}${PRODUCTS}/product-list`);
-      const data = await response.json();
-      setproduct(data);
-      console.log('와!',data);
-      console.log('NsMian setproduct', product); // null 
-    } catch (error) {
-      console.error('Error fetching product info:', error);
-    }
+  const fetchFsProduct = async ({p,s,t}) => {
+    console.log('안녕 나는 rvtemplate fetch야');
+    
+      fetch(`${API_BASE_URL}${PRODUCTS}/product-list?page=${page}&size=${size}&type=${type}`)
+          .then(response => response.json())
+          .then(res => {
+            setFsproduct(res);
+            
+        });    
+      
+    
   };
 
-
   useEffect(() => {
-    fetchProduct();
+    fetchFsProduct({ p: page, s: size, t: type });
   }, []);
 
   return (
 
-    product &&
+    Fsproduct &&
     <div>
         <NsHeader />
         <RvMain
-        product={product}
-
+        // fetchFsProduct={fetchFsProduct}
+        FsProduct={Fsproduct}
         />
     </div>
 

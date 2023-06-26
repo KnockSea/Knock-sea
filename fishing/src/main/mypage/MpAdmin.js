@@ -1,38 +1,28 @@
 import React , { useState,useEffect  }from 'react'
 import './MpScss/MpAdmin.scss'
 import { Link } from 'react-router-dom'
+import { useState,useEffect } from 'react'
 
 
 const MpAdmin = () => {
+    const [validationList, setValidationList] = useState([]);
+    const [validationType , setvalidationTtpe] = useState('SHIP');
 
-    const [admin, setAdmin] = useState([]);
-
-    const requestHeader = {
-      'content-type': 'application/json'
-    };
-    const API_BASE_URL = `http://localhost:8012/api/v1/edu/SHIP`;
-
-  
-    useEffect(()=>{
-      fetch(API_BASE_URL, { 
-          method: 'GET',
-          headers: requestHeader
+    // API 요청
+useEffect(() => {
+        fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
+        .then(response => response.json())
+        .then(data => {
+            // 요청 결과 처리
+            console.log(data);
+            setValidationList(data);
+            console.log('validationList : ',validationList);
         })
-          .then(res => {
-            if (res.status === 200) return res.json();
-           else {
-              alert('서버가 불안정합니다');
-            }
-          })
-          .then(json => {
-            console.log(json); 
-            setAdmin(json); //렌더링 완료
-          });
-  
-      }, []);
-
-
-
+        .catch(error => {
+            // 에러 처리
+            console.error('Error:', error);
+        });
+  }, [validationList]);
 
   return (
 <section>
@@ -54,17 +44,15 @@ const MpAdmin = () => {
 
             {/* 본문내용 */}
             <div className='ctntext'>
-                <div className='ctntextbox1'>
-                <div>dasdas</div>
-                <div>선박등록이미지</div>
-                <div>12-**-1213</div>
-                <div>대기</div>
+                {validationList.length > 0 ? (validationList.map(validation => (<div key={validation.validationId}>
+                {validation.validationShipRegi ? (<div>{validation.validationShipRegi}</div>) : (<div>선박등록이미지 없음</div>)}
+                {validation.validationShipLicense ? (<div>{validation.validationShipLicense}</div>) : (<div>선박면허증 없음</div>)}
                 <div>
-                <button>승인</button>
-                <button>취소</button>
+                    <button>승인</button>
+                    <button>취소</button>
                 </div>
-                <div>2023-06-21</div>
-                </div>
+                <div>{validation.validationStatus}</div>
+                </div>))) : (<div>데이터 없음</div>)}
             </div>
         </div>
     </div>
