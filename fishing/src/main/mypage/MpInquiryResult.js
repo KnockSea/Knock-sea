@@ -3,52 +3,23 @@ import { Link, useParams } from "react-router-dom";
 import "./MpScss/MpInquiryD.scss";
 import { getLoginUserInfo } from "../util/login-util";
 
-const MpInquiryD = () => {
+const MpInquiryResult = () => {
     const { inquiryId } = useParams();
-    const [answerDetails, setAnswerDetails] = useState("");
-    const [answers, setAnswers] = useState([]);
-    const [data, setData] = useState(null);
     const [inquiry, setInquiry] = useState([]);
     const [token, setToken] = useState(getLoginUserInfo().token);
-
-    const handleSubmit = () => {
-        const data = {
-            answerDetails: answerDetails,
-            inquiryId: inquiryId,
-        };
-
-        fetch("http://localhost:8012/api/v1/answers/makeAnswer", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + token,
-            },
-            body: JSON.stringify(data),
-        })
-            .then((response) => response.json())
-            .then((result) => {
-                // 서버 응답을 처리하는 로직 작성
-                console.log(result);
-            })
-            .catch((error) => {
-                // 에러 처리 로직 작성
-                console.error(error);
-            });
-    };
-
-    const handleAnswerChange = (e) => {
-        setAnswerDetails(e.target.value);
-    };
+    const [answer, setAnswer] = useState([]);
+  
+ 
 
     const handleSubmitAnswer = (e) => {
         e.preventDefault();
         // TODO: Submit the answer
-        console.log(answerDetails);
         console.log(inquiryId);
         console.log(inquiry);
-        console.log(inquiry?.inquiryDetails);
+        console.log(inquiry.inquiryDetails);
+        console.log(answer);
+        console.log(answer.answerDetails);
         // Reset the answer field
-        setAnswerDetails("");
     };
 
     const fetchInquiry = async () => {
@@ -66,9 +37,25 @@ const MpInquiryD = () => {
             console.log(error);
         }
     };
+    const fetchAnswer = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:8012/api/v1/answers/${inquiryId}`
+            );
+            if (response.ok) {
+                const answer = await response.json();
+                setAnswer(answer);
+            } else {
+                throw new Error("Failed to fetch answer");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
         fetchInquiry();
+        fetchAnswer();
     }, []);
 
     return (
@@ -92,7 +79,7 @@ const MpInquiryD = () => {
                 </div>
                 <div className="mgcontentbox">
                     <div className="ctntitle">
-                        KNOCK_SEA 관리자 화면 (답변하기)
+                        KNOCK_SEA 유저 화면
                     </div>
                     <div className="ctntext">
                         <div className="ctntextbox1">
@@ -101,21 +88,18 @@ const MpInquiryD = () => {
                                 {inquiry && inquiry.inquiryDetails}
                             </div>
                             <div className="adminreplyinput">
-                                <textarea
-                                    value={answerDetails}
-                                    onChange={handleAnswerChange}
-                                />
+                                {answer && answer.answerDetails}
                             </div>
                         </div>
                     </div>
-                    <button onClick={handleSubmit}>
-                        <Link to="/adminCS">답변완료</Link>
+                    <button onClick={handleSubmitAnswer}>
+                         <Link to={`/inquiryResult/${inquiryId}`}>상세보기</Link>
                     </button>
-                    {/* 답변완료를 누르면 관리자화면에서 답변한 게시글은 없어지거나  답변하기가 사라져야 하지않나? */}
+
                 </div>
             </div>
         </section>
     );
 };
 
-export default MpInquiryD;
+export default MpInquiryResult;

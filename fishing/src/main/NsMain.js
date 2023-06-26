@@ -130,10 +130,9 @@ const MainContent = ({ isRouteActive }) => {
             </div>
             </div>
                 </>
-
-            )}    
-            </>
-        )
-    }
+            )}
+        </>
+    );
+};
 
 export default NsMain;
