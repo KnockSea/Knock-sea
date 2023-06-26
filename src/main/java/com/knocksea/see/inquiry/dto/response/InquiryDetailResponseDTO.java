@@ -1,6 +1,7 @@
 package com.knocksea.see.inquiry.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.knocksea.see.inquiry.entity.Answer;
 import com.knocksea.see.inquiry.entity.Inquiry;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class InquiryDetailResponseDTO {
     private String userName;
 
     private String inquiryTitle;
+//    private String answerDetails;
 
     public InquiryDetailResponseDTO(Inquiry inquiry) {
         this.inquiryId = inquiry.getInquiryId();
@@ -34,6 +36,11 @@ public class InquiryDetailResponseDTO {
         this.userId = inquiry.getUser().getUserId();
         this.userName = inquiry.getUser().getUserName();
         this.inquiryTitle = inquiry.getInquiryTitle();
+//        Answer answer = inquiry.getAnswer();
+//        if (answer != null) {
+//            AnswerDetailResponseDTO dto = new AnswerDetailResponseDTO(answer, inquiry);
+//            this.answerDetails = dto.getAnswerDetails();
+//        }
     }
 }
 
