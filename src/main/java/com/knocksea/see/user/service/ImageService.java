@@ -341,8 +341,8 @@ public class ImageService {
 
     }
 
-    public void saveEduImg(List<MultipartFile> eduImg, Long userId) throws IOException {
-        User user = userRepository.findById(userId)
+    public void saveEduImg(List<MultipartFile> eduImg, TokenUserInfo userInfo ) throws IOException {
+        User user = userRepository.findById(userInfo.getUserId())
                 .orElseThrow(()->new RuntimeException("유저 없음"));
 
         Edu byUserUserId = eduRepository.findByUserUserId(user);

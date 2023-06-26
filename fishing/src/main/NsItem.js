@@ -4,6 +4,7 @@ import './scss/NsItem.scss';
 import { Link } from 'react-router-dom';
 import { API_BASE_URL, PRODUCTS } from '../config/host-config';
 
+
 const NsItem = () => {
   const [product, setProduct] = useState();
 
@@ -25,6 +26,9 @@ const NsItem = () => {
   const sortedImageUrlList = imageUrlList.sort((a, b) => b.createdAt - a.createdAt);
 
   console.log('NSitem !! ! ! ! ! ! product:', product); // product 변수 콘솔 출력
+
+  // 최신 순으로 정렬된 이미지 URL 리스트
+  const sortedImageUrlList = imageUrlList.sort((a, b) => b.createdAt - a.createdAt);
 
   return (
     <div className="ship">

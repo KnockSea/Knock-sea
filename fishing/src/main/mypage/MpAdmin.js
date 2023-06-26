@@ -1,11 +1,10 @@
-import React from 'react'
+import React , { useState,useEffect  }from 'react'
 import './MpScss/MpAdmin.scss'
 import { Link } from 'react-router-dom'
 import { useState,useEffect } from 'react'
 
 
 const MpAdmin = () => {
-
     const [validationList, setValidationList] = useState([]);
     const [validationType , setvalidationTtpe] = useState('SHIP');
 
@@ -25,10 +24,8 @@ useEffect(() => {
         });
   }, [validationList]);
 
-
   return (
 <section>
-
     <div className='adminbox'>
 
         {/* 관리자목록박스  */}
@@ -53,7 +50,6 @@ useEffect(() => {
                 <div>
                     <button>승인</button>
                     <button>취소</button>
-
                 </div>
                 <div>{validation.validationStatus}</div>
                 </div>))) : (<div>데이터 없음</div>)}

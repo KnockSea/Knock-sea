@@ -158,11 +158,9 @@ public class EduService {
 
 
     //클래스 저장
-    public EduDetailResponseDTO insert(final EduAndReservationTimeCreateDTO dto) throws RuntimeException{
-        log.info("dto의 id : " + dto.getUserId());
-        Long userId = dto.getUserId();
+    public EduDetailResponseDTO insert(final EduAndReservationTimeCreateDTO dto, TokenUserInfo userInfo) throws RuntimeException{
         //유저 정보는 토큰을 이용해서 저장. 토큰하기 전까지만 이렇게
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(userInfo.getUserId())
                 .orElseThrow(() -> new RuntimeException("존재하지 않은 회원입니다."));
 
         if (eduRepository.findByUserUserId(user)!=null){
@@ -186,10 +184,9 @@ public class EduService {
     }
 
     //클래스 수정
-    public EduDetailResponseDTO modify(EduAndReservationTimeCreateDTO dto, List<MultipartFile> eduImg) throws RuntimeException, IOException {
-        Long userId = dto.getUserId();
+    public EduDetailResponseDTO modify(EduAndReservationTimeCreateDTO dto, TokenUserInfo userInfo, List<MultipartFile> eduImg) throws RuntimeException, IOException {
 
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(userInfo.getUserId())
                 .orElseThrow(() -> new RuntimeException("유저 없음"));
 
         Edu edu = eduRepository.findByUserUserId(user);
@@ -199,12 +196,6 @@ public class EduService {
         if(reservationCount>0){
             throw new RuntimeException("신청 인원이 한명 이상이므로 수정할 수 없음");
         }
-//        List<SeaImage> eduImgs = imageRepository.findAllByEdu(edu);
-//        for (SeaImage img : eduImgs) {
-//            s3Client.deleteObject
-//
-//        }
-
 
         //ReservationTime 아예 삭제시키고 다시 등록시킴
          reservationTimeRepository.deleteByEduEduId(edu.getEduId());
@@ -220,7 +211,7 @@ public class EduService {
 
 
         //이미지 다시 저장
-        imageService.saveEduImg(eduImg,dto.getUserId());
+        imageService.saveEduImg(eduImg,userInfo);
 
         edu.update(dto);
         eduRepository.save(edu);
