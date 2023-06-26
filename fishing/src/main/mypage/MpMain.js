@@ -88,8 +88,8 @@ const MpMain = () => {
                                 <img className="my-profile" title="마이페이지" src={userProfile.profileImageUrl || require('./../img/class.jpg')}/>
                             </div>
                             <div className='userWrap userMain'>
-                                <p>나의 등급</p>
                                 <p>이름</p>
+                                <p>나의 등급</p>
                                 <p>이메일</p>
                                 <p>연락처</p>
                             </div>
@@ -118,7 +118,7 @@ const MpMain = () => {
                     <MpReviewList />
                 </div>
 
-                <div className='rvbox2'>
+                {userInfo.userGrade==='OWNER' &&(<div className='rvbox2'>
                     <div className='inner-rvbox2'>
                         <div>
                             <h2>예약 현황</h2>
@@ -128,7 +128,7 @@ const MpMain = () => {
                         <button className='isbtn'><Link to={'/product'}>NEW 예약 등록</Link></button>
                         </div>
                     </div>
-                </div>
+                </div>)}
             </div>
         
                 <MpList style={{position:"fixed"}} />

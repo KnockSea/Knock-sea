@@ -30,15 +30,9 @@ import java.util.List;
 public class ScheduleService {
 
     private final ProductRepository productRepository;
-    private final UserRepository userRepository;
-    private final ReviewRepository reviewRepository;
     private final ReservationTimeRepository reservationTimeRepository;
     private final ReservationRepository reservationRepository;
-    private final ShipRepository shipRepository;
-    private final FishingSpotRepository fishingSpotRepository;
-    private final EduRepository eduRepository;
-    private final ViewProductRepository viewProductRepository;
-    private final ImageRepository imageRepository;
+
 
     @Scheduled(fixedRate = 600000) // 60000 => 1분
     public void endProduct() {

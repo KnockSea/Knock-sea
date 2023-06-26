@@ -21,7 +21,6 @@ import java.util.List;
 @EqualsAndHashCode
 @Builder
 @Entity
-@ToString(exclude = "ship")
 @Table(name = "sea_user")
 public class User {
 
@@ -57,20 +56,22 @@ public class User {
     @Column(name = "user_point", nullable = true)
     private int userPoint;
 
-
+    @ToString.Exclude
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Ship ship;
 
+    @ToString.Exclude
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private FishingSpot fishingSpot;
 
     //프로필 이미지
     private String profileImg;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<Inquiry> inquiries = new ArrayList<>();
 
-
+    @ToString.Exclude
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<Validation> validations = new ArrayList<>();
 

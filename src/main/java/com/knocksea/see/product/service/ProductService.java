@@ -7,6 +7,7 @@ import com.knocksea.see.exception.NoneMatchUserException;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
 import com.knocksea.see.product.dto.response.*;
 import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.entity.ViewProduct;
 import com.knocksea.see.product.repository.*;
 import com.knocksea.see.product.dto.request.PageDTO;
@@ -64,19 +65,27 @@ public class ProductService implements ProductDetailService {
                     , Sort.by("productInputDate").descending()
                 );
 //        type, keyword
-        Page<Product> products = productRepository.findAll(pageable);
+//        Page<Product> products = productRepository.findAll(pageable);
+        Page<Product> products = productRepository.findAllByType(pageable, pageDTO.getType());
 
         List<ProductDetailResponseDTO> prodDetailList = products.stream()
-                .map(ProductDetailResponseDTO::new)
-                .collect(Collectors.toList());
+                .map(product -> {
+                        List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
+                        List<ReservationTime> rt = reservationTimeRepository.findAllByProduct_ProductId(product.getProductId());
+                        return new ProductDetailResponseDTO(product, allByProduct.get(0).getImageName(), rt.get(0).getTimeMaxUser());
+                    }
+                ).collect(Collectors.toList());
 
         List<ViewProduct> allAddress = viewProductRepository.findAll();
         // 이러면.. 페이지 넘길때마다 지도 다시 뿌리는건데 어쩌지
 
+        // 이미지랑 예약 가능 유저 수
+
+
         return ProductListResponseDTO.builder()
                 .count(prodDetailList.size())
                 .pageInfo(new PageResponseDTO(products))
-                .products(prodDetailList)
+                .productDetail(prodDetailList)
                 .allAddress(allAddress)
                 .build();
 
