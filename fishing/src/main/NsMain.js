@@ -86,9 +86,9 @@ const NsMain = () => {
             <Route path="/join" element={<SignUpForm />}></Route>
             <Route path="/login" element={<Login />}></Route>
             {/* 업체 등록 */}
-            <Route path="/ownercheck" element={<OwnerCheckMain />}></Route>
-            <Route path="/ship" element={<OwnerCheckShip />}></Route>
-            <Route path="/fishing" element={<OwnerCheckFishing />}></Route>
+            <Route path='/ownercheck' element={<OwnerCheckMain/>}></Route>
+            <Route path="/ship" element={<OwnerCheckShip/>} ></Route>
+            <Route path="/fishing" element={<OwnerCheckFishing/>} ></Route> 
 
             <Route path="/fs" element={<RvFsTemplate />}></Route>
             <Route path="/myquery" element={<MpQueryText />}></Route>
@@ -104,7 +104,7 @@ const NsMain = () => {
 
             <Route path='/host' element={<HostSearchMain/>}></Route>
         </Routes>
-            
+
     </section>
   )
 }
@@ -132,7 +132,7 @@ const MainContent = ({ isRouteActive }) => {
             </div>
                 </>
 
-            )}    
+            )}
             </>
         )
     }

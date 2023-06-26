@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { NsHeader } from '../NsHeader'
 import RvMain from './RvMain'
-
-import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
+import { API_BASE_URL, PRODUCTS, SHIP } from '../../config/host-config';
 
 function RvTemplate() {
 
@@ -22,7 +21,7 @@ function RvTemplate() {
   //       .then(response => response.json())
   //       .then(res => {
   //         setFsproduct(res);
-  //     });      
+  //     });
   //   }catch (error) {
   //     console.error('Error fetching Fsproduct info:', error);
   //   }
@@ -40,11 +39,6 @@ function RvTemplate() {
   },[]);
 
 
-  // useEffect(() => {
-    
-
-  //   console.log(`@!@!@!@!@!@!@!@!@!@!@!`, fetchFsProduct())
-  // }, [fetchFsProduct, page, size, type]);
 
   return (
 
