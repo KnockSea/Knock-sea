@@ -15,43 +15,39 @@ function MpReviewList() {
         'Authorization': 'Bearer ' + token
       }
     })
-      .then(response => response.json())
-      .then(data => {
-        if (data) {
-          setReviews(data.reviews);
-        } else {
-          // 처리할 에러에 대한 로직 추가
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    .then(response => response.json())
+    .then(data => {
+      if (data) {
+        setReviews(data.reviews);
+      } else {
+        // 처리할 에러에 대한 로직 추가
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
   };
 
   useEffect(() => {
     fetchData();
-  }, [page, size, reviews && reviews.length]);
+  }, [page, size, reviews.length]);
 
   return (
     <>
-      {reviews && reviews.length > 0 ? (
-        reviews.map(review => (
-          <div className='MpReFormItem' key={review.id}>
-            <div className='numbox'></div>
-            <div className='mprebox1'>{review.image}</div>
-            <div className='mprebox2'>
-              <div className='mpreAutohr'>
-                <div>{review.userName}</div>
-                <div>{review.title}</div>
-              </div>
-              <div className='mpstar'>{review.reviewRating}</div>
-              <div>{review.reviewContent}</div>
+      {reviews && reviews.length > 0 && reviews.map(review => (
+        <div className='MpReFormItem' key={review.id}>
+          <div className='numbox'></div>
+          <div className='mprebox1'>{review.profileImg}</div>
+          <div className='mprebox2'>
+            <div className='mpreAutohr'>
+              <div>{review.userName}</div>
+              <div>{review.title}</div>
             </div>
+            <div className='mpstar'>{review.reviewRating}</div>
+            <div>{review.reviewContent}</div>
           </div>
-        ))
-      ) : (
-        <div>리뷰가 입력된 것이 없습니다.</div>
-      )}
+        </div>
+      ))}
     </>
   );
 }

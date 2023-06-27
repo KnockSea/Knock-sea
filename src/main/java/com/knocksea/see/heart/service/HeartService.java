@@ -55,7 +55,8 @@ public class HeartService {
 
         } else {
             // 좋아요 취소
-            Heart heart = dto.toEntity(user, edu, product);
+            Heart heart = heartRepository.existsByUserAndHeartType1(user, HeartType.valueOf(dto.getHeartType()));
+            log.info("heart @@@@@@@@@@@@@@@@@ - {}", heart);
             heartRepository.deleteById(heart.getHeartId());
         }
         return !heartOrNot;
