@@ -120,7 +120,9 @@ public class ProductController {
 
 //        log.info("/api/v1/products GET ! - {} ", );
 
-        return ResponseEntity.ok().body(productService.shipMainList());
+        List<mainListResponseDTO> ships = productService.shipMainList();
+        log.info("list 확인중 : {} ", ships);
+        return ResponseEntity.ok().body(ships);
     }
 
     @GetMapping("/main/spot")
@@ -130,6 +132,7 @@ public class ProductController {
 
         return ResponseEntity.ok().body(productService.spotMainList());
     }
+
 
     @GetMapping("/product-list")
     public ResponseEntity<?> productList(PageDTO pageDTO) {

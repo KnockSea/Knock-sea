@@ -13,8 +13,19 @@ if(clientHostNmae === 'localhost'){
 
 export const API_BASE_URL = backEndHostName;
 export const SHIP = '/api/v1/ship'
+
 export const FISHINGSPOT = 'api/v1/fishing'
+
+export const EDU = '/api/v1/edu'
+
 export const PRODUCTS = '/api/v1/products'
 
-
 export const USER = '/api/v1/user';
+
+export const VALIDATION = '/api/v1/validation'
+
+export const INQUIRIES = '/api/v1/inquiries'
+
+export const ANSWERS = '/api/v1/answers'
+
+export const REVIEW = '/api/v1/reviews'

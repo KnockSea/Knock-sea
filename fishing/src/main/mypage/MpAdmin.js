@@ -2,6 +2,7 @@ import React from 'react'
 import './MpScss/MpAdmin.scss'
 import { Link } from 'react-router-dom'
 import { useState,useEffect } from 'react'
+import { API_BASE_URL, VALIDATION } from '../../config/host-config'
 
 
 const MpAdmin = () => {
@@ -13,7 +14,7 @@ const MpAdmin = () => {
 
 //검증요청 리스트 서버에서 받아오기
 useEffect(() => {
-    fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
+    fetch(`${API_BASE_URL}${VALIDATION}/${validationType}`)
     .then(response => response.json())
     .then(data => {
         // 요청 결과 처리
@@ -40,7 +41,7 @@ const updateValidation = async (e, validationUserName, validationType) => {
             'validationStatus' : 'YES'
           };
           
-          const res = fetch('http://localhost:8012/api/v1/validation', {
+          const res = fetch(`${API_BASE_URL}${VALIDATION}`, {
             method: 'PUT', // 또는 'PATCH' 요청 메서드
             headers: {
               'Content-Type': 'application/json'
