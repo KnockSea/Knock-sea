@@ -55,7 +55,8 @@ public class HeartService {
 
         } else {
             // 좋아요 취소
-            heartRepository.deleteById(dto.getHeartId());
+            Heart heart = dto.toEntity(user, edu, product);
+            heartRepository.deleteById(heart.getHeartId());
         }
         return !heartOrNot;
     }
