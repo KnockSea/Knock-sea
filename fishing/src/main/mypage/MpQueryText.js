@@ -4,6 +4,7 @@ import "./MpScss/MpQueryText.scss";
 import { getLoginUserInfo } from "../util/login-util";
 import axios from "axios";
 import { useEffect } from "react";
+import { API_BASE_URL, FISHINGSPOT, SHIP } from "../../config/host-config";
 
 const MpQueryText = () => {
   const [token, setToken] = useState(getLoginUserInfo().token);
@@ -60,7 +61,7 @@ const MpQueryText = () => {
         );
       }
       try {
-        const res = await fetch("http://localhost:8012/api/v1/ship/register", {
+        const res = await fetch(`${API_BASE_URL}${SHIP}/register`, {
           method: "POST",
           headers: { Authorization: "Bearer " + token },
           body: formData,
@@ -102,7 +103,7 @@ const MpQueryText = () => {
       }
       try {
         const res = await fetch(
-          "http://localhost:8012/api/v1/fishing/register",
+          `${API_BASE_URL}${FISHINGSPOT}/register`,
           {
             method: "POST",
             headers: { Authorization: "Bearer " + token },

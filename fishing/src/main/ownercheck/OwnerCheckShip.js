@@ -3,6 +3,7 @@ import './scss/OwnerCheck.scss';
 import OwnerCheckHeader from './OwnerCheckHeader';
 import { getLoginUserInfo, setLoginUserInfo } from '../util/login-util';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL, VALIDATION } from '../../config/host-config';
 function OwnerCheckShip() {
 
   const [shipConfirmImage, setShipConfirmImage] = useState([2]);
@@ -47,7 +48,7 @@ function OwnerCheckShip() {
       formData.append('validationImage',shipConfirmImage[i]);
     }
 
-    fetch('http://localhost:8012/api/v1/validation/insert', {
+    fetch(`${API_BASE_URL}${VALIDATION}/insert`, {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')
@@ -59,7 +60,7 @@ function OwnerCheckShip() {
       navi('/');
       //window.location.href = '/login';
     }else if(res.status===500){
-      const error = await res.text();     
+      const error = await res.text();
       alert('이미 검증에 등록된 정보가있습니다');
     }else{
       alert('서버와의 접속이 원활하지않습니다');

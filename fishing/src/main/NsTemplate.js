@@ -4,32 +4,53 @@ import { NsHeader } from "./NsHeader";
 import NsMain from "./NsMain";
 import NsFootter from "./NsFootter";
 import { useLocation, useNavigate } from "react-router-dom";
-import { API_BASE_URL, PRODUCTS } from "../config/host-config";
+import { API_BASE_URL, EDU, PRODUCTS } from "../config/host-config";
 
 const NsTemplate = () => {
-  const [mainship, setmainship] = useState();
   const location = useLocation();
   const [showFooter, setShowFooter] = useState(true);
+  const [mainship, setmainship] = useState([]);
+  const [mainspot, setmainspot] = useState([]);
+  const [mainedu, setmainedu] = useState([]); 
 
-const mainimgs = () => {
+  const mainimgs = () => {
 
-  fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`)
-    .then((response) => {
-      console.log(response.status);
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        throw new Error("Error response received.");
-      }
-    })
-    .then((res) => {
-      setmainship(res);
+    // fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`)
+    //   .then((response) => {
+    //     console.log(response.status);
+    //     if (response.status === 200) {
+    //       return response.json();
+    //     } else {
+    //       throw new Error("Error response received.");
+    //     }
+    //   })
+    //   .then((res) => {
+    //     setmainship(res);
+    //     console.log(res);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching ship images:", error);
+    //   });
+    fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`)
+      .then(response => response.json())
+      .then(res => {
+        setmainship(res);
+        console.log(res);
+      });
+    fetch(`${API_BASE_URL}${PRODUCTS}/main/spot`)
+    .then(response => response.json())
+    .then(res => {
+      setmainspot(res);
       console.log(res);
-    })
-    .catch((error) => {
-      console.error("Error fetching ship images:", error);
     });
-}
+    fetch(`${API_BASE_URL}${EDU}/main/edu`)
+    .then(response => response.json())
+    .then(res => {
+      setmainedu(res);
+      console.log(res);
+    });
+     
+  }
 
 
 
@@ -43,7 +64,7 @@ const mainimgs = () => {
     <div>
       <NsHeader />
 
-      <NsMain />
+      <NsMain shipList={mainship} spotList={mainspot} eduList={mainedu}/>
 
       {showFooter && <NsFootter />}
     </div>

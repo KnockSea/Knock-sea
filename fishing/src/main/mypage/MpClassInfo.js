@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import MpList from './MpList'
 import { useState,useEffect } from 'react'
 import { getLoginUserInfo } from '../util/login-util'
+import { API_BASE_URL, EDU } from '../../config/host-config'
 const MpClassInfo = () => {
 
 
@@ -24,7 +25,7 @@ const MpClassInfo = () => {
     });
 
     const getMyEdu = async () => {
-        const res = await fetch('http://localhost:8012/api/v1/edu/my-edu', {
+        const res = await fetch(`${API_BASE_URL}${EDU}/my-edu`, {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
         });

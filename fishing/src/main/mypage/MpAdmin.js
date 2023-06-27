@@ -2,6 +2,8 @@ import React from 'react'
 import './MpScss/MpAdmin.scss'
 import { Link } from 'react-router-dom'
 import { useState,useEffect } from 'react'
+import { API_BASE_URL, VALIDATION } from '../../config/host-config'
+
 import { getLoginUserInfo, setLoginUserInfo } from '../util/login-util'
 
 const MpAdmin = () => {
@@ -25,7 +27,7 @@ useEffect(() => {
 
 //검증요청 리스트 서버에서 받아오기
 useEffect(() => {
-    fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
+    fetch(`${API_BASE_URL}${VALIDATION}/${validationType}`)
     .then(response => response.json())
     .then(data => {
         // 요청 결과 처리
@@ -53,15 +55,15 @@ const updateValidation = async (e, validationUserName, validationType) => {
             'validationStatus' : 'YES'
           };
           
-          const res = await fetch(`http://localhost:8012/api/v1/validation/`, {
-            method: 'PUT',
+          const res = await fetch(`${API_BASE_URL}${VALIDATION}`, {
+            method: 'PUT', // 또는 'PATCH' 요청 메서드
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer '+ localStorage.getItem('ACCESS_TOKEN')
             },
             body: JSON.stringify(validationModifyRequestDTO)
           });
-      
+
           if (res.status === 200) {
             alert('전송완료');
             // 승인 요청 후 다시 리스트 가져오기
