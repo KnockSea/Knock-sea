@@ -347,6 +347,7 @@ public class UserService {
             if(r.getReservationType().equals("EDU")){
                 Edu edu=r.getEdu();
                 SeaImage seaImage= imageRepository.findByEdu_EduId(edu.getEduId()).get(0);
+
 //                img=edu.getSeaImage();
                 log.info("img : "+seaImage);
                 reservationResponseDTOS.add(new ReservationResponseDTO(r, time, edu, seaImage));

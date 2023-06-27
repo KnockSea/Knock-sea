@@ -6,6 +6,7 @@ import MpReFormItem from './MpReFormItem'
 import {getLoginUserInfo, isLogin } from '../util/login-util';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { API_BASE_URL, SHIP } from '../../config/host-config'
 const MpBtInfo = () => {
 
 
@@ -31,7 +32,7 @@ const MpBtInfo = () => {
     
       //배 정보 가져오기
       const fetchShipInfo = async () => {
-        const res = await fetch('http://localhost:8012/api/v1/ship/getshipinfo', {
+        const res = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`, {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
         });
@@ -55,7 +56,7 @@ const MpBtInfo = () => {
         const confirm = window.confirm('정말로 삭제하시겠습니까?');
 
         if(confirm){
-        const res = await fetch('http://localhost:8012/api/v1/ship/delete', {
+        const res = await fetch(`${API_BASE_URL}${SHIP}/delete`, {
             method: 'DELETE',
             headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
         });

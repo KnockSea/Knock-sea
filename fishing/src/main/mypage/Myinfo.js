@@ -9,6 +9,7 @@ import { useState } from "react";
 import { getLoginUserInfo } from "../util/login-util";
 import Post from "../account/Post";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL, USER } from "../../config/host-config";
 
 function Myinfo() {
   const [userInfo, setUserInfo] = useState({
@@ -96,7 +97,7 @@ function Myinfo() {
     userFormData.append("profileImage", selectedFile);
     //요청 헤더 설정
 
-    const res = await fetch("http://localhost:8012/api/v1/user/modify", {
+    const res = await fetch(`${API_BASE_URL}${USER}/modify`, {
       method: "PUT",
       headers: {
         Authorization: "Bearer " + userInfo.token,
@@ -236,15 +237,7 @@ function Myinfo() {
             </button>
           </div>
         </div>
-        {/* <ul className='list'>
-        <li>업체정보</li>
-        <li>리뷰게시판</li>
-        <li>예약현황</li>
-        <li className='my'>내정보</li>
-        <li><Link to={'/myinfo'}>정보 수정하기</Link></li>
-        <li>내 예약 내역</li>
-        <li>문의현황</li>
-    </ul> */}
+
         <MpList />
       </section>
     </>

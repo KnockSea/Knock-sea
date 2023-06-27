@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { useNavigate, Link } from 'react-router-dom';
 import Post from './Post';
 import ProfileUpload from './ProfileUpload';
+import { API_BASE_URL, USER } from '../../config/host-config';
 
 // import { API_BASE_URL as BASE, USER } from '../config/host-config';
 
@@ -286,7 +287,7 @@ function SignUpForm(){
         userData.append('profileImage', profileImage);
 
         // fetch를 사용하여 회원가입 요청 보내기
-        fetch('http://localhost:8012/api/v1/user/register', {
+        fetch(`${API_BASE_URL}${USER}/register`, {
           method: 'POST',
           body: userData
         })
