@@ -48,6 +48,8 @@ public class ReviewService {
         User foundUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
                 () -> new RuntimeException("회원 정보가 없습니다.")
         );
+        log.info("foundUser : "+foundUser);
+
         Product product = null;
         Edu edu = null;
 //        List<String> imgUrls = new ArrayList<>();
@@ -57,6 +59,8 @@ public class ReviewService {
             Review review = reviewRepository.findById(reviewDTO.getProductId()).orElseThrow(
                     () -> new RuntimeException("해당 리뷰 정보가 없습니다.")
             );
+            log.info("review : "+review);
+
             if (reviewDTO.getProductId() == review.getProduct().getProductId()) {
                     throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
             }
@@ -66,14 +70,15 @@ public class ReviewService {
         }
 
         if (reviewDTO.getEduId() != null) {
-            Review review = reviewRepository.findById(reviewDTO.getEduId()).orElseThrow(
-                    () -> new RuntimeException("해당 리뷰 정보가 없습니다.")
-            );
-            if (reviewDTO.getEduId() == review.getEdu().getEduId()) {
-                throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
-            }
+//            Review review = reviewRepository.findById(reviewDTO.getEduId()).orElseThrow(
+//                    () -> new RuntimeException("해당 리뷰 정보가 없습니다.22")
+//            );
+//            log.info("review : "+review);
+//            if (reviewDTO.getEduId() == review.getEdu().getEduId()) {
+//                throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
+//            }
             edu = eduRepository.findById(reviewDTO.getEduId()).orElseThrow();
-            SeaImage eduImg = imageRepository.findByEdu(edu);
+            SeaImage eduImg = imageRepository.findAllByEdu(edu).get(0);
             imgs = eduImg.getImageName();
 //            imageRepository.findAllByEdu(edu).forEach( i -> {
 //                imgUrls.add(i.getImageName());

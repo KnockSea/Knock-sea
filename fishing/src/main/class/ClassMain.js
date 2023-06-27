@@ -133,6 +133,7 @@ function ClassMain() {
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
                                         <div className="list-star-rating">
+                                          {f.reviewAverage}
                                             {f.reviewAverage === 0 && "☆☆☆☆☆"}
                                             {f.reviewAverage === 1 && "☆☆☆☆⭐"}
                                             {f.reviewAverage === 2 && "☆☆☆⭐⭐"}
