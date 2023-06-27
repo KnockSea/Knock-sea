@@ -25,9 +25,9 @@
 
         .user-search-box {
             width: 100%;
-            margin-top: 20px;
+            margin: 20px 0 0 20px;
             display: flex;
-            justify-content: space-around;
+            justify-content: start;
             height: 300px;
             border-bottom: 1px solid #DDDDDD;
 
@@ -58,6 +58,7 @@
 
             .user-info-page {
                 border: 1px solid #000;
+                margin-left: 20px;
                 display: flex;
                 // justify-content: center;
                 
