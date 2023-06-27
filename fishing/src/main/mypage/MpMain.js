@@ -21,7 +21,6 @@ const MpMain = () => {
         profileImageUrl: ''
       });
 
-
       const [userInfo, setUserInfo] = useState({
         token: '',
         userEmail: '',
