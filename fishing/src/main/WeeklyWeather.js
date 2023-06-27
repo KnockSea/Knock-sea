@@ -71,7 +71,7 @@ const WeeklyWeather = () => {
         <div className="apiinfo">
           <div className="wttopitem">
             <div className="imgbox111">
-              <img src={imgSrc} alt={desc} />
+              <img src={imgsSrc} alt={desc} />
             </div>
             <div className="wtinfo">
               <select onChange={handleCityChange} value={cityName}>
