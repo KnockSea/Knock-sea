@@ -52,20 +52,11 @@ public class ReviewService {
         Edu edu = null;
 //        List<String> imgUrls = new ArrayList<>();
         String imgs = null;
-        Product productInfo = productRepository.findById(reviewDTO.getProductId()).orElseThrow(
-            () -> new RuntimeException("상품 정보가 없습니다.")
-        );
-        if (productInfo.getUser() != null ){
-            throw new RuntimeException("이미 상품 후기를 작성하였습니다.");
-        }
+
         if (reviewDTO.getProductId() != null) {
             product = productRepository.findById(reviewDTO.getProductId()).orElseThrow();
             SeaImage eduImg = imageRepository.findByProduct(product);
             imgs = eduImg.getImageName();
-        }
-        Edu eduInfo = eduRepository.findById(reviewDTO.getEduId()).orElseThrow();
-        if (eduInfo.getUser() != null) {
-            throw new RuntimeException("이미 클래스 후기를 작성하였습니다.");
         }
 
         if (reviewDTO.getEduId() != null) {
