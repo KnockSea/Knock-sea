@@ -31,7 +31,7 @@ const handleLogin = (e) => {
 function ClassMain() {
 
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(6);
+  const [size, setSize] = useState(8);
   const [totalItemCount, setTotalItemCount] = useState(0);
   
   const handlePageChange = (page) => {
@@ -42,7 +42,7 @@ function ClassMain() {
     const [edus, setEdus] = useState([]);
 
       useEffect(()=>{
-        fetch(`${API_BASE_URL}`, { 
+        fetch(`${API_BASE_URL}/api/v1/edu?page=${page}&size=${size}`, { 
             method: 'GET',
             headers: requestHeader
           })
@@ -54,9 +54,13 @@ function ClassMain() {
             })
             .then(json => {
               console.log(json);   //->이걸 상태관리 변수인 todos에 셋팅하면 화면에 그려짐
-              setEdus(json); //렌더링 완료
+              setEdus(json);
+              // console.log(json.pageInfo.totalCount);
+              // console.log('edus',edus);
+              setTotalItemCount(json.pageInfo.totalCount);
+
             });
-        }, []);
+        }, [page]);
 
       const TopList = [
         { id: '12', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕', place: '부둣가', price: 10000 },
@@ -138,20 +142,18 @@ function ClassMain() {
                                     </div>
                             </Link>
                                 ))}   
-                                                             
-
-                        </div>        
-                        {/* <div className="page">
-                    <Pagination
-                    activePage={page}
-                    itemsCountPerPage={10}
-                    totalItemsCount={10}
-                    pageRangeDisplayed={10}
-                    prevPageText={"‹"}
-                    nextPageText={"›"}
-                    onChange={handlePageChange}
-                    />     
-                    </div> */}
+                                  <div className="page">
+                                  <Pagination
+                                  activePage={page}
+                                  itemsCountPerPage={size}
+                                  totalItemsCount={totalItemCount}
+                                  pageRangeDisplayed={5}
+                                  prevPageText={"‹"}
+                                  nextPageText={"›"}
+                                  onChange={handlePageChange}
+                                  />     
+                                  </div>                     
+                        </div>       
                     </div>
                 </div>
             </div>    

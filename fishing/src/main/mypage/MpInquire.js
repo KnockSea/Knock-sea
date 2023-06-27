@@ -31,6 +31,7 @@ const MpInquire = () => {
             .then((response) => response.json())
             .then((data) => {
                 if (data) {
+                    // console.log(data.pageInfo.totalCount);
                     setInquiries(data.inquiries);
                     setTotalItemCount(data.pageInfo.totalCount);
                 } else {
