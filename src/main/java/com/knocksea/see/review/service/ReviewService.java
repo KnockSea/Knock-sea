@@ -54,12 +54,24 @@ public class ReviewService {
         String imgs = null;
 
         if (reviewDTO.getProductId() != null) {
+            Review review = reviewRepository.findById(reviewDTO.getProductId()).orElseThrow(
+                    () -> new RuntimeException("해당 리뷰 정보가 없습니다.")
+            );
+            if (reviewDTO.getProductId() == review.getProduct().getProductId()) {
+                    throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
+            }
             product = productRepository.findById(reviewDTO.getProductId()).orElseThrow();
             SeaImage eduImg = imageRepository.findByProduct(product);
             imgs = eduImg.getImageName();
         }
 
         if (reviewDTO.getEduId() != null) {
+            Review review = reviewRepository.findById(reviewDTO.getEduId()).orElseThrow(
+                    () -> new RuntimeException("해당 리뷰 정보가 없습니다.")
+            );
+            if (reviewDTO.getEduId() == review.getEdu().getEduId()) {
+                throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
+            }
             edu = eduRepository.findById(reviewDTO.getEduId()).orElseThrow();
             SeaImage eduImg = imageRepository.findByEdu(edu);
             imgs = eduImg.getImageName();
