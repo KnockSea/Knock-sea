@@ -131,14 +131,14 @@ const MpBtInfo = () => {
                         </div>
                       </div>
                     </div>
-                    <div className='btbox'>
+                    <div className='binfo-btbox'>
                           {shipinfo && shipinfo.shipId ? (
                             <>
-                              <button className='isbtn' onClick={deleteShip}>배 정보 삭제하기</button>
-                              <button className='isbtn'>배 정보 수정하기</button>
+                              <button className='binfo-isbtn' onClick={deleteShip}>배 정보 삭제하기</button>
+                              {/* <button className='binfo-isbtn'>배 정보 수정하기</button> */}
                             </>
                               ) : (
-                              <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
+                              <button className='binfo-isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
                               )}
                     </div>
 
