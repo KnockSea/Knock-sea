@@ -85,7 +85,7 @@ const MpMain = () => {
                     <div className='userinfobox'>
                         <div className='userinfoWrap'>
                             <div className='profilebox'>
-                                <img className="my-profile" title="마이페이지" src={userProfile.profileImageUrl || require('./../icons/defaultProfile.png')}/>
+                                <img className="my-profile" title="마이페이지" src={userProfile.profileImageUrl || require('./../img/class.jpg')}/>
                             </div>
                             <div className='userWrap userMain'>
                                 <p>이름</p>
@@ -100,26 +100,23 @@ const MpMain = () => {
                                 <div>{userInfo.userPhone}</div>
                             </div>
                         </div>
-                    </div>
                         <div className='btbox'>
-                        <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
+                        {/* <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button> */}
                         <button><Link to={'/myinfo'}>개인 정보 수정</Link></button>
                         </div>
+                    </div>
 
 
-
-                <div className='rvbox2'>
-                       <h2>리뷰 게시판</h2>
-                       <p>아직 작성된 리뷰가 없습니다</p>
+{/* 
+                <div className='rvbox'>
                        <MpReFormItem/>
-                </div>
-
+                </div> */}
+                {userInfo.userGrade==='OWNER' || userInfo.userGrade==='COMMON' &&(
                 <div className='rvbox'>
                     <MpReviewList />
                 </div>
-
-                {userInfo.userGrade==='OWNER' &&
-                (<div className='rvbox2'>
+                )}
+                {userInfo.userGrade==='OWNER' &&(<div className='rvbox2'>
                     <div className='inner-rvbox2'>
                         <div>
                             <h2>예약 현황</h2>

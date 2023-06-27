@@ -59,6 +59,7 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.GET,"/api/v1/inquiries").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/inquiries/{inquiryId}").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/answers/{inquiryId}").permitAll()
+                .antMatchers("/api/v1/hearts").permitAll()
 
                 .anyRequest().authenticated()
         ;

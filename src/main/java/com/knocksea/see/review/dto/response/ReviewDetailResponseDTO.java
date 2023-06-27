@@ -29,6 +29,7 @@ public class ReviewDetailResponseDTO {
     private String userName;
     private String title;
     private LocalDateTime inquiryDateTime;
+    private String image;
 
     public ReviewDetailResponseDTO(Review review) {
         this.reviewId = review.getReviewId();
@@ -43,6 +44,7 @@ public class ReviewDetailResponseDTO {
         this.eduTitle = review.getEdu() != null ? review.getEdu().getEduTitle() : null;
         this.title = review.getEdu().getEduTitle() != null ? review.getEdu().getEduTitle() : review.getProduct().getProductTitle();
         this.userName = review.getUser().getUserName();
+        this.image = review.getEdu().getSeaImage().getImageName() != null ? review.getEdu().getSeaImage().getImageName() : review.getProduct().getSeaImage().getImageName();
     }
 
 }
