@@ -6,8 +6,9 @@ let backEndHostName; // 백엔드 서버 호스트 이름
 
 if(clientHostNmae === 'localhost'){
     backEndHostName = 'http://localhost:8012';
-} else if (clientHostNmae === 'vanila.com'){
-    backEndHostName = 'https://api.vanila.co.kr';
+    // backEndHostName = 'http://52.78.128.116';
+} else if (clientHostNmae === 'knocksea-react.s3-website.ap-northeast-2.amazonaws.com'){
+    backEndHostName = 'http://52.78.128.116';
 }
 
 export const API_BASE_URL = backEndHostName;

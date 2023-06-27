@@ -37,6 +37,7 @@ public class ReservationController {
         try {
             boolean b= reservationService.createReserve(dto,userInfo);
             return ResponseEntity.ok().body(b);
+
         } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(e.getMessage());
