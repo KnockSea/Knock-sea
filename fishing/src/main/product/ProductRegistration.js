@@ -148,8 +148,8 @@ function ProductRegistration() {
       <div className="product-regi-wrap">
         <div className="product-regi-header">
          <div className="head-title">
-          <p>KNOCK_SEA 상품 등록</p>
-          <img className="image-82-CzH" src="https://cdn-icons-png.flaticon.com/128/8955/8955326.png" id="SignUpImg" alt="SignUpImg" />
+          <p>KNOCK_SEA 선박/낚시터 상품 등록</p>
+          <img className="image-82-CzH" src="https://cdn-icons-png.flaticon.com/128/9113/9113209.png" id="SignUpImg" alt="SignUpImg" />
         </div>
         </div>
         <hr/>
@@ -161,12 +161,7 @@ function ProductRegistration() {
                 <select
                     value={productLabelType}
                     onChange={(e) => {
-                      setProductCategory(e.target.value);
-                      if (e.target.value === "EDU") {
-                        setShowDifficulty(true); // 클래스 카테고리 선택 시 난이도 옵션 표시
-                      } else {
-                        setShowDifficulty(false); // 다른 카테고리 선택 시 난이도 옵션 숨김
-                      }
+     setProductCategory(e.target.value);
                     }}
                     required
                     aria-required="true"
@@ -175,7 +170,6 @@ function ProductRegistration() {
                     <option value="">카테고리 선택</option>
                     <option value="SHIP">선박</option>
                     <option value="SPOT">낚시터</option>
-                    <option value="EDU">클래스</option>
                   </select>
               </li>
               <li>
@@ -198,22 +192,6 @@ function ProductRegistration() {
                       />
                       </div>
                       <span>{productImages[0] && <p>첨부된 사진 : {productImages[0].name}</p>}</span>
-                    </div>
-                    <div className="filebox-upload">
-                    {/* <div >
-                      <label htmlFor="photo2">사진 선택(2)</label>
-                      <input
-                        type="file"
-                        onChange={(e) => setPhoto2(e.target.files[0])}
-                        id="photo2"
-                        className="form-control"
-                        required
-                        aria-required="true"
-                        accept="image/*"
-                        name="shipConfirmImage"
-                        />
-                      </div> */}
-                      {/* <span>{photo2 && <p>첨부된 사진 : {photo2.name}</p>}</span> */}
                     </div>
                   </div>
                   

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import MpList from './MpList'
 import MpReFormItem from './MpReFormItem'
 import MpReviewList from './MpReviewList';
+import RegiModal from './RegiModal';
 import { useLocation } from "react-router-dom";
 import {getLoginUserInfo, isLogin } from '../util/login-util';
 import { useEffect } from 'react';
@@ -12,7 +13,7 @@ import { API_BASE_URL, USER } from '../../config/host-config'
 
 
 const MpMain = () => {
-
+    const [modal, setModal] = useState('false'); 
     const [userProfile, setUserProfile] = useState({
         userId: 0,
         userName: '',
@@ -23,8 +24,8 @@ const MpMain = () => {
 
 
       const [userInfo, setUserInfo] = useState({
-        token: '', // Set default value for name
-        userEmail: '', // Set default value for email
+        token: '',
+        userEmail: '',
         userName : '',
         userGrade : '',
         userId : '',
@@ -79,14 +80,16 @@ const MpMain = () => {
                         </div>
                         <div className='ownerTap'>
                             {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>⛵ 배</h1></Link>)}
-                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpfs'}><h1>🚩 낚시터</h1></Link>)}
-                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)}
+
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>🚩 낚시터</h1></Link>)}
+                            {/* {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)} */}
+
                         </div>
                     </div>
                     <div className='userinfobox'>
                         <div className='userinfoWrap'>
                             <div className='profilebox'>
-                                <img className="my-profile" title="마이페이지" src={userProfile.profileImageUrl || require('./../img/class.jpg')}/>
+                                <img className="my-profile" title="마이페이지" src={userProfile.profileImageUrl || require('./../icons/defaultProfile.png')}/>
                             </div>
                             <div className='userWrap userMain'>
                                 <p>이름</p>
@@ -101,7 +104,7 @@ const MpMain = () => {
                                 <div>{userInfo.userPhone}</div>
                             </div>
                         </div>
-                        <div className='btbox'>
+                        <div className='btnboxMain'>
                         {/* <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button> */}
                         <button><Link to={'/myinfo'}>개인 정보 수정</Link></button>
                         </div>
@@ -118,13 +121,14 @@ const MpMain = () => {
                 </div>
                 )}
                 {userInfo.userGrade==='OWNER' &&(<div className='rvbox2'>
-                    <div className='inner-rvbox2'>
+                    <div className='inner-rvbox2 btbox'>
                         <div>
                             <h2>예약 현황</h2>
                             <p>아직 작성된 글이 없습니다</p>
                         </div>
                         <div>
-                        <button className='isbtn'><Link to={'/product'}>NEW 예약 등록</Link></button>
+                        <button className='isbtn'onClick={ () => {setModal(true)} }>바로 예약하기</button>
+                            {modal === true ? <RegiModal closeModal={() => setModal(false)} /> : null}
                         </div>
                     </div>
                 </div>)}

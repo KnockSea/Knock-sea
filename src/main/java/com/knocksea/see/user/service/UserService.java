@@ -73,7 +73,7 @@ public class UserService {
 
     //이미지 객체 접근용 리파지토리
     private final ImageRepository imageRepository;
-    
+
     //이미지 저장 서비스
     private final ImageService imageService;
 
@@ -140,19 +140,19 @@ public class UserService {
 
         boolean byUserEmail = userRepository.existsByUserEmail(dto.getUserEmail());
         if(byUserEmail){
-           throw new RuntimeException("이메일 중복입니다!");
+            throw new RuntimeException("이메일 중복입니다!");
         }
 
-            User user = userRepository.findById(userInfo.getUserId()).orElseThrow();
-            user.setUserEmail(dto.getUserEmail());
-            user.setUserPhone(dto.getUserPhone());
-            user.setUserAddress(dto.getUserAddress());
-            user.setUserFullAddress(dto.getUserFullAddress());
-            user.setUserName(dto.getUserName());
-            User modiftideuser = userRepository.save(user);
-            log.info("modiftideuser ; {}",modiftideuser);
-            return new UserModifyresponseDTO(modiftideuser);
-        }
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow();
+        user.setUserEmail(dto.getUserEmail());
+        user.setUserPhone(dto.getUserPhone());
+        user.setUserAddress(dto.getUserAddress());
+        user.setUserFullAddress(dto.getUserFullAddress());
+        user.setUserName(dto.getUserName());
+        User modiftideuser = userRepository.save(user);
+        log.info("modiftideuser ; {}",modiftideuser);
+        return new UserModifyresponseDTO(modiftideuser);
+    }
 
 
     //로그인 검증및 토큰발급
@@ -278,23 +278,23 @@ public class UserService {
         }
 
         for (Product product : findByUser) {
-             if(product.getProductType().equals("SHIP")){
-                 List<Heart> findByShipHeartList = heartRepository.findByProduct(product);
-                 entireInfoResponseDTO.setHeartListShip(findByShipHeartList);
-             } else if (product.getProductType().equals("SPOT")) {
-                 List<Heart> findBySpotHeartList = heartRepository.findByProduct(product);
-                 entireInfoResponseDTO.setHeartListSpot(findBySpotHeartList);
-             }else{
-                 List<Heart> findByEduHeartList = heartRepository.findByProduct(product);
-                 entireInfoResponseDTO.setHeartListEdu(findByEduHeartList);
-             }
+            if(product.getProductType().equals("SHIP")){
+                List<Heart> findByShipHeartList = heartRepository.findByProduct(product);
+                entireInfoResponseDTO.setHeartListShip(findByShipHeartList);
+            } else if (product.getProductType().equals("SPOT")) {
+                List<Heart> findBySpotHeartList = heartRepository.findByProduct(product);
+                entireInfoResponseDTO.setHeartListSpot(findBySpotHeartList);
+            }else{
+                List<Heart> findByEduHeartList = heartRepository.findByProduct(product);
+                entireInfoResponseDTO.setHeartListEdu(findByEduHeartList);
+            }
         }
 
         return entireInfoResponseDTO;
 
     }
 
-    
+
     //프로필 사진 변경 함수
     public void modifyProfileImage(MultipartFile profileImg, Long userId) throws IOException {
 
@@ -346,7 +346,8 @@ public class UserService {
             ReservationTime time = r.getReservationTime();
             if(r.getReservationType().equals("EDU")){
                 Edu edu=r.getEdu();
-                 SeaImage seaImage= imageRepository.findByEdu_EduId(edu.getEduId()).get(0);
+                SeaImage seaImage= imageRepository.findByEdu_EduId(edu.getEduId()).get(0);
+
 //                img=edu.getSeaImage();
                 log.info("img : "+seaImage);
                 reservationResponseDTOS.add(new ReservationResponseDTO(r, time, edu, seaImage));
