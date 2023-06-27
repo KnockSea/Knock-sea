@@ -41,7 +41,7 @@ function MpReviewList() {
      {reviews && reviews.length > 0 && reviews.map(review => (
     <div className='MpReFormItem'>
         <div className='numbox'></div>
-        <div className='mprebox1'>{review.profileImg}</div>
+        <div className='mprebox1'>{review.image}</div>
         <div className='mprebox2'>
                 <div className='mpreAutohr'>
                     <div>{review.userName}</div>
