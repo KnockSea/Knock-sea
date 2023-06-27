@@ -3,7 +3,7 @@ import { getLoginUserInfo } from '../util/login-util';
 import { API_BASE_URL, REVIEW } from '../../config/host-config';
 
 function MpReviewList() {
-  const [reviews, setReviews] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [token, setToken] = useState(getLoginUserInfo().token);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(3);
@@ -11,7 +11,7 @@ function MpReviewList() {
 
   useEffect(() => {
     fetchData();
-  }, [page, size]);
+  }, [reviews && reviews.length, page, size]);
 
   const fetchData = () => {
     fetch(`${API_BASE_URL}${REVIEW}/myReview?page=${page}&size=${size}`, {
