@@ -6,7 +6,7 @@ const MpAdminFS = () => {
 
 
     const [validationList, setValidationList] = useState([]);
-    const [validationType , setvalidationTtpe] = useState('SPOT');
+    const [validationType, setValidationType] = useState('SPOT');
 
     // API 요청
 useEffect(() => {
@@ -22,12 +22,13 @@ useEffect(() => {
         // 에러 처리
         console.error('Error:', error);
     });
-}, []);
+}, [validationType]);
     //검증요청 승인하는 함수
     const updateValidation = async (e, validationUserName, validationType) => {
         e.preventDefault();
+        console.log(validationUserName,validationType);
         const confirm = window.confirm('정말 승인하시겠습니까?');
-        console.log(validationList);
+        // console.log(validationList);
         if (confirm) {
             // console.log(validationUserName);
             // console.log(validationType);
@@ -44,13 +45,24 @@ useEffect(() => {
                 },
                 body: JSON.stringify(validationModifyRequestDTO)
             });
-            if((await res).status===200){
-                console.log(res);
-                alert('전송완료')
-                setValidationList();
-            }else{
-                alert('서버와의 통신오류')
-            }
+            if (res.status === 200) {
+                alert('전송완료');
+                // 승인 요청 후 다시 리스트 가져오기
+                fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // 요청 결과 처리
+                        console.log(data);
+                        setValidationList(data);
+                        console.log('validationList : ',validationList);
+                    })
+                    .catch(error => {
+                        // 에러 처리
+                        console.error('Error:', error);
+                    });
+              } else {
+                alert('서버와의 통신오류');
+              }
         }
     };
 

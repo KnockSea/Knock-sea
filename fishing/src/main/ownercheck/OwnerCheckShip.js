@@ -23,7 +23,7 @@ function OwnerCheckShip() {
     userPhone : ''
   });
 
-  const handleOwnerCheck = async (e) => {
+  const handleOwnerCheck = (e) => {
     e.preventDefault();
     // 등록 처리 로직
     console.log(shipConfirmImage);
@@ -47,26 +47,24 @@ function OwnerCheckShip() {
       formData.append('validationImage',shipConfirmImage[i]);
     }
 
-    const res =await fetch('http://localhost:8012/api/v1/validation/insert', {
+    fetch('http://localhost:8012/api/v1/validation/insert', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')
       },
       body: formData
-    });
-
+    }).then(async (res) => {
     if(res.status===200){
       alert('선박검증요청에 성공했습니다');
       navi('/');
       //window.location.href = '/login';
-    }else if(res.status==500){
-      const errorResponse = await res.json(); 
-      console.log(errorResponse);// Parse error response as JSON
-      alert('등록에 오류가발생했습니다');
+    }else if(res.status===500){
+      const error = await res.text();     
+      alert('이미 검증에 등록된 정보가있습니다');
     }else{
       alert('서버와의 접속이 원활하지않습니다');
     }
-   
+    })
   };
   
 

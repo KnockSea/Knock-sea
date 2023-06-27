@@ -2,14 +2,26 @@ import React from 'react'
 import './MpScss/MpAdmin.scss'
 import { Link } from 'react-router-dom'
 import { useState,useEffect } from 'react'
-
+import { getLoginUserInfo, setLoginUserInfo } from '../util/login-util'
 
 const MpAdmin = () => {
 
     const [validationList, setValidationList] = useState([]);
     const [validationType , setvalidationType] = useState('SHIP');
+    const [userInfo, setUserInfo] = useState({
+        token: '', // Set default value for name
+        userEmail: '', // Set default value for email
+        userName : '',
+        userGrade : '',
+        userId : '',
+        userPhone : ''
+      });
 
-    //배 검증요청 리스트수정 json형식
+useEffect(() => {
+    const user = getLoginUserInfo();
+    console.log(userInfo);
+    setUserInfo(user);
+},[])
 
 //검증요청 리스트 서버에서 받아오기
 useEffect(() => {
@@ -29,6 +41,7 @@ useEffect(() => {
 //검증요청 승인하는 함수
 const updateValidation = async (e, validationUserName, validationType) => {
     e.preventDefault();
+    console.log(validationUserName,validationType);
     const confirm = window.confirm('정말 승인하시겠습니까?');
     console.log(validationList);
     if (confirm) {
@@ -40,21 +53,34 @@ const updateValidation = async (e, validationUserName, validationType) => {
             'validationStatus' : 'YES'
           };
           
-          const res = fetch('http://localhost:8012/api/v1/validation', {
-            method: 'PUT', // 또는 'PATCH' 요청 메서드
+          const res = await fetch(`http://localhost:8012/api/v1/validation/`, {
+            method: 'PUT',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer '+ localStorage.getItem('ACCESS_TOKEN')
             },
             body: JSON.stringify(validationModifyRequestDTO)
           });
-          if((await res).status===200){
-            console.log(res);
-            alert('전송완료')
-            setValidationList();
-          }else{
-            alert('서버와의 통신오류')
+      
+          if (res.status === 200) {
+            alert('전송완료');
+            // 승인 요청 후 다시 리스트 가져오기
+            // fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // 요청 결과 처리
+            //         console.log(data);
+            //         setValidationList(data);
+            //         console.log('validationList : ',validationList);
+            //     })
+            //     .catch(error => {
+            //         // 에러 처리
+            //         console.error('Error:', error);
+            //     });
+          } else {
+            alert('서버와의 통신오류');
           }
-    }
+        }
   };
   
   
@@ -69,7 +95,6 @@ const updateValidation = async (e, validationUserName, validationType) => {
 <section>
 
     <div className='adminbox'>
-
         {/* 관리자목록박스  */}
     <div className='mgbox'>
         <div className='mgtitle'>

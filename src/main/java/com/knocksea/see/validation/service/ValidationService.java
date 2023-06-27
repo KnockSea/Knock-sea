@@ -3,6 +3,7 @@ package com.knocksea.see.validation.service;
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.entity.UserGrade;
 import com.knocksea.see.user.repository.UserRepository;
 import com.knocksea.see.validation.dto.request.ValidationCreateDTO;
 import com.knocksea.see.validation.dto.request.validationModifyRequestDTO;
