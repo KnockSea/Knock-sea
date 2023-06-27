@@ -1,5 +1,5 @@
 *.yml
-application.yml
+fishing/src/application.yml
 
 README.md
 .gradle
