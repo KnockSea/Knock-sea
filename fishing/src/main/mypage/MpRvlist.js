@@ -47,7 +47,7 @@ const MpRvlist = () => {
           */
         } else if(res.status===500){
             alert('예약내역이없습니다');
-        }else{
+        }else {
             alert('서버와의 통신이 원활하지않습니다!')
         }
   }

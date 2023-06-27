@@ -48,7 +48,8 @@ export const NsHeader = () => {
     const user = getLoginUserInfo();
     setUserInfo(user);
     setIsLoggedIn(!isLogin());
-    console.log(user);
+    // console.log(user);
+
     }, [isLogin()]);
 
     useEffect(() => {
@@ -72,7 +73,7 @@ export const NsHeader = () => {
           }
         }
       })();
-    }, []);
+    }, [isLoggedIn]);
     
 
   return (

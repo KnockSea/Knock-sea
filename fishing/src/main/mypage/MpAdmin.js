@@ -95,14 +95,9 @@ const updateValidation = async (e, validationUserName, validationType) => {
                 <div>등록유저이름없음</div>
                 )}
                 {validation.validationShipRegi ? (
-                <div className='shipregiimg'>{validation.validationShipRegi}</div>
+                <div className='spotregi'>{validation.validationBusinessRegi}</div>
                 ) : (
-                <div>선박등록이미지 없음</div>
-                )}
-                {validation.validationShipLicense ? (
-                <div className='shipregistnum'>{validation.validationShipLicense}</div>
-                ) : (
-                <div>선박면허증 없음</div>
+                <div>사업장등록  번호없음</div>
                 )}
                 <div>
                 <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType)}>승인</button>

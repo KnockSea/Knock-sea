@@ -290,12 +290,17 @@ function SignUpForm(){
           method: 'POST',
           body: userData
         })
-          .then(res => {
+          .then(async (res) => {
             if (res.status === 200) {
               alert('😀회원가입이 완료되었습니다!🎉');
               redirection('/login');
-            } else {
-              alert('서버와의 통신이 원활하지 않습니다😓');
+            } else if(res.status===400){
+              const error = await res.text(); // 에러 메시지 받기
+              // alert('서버와의 통신이 원활하지 않습니다😓',error);
+              alert(error + '😓');
+            }else if(res.status===500){
+              const error = await res.text(); // 에러 메시지 받기
+              alert(error + '😓');
             }
           })
           .then(flag => {

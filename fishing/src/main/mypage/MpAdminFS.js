@@ -74,17 +74,34 @@ useEffect(() => {
             <div className='ctntitle'>KNOCK_SEA 관리자 화면 (낚시터)</div>
 
             {/* 본문내용 */}
-            <div className='ctntext'>
-                {validationList.length > 0 ? (validationList.map(validation => (<div key={validation.validationId}>
-                {validation.userName ? (<div className='username'>{validation.userName}</div>) : (<div>등록유저이름없음</div>)}
-                {validation.validationBusinessRegi ? (<div>{validation.validationBusinessRegi}</div>) : (<div>사업자등록증 없음</div>)}
+            {validationList.length > 0 ? (
+            validationList.map((validation) => (
+            <div key={validation.validationId}>
+                {validation.userName ? (
+                <div className='username'>{validation.userName}</div>
+                ) : (
+                <div>등록유저이름없음</div>
+                )}
+                {validation.validationShipRegi ? (
+                <div className='shipregiimg'>{validation.validationShipRegi}</div>
+                ) : (
+                <div>선박등록이미지 없음</div>
+                )}
+                {validation.validationShipLicense ? (
+                <div className='shipregistnum'>{validation.validationShipLicense}</div>
+                ) : (
+                <div>선박면허증 없음</div>
+                )}
                 <div>
-                    <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType)}>승인</button>
-                    <button>취소</button>
+                <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType)}>승인</button>
+                <button>취소</button>
                 </div>
                 <div>{validation.validationStatus}</div>
-                </div>))) : (<div>데이터 없음</div>)}
             </div>
+            ))
+        ) : (
+            <div>데이터 없음</div>
+        )}
         </div>
     </div>
 </section>
