@@ -334,23 +334,36 @@ public class UserService {
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("정보가 올바르지 않습니다."));
 
         // 이거 리스트네? 유저가 예약한것들 전체
-        List<Reservation> reservation = reservationRepository.findAllByUserUserId(user.getUserId());
+        List<Reservation> reservation = reservationRepository.findAllByUser(user);
 //                .orElseThrow(() -> new RuntimeException("예약 정보가 없습니다."));
 
+        log.info("reservation~~" + reservation);
 
         List<ReservationResponseDTO> reservationResponseDTOS = new ArrayList<>();
-        foundReserve(reservation, reservationResponseDTOS);
+//        foundReserve(reservation, reservationResponseDTOS);
+//        SeaImage img = new SeaImage();
+        for (Reservation r : reservation) {
+            ReservationTime time = r.getReservationTime();
+            if(r.getReservationType().equals("EDU")){
+                Edu edu=r.getEdu();
+                SeaImage seaImage = imageRepository.findByEdu(edu);
+//                img=edu.getSeaImage();
+                log.info("img : "+seaImage);
+                reservationResponseDTOS.add(new ReservationResponseDTO(r, time, edu, seaImage));
+            }else {
+                Product product = r.getProduct();
+//                img=product.getSeaImage();
+                SeaImage seaImage = imageRepository.findByProduct(product);
 
+                reservationResponseDTOS.add(new ReservationResponseDTO(r, time, product, seaImage));
+            }
+
+        }
+        log.info("reservationResponseDTOS : "+reservationResponseDTOS);
         return new UserMyPageResponseDTO(user, reservationResponseDTOS);
     }
 
-    private static void foundReserve(List<Reservation> reservation, List<ReservationResponseDTO> reservationResponseDTOS) {
-        for (Reservation r : reservation) {
-            ReservationTime time = r.getReservationTime();
-            Product product = r.getProduct();
-            SeaImage img = product.getSeaImage();
-
-            reservationResponseDTOS.add(new ReservationResponseDTO(r, time, product, img));
-        }
-    }
+//    private  foundReserve(List<Reservation> reservation, List<ReservationResponseDTO> reservationResponseDTOS) {
+//
+//    }
 }

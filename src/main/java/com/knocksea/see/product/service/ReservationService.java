@@ -5,7 +5,6 @@ import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.exception.NoProductException;
 import com.knocksea.see.product.dto.request.ReservationCancelDTO;
 import com.knocksea.see.product.dto.request.ReservationRequestDTO;
-import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
 import com.knocksea.see.product.entity.ProductCategory;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
@@ -32,13 +31,13 @@ public class ReservationService {
     private final ReservationTimeRepository reservationTimeRepository;
     private final ProductDetailService productDetailService;
 
-    public boolean createReserve(ReservationRequestDTO dto) throws RuntimeException, NoProductException{
+    public boolean createReserve(ReservationRequestDTO dto, TokenUserInfo userInfo) throws RuntimeException, NoProductException{
         log.info("dto UserId : "+dto.getUserId());
 
         Reservation reservation = dto.toEntity(dto);
         log.info("reservation ㅎㅎ: "+reservation);
 
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new RuntimeException("회원 정보가 없습니다."));
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("회원 정보가 없습니다."));
         log.info("reservation user: "+user.getUserName());
 
         reservation.setUser(user);

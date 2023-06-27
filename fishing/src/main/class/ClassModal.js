@@ -13,7 +13,7 @@ const handleLogin = (e) => {
   // 렌더링 후 실행함수
 // timeList, price, address
 function ClassModal({closeModal, oneEdu}) {
-
+  const [token, setToken] = useState(getLoginUserInfo().token);
   const listSize=oneEdu.timeList.length-1;
   const startTime=oneEdu.timeList[0].timeDate; //시작날짜
   const EndTime=oneEdu.timeList[listSize].timeDate; //마지막 날짜
@@ -23,6 +23,7 @@ function ClassModal({closeModal, oneEdu}) {
   const [selectedTime, setSelectedTime] = useState(null);
   const [classTimes, setClassTimes] = useState([]);
   const[timeIndex,setTimeIndex] = useState(0);
+
   const handleIncrease = () => {
     setCount(count + 1);
   };
@@ -44,9 +45,10 @@ function ClassModal({closeModal, oneEdu}) {
     setTimeIndex(timeIndex);
   }    
     const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
-    const [token, setToken] = useState(getLoginUserInfo().token);
+  
   const handlePayment=()=>{
    
+    console.log("token",token.userId);
     const reservation = {
       reservationType : "EDU",
       reservationDate : formattedDate, 
@@ -54,13 +56,12 @@ function ClassModal({closeModal, oneEdu}) {
       reservationUserCount : count,
       reservationPrice :  oneEdu.eduPrice,
       eduLevel : oneEdu.eduLevel,
-      userId : oneEdu.userId,
+      // userId : token.userId,
       eduId : oneEdu.eduId,
       reservationTimeId : timeIndex 
     };
     
     console.log("click button : ", reservation);
-    
 
 
     const requestHeader = {
@@ -71,7 +72,7 @@ function ClassModal({closeModal, oneEdu}) {
 
         fetch(API_BASE_URL, {
         method: 'POST',
-        headers: requestHeader,
+        headers:  requestHeader,
         body: JSON.stringify(reservation)
       })
       .then(res => {
