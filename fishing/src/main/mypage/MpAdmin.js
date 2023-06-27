@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './MpScss/MpAdmin.scss'
 import { Link } from 'react-router-dom'
-import { useState,useEffect } from 'react'
+// import { useState,useEffect } from 'react'
 import { API_BASE_URL, VALIDATION } from '../../config/host-config'
-
 import { getLoginUserInfo, setLoginUserInfo } from '../util/login-util'
 
 const MpAdmin = () => {
@@ -84,6 +83,7 @@ const updateValidation = async (e, validationUserName, validationType,validation
           }
         }
   };
+
   
   
   
@@ -146,6 +146,6 @@ const updateValidation = async (e, validationUserName, validationType,validation
     </div>
 </section>
   )
-}
+}}
 
-export default MpAdmin
+export default MpAdmin;

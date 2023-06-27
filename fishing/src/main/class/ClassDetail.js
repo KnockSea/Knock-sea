@@ -1,6 +1,5 @@
 import React, { useState,useEffect  } from 'react';
 import './scss/ClassDetail.scss';
-// import './scss/reset.scss';
 import ClassModal from "./ClassModal";
 import ClassDetailTap from "./ClassDetailTap";
 import Calendar from '../Calendar';

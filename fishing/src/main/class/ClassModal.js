@@ -18,11 +18,10 @@ function ClassModal({closeModal, oneEdu}) {
   const [classTimes, setClassTimes] = useState([]);
   const[timeIndex,setTimeIndex] = useState(0);
   const navigate = useNavigate();
-
+  const [index,setIndex]=useState(0);
 
   
   const handleIncrease = () => {
-    console.log("진짜 index : ",index);
     if(oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser>count){
       setCount(count + 1);    
     }else if(oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser<=count){
