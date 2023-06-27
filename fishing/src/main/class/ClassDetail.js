@@ -21,7 +21,7 @@ function ClassDetail() {
         'content-type': 'application/json'
       };
       const API_BASE_URL = `http://localhost:8012/api/v1/edu/${eduId}`;
-  
+  console.log("oneEdu : ",oneEdu);
     
       useEffect(()=>{
         fetch(API_BASE_URL, { 

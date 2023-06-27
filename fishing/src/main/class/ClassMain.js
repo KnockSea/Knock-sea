@@ -94,7 +94,7 @@ function ClassMain() {
                                     </div>
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
-                                            <div className="list-star-rating">{t.star}</div>
+                                            <div className="list-star-rating">{t.reviewAverage}</div>
 
                                             <div className="userId">{t.userName}</div>
                                         </div>
@@ -132,7 +132,14 @@ function ClassMain() {
                                     </div>
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
-                                            <div className="list-star-rating">{f.star}</div>
+                                        <div className="list-star-rating">
+                                            {f.reviewAverage === 0 && "☆☆☆☆☆"}
+                                            {f.reviewAverage === 1 && "☆☆☆☆⭐"}
+                                            {f.reviewAverage === 2 && "☆☆☆⭐⭐"}
+                                            {f.reviewAverage === 3 && "☆☆⭐⭐⭐"}
+                                            {f.reviewAverage === 4 && "☆⭐⭐⭐⭐"}
+                                            {f.reviewAverage === 5 && "⭐⭐⭐⭐⭐"}
+                                          </div>
                                             <div className="userId">{f.userName}</div>
                                         </div>
                                         <div className="text-place list-t">위치 : {f.eduLocation}</div>

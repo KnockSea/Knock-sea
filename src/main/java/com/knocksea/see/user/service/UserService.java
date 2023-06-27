@@ -346,14 +346,14 @@ public class UserService {
             ReservationTime time = r.getReservationTime();
             if(r.getReservationType().equals("EDU")){
                 Edu edu=r.getEdu();
-                SeaImage seaImage = imageRepository.findByEdu(edu);
+                 SeaImage seaImage= imageRepository.findByEdu_EduId(edu.getEduId()).get(0);
 //                img=edu.getSeaImage();
                 log.info("img : "+seaImage);
                 reservationResponseDTOS.add(new ReservationResponseDTO(r, time, edu, seaImage));
             }else {
                 Product product = r.getProduct();
 //                img=product.getSeaImage();
-                SeaImage seaImage = imageRepository.findByProduct(product);
+                SeaImage seaImage = imageRepository.findByProduct_ProductId(product.getProductId()).get(0);
 
                 reservationResponseDTOS.add(new ReservationResponseDTO(r, time, product, seaImage));
             }

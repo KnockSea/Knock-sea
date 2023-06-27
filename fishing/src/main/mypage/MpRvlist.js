@@ -62,8 +62,12 @@ const MpRvlist = () => {
     userPhone : ''
   });
 
-  const today = new Date().toLocaleDateString();
-  console.log("today : ",today);
+const today = new Date().toLocaleDateString('ko-KR');
+console.log("today: ", today);
+
+
+
+
   return (
     <section className='MyPageMainBox'>
     <div className='mainbox1'>
@@ -82,16 +86,17 @@ const MpRvlist = () => {
                 <div className='rvlistsally'>{reservation.reservePrice}원</div>
               </div>
             </div>
-            {/* {reservation.reserveDate === today && ( // 오늘 날짜와 예약일이 같은 경우에만 후기쓰기 버튼을 보여줌
+            {/* {reservation.reserveDate <= today && ( // 오늘 날짜와 예약일이 같은 경우에만 후기쓰기 버튼을 보여줌
                 <div className='rvlistbtnbox'>
                   <button className='relist'>후기쓰기</button>
                 </div>
               )} */}
-            <div className='rvlistbtnbox'>
-              <Link to={'/review'}>
-                <button className='relist'>후기쓰기</button>
-              </Link>
-            </div>
+
+              <div className='rvlistbtnbox'>
+                <Link to={'/review'}>
+                  <button className='relist'>후기쓰기</button>
+                </Link>
+              </div>
           </div>
         ))
       ) : (
