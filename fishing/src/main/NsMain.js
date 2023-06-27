@@ -42,6 +42,7 @@ import EduRegistration from './product/EduRegistration';
 import ScrollToTop from './ScrollToTop';
 import MpInquiryD from './mypage/MpInquiryD';
 import MpInquiryResult from './mypage/MpInquiryResult';
+import MpAdInquire from './mypage/MpAdInquire';
 
 const NsMain = () => {
 
@@ -71,7 +72,9 @@ const NsMain = () => {
             <Route path='/iqinput' element={<MpIqInput/>}></Route>
             {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
- 
+            관리자용 전체 문의 현황
+            <Route path='/adInquire' element={<MpAdInquire/>}></Route>
+            
             {/* 문의답변 */}
             <Route
                 path="/adminreply/:inquiryId"
