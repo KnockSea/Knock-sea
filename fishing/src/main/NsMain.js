@@ -15,6 +15,8 @@ import MpUserDrop from './mypage/MpUserDrop'
 import MpDrop from './mypage/MpDrop'
 import MpInquire from './mypage/MpInquire'
 import MpRvlist from './mypage/MpRvlist'
+import MpReviewForm from './mypage/MpReviewForm'
+
 import ProductRegistration from './product/ProductRegistration'
 import RvFsDetail from './fishingspot/RvFsDetail'
 import RvFsTemplate from './fishingspot/RvFsTemplate'
@@ -80,6 +82,7 @@ const NsMain = () => {
             {/* 유저 문의 상세보기 */}
             <Route path="/inquiryResult/:inquiryId" element={<MpInquiryResult />} />
             <Route path="/rvlist" element={<MpRvlist />}></Route>
+            <Route path="/review" element={<MpReviewForm />}></Route>
 
             {/* 로그인, 회원가입 */}
             <Route path="/join" element={<SignUpForm />}></Route>
@@ -96,7 +99,6 @@ const NsMain = () => {
             <Route path="/mpfs" element={<MpFsInfo />}></Route>
             <Route path="/mpclass" element={<MpClassInfo />}></Route>
             {/* 관리자 */}
-
             <Route path='/admin' element={<MpAdmin/>}></Route>
             <Route path='/adminFs' element={<MpAdminFS/>}></Route>
             <Route path='/adminCS' element={<MpAdminCS/>}></Route>

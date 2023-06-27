@@ -8,13 +8,8 @@ import { Route, Routes,Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 const handleLogin = (e) => {
-    e.preventDefault();
-  
-     
+    e.preventDefault();     
     };
-    
-  // 렌더링 후 실행함수
-  
 
 function ClassDetail() {
       const [filter, setFilter] = useState(''); 
