@@ -55,7 +55,9 @@ public class HeartService {
 
         } else {
             // 좋아요 취소
-            heartRepository.deleteById(dto.getHeartId());
+            Heart heart = heartRepository.existsByUserAndHeartType1(user, HeartType.valueOf(dto.getHeartType()));
+            log.info("heart @@@@@@@@@@@@@@@@@ - {}", heart);
+            heartRepository.deleteById(heart.getHeartId());
         }
         return !heartOrNot;
     }

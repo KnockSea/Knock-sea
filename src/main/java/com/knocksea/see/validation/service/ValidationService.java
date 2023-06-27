@@ -82,7 +82,7 @@ public class ValidationService {
 /*        User user = userRepository.findById(userId).orElseThrow(()->
                 new RuntimeException("회원 정보가 없습니다"));*/
 
-        List<Validation> validationList = validationRepository.findByValidationType(validationType);
+        List<Validation> validationList = validationRepository.findByValidationTypeAndValidationStatus(validationType);
         log.info("validationList SIZE : "+validationList.size());
         log.info("validationList : "+validationList);
         

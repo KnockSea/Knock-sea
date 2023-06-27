@@ -8,6 +8,8 @@ function OwnerCheckShip() {
   const [shipConfirmImage, setShipConfirmImage] = useState([2]);
   const [shipNumber, setShipNumber] = useState('');
   const [shipLicenseNumber, setShipLicenseNumber] = useState('');
+  const [selectedImageNames, setSelectedImageNames] = useState(['', '']);
+
   // cosnt [validationtype, setvalidationtype] = useState('SHIP');
 
   //화면이동 함수
@@ -71,11 +73,13 @@ function OwnerCheckShip() {
  const handleShipConfirmImage1Change = (event) => {
     const file = event.target.files[0];
     setShipConfirmImage((prevImages) => [file, prevImages[1]]);
+    setSelectedImageNames([file.name, selectedImageNames[1]]); // 선택한 이미지 파일의 이름 저장
   };
 
   const handleShipConfirmImage2Change = (event) => {
     const file = event.target.files[0];
     setShipConfirmImage((prevImages) => [prevImages[0], file]);
+    setSelectedImageNames([selectedImageNames[0], file.name]); // 선택한 이미지 파일의 이름 저장
   };
 
 
@@ -108,8 +112,7 @@ function OwnerCheckShip() {
                       accept="image/*"
                       name="shipConfirmImage1"
                     />
-                    <span>
-                  </span>
+                    <span>선택된 사진 : {selectedImageNames[0]}</span>
                   </div>
                 </div>
 
@@ -144,9 +147,7 @@ function OwnerCheckShip() {
                       accept="image/*"
                       name="shipConfirmImage2"
                     />
-                    {/* {shipConfirmImage.length > 0 && (
-                      <p>Attached photo: {shipConfirmImage[1] || ''}</p>
-                    )} */}
+                    <span>선택된 사진 : {selectedImageNames[1]}</span>
                   </div>
                   </div>
                 </div>

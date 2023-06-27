@@ -45,13 +45,13 @@ const MpInquire = () => {
 
     useEffect(() => {
         fetchData();
-    }, [inquiries.length, page]);
+    }, [inquiries && inquiries.length, page]);
 
     return (
         <section className="MyPageMainBox">
             <div className="mainbox1">
                 <h1>문의 현황</h1>
-                {inquiries && inquiries.length > 0 &&
+                {inquiries.length !==0 ? (
                     inquiries.map((inquiry) => (
                         <div key={inquiry.inquiryId} className="inbox">
                             <div className="initembox">
@@ -77,7 +77,10 @@ const MpInquire = () => {
                             {/* @@@@@@@@@@@@@@@@@@@@@@@@@ 유저 문의 상세보기 눌렀을때 나오는 폼 만들어주세요@@@@@@@@@@@@@@@@@@@@@ */}
                             {/* MpInquiryResult 임시 상세보기 만들었습니다@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */}
                         </div>
-                    ))}
+                    ))
+                    ) : (
+                        <div>문의가 입력된 것이 없습니다.</div>
+                    )}
                     <div className="page">
                          <Pagination
             activePage={page}

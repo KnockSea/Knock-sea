@@ -96,7 +96,7 @@ function ClassDetail() {
                                     </div>        
                                 <div>
                                     <button className='box btn' onClick={ () => {setModal(true)} }>바로 예약하기</button>
-                                    {modal === true ? <ClassModal closeModal={() => setModal(false)} timeList={oneEdu.timeList} price={oneEdu.eduPrice}/> : null}
+                                    {modal === true ? <ClassModal closeModal={() => setModal(false)} oneEdu={oneEdu} /> : null}
                                 </div>
                         </div>
                         </div>

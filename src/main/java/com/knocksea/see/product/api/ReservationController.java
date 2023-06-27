@@ -35,8 +35,9 @@ public class ReservationController {
         log.info("/api/v1/reservation POST! - {}", dto);
 
         try {
-            ProductDetailResponseDTO reserve = reservationService.createReserve(dto);
-            return ResponseEntity.ok().body(reserve);
+            boolean b= reservationService.createReserve(dto,userInfo);
+            return ResponseEntity.ok().body(b);
+
         } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(e.getMessage());
