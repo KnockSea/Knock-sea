@@ -36,6 +36,7 @@ export const NsHeader = () => {
     const confirm =window.confirm('정말 로그아웃하시겠어요?');
     if(confirm){
       setIsLoggedIn(isLogin());
+      setProfileUrl(null);
       localStorage.clear();
       navi('/');
     }else{
