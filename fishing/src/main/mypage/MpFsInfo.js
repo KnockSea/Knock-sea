@@ -4,6 +4,7 @@ import MpList from "./MpList";
 import { getLoginUserInfo } from "../util/login-util";
 import { useState } from "react";
 import { useEffect } from "react";
+import { API_BASE_URL, FISHINGSPOT } from "../../config/host-config";
 
 const MpFsInfo = () => {
 
@@ -29,7 +30,7 @@ const MpFsInfo = () => {
 
 
 const fetchSpotInfo = async () => {
-    const res = await fetch('http://localhost:8012/api/v1/fishing/getspotinfo', {
+    const res = await fetch(`${API_BASE_URL}${FISHINGSPOT}/getspotinfo`, {
         method: 'GET',
         headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
     });

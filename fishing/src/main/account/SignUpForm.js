@@ -286,7 +286,7 @@ function SignUpForm(){
         userData.append('profileImage', profileImage);
 
         // fetch를 사용하여 회원가입 요청 보내기
-        fetch('http://localhost:8012/api/v1/user/register', {
+        fetch(`${API_BASE_URL}${USER}/register`, {
           method: 'POST',
           body: userData
         })

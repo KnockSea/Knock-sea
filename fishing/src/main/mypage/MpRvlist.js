@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import MpList from './MpList'
 import { useState ,useEffect} from 'react'
 import { getLoginUserInfo } from '../util/login-util'
+import { API_BASE_URL, USER } from '../../config/host-config'
 
 const MpRvlist = () => {
 
@@ -29,7 +30,7 @@ const MpRvlist = () => {
   }, []);
 
   const userReservefetch = async() => {
-    const res = await fetch('http://localhost:8012/api/v1/user/user-mylist', {
+    const res = await fetch(`${API_BASE_URL}${USER}user-mylist`, {
       method: 'GET',
       headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
     });
