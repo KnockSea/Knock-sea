@@ -6,6 +6,7 @@ import MpReFormItem from './MpReFormItem'
 import {getLoginUserInfo, isLogin } from '../util/login-util';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { API_BASE_URL, SHIP } from '../../config/host-config'
 const MpBtInfo = () => {
 
 
@@ -31,7 +32,7 @@ const MpBtInfo = () => {
     
       //배 정보 가져오기
       const fetchShipInfo = async () => {
-        const res = await fetch('http://localhost:8012/api/v1/ship/getshipinfo', {
+        const res = await fetch(`${API_BASE_URL}${SHIP}/getshipinfo`, {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
         });
@@ -55,7 +56,7 @@ const MpBtInfo = () => {
         const confirm = window.confirm('정말로 삭제하시겠습니까?');
 
         if(confirm){
-        const res = await fetch('http://localhost:8012/api/v1/ship/delete', {
+        const res = await fetch(`${API_BASE_URL}${SHIP}/delete`, {
             method: 'DELETE',
             headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
         });
@@ -104,44 +105,43 @@ const MpBtInfo = () => {
                         </div>
                         <div className='ownerTap'>
                             {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>⛵ 배</h1></Link>)}
-                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>🚩 낚시터</h1></Link>)}
-                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)}
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpfs'}><h1>🚩 낚시터</h1></Link>)}
+                            {/* {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)} */}
                         </div>
                     </div>
                    
-                   
-                        <div className='userinfobox'>
-                                            <div className='profilebox'>
-                        {shipinfo.shipImageLocation && shipinfo.shipImageLocation.length > 0 ? (
-                            <img className="my-profile" title="마이페이지" src={shipinfo.shipImageLocation[0]} />
-                        ) : (
-                            <img className="my-profile" title="마이페이지" src={require('./../icons/unknown.png')} />
-                        )}
-                        </div>
-                        <div className='namebox'>
-                        <div className="nickName">
-                        {shipinfo.shipName ? <span>{shipinfo.shipName}</span> : <span>등록된 배가  없습니다.</span>}
-                        </div>
-                        <div>
-                        {shipinfo.shipDescription ? <span>{shipinfo.shipDescription}</span> : <span>배를 등록해주세요.</span>}
-                        </div>
-                        <div>
-                        {shipinfo.shipLikeCount ||<span>{setShipinfo.shipLikeCount}</span>}
-                        </div> 
-                        
-                        </div>
-                        <div className='btbox'>
-                        {shipinfo && shipinfo.shipId ? (
-                            <>
-                            <button className='isbtn' onClick={deleteShip}>배 정보 삭제하기</button>
-                            <button className='isbtn'>배 정보 수정하기</button>
-                            </>
+                   <div className='userinfobox'>
+                      <div className='userinfoWrap'>
+                          <div className='profilebox'>
+                            {shipinfo.shipImageLocation && shipinfo.shipImageLocation.length > 0 ? (
+                                <img className="my-profile" title="마이페이지" src={shipinfo.shipImageLocation[0]} />
                             ) : (
-                            <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
+                                <img className="my-profile" title="마이페이지" src={require('./../icons/defaultProfile.png')} />
                             )}
+                          </div>
+                        <div className='namebox'>
+                          <div className="nickName">
+                            {shipinfo.shipName ? <span>{shipinfo.shipName}</span> : <span>등록된 배가  없습니다.</span>}
+                          </div>
+                          <div className="content">
+                            {shipinfo.shipDescription ? <span>{shipinfo.shipDescription}</span> : <span>배를 등록해주세요.</span>}
+                          </div>
+                          <div>
+                            {shipinfo.shipLikeCount ||<span>{setShipinfo.shipLikeCount}</span>}
+                          </div> 
                         </div>
+                      </div>
                     </div>
-
+                    <div className='btbox'>
+                          {shipinfo && shipinfo.shipId ? (
+                            <>
+                              <button className='isbtn' onClick={deleteShip}>배 정보 삭제하기</button>
+                              <button className='isbtn'>배 정보 수정하기</button>
+                            </>
+                              ) : (
+                              <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
+                              )}
+                    </div>
 
                 <div className='rvbox'>
                         <h2>리뷰 게시판</h2>

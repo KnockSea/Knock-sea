@@ -3,6 +3,7 @@ import './scss/OwnerCheck.scss';
 import OwnerCheckHeader from './OwnerCheckHeader';
 import { getLoginUserInfo } from '../util/login-util';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL, VALIDATION } from '../../config/host-config';
 
 function OwnerCheckFishing() {
   const [fishingNumber, setFishingNumber] = useState('');
@@ -36,7 +37,7 @@ function OwnerCheckFishing() {
     formData.append('validationImage',file);
 
 
-    const res =await fetch('http://localhost:8012/api/v1/validation/insert', {
+    const res =await fetch(`${API_BASE_URL}${VALIDATION}/insert`, {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')
@@ -50,9 +51,8 @@ function OwnerCheckFishing() {
           //window.location.href = '/login';
           navi('/');
         }else if(res.status==500){
-          const errorResponse = await res.json(); // Parse error response as JSON
-          alert('등록에 오류가발생했습니다');
-          console.log(errorResponse);
+          const errorResponse = await res.text(); // Parse error response as JSON
+          alert('이미 검증에 등록된 정보가있습니다');
         }else{
           alert('서버와의 접속이 원활하지않습니다');
         }

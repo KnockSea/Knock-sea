@@ -30,6 +30,8 @@ public class ProductController {
     private final ProductService productService;
 
 
+
+
     // 상품 등록
     @PostMapping
     public ResponseEntity<?> createProduct(
@@ -118,7 +120,9 @@ public class ProductController {
 
 //        log.info("/api/v1/products GET ! - {} ", );
 
-        return ResponseEntity.ok().body(productService.shipMainList());
+        List<mainListResponseDTO> ships = productService.shipMainList();
+        log.info("list 확인중 : {} ", ships);
+        return ResponseEntity.ok().body(ships);
     }
 
     @GetMapping("/main/spot")
@@ -129,13 +133,17 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.spotMainList());
     }
 
+
     @GetMapping("/product-list")
     public ResponseEntity<?> productList(PageDTO pageDTO) {
 
         log.info("/api/v1/products/product-list GET ! - {} ", pageDTO);
-        ProductListResponseDTO listResponseDTO = productService.findAll(pageDTO);
-
-        return ResponseEntity.ok().body(listResponseDTO);
+        ProductListResponseDTO listResponseDTO = null;
+        try {
+            listResponseDTO = productService.findAll(pageDTO);
+            return ResponseEntity.ok().body(listResponseDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
-
 }

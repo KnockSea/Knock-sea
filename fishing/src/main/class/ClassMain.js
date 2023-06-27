@@ -3,11 +3,14 @@ import './scss/ClassMain.scss';
 // import './scss/reset.scss';
 import { Route, Routes,Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import Pagination from "react-js-pagination";
+import { API_BASE_URL } from '../../config/host-config';
 
 const handleLogin = (e) => {
-    e.preventDefault();
   
+
+    e.preventDefault();
+
       // 회원가입 서버 요청
      
     };
@@ -17,7 +20,7 @@ const handleLogin = (e) => {
       };
       
 
-    const API_BASE_URL = 'http://localhost:8012/api/v1/edu';
+    // const API_BASE_URL = 'http://localhost:8012/api/v1/edu';
 
 
     
@@ -26,11 +29,20 @@ const handleLogin = (e) => {
  
 
 function ClassMain() {
+
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(8);
+  const [totalItemCount, setTotalItemCount] = useState(0);
+  
+  const handlePageChange = (page) => {
+    setPage(page);
+    console.log(page);
+  };
     
     const [edus, setEdus] = useState([]);
 
       useEffect(()=>{
-        fetch(API_BASE_URL, { 
+        fetch(`${API_BASE_URL}/api/v1/edu?page=${page}&size=${size}`, { 
             method: 'GET',
             headers: requestHeader
           })
@@ -42,19 +54,13 @@ function ClassMain() {
             })
             .then(json => {
               console.log(json);   //->이걸 상태관리 변수인 todos에 셋팅하면 화면에 그려짐
-              setEdus(json); //렌더링 완료
-            });
-    
-        }, []);
+              setEdus(json);
+              // console.log(json.pageInfo.totalCount);
+              // console.log('edus',edus);
+              setTotalItemCount(json.pageInfo.totalCount);
 
-    // const fList = [
-    //     { id: '강태공', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕',place: '부둣가', price: 10000 },
-    //     { id: '돔쟁이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
-    //     { id: 'eeba쟁이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
-    //     { id: '뜜쟁이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
-    //     { id: '뽀로로', feedImg: 'https://cdn.pixabay.com/photo/2023/03/02/12/42/fish-7825240_1280.jpg', star: '★★★★★', title: '돔 노다지에용', place: '낚시터', price: 30000 },
-    //     { id: '무꼬기', feedImg: 'https://cdn.pixabay.com/photo/2023/03/02/12/42/fish-7825240_1280.jpg', star: '★★★★★', title: '제목 3', place: '낚시터', price: 30000 },
-    //   ];
+            });
+        }, [page]);
 
       const TopList = [
         { id: '12', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕', place: '부둣가', price: 10000 },
@@ -88,7 +94,7 @@ function ClassMain() {
                                     </div>
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
-                                            <div className="list-star-rating">{t.star}</div>
+                                            <div className="list-star-rating">{t.reviewAverage}</div>
 
                                             <div className="userId">{t.userName}</div>
                                         </div>
@@ -126,7 +132,14 @@ function ClassMain() {
                                     </div>
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
-                                            <div className="list-star-rating">{f.star}</div>
+                                        <div className="list-star-rating">
+                                            {f.reviewAverage === 0 && "☆☆☆☆☆"}
+                                            {f.reviewAverage === 1 && "☆☆☆☆⭐"}
+                                            {f.reviewAverage === 2 && "☆☆☆⭐⭐"}
+                                            {f.reviewAverage === 3 && "☆☆⭐⭐⭐"}
+                                            {f.reviewAverage === 4 && "☆⭐⭐⭐⭐"}
+                                            {f.reviewAverage === 5 && "⭐⭐⭐⭐⭐"}
+                                          </div>
                                             <div className="userId">{f.userName}</div>
                                         </div>
                                         <div className="text-place list-t">위치 : {f.eduLocation}</div>
@@ -135,10 +148,19 @@ function ClassMain() {
                                     </div>
                                     </div>
                             </Link>
-                                ))}                                
-
-                        </div>        
-                        
+                                ))}   
+                                  <div className="page">
+                                  <Pagination
+                                  activePage={page}
+                                  itemsCountPerPage={size}
+                                  totalItemsCount={totalItemCount}
+                                  pageRangeDisplayed={5}
+                                  prevPageText={"‹"}
+                                  nextPageText={"›"}
+                                  onChange={handlePageChange}
+                                  />     
+                                  </div>                     
+                        </div>       
                     </div>
                 </div>
             </div>    

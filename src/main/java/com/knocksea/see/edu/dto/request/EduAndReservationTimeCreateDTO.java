@@ -45,7 +45,7 @@ public class EduAndReservationTimeCreateDTO {
 
     private String eduInfo;
 
-    private Long userId;
+//    private Long userId;
 
     //dto를 entity로 변환
     public Edu toEduEntity(User user){

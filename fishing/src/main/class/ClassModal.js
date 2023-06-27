@@ -1,31 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "../scss/Calendar.scss"
 import "./scss/ClassModal.scss";
 import ClassCalendar from './ClassCalendar';
+import { getLoginUserInfo } from "../util/login-util";
+import { useNavigate } from 'react-router-dom';
 
-const handleLogin = (e) => {
-    e.preventDefault();
-  
-      // 회원가입 서버 요청
-    };
-    
-  // 렌더링 후 실행함수
 
-function ClassModal({closeModal,timeList, price}) {
-
-  const listSize=timeList.length-1;
-  const startTime=timeList[0].timeDate; //시작날짜
-  const EndTime=timeList[listSize].timeDate; //마지막 날짜
-
-  console.log("ClassModal : ",timeList);
+function ClassModal({closeModal, oneEdu}) {
+  const [token, setToken] = useState(getLoginUserInfo().token);
+  const listSize=oneEdu.timeList.length-1;
+  const startTime=oneEdu.timeList[0].timeDate; //시작날짜
+  const EndTime=oneEdu.timeList[listSize].timeDate; //마지막 날짜
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [count, setCount] = useState(0);
   const [selectedTime, setSelectedTime] = useState(null);
   const [classTimes, setClassTimes] = useState([]);
- 
+  const[timeIndex,setTimeIndex] = useState(0);
+  const navigate = useNavigate();
+
+
+  
   const handleIncrease = () => {
-    setCount(count + 1);
+    console.log("진짜 index : ",index);
+    if(oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser>count){
+      setCount(count + 1);    
+    }else if(oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser<=count){
+      alert("신청 가능 인원을 초과하였습니다. \n인원을 다시 설정해 주세요");   
+    }
+       
   };
 
   const handleDecrease = () => {
@@ -34,18 +37,58 @@ function ClassModal({closeModal,timeList, price}) {
     }
   };
 
-  const formattedDate = selectedDate
-  ? selectedDate.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
-  : '';
+  const formattedDate = selectedDate ? selectedDate.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    setCount(0);
+    setSelectedTime(null);
   };
 
-  const handleTimeChange = (time) => {
+  const handleTimeChange = (time,timeIndex,index) => {
     setSelectedTime(time);
+    setTimeIndex(timeIndex);
+    setIndex(index);
   }    
-                    
+    const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
+ 
+  const handlePayment=()=>{
+   
+    console.log("token",token.userId);
+    const reservation = {
+      reservationType : "EDU",
+      reservationDate : formattedDate, 
+      reservationAddress : oneEdu.eduFullAddress,
+      reservationUserCount : count,
+      reservationPrice :  oneEdu.eduPrice,
+      eduLevel : oneEdu.eduLevel,
+      eduId : oneEdu.eduId,
+      reservationTimeId : timeIndex 
+    };
+    
+    console.log("click button : ", reservation);
+
+
+    const requestHeader = {
+      'content-type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    };
+    
+        fetch(API_BASE_URL, {
+        method: 'POST',
+        headers:  requestHeader,
+        body: JSON.stringify(reservation)
+      })
+      .then(res => {
+        if(res.status === 200) {
+        alert('예약이 완료되었습니다!😝') 
+        navigate('/rvlist'); 
+      return res.json();
+     } else if (res.status === 401) {
+          alert('예약 실패..😫');
+        }
+      })
+  }
 
 
     return (
@@ -58,41 +101,23 @@ function ClassModal({closeModal,timeList, price}) {
               <ClassCalendar className='datePicker' handleDateChange={handleDateChange} startTime={startTime} EndTime={EndTime}/>
             </div>
 
-                {/* <div className='class-select-time'>
-                  <div className='selected-time' onClick={() => handleTimeChange(`${timeList[0].timeStart}~${timeList[0].timeEnd}`)}>
-                    {timeList[0].timeStart}~{timeList[0].timeEnd}
-                  </div>
-                  <div className='selected-time'>남은 인원: {timeList[0].timeMaxUser - timeList[0].timeCurrentUser}명 {timeList[0].timeDate}</div>
-                  
-                  {classTimes.map((time, index) => (
-                    <div key={index} className='selected-time' onClick={() => handleTimeChange(time)}>
-                      {time}
-                    </div>
-                  ))}
-                </div> */}
+            {oneEdu.timeList.map((time, index) => {
+  const remainingSlots = oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser;
+  const isNoRemainingSlot = remainingSlots === 0;
 
-                {timeList.map((time, index) => {
-                  const timeDate = new Date(time.timeDate);
-                  const selectedLocalDate = selectedDate ? new Date(selectedDate.getTime() - (selectedDate.getTimezoneOffset() * 60000)) : null;
-
-                  if (selectedLocalDate && timeDate.getTime() === selectedLocalDate.getTime()) {
-                    return (
-                      <div className='class-select-time' key={index}>
-                        <div className='selected-time' onClick={() => handleTimeChange(`${time.timeStart}~${time.timeEnd}`)}>
-                          {time.timeStart}~{time.timeEnd}
-                        </div>
-                        <div className='selected-time'>남은 인원: {timeList[index].timeMaxUser - timeList[index].timeCurrentUser}명</div>
-                        
-                        {classTimes.map((time, index) => (
-                          <div key={index} className='selected-time' onClick={() => handleTimeChange(time)}>
-                            {time}
-                          </div>
-                        ))}
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
+  const timeDate = new Date(time.timeDate);
+  const selectedLocalDate = selectedDate ? new Date(selectedDate.getTime() - (selectedDate.getTimezoneOffset() * 60000)) : null;
+  if (selectedLocalDate && timeDate.getTime() === selectedLocalDate.getTime()) {
+    return (
+      <div className='class-select-time' key={oneEdu.timeList[index].timeId}>
+        <div className={`selected-time ${isNoRemainingSlot ? 'no-remaining-slot' : ''}`} onClick={() => handleTimeChange(`${time.timeStart}~${time.timeEnd}`,`${oneEdu.timeList[index].timeId}`, `${index}` )}>
+          {time.timeStart}~{time.timeEnd} | 남은 인원: {remainingSlots}명  
+        </div>
+      </div>
+    );
+  }
+  return null;
+})}
               
 
             <div className='result'>
@@ -116,11 +141,10 @@ function ClassModal({closeModal,timeList, price}) {
                   </ul>
                   <div className='total-price'>
                     <span>결제 총계 </span>
-                    <span> {count*price}원 </span>
+                    <span> {count*oneEdu.eduPrice}원 </span>
                   </div>
                 <p className='total-result'>{formattedDate} {selectedTime} / {count}명</p>
-                <button className='class-pay-btn custom-button'
-                 >결제하기</button>
+                <button className='class-pay-btn custom-button' onClick={handlePayment}>예약하기</button>
             </div>
           </div>
         </div>

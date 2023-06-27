@@ -1,0 +1,63 @@
+.modal-overlay {
+    position: fixed;
+    top: -30px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* 배경 어둡게 설정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-box {
+    position: relative;
+    top: 30px;
+    background-color: white;
+    border-radius: 10px 0px 10px 10px;
+    width: 650px;
+    height: 250px;
+    padding: 20px;
+    overflow-y: auto;
+    overflow-x:hidden;
+    }
+
+    .regi-modal-title {
+      font-size: 20px !important;
+      font-family: 'Gowun Batang';
+
+      span {
+        color: rgb(179, 0, 0);
+        font-size: 25px;
+        font-family: 'Gowun Batang';
+      }
+    }
+    
+
+    .result {
+      display: flex;
+      justify-content: space-around;
+      .btn-wrap {
+        margin-top: 30px;
+        width: 40%;
+        text-align: center;
+      }
+
+      .custom-button {
+        padding: 0;
+        width: 200px;
+        height: 100px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+        background: #73a6e0bb;
+        border: none;
+        font-size: 18px;
+        font-weight: 600;
+        font-family: 'Orbit', sans-serif;
+
+        &:hover{
+          background: #213164;
+          color: #ffffff;
+        }
+      }
+    }
+

@@ -341,8 +341,8 @@ public class ImageService {
 
     }
 
-    public void saveEduImg(List<MultipartFile> eduImg, Long userId) throws IOException {
-        User user = userRepository.findById(userId)
+    public void saveEduImg(List<MultipartFile> eduImg, TokenUserInfo userInfo ) throws IOException {
+        User user = userRepository.findById(userInfo.getUserId())
                 .orElseThrow(()->new RuntimeException("유저 없음"));
 
         Edu byUserUserId = eduRepository.findByUserUserId(user);
@@ -364,7 +364,7 @@ public class ImageService {
         }
     }
 
-    public void saveProductImg(List<MultipartFile> productImages, TokenUserInfo userInfo, Product product) throws IOException {
+    public List<String> saveProductImg(List<MultipartFile> productImages, TokenUserInfo userInfo, Product product) throws IOException {
 
         List<String> list = new ArrayList<>();
 
@@ -380,7 +380,10 @@ public class ImageService {
                     .product(product)
                     .imageType(ProductCategory.valueOf(product.getProductType()))
                     .build());
+
         }
+
+        return list;
     }
 
     public void deleteEduImg(List<MultipartFile> Img, Long userId){

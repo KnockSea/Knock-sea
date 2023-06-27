@@ -5,7 +5,6 @@ import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.exception.NoProductException;
 import com.knocksea.see.product.dto.request.ReservationCancelDTO;
 import com.knocksea.see.product.dto.request.ReservationRequestDTO;
-import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
 import com.knocksea.see.product.entity.ProductCategory;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
@@ -32,17 +31,24 @@ public class ReservationService {
     private final ReservationTimeRepository reservationTimeRepository;
     private final ProductDetailService productDetailService;
 
-    public ProductDetailResponseDTO createReserve(ReservationRequestDTO dto) throws RuntimeException, NoProductException{
-        Reservation reservation = dto.toEntity(dto);
+    public boolean createReserve(ReservationRequestDTO dto, TokenUserInfo userInfo) throws RuntimeException, NoProductException{
+        log.info("dto UserId : "+dto.getUserId());
 
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new RuntimeException("회원 정보가 없습니다."));
+        Reservation reservation = dto.toEntity(dto);
+        log.info("reservation ㅎㅎ: "+reservation);
+
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("회원 정보가 없습니다."));
+        log.info("reservation user: "+user.getUserName());
+
         reservation.setUser(user);
+        log.info("setUser reservation: "+reservation);
 
 //        productRepository.findById(dto.getProductId());
 
         ReservationTime reservationTime = reservationTimeRepository.findById(dto.getReservationTimeId())
                 .orElseThrow(() -> new RuntimeException("예약 상품이 존재하지 않습니다."));
         reservation.setReservationTime(reservationTime);
+        log.info("setReservationTime reservation: "+reservationTime);
 
         if ((reservationTime.getTimeCurrentUser() + dto.getReservationUserCount()) > reservationTime.getTimeMaxUser()) {
             throw new RuntimeException("예약 가능 인원이 초과하였습니다.");
@@ -67,9 +73,10 @@ public class ReservationService {
 
 
         Reservation saveReservation = reservationRepository.save(reservation); // 마지막에 예약 등록
-        // return new ReservationDetailResponseDTO(saveReservation);
-        // 어디로 보내주지?
-        return productDetailService.getDetail(dto.getProductId());
+
+        if(saveReservation!=null) return true;
+        else return false;
+
     }
 
     // 예약 취소

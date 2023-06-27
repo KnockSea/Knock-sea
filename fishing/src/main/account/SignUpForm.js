@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { useNavigate, Link } from 'react-router-dom';
 import Post from './Post';
 import ProfileUpload from './ProfileUpload';
+import { API_BASE_URL, USER } from '../../config/host-config';
 
 // import { API_BASE_URL as BASE, USER } from '../config/host-config';
 
@@ -286,16 +287,21 @@ function SignUpForm(){
         userData.append('profileImage', profileImage);
 
         // fetch를 사용하여 회원가입 요청 보내기
-        fetch('http://localhost:8012/api/v1/user/register', {
+        fetch(`${API_BASE_URL}${USER}/register`, {
           method: 'POST',
           body: userData
         })
-          .then(res => {
+          .then(async (res) => {
             if (res.status === 200) {
               alert('😀회원가입이 완료되었습니다!🎉');
               redirection('/login');
-            } else {
-              alert('서버와의 통신이 원활하지 않습니다😓');
+            } else if(res.status===400){
+              const error = await res.text(); // 에러 메시지 받기
+              // alert('서버와의 통신이 원활하지 않습니다😓',error);
+              alert(error + '😓');
+            }else if(res.status===500){
+              const error = await res.text(); // 에러 메시지 받기
+              alert(error + '😓');
             }
           })
           .then(flag => {

@@ -73,7 +73,7 @@ public class UserService {
 
     //이미지 객체 접근용 리파지토리
     private final ImageRepository imageRepository;
-    
+
     //이미지 저장 서비스
     private final ImageService imageService;
 
@@ -140,19 +140,19 @@ public class UserService {
 
         boolean byUserEmail = userRepository.existsByUserEmail(dto.getUserEmail());
         if(byUserEmail){
-           throw new RuntimeException("이메일 중복입니다!");
+            throw new RuntimeException("이메일 중복입니다!");
         }
 
-            User user = userRepository.findById(userInfo.getUserId()).orElseThrow();
-            user.setUserEmail(dto.getUserEmail());
-            user.setUserPhone(dto.getUserPhone());
-            user.setUserAddress(dto.getUserAddress());
-            user.setUserFullAddress(dto.getUserFullAddress());
-            user.setUserName(dto.getUserName());
-            User modiftideuser = userRepository.save(user);
-            log.info("modiftideuser ; {}",modiftideuser);
-            return new UserModifyresponseDTO(modiftideuser);
-        }
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow();
+        user.setUserEmail(dto.getUserEmail());
+        user.setUserPhone(dto.getUserPhone());
+        user.setUserAddress(dto.getUserAddress());
+        user.setUserFullAddress(dto.getUserFullAddress());
+        user.setUserName(dto.getUserName());
+        User modiftideuser = userRepository.save(user);
+        log.info("modiftideuser ; {}",modiftideuser);
+        return new UserModifyresponseDTO(modiftideuser);
+    }
 
 
     //로그인 검증및 토큰발급
@@ -278,23 +278,23 @@ public class UserService {
         }
 
         for (Product product : findByUser) {
-             if(product.getProductType().equals("SHIP")){
-                 List<Heart> findByShipHeartList = heartRepository.findByProduct(product);
-                 entireInfoResponseDTO.setHeartListShip(findByShipHeartList);
-             } else if (product.getProductType().equals("SPOT")) {
-                 List<Heart> findBySpotHeartList = heartRepository.findByProduct(product);
-                 entireInfoResponseDTO.setHeartListSpot(findBySpotHeartList);
-             }else{
-                 List<Heart> findByEduHeartList = heartRepository.findByProduct(product);
-                 entireInfoResponseDTO.setHeartListEdu(findByEduHeartList);
-             }
+            if(product.getProductType().equals("SHIP")){
+                List<Heart> findByShipHeartList = heartRepository.findByProduct(product);
+                entireInfoResponseDTO.setHeartListShip(findByShipHeartList);
+            } else if (product.getProductType().equals("SPOT")) {
+                List<Heart> findBySpotHeartList = heartRepository.findByProduct(product);
+                entireInfoResponseDTO.setHeartListSpot(findBySpotHeartList);
+            }else{
+                List<Heart> findByEduHeartList = heartRepository.findByProduct(product);
+                entireInfoResponseDTO.setHeartListEdu(findByEduHeartList);
+            }
         }
 
         return entireInfoResponseDTO;
 
     }
 
-    
+
     //프로필 사진 변경 함수
     public void modifyProfileImage(MultipartFile profileImg, Long userId) throws IOException {
 
@@ -334,23 +334,37 @@ public class UserService {
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(() -> new RuntimeException("정보가 올바르지 않습니다."));
 
         // 이거 리스트네? 유저가 예약한것들 전체
-        List<Reservation> reservation = reservationRepository.findAllByUserUserId(user.getUserId());
+        List<Reservation> reservation = reservationRepository.findAllByUser(user);
 //                .orElseThrow(() -> new RuntimeException("예약 정보가 없습니다."));
 
+        log.info("reservation~~" + reservation);
 
         List<ReservationResponseDTO> reservationResponseDTOS = new ArrayList<>();
-        foundReserve(reservation, reservationResponseDTOS);
+//        foundReserve(reservation, reservationResponseDTOS);
+//        SeaImage img = new SeaImage();
+        for (Reservation r : reservation) {
+            ReservationTime time = r.getReservationTime();
+            if(r.getReservationType().equals("EDU")){
+                Edu edu=r.getEdu();
+                SeaImage seaImage= imageRepository.findByEdu_EduId(edu.getEduId()).get(0);
 
+//                img=edu.getSeaImage();
+                log.info("img : "+seaImage);
+                reservationResponseDTOS.add(new ReservationResponseDTO(r, time, edu, seaImage));
+            }else {
+                Product product = r.getProduct();
+//                img=product.getSeaImage();
+                SeaImage seaImage = imageRepository.findByProduct_ProductId(product.getProductId()).get(0);
+
+                reservationResponseDTOS.add(new ReservationResponseDTO(r, time, product, seaImage));
+            }
+
+        }
+        log.info("reservationResponseDTOS : "+reservationResponseDTOS);
         return new UserMyPageResponseDTO(user, reservationResponseDTOS);
     }
 
-    private static void foundReserve(List<Reservation> reservation, List<ReservationResponseDTO> reservationResponseDTOS) {
-        for (Reservation r : reservation) {
-            ReservationTime time = r.getReservationTime();
-            Product product = r.getProduct();
-            SeaImage img = product.getSeaImage();
-
-            reservationResponseDTOS.add(new ReservationResponseDTO(r, time, product, img));
-        }
-    }
+//    private  foundReserve(List<Reservation> reservation, List<ReservationResponseDTO> reservationResponseDTOS) {
+//
+//    }
 }

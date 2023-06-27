@@ -15,6 +15,8 @@ import MpUserDrop from './mypage/MpUserDrop'
 import MpDrop from './mypage/MpDrop'
 import MpInquire from './mypage/MpInquire'
 import MpRvlist from './mypage/MpRvlist'
+import MpReviewForm from './mypage/MpReviewForm'
+
 import ProductRegistration from './product/ProductRegistration'
 import RvFsDetail from './fishingspot/RvFsDetail'
 import RvFsTemplate from './fishingspot/RvFsTemplate'
@@ -37,24 +39,24 @@ import MpIqInput from './mypage/MpIqInput';
 import MpAdminFS from './mypage/MpAdminFS';
 import MpAdminCS from './mypage/MpAdminCS';
 import HostSearchMain from './hostSearch/hostSearchMain'
+import EduRegistration from './product/EduRegistration';
 
 import ScrollToTop from './ScrollToTop';
 import MpInquiryD from './mypage/MpInquiryD';
+import MpInquiryResult from './mypage/MpInquiryResult';
+import MpAdInquire from './mypage/MpAdInquire';
 
-const NsMain = () => {
-    const [product, setproduct] = useState(null);
-
+const NsMain = ({shipList, spotList, eduList}) => {
 
   return (
     <section>
         <ScrollToTop />
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
-            <Route path='/' element ={<MainContent product={product} />} />
+            <Route path='/' element ={<MainContent shipList={shipList} spotList={spotList} eduList={eduList} />} />
             {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
             <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
             <Route path='/fsdetail/:productId' element={<RvFsDetail/>}> </Route>
-
             {/* 클래스 탭 */}
             <Route path='/class' element={<ClassMain/>}></Route>
             <Route path='/classdetail/:eduId' element={<ClassDetail/>}></Route>
@@ -64,6 +66,7 @@ const NsMain = () => {
             <Route path='/mypassword' element={<Mypassword/>}></Route>
             {/* 상품등록 */}
             <Route path='/product' element={<ProductRegistration/>}></Route>
+            <Route path='/edu' element={<EduRegistration/>}></Route>
             
             <Route path='/userDrop' element={<MpUserDrop/>}></Route>
             <Route path='/drop' element={<MpDrop/>}></Route>
@@ -71,18 +74,18 @@ const NsMain = () => {
             <Route path='/iqinput' element={<MpIqInput/>}></Route>
             {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
-
+            관리자용 전체 문의 현황
+            <Route path='/adInquire' element={<MpAdInquire/>}></Route>
+            
             {/* 문의답변 */}
             <Route
                 path="/adminreply/:inquiryId"
                 element={<MpInquiryD />}
             ></Route>
-            {/* 문의 상세보기 */}
-            {/* <Route path='/inquiryDetail' element = {<MpInquiryDetail/>}></Route> */}
-            <Route path="/inquiry/:inquiryId" element={<MpInquiryD />} />
-            {/* @@@@@@@@@@@@@@@@@@@@@@@@@ 유저 문의 상세보기 눌렀을때 나오는 폼 만들어주세요@@@@@@@@@@@@@@@@@@@@@ */}
-
+            {/* 유저 문의 상세보기 */}
+            <Route path="/inquiryResult/:inquiryId" element={<MpInquiryResult />} />
             <Route path="/rvlist" element={<MpRvlist />}></Route>
+            <Route path="/review" element={<MpReviewForm />}></Route>
 
             {/* 로그인, 회원가입 */}
             <Route path="/join" element={<SignUpForm />}></Route>
@@ -99,7 +102,6 @@ const NsMain = () => {
             <Route path="/mpfs" element={<MpFsInfo />}></Route>
             <Route path="/mpclass" element={<MpClassInfo />}></Route>
             {/* 관리자 */}
-
             <Route path='/admin' element={<MpAdmin/>}></Route>
             <Route path='/adminFs' element={<MpAdminFS/>}></Route>
             <Route path='/adminCS' element={<MpAdminCS/>}></Route>
@@ -107,26 +109,21 @@ const NsMain = () => {
             <Route path='/host' element={<HostSearchMain/>}></Route>
         </Routes>
             
-                {/* MainContent 컴포넌트에 shipInfo prop 전달 */}
-      {/* <MainContent shipInfo={shipInfo} /> */}
     </section>
   )
 }
-const MainContent = ({ isRouteActive , product}) => {
+const MainContent = ({ shipList, spotList, eduList }) => {
     return (
         <>
-           {!isRouteActive && (
+           {(
             <>
                    <NsBanner />
 
             <div className='mainbox'>
             <div className='contentbox'>
-            <NsItem 
-            product={product}
-
-            />
-            <NsFishingSpot />
-            <NsClass />
+            <NsItem shipList={shipList}/>
+            <NsFishingSpot spotList={spotList}/>
+            <NsClass eduList={eduList}/>
 
                 </div>
             <div className='apibox'>
@@ -136,10 +133,9 @@ const MainContent = ({ isRouteActive , product}) => {
             </div>
             </div>
                 </>
-
-            )}    
-            </>
-        )
-    }
+            )}
+        </>
+    );
+};
 
 export default NsMain;

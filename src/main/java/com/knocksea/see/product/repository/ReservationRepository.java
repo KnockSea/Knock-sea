@@ -23,8 +23,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     Optional<Reservation> findByProductProductId(Long productId);
 
-//    @Query("SELECT u FROM Reservation u WHERE u.user = :userId")
-    List<Reservation> findAllByUserUserId(Long userId);
+    @Query("SELECT u FROM Reservation u WHERE u.user = :user")
+    List<Reservation> findAllByUser(@Param("user") User user);
 
     List<Reservation> findAllByProduct_ProductId(Long productId);
 }

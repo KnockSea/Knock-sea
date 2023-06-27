@@ -17,12 +17,16 @@
         align-items: center;
         height: 65%;
         .potobox {
-            // margin-top: 5px;
-            margin-left: 10px;
-            border: 1px solid #000;
+        margin-left: 10px;
             width: 100px;
             height: 80px;
+
+           &.potobox img {
+            width: 100px;
+            height: 80px;
+            }
         }
+        
         .minibox {
             margin-left: 20px;
             text-align: left;

@@ -3,6 +3,7 @@ package com.knocksea.see.config;
 import com.knocksea.see.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,6 +17,9 @@ import org.springframework.web.filter.CorsFilter;
 public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -35,15 +39,31 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/api/v1/inquiries").authenticated()
                 //어딴 요청에서 인증을 안할 것인지 설정, 언제 할 것인지 설정
-//                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v1/products").permitAll()
+                .antMatchers("/api/v1/products/{productId}").permitAll()
+                .antMatchers("/api/v1/products/product-list").permitAll()
+                .antMatchers("/api/v1/products/main/ship").permitAll()
+                .antMatchers("/api/v1/products/main/spot").permitAll()
+                .antMatchers("/api/v1/products/remove/{productId}").permitAll()
+                .antMatchers("/api/v1/user/register").permitAll()
+                .antMatchers("/api/v1/user/signin").permitAll()
+                .antMatchers("/api/v1/user/check").permitAll()
+                .antMatchers("/api/v1/validation/{validationType}").permitAll()
+                .antMatchers("/api/v1/validation").permitAll()
+
 //                .antMatchers("/api/v1/edu/**").permitAll()
-                .antMatchers("/","/api/v1/**").permitAll()
-                .antMatchers("/api/v1/edu").authenticated()
-                .antMatchers("/api/v1/user/load-profile").authenticated()
-                .antMatchers("/api/v1/ship/register").authenticated()
-//                .antMatchers("/","/api/v1/user/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/edu").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/edu/main/edu").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/edu/topFour").permitAll()
+                .antMatchers("/api/v1/edu/{eduId}").permitAll()
+                .antMatchers("/api/v1/edu/main/edu").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v1/inquiries").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v1/inquiries/{inquiryId}").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v1/answers/{inquiryId}").permitAll()
+                .antMatchers("/api/v1/hearts").permitAll()
+
                 .anyRequest().authenticated()
         ;
 

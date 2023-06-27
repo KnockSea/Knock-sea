@@ -18,12 +18,12 @@ const NsFootter = () => {
         </ul>
 
     <div>
-        <p>메뉴 정보 수정: menu@mybread.com</p>
+        <p>메뉴 정보 수정: knocksea@knocksea.com</p>
         <p>FAX : 02- 123 - 4567</p>
-        <p>Email: helpdesk@mybread.com</p>
+        <p>Email: helpdesk@knocksea.com</p>
         <p>고객상담</p>
     </div>
-    <p>Copyrightⓒ Your bread My bread. All rights reserved.</p>
+    <p className='copyright'>Copyrightⓒ Your fishing make me happy. All rights reserved.</p>
    </div>
 
 

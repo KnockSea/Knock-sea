@@ -47,32 +47,34 @@ function TimeConverter({ onTimeChange }) {
   
   return (
     <div className='RegiTime'>
-      <select value={selectBox1Index} onChange={handleSelectBox1Change}>
-        {selectBox1Values.map((value, index) => (
-          <option key={index} value={index}>{value}</option>
-        ))}
-      </select>
-      <select value={selectBox2Index} onChange={handleSelectBox2Change}>
-        {selectBox2Values.map((value, index) => (
-          <option key={index} value={index}>{value}</option>
-        ))}
-      </select>
-      <select value={selectBox3Index} onChange={handleSelectBox3Change}>
-        {selectBox3Values.map((value, index) => (
-          <option key={index} value={index}>{value}</option>
-        ))}
-      </select>
-      <select value={selectBox4Index} onChange={handleSelectBox4Change}>
-        {selectBox4Values.map((value, index) => (
-          <option key={index} value={index}>{value}</option>
-        ))}
-      </select>
-      <button 
-      onClick={convertToLocalTime} 
-      className='convertedTimeBtn'>
-      등록
-      </button>
-      {convertedTime && <span className='convertedTimeSpan'>{convertedTime}</span>}
+        <select value={selectBox1Index} onChange={handleSelectBox1Change}>
+            {selectBox1Values.map((value, index) => (
+              <option key={index} value={index}>{value}</option>
+            ))}
+        </select>
+        <select value={selectBox2Index} onChange={handleSelectBox2Change}>
+            {selectBox2Values.map((value, index) => (
+              <option key={index} value={index}>{value}</option>
+            ))}
+        </select>
+        <select value={selectBox3Index} onChange={handleSelectBox3Change}>
+            {selectBox3Values.map((value, index) => (
+              <option key={index} value={index}>{value}</option>
+            ))}
+        </select>
+        <select value={selectBox4Index} onChange={handleSelectBox4Change}>
+            {selectBox4Values.map((value, index) => (
+              <option key={index} value={index}>{value}</option>
+            ))}
+        </select>
+        <button 
+            onClick={convertToLocalTime} 
+            className='convertedTimeBtn'>
+          등록
+        </button>
+        <div className='span-wrap'>
+           {convertedTime && <span className='convertedTimeSpan'>{convertedTime}</span>}
+        </div>
     </div>
   );
 }

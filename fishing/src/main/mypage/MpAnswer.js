@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MpList from './MpList';
 import { getLoginUserInfo } from '../util/login-util';
-import { useLocation } from 'react-router-dom';
+import { ANSWERS, API_BASE_URL } from '../../config/host-config';
 
 function MpAnswer() {
     
@@ -27,7 +27,7 @@ function MpAnswer() {
             inquiryId: id
         };
     
-        fetch('http://localhost:8012/api/v1/answers/makeAnswer', {
+        fetch(`${API_BASE_URL}${ANSWERS}/makeAnswer`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

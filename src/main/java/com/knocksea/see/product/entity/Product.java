@@ -77,7 +77,7 @@ public class Product {
 //    @Builder.Default
 //    private List<ReservationTime> timeList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id")
-    private SeaImage seaImage;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "image_id")
+//    private SeaImage seaImage;
 }

@@ -13,6 +13,7 @@ import com.knocksea.see.product.repository.*;
 import com.knocksea.see.product.dto.request.PageDTO;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.repository.ReviewRepository;
+import com.knocksea.see.review.service.ReviewService;
 import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.FishingSpotRepository;
@@ -51,6 +52,7 @@ public class ProductService implements ProductDetailService {
     private final ViewProductRepository viewProductRepository;
     private final ImageRepository imageRepository;
     private final ImageService imageService;
+    private final ReviewService reviewService;
 
     public Product getProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(() ->
@@ -58,7 +60,7 @@ public class ProductService implements ProductDetailService {
     }
 
     // 메인에서 보이는 상품 전체 목록
-    public ProductListResponseDTO findAll(PageDTO pageDTO) {
+    public ProductListResponseDTO findAll(PageDTO pageDTO) throws RuntimeException{
         PageRequest pageable =
                 PageRequest.of(pageDTO.getPage() - 1
                     , pageDTO.getSize()
@@ -71,6 +73,9 @@ public class ProductService implements ProductDetailService {
         List<ProductDetailResponseDTO> prodDetailList = products.stream()
                 .map(product -> {
                         List<SeaImage> allByProduct = imageRepository.findAllByProduct(product);
+                        if (allByProduct == null) {
+                            throw new RuntimeException("상품이 없습니다.");
+                        }
                         List<ReservationTime> rt = reservationTimeRepository.findAllByProduct_ProductId(product.getProductId());
                         return new ProductDetailResponseDTO(product, allByProduct.get(0).getImageName(), rt.get(0).getTimeMaxUser());
                     }
@@ -103,7 +108,9 @@ public class ProductService implements ProductDetailService {
         });
         // 리뷰 목록(상품번호로 조회)  // null 뜨는지 확인해야댐
         List<ReviewDetailResponseDTO> reviewResponseList = reviewRepository.findAllByProduct(product).stream()
-                .map(ReviewDetailResponseDTO::new).collect(Collectors.toList());
+                .map(review -> {
+                    return new ReviewDetailResponseDTO(review, reviewService.imgName(review));
+                }).collect(Collectors.toList());
 
         // 예약 가능 시간 목록(상품번호로 조회)
         List<ReservationTimeResponseDTO> timeResponseDTOList = reservationTimeRepository.findAllByProduct(product).stream()
@@ -129,10 +136,10 @@ public class ProductService implements ProductDetailService {
             throw new RuntimeException("이미 등록된 상품입니다.");
         }
 
-
         Product saveProduct = productRepository.save(dto.toProductEntity(user));
         log.warn("사베 프로덕트 : {}", saveProduct);
-        imageService.saveProductImg(productImages, userInfo, saveProduct);
+
+        List<String> imgUrlNames = imageService.saveProductImg(productImages, userInfo, saveProduct);
 
         for (int i = 0; i < dto.getTimeDate().size(); i++) {
             for (int j = 0; j < dto.getTimeStart().size(); j++) {
@@ -201,13 +208,13 @@ public class ProductService implements ProductDetailService {
 
     // 메인페이지 9개만 달래~
     public List<mainListResponseDTO> shipMainList() {
-        List<Product> productsShip = productRepository.findTop9ByProductTypeOrderByProductInputDateDesc("SHIP");
-
+        List<Product> productsShip = productRepository.findTop9ByProductType("SHIP");
+        log.info("9개 왜 못불러와  ~ : {}",productsShip);
         return getCollect(productsShip);
     }
 
     public List<mainListResponseDTO> spotMainList() {
-        List<Product> productsSpot = productRepository.findTop9ByProductTypeOrderByProductInputDateDesc("SHIP");
+        List<Product> productsSpot = productRepository.findTop9ByProductType("SHIP");
 
         return getCollect(productsSpot);
 
@@ -216,7 +223,8 @@ public class ProductService implements ProductDetailService {
     private List<mainListResponseDTO> getCollect(List<Product> product) {
         return product.stream()
                 .map(p -> {
-                    SeaImage seaImage = imageRepository.findById(p.getSeaImage().getImageId()).orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
+                    SeaImage seaImage = imageRepository.findByProduct(p);
+//                            .orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
                     return new mainListResponseDTO(p, seaImage);
                 }).collect(Collectors.toList());
     }
