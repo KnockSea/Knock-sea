@@ -87,7 +87,9 @@ const MpRvlist = () => {
                 </div>
               )} */}
             <div className='rvlistbtnbox'>
-              <button className='relist'>후기쓰기</button>
+              <Link to={'/review'}>
+                <button className='relist'>후기쓰기</button>
+              </Link>
             </div>
           </div>
         ))

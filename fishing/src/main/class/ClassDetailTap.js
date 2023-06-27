@@ -46,7 +46,7 @@ const ClassDetailTap = (props) => {
           </Link>
         </li>
       </ul>
-      <div>
+      <div style={{textAlign:"left"}}>
         <Element name='소개'>
           <h2>클래스 소개</h2>
           <p>{props.eduInfo}</p>

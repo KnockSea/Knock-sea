@@ -8,13 +8,8 @@ import { Route, Routes,Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 const handleLogin = (e) => {
-    e.preventDefault();
-  
-     
+    e.preventDefault();     
     };
-    
-  // 렌더링 후 실행함수
-  
 
 function ClassDetail() {
       const [filter, setFilter] = useState(''); 
@@ -52,18 +47,18 @@ function ClassDetail() {
         <div className="class-detail-wrap">
             <div id="class-detail-header">
                 <div className="detail-main-photo1">
-                {/* <img src={oneEdu.imageList && oneEdu.imageList[0]}/>  */}
+                    <img src={oneEdu.imageList && oneEdu.imageList[0]} className='photo1'/> 
                 </div>
                 <div className="photo detail-main-photo2">
-                <img src={oneEdu.imageList && oneEdu.imageList[1]}/>
+                    <img src={oneEdu.imageList && oneEdu.imageList[1]}/>
                 </div>
                 <div className="photo detail-main-photo3">
-                <img src={oneEdu.imageList && oneEdu.imageList[2]}/>
+                    <img src={oneEdu.imageList && oneEdu.imageList[2]}/>
                 </div>
             </div>
             <div className='detail-content-wrap'>
                 <div className="detail-left-section">
-                    <span>{oneEdu.eduTitle}</span>
+                    <span style={{textAlign:"left"}}>{oneEdu.eduTitle}</span>
                     <ClassDetailTap eduInfo ={oneEdu.eduInfo} reviewList = {oneEdu.reviewList}/>
                     {/* <ul className='detail-tap'>
                         <li>클래스 소개</li>
