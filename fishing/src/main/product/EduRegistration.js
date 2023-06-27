@@ -153,7 +153,7 @@ function EduRegistration() {
       <div className="product-regi-wrap">
         <div className="product-regi-header">
           <div className="head-title">
-            <p>KNOCK_SEA 상품 등록</p>
+            <p>KNOCK_SEA 클래스 상품 등록</p>
             <img
               className="image-82-CzH"
               src="https://cdn-icons-png.flaticon.com/128/8955/8955326.png"
@@ -167,10 +167,10 @@ function EduRegistration() {
           <form onSubmit={handleSubmit}>
             <ul>
               <li>
-                <div className="regi-title">
+                {/* <div className="regi-title">
                   카테고리<span className="imp">*</span>
                 </div>
-                <div>선박 및 낚시터</div>
+                <div>선박 및 낚시터</div> */}
               </li>
               <li>
                 <div className="regi-title">
