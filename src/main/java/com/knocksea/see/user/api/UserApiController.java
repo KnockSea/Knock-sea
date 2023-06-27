@@ -271,6 +271,7 @@ public class UserApiController {
 
         try {
             UserMyPageResponseDTO mypageDTO = userService.userMyPageInfo(userInfo);
+            log.info("mypageDTO : "+mypageDTO);
             return ResponseEntity.ok().body(mypageDTO);
         } catch (RuntimeException e) {
             e.printStackTrace();
