@@ -13,7 +13,9 @@ import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.dto.response.ReviewListResponseDTO;
 import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.repository.ReviewRepository;
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +41,7 @@ public class ReviewService {
 
     private final EduRepository eduRepository;
     private final ProductRepository productRepository;
+    private final ImageRepository imageRepository;
 
 
     public ReviewDetailResponseDTO createReview(final ReviewCreateDTO reviewDTO, final TokenUserInfo userInfo) throws RuntimeException {
@@ -46,6 +50,8 @@ public class ReviewService {
         );
         Product product = null;
         Edu edu = null;
+//        List<String> imgUrls = new ArrayList<>();
+        String imgs = null;
         Product productInfo = productRepository.findById(reviewDTO.getProductId()).orElseThrow(
             () -> new RuntimeException("상품 정보가 없습니다.")
         );
@@ -54,6 +60,8 @@ public class ReviewService {
         }
         if (reviewDTO.getProductId() != null) {
             product = productRepository.findById(reviewDTO.getProductId()).orElseThrow();
+            SeaImage eduImg = imageRepository.findByProduct(product);
+            imgs = eduImg.getImageName();
         }
         Edu eduInfo = eduRepository.findById(reviewDTO.getEduId()).orElseThrow();
         if (eduInfo.getUser() != null) {
@@ -62,10 +70,15 @@ public class ReviewService {
 
         if (reviewDTO.getEduId() != null) {
             edu = eduRepository.findById(reviewDTO.getEduId()).orElseThrow();
+            SeaImage eduImg = imageRepository.findByEdu(edu);
+            imgs = eduImg.getImageName();
+//            imageRepository.findAllByEdu(edu).forEach( i -> {
+//                imgUrls.add(i.getImageName());
+//            });
         }
 
         Review saved = reviewRepository.save(reviewDTO.toEntity(foundUser, edu, product));
-        return new ReviewDetailResponseDTO(saved);
+        return new ReviewDetailResponseDTO(saved, imgs);
     }
 
     public ReviewListResponseDTO getUserReviewById(UserPageDTO dto, Long TokenUserId) {
@@ -79,8 +92,15 @@ public class ReviewService {
         User user = userRepository.findById(TokenUserId).orElseThrow();
         Page<Review> byUserId = reviewRepository.findByUser(user, pageable);
         List<Review> userList = byUserId.getContent();
+//        List<SeaImage> imgs = imageRepository.findAllByUser(user);
+//        List<String> imgUrls = new ArrayList<>();
+//        for (SeaImage img : imgs) {
+//            imgUrls.add(img.getImageName());
+//        }
         List<ReviewDetailResponseDTO> detailList = userList.stream()
-                .map(ReviewDetailResponseDTO::new)
+                .map(review -> {
+                    return new ReviewDetailResponseDTO(review, imgName(review));
+                })
                 .collect(Collectors.toList());
 
         log.info("byUserId - {}", byUserId);
@@ -103,8 +123,12 @@ public class ReviewService {
 
         Page<Review> reviews = reviewRepository.findAll(pageable);
         List<Review> reviewList = reviews.getContent();
+
         List<ReviewDetailResponseDTO> detailList = reviewList.stream()
-                .map(ReviewDetailResponseDTO::new)
+                .map(review -> {
+                    String type = review.getReviewType().toString();
+                    return new ReviewDetailResponseDTO(review, imgName(review));
+                })
                 .collect(Collectors.toList());
 
         return ReviewListResponseDTO.builder()
@@ -113,6 +137,21 @@ public class ReviewService {
                 .reviews(detailList)
                 .build();
     }
+
+    public String imgName(Review review) {
+        String imgs;
+        if (review.getReviewType().toString().equals("SHIP") || review.getReviewType().toString().equals("SPOT")) {
+            imgs = imageRepository.findByProduct(
+                    productRepository.findById(review.getProduct().getProductId()).orElseThrow())
+                    .getImageName();
+        } else {
+            imgs = imageRepository.findByEdu(
+                    eduRepository.findById(review.getEdu().getEduId()).orElseThrow())
+                    .getImageName();
+        }
+        return imgs;
+    }
+
 
     public void deleteReview(Long reviewId, Long TokenUserId) throws RuntimeException, SQLException {
         Review review = reviewRepository.findById(reviewId).orElseThrow();

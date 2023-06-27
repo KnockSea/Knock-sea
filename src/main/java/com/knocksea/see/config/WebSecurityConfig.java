@@ -44,6 +44,8 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.GET,"/api/v1/products").permitAll()
                 .antMatchers("/api/v1/products/{productId}}").permitAll()
                 .antMatchers("/api/v1/products/product-list").permitAll()
+                .antMatchers("/api/v1/products/main/ship").permitAll()
+                .antMatchers("/api/v1/products/main/spot").permitAll()
                 .antMatchers("/api/v1/products/remove/{productId}").permitAll()
                 .antMatchers("/api/v1/user/register").permitAll()
                 .antMatchers("/api/v1/user/signin").permitAll()
@@ -53,6 +55,7 @@ public class WebSecurityConfig {
 
 //                .antMatchers("/api/v1/edu/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/edu").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/edu/main/edu").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/edu/topFour").permitAll()
                 .antMatchers("/api/v1/edu/{eduId}").permitAll()
                 .antMatchers("/api/v1/edu/main/edu").permitAll()
