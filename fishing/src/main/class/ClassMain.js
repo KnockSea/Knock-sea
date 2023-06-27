@@ -3,11 +3,14 @@ import './scss/ClassMain.scss';
 // import './scss/reset.scss';
 import { Route, Routes,Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import Pagination from "react-js-pagination";
+import { API_BASE_URL } from '../../config/host-config';
 
 const handleLogin = (e) => {
-    e.preventDefault();
   
+
+    e.preventDefault();
+
       // 회원가입 서버 요청
      
     };
@@ -17,7 +20,7 @@ const handleLogin = (e) => {
       };
       
 
-    const API_BASE_URL = 'http://localhost:8012/api/v1/edu';
+    // const API_BASE_URL = 'http://localhost:8012/api/v1/edu';
 
 
     
@@ -26,11 +29,20 @@ const handleLogin = (e) => {
  
 
 function ClassMain() {
+
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(6);
+  const [totalItemCount, setTotalItemCount] = useState(0);
+  
+  const handlePageChange = (page) => {
+    setPage(page);
+    console.log(page);
+  };
     
     const [edus, setEdus] = useState([]);
 
       useEffect(()=>{
-        fetch(API_BASE_URL, { 
+        fetch(`${API_BASE_URL}`, { 
             method: 'GET',
             headers: requestHeader
           })
@@ -125,10 +137,21 @@ function ClassMain() {
                                     </div>
                                     </div>
                             </Link>
-                                ))}                                
+                                ))}   
+                                                             
 
                         </div>        
-                        
+                        {/* <div className="page">
+                    <Pagination
+                    activePage={page}
+                    itemsCountPerPage={10}
+                    totalItemsCount={10}
+                    pageRangeDisplayed={10}
+                    prevPageText={"‹"}
+                    nextPageText={"›"}
+                    onChange={handlePageChange}
+                    />     
+                    </div> */}
                     </div>
                 </div>
             </div>    
