@@ -69,6 +69,7 @@ public class ReservationService {
         Reservation saveReservation = reservationRepository.save(reservation); // 마지막에 예약 등록
         // return new ReservationDetailResponseDTO(saveReservation);
         // 어디로 보내주지?
+
         return productDetailService.getDetail(dto.getProductId());
     }
 

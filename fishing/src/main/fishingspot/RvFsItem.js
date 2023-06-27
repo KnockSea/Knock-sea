@@ -10,16 +10,15 @@ import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
 const RvFsItem = ({productDetail}) => {
   
-  // const [pro, setPro] = useState(productDetail);
   const productList = productDetail.productDetail;
   return (
     <div className='Fssection'>
-    {!productList && productList.map((product, index) => (
+    {productList && productList.map((product, index) => (
     <div  key={index}  className='contentCard'>
-      <Link to={`/fsdetail${product.productId}`}>
+      <Link to={`/fsdetail/${product.productId}`}>
       상세 보기
             <div className='imgbox'>
-              <img src={product.mainImgUrl} alt="Ship" />
+              <img src={product.mainImgUrl} alt="Spot" />
             </div>
             
             <div className='cardTitle'>
@@ -28,19 +27,11 @@ const RvFsItem = ({productDetail}) => {
             </div>
             <br />
             <div className='miniTitle'>
-
-              주소 : 
-              {/* {allAddress[index].productLocationInfo} */}
-              {product.locationInfo}
-
+              주소 : {product.locationInfo}
             </div>
             <br />
             <div className='miniContent'>
-
-              <Bullseye />상세 위치 : 
-              {/* {allAddress[index].productLocationInfo}  */}
-              {product.fullAddress}
-
+              <Bullseye />상세 위치 :{product.fullAddress}
               &nbsp;
               {/* <PersonVcard/> 신분증 지참 &nbsp; */}
               <EmojiSmile /> 최대 {product.maxUser}명
@@ -53,7 +44,7 @@ const RvFsItem = ({productDetail}) => {
 </div>
    ))}
  </div>
-  )
-}
+  );
+};
 
 export default RvFsItem

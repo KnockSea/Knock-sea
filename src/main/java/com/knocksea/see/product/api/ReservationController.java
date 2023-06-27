@@ -36,7 +36,7 @@ public class ReservationController {
 
         try {
             ProductDetailResponseDTO reserve = reservationService.createReserve(dto);
-            return ResponseEntity.ok().body(reserve);
+            return ResponseEntity.ok().body("예약에 성공했습니다.");
         } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(e.getMessage());

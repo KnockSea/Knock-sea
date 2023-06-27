@@ -6,8 +6,8 @@ import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 function RvFsTemplate() {
   const [Fsproduct , setFsproduct] = useState(null);
 
-  const [page, setPage] = useState();
-  const [size, setSize] = useState();
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(6);
   const [type, setType] = useState("SPOT");
 
   // 낚시터 상품 정보 전체를 가져오는 함수
