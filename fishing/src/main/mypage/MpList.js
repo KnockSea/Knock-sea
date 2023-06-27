@@ -80,6 +80,7 @@ const MpList = () => {
       {userInfo.userGrade !=='ADMIN' ? (<li><Link to={'/inquire'}>문의현황</Link></li>)
       : (<li><Link to={'/adInquire'}>문의현황</Link></li>)}
       {userInfo.userGrade !=='ADMIN'&&(<li><Link to={'/userDrop'}>회원탈퇴하기</Link></li>)}
+      <li><Link to={'/like'}>좋아요</Link></li>
     </ul>
 
 
