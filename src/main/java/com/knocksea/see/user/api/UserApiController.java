@@ -242,8 +242,6 @@ public class UserApiController {
         }catch (Exception e){
             return ResponseEntity.badRequest().body("좋아요/리뷰 리스트를 얻어오는데 실패했습니다");
         }
-
-
     }
     @GetMapping("/load-s3")
     public ResponseEntity<?> loadS3(
