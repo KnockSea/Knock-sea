@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "../scss/Calendar.scss"
 import "./scss/ClassModal.scss";
 import ClassCalendar from './ClassCalendar';
+import { getLoginUserInfo } from "../util/login-util";
 
 const handleLogin = (e) => {
     e.preventDefault();
@@ -16,8 +17,6 @@ function ClassModal({closeModal, oneEdu}) {
   const listSize=oneEdu.timeList.length-1;
   const startTime=oneEdu.timeList[0].timeDate; //시작날짜
   const EndTime=oneEdu.timeList[listSize].timeDate; //마지막 날짜
-
-  console.log("ClassModal : ",oneEdu.timeList);
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [count, setCount] = useState(0);
@@ -44,10 +43,10 @@ function ClassModal({closeModal, oneEdu}) {
     setSelectedTime(time);
     setTimeIndex(timeIndex);
   }    
-                  
+    const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
+    const [token, setToken] = useState(getLoginUserInfo().token);
   const handlePayment=()=>{
    
-
     const reservation = {
       reservationType : "EDU",
       reservationDate : formattedDate, 
@@ -56,12 +55,39 @@ function ClassModal({closeModal, oneEdu}) {
       reservationPrice :  oneEdu.eduPrice,
       eduLevel : oneEdu.eduLevel,
       userId : oneEdu.userId,
-      userId : oneEdu.eduId,
-      reservationTimeId : timeIndex
+      eduId : oneEdu.eduId,
+      reservationTimeId : timeIndex 
     };
     
     console.log("click button : ", reservation);
+    
+
+
+    const requestHeader = {
+      'content-type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    };
+    
+
+        fetch(API_BASE_URL, {
+        method: 'POST',
+        headers: requestHeader,
+        body: JSON.stringify(reservation)
+      })
+      .then(res => {
+        if(res.status === 200) return res.json();
+        else if (res.status === 401) {
+          alert('실패');
+        }
+      })
+      // .then(json => {
+      //   json && setTodos(json.todos);
+      // });
   }
+
+
+
+
 
 
     return (
