@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { useNavigate, Link } from 'react-router-dom';
 import Post from './Post';
 import ProfileUpload from './ProfileUpload';
+import { API_BASE_URL, USER } from '../../config/host-config';
 
 // import { API_BASE_URL as BASE, USER } from '../config/host-config';
 

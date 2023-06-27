@@ -109,10 +109,10 @@ const MpMain = () => {
 
 
 
-                <div className='rvbox'>
+                {/* <div className='rvbox'>
                        <MpReFormItem/>
-                </div>
-
+                </div> */}
+                {userInfo.userGrade==='OWNER' || userInfo.userGrade==='COMMON' &&(
                 <div className='rvbox'>
                     <MpReviewList />
                 </div>
