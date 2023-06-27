@@ -12,16 +12,17 @@ import { Link } from "react-router-dom";
 
 // datepicker
 
-import DatePicker from "react-datepicker";
-import { ko } from "date-fns/esm/locale";
-import { addMonths } from "date-fns";
+// import DatePicker from "react-datepicker";
+// import { ko } from "date-fns/esm/locale";
+// import { addMonths } from "date-fns";
 
 // datepicker
 
-import { Dropdown } from "primereact/dropdown";
+// import { Dropdown } from "primereact/dropdown";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
+import ClassModal from "../class/ClassModal";
 
 const RvBtDetail = () => {
   const { productId } = useParams();
@@ -56,7 +57,8 @@ const RvBtDetail = () => {
   return (
     <div className="allview">
       <div className="imgbox">
-        <img src={boat} /> <img src={boat} />{" "}
+        <img src={sDetail.imageList && sDetail.imageList[1]} />
+        <img src={sDetail.imageList && sDetail.imageList[2]} />
       </div>
 
       <div className="allContentbox">
@@ -162,55 +164,49 @@ const RvBtDetail = () => {
             </div>{" "}
           </div>{" "}
         </div>
-
         <div className="right">
-          {/* <div className='group1'>
-                        <div>
-                            인원충원은 <b>커뮤니티</b>에서 충원 가능합니다.
-                            </div>
-                        </div> */}{" "}
-          <div className="clbox">
-            <h2>예약하기</h2>
-            {/* <div className="card flex justify-content-center">
-            <Dropdown value={selectedCity} onChange={(e) => setSelectedCity(e.value)} options={cities} optionLabel="name" 
-                placeholder="옵션선택" className="w-full md:w-14rem" />
-        </div> */}
-            <div className="calendarbox">
-              <DatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                locale={ko}
-                monthsShown={1}
-                minDate={new Date()}
-                maxDate={addMonths(new Date(), 1)}
-                inline
-              />
+          <div className="detail-box detail-list-top">
+            <div className="detail-section">
+              <div className="detail-box detail-list-profile">
+                <div className="lists">
+                  <Link to={"/host"}>
+                    <div className="box profile-img">
+                      <img src={sDetail.userProfileImage} />
+                    </div>
+                    <span className="box profile-page">{sDetail.userName}</span>
+                  </Link>
+                  <div className="condition">
+                    <ul className="condition-box">
+                      <li>{sDetail.eduLevel} |</li>
+                      <li>
+                        최대{" "}
+                        {sDetail.timeList && sDetail.timeList[0].timeMaxUser}명
+                        |
+                      </li>
+                      <li>{sDetail.eduPrice}원</li>
+                    </ul>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    className="box btn"
+                    onClick={() => {
+                      setModal(true);
+                    }}
+                  >
+                    바로 예약하기
+                  </button>
+                  {modal === true ? (
+                    <ClassModal
+                      closeModal={() => setModal(false)}
+                      sDetail={sDetail}
+                    />
+                  ) : null}
+                </div>
+              </div>
             </div>
-            <div>
-              <button
-                className="box btn rvboxbtn1"
-                onClick={() => {
-                  setModal(true);
-                }}
-              >
-                바로 예약하기
-              </button>
-              {modal === true ? (
-                <Modal closeModal={() => setModal(false)} />
-              ) : null}
-            </div>
-
-          </div>{" "}
-
-
-
-          <div className="profilebox">
-            <div className="proCircle"> </div> <h2> {sDetail.userId} </h2>{" "}
-            <div className="pr1"> 호스트 확인하기 </div>{" "}
-            <button> 업체 정보확인 </button> <Link to={"/host"}></Link>
-        
-          </div>{" "}
-        </div>
+          </div>
+        </div>{" "}
       </div>
     </div>
   );
