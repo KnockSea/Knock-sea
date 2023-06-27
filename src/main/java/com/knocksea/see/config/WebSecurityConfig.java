@@ -18,6 +18,9 @@ public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
 
+
+
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -45,6 +48,9 @@ public class WebSecurityConfig {
                 .antMatchers("/api/v1/user/register").permitAll()
                 .antMatchers("/api/v1/user/signin").permitAll()
                 .antMatchers("/api/v1/user/check").permitAll()
+                .antMatchers("/api/v1/validation/{validationType}").permitAll()
+                .antMatchers("/api/v1/validation").permitAll()
+
 //                .antMatchers("/api/v1/edu/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/edu").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/edu/topFour").permitAll()
@@ -54,7 +60,6 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.GET,"/api/v1/inquiries/{inquiryId}").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/answers/{inquiryId}").permitAll()
                 .antMatchers("/api/v1/hearts").permitAll()
-
 
                 .anyRequest().authenticated()
         ;

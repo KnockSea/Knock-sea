@@ -72,7 +72,7 @@ const MpList = () => {
     <ul className='list'>
       <li><Link to={'/my'}>내 정보</Link></li>
       {userInfo.userGrade==='OWNER'&&(<li><Link to={'/host'}>업체정보</Link></li>)}
-      <li>리뷰게시판</li>
+      {/* <li>리뷰게시판</li> */}
       <li className='my'>예약현황</li>
       <li><Link to={'/myinfo'}>정보 수정하기</Link></li>
       {userInfo.userGrade !=='ADMIN'&&(<li><Link to={'/rvlist'}>내 예약 내역</Link></li>)}

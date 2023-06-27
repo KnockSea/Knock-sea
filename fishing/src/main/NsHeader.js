@@ -36,6 +36,7 @@ export const NsHeader = () => {
     const confirm =window.confirm('정말 로그아웃하시겠어요?');
     if(confirm){
       setIsLoggedIn(isLogin());
+      setProfileUrl(null);
       localStorage.clear();
       navi('/');
     }else{
@@ -48,7 +49,8 @@ export const NsHeader = () => {
     const user = getLoginUserInfo();
     setUserInfo(user);
     setIsLoggedIn(!isLogin());
-    console.log(user);
+    // console.log(user);
+
     }, [isLogin()]);
 
     useEffect(() => {
@@ -72,15 +74,7 @@ export const NsHeader = () => {
           }
         }
       })();
-    }, []);
-    
-    
-    
-    
-    
-    
-    
-    
+    }, [isLoggedIn]);
     
 
   return (

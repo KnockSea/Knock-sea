@@ -35,10 +35,10 @@ const MpRvlist = () => {
     });
         if (res.status === 200) {
           const json = await res.json(); // JSON 데이터 파싱
-          console.log(json);
+          console.log("json",json);
           setUserProfile(json);
-          console.log(userProfile);
-          /*
+          console.log("userProfile",userProfile);
+           /*
           // 서버에서 직렬화된 이미지가 응답된다.
           const profileBlob = await res.blob();
           // 해당 이미지를 imgUrl로 변경
@@ -47,7 +47,7 @@ const MpRvlist = () => {
           */
         } else if(res.status===500){
             alert('예약내역이없습니다');
-        }else{
+        }else {
             alert('서버와의 통신이 원활하지않습니다!')
         }
   }

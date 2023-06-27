@@ -81,9 +81,9 @@ function ClassDetail() {
                                 <div className='lists'>
                                      <Link to={"/host"}> 
                                     <div className='box profile-img'>
-                                        <img src='https://cdn-icons-png.flaticon.com/128/1752/1752787.png'/>
+                                        <img src={oneEdu.userProfileImage}/>
                                     </div>
-                                    <span className='box profile-page'>뉴정환호
+                                    <span className='box profile-page'>{oneEdu.userName}
                                     </span>
                                     </Link>
                                     <div className='condition'>
@@ -96,7 +96,7 @@ function ClassDetail() {
                                     </div>        
                                 <div>
                                     <button className='box btn' onClick={ () => {setModal(true)} }>바로 예약하기</button>
-                                    {modal === true ? <ClassModal closeModal={() => setModal(false)} timeList={oneEdu.timeList} price={oneEdu.eduPrice}/> : null}
+                                    {modal === true ? <ClassModal closeModal={() => setModal(false)} oneEdu={oneEdu} /> : null}
                                 </div>
                         </div>
                         </div>

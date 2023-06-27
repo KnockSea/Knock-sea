@@ -1,29 +1,73 @@
-import React , { useState,useEffect  }from 'react'
+import React from 'react'
 import './MpScss/MpAdmin.scss'
 import { Link } from 'react-router-dom'
+import { useState,useEffect } from 'react'
+
 
 const MpAdmin = () => {
-    const [validationList, setValidationList] = useState([]);
-    const [validationType , setvalidationTtpe] = useState('SHIP');
 
-    // API 요청
+    const [validationList, setValidationList] = useState([]);
+    const [validationType , setvalidationType] = useState('SHIP');
+
+    //배 검증요청 리스트수정 json형식
+
+//검증요청 리스트 서버에서 받아오기
 useEffect(() => {
-        fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
-        .then(response => response.json())
-        .then(data => {
-            // 요청 결과 처리
-            console.log(data);
-            setValidationList(data);
-            console.log('validationList : ',validationList);
-        })
-        .catch(error => {
-            // 에러 처리
-            console.error('Error:', error);
-        });
-  }, [validationList]);
+    fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
+    .then(response => response.json())
+    .then(data => {
+        // 요청 결과 처리
+        console.log(data);
+        setValidationList(data);
+    })
+    .catch(error => {
+        // 에러 처리
+        console.error('Error:', error);
+    });
+}, []);
+
+//검증요청 승인하는 함수
+const updateValidation = async (e, validationUserName, validationType) => {
+    e.preventDefault();
+    const confirm = window.confirm('정말 승인하시겠습니까?');
+    console.log(validationList);
+    if (confirm) {
+        // console.log(validationUserName);
+        // console.log(validationType);
+        const validationModifyRequestDTO = {
+            'userName' : validationUserName,
+            'validationType' : validationType,
+            'validationStatus' : 'YES'
+          };
+          
+          const res = fetch('http://localhost:8012/api/v1/validation', {
+            method: 'PUT', // 또는 'PATCH' 요청 메서드
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(validationModifyRequestDTO)
+          });
+          if((await res).status===200){
+            console.log(res);
+            alert('전송완료')
+            setValidationList();
+          }else{
+            alert('서버와의 통신오류')
+          }
+    }
+  };
+  
+  
+  
+  
+  
+  
+  
+
 
   return (
 <section>
+
     <div className='adminbox'>
 
         {/* 관리자목록박스  */}
@@ -42,16 +86,30 @@ useEffect(() => {
 
             {/* 본문내용 */}
             <div className='ctntext'>
-                {validationList.length > 0 ? (validationList.map(validation => (<div key={validation.validationId}>
-                {validation.validationShipRegi ? (<div>{validation.validationShipRegi}</div>) : (<div>선박등록이미지 없음</div>)}
-                {validation.validationShipLicense ? (<div>{validation.validationShipLicense}</div>) : (<div>선박면허증 없음</div>)}
+        {validationList.length > 0 ? (
+            validationList.map((validation) => (
+            <div key={validation.validationId}>
+                {validation.userName ? (
+                <div className='username'>{validation.userName}</div>
+                ) : (
+                <div>등록유저이름없음</div>
+                )}
+                {validation.validationShipRegi ? (
+                <div className='spotregi'>{validation.validationBusinessRegi}</div>
+                ) : (
+                <div>사업장등록  번호없음</div>
+                )}
                 <div>
-                    <button>승인</button>
-                    <button>취소</button>
+                <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType)}>승인</button>
+                <button>취소</button>
                 </div>
                 <div>{validation.validationStatus}</div>
-                </div>))) : (<div>데이터 없음</div>)}
             </div>
+            ))
+        ) : (
+            <div>데이터 없음</div>
+        )}
+</div>
         </div>
     </div>
 </section>

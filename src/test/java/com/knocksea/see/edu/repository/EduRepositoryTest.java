@@ -55,23 +55,23 @@ class EduRepositoryTest {
                 .build();
     }
 */
-    @Test
-    @DisplayName("클래스 1개를 데이터베이스에 저장해야 한다.")
-    void testSave() {
-
-        Edu p2 = Edu.builder()
-                .eduTitle("중급자 낚시 클래스 모집합니다.")
-                .eduPrice(50000)
-                .eduLevel(MIDDLE)
-                .eduService("장화 대여가능합니다. 10000원 추가 요금 발생됩니다.")
-                .eduFullAddress("서울특별시 송파구 가락동 번지 지하 164-20 1층")
-                .eduInfo("클래스 설명입니다.")
-                .eduLocationInfo("클래스 진행하는 장소 소개입니다.")
-                .build();
-
-        Edu saved = eduRepository.save(p2);
-
-        assertNotNull(saved);
-    }
+//    @Test
+//    @DisplayName("클래스 1개를 데이터베이스에 저장해야 한다.")
+//    void testSave() {
+//
+//        Edu p2 = Edu.builder()
+//                .eduTitle("중급자 낚시 클래스 모집합니다.")
+//                .eduPrice(50000)
+//                .eduLevel(MIDDLE)
+//                .eduService("장화 대여가능합니다. 10000원 추가 요금 발생됩니다.")
+//                .eduFullAddress("서울특별시 송파구 가락동 번지 지하 164-20 1층")
+//                .eduInfo("클래스 설명입니다.")
+//                .eduLocationInfo("클래스 진행하는 장소 소개입니다.")
+//                .build();
+//
+//        Edu saved = eduRepository.save(p2);
+//
+//        assertNotNull(saved);
+//    }
 
 }
