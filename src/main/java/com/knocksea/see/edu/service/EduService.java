@@ -262,9 +262,15 @@ public class EduService {
 
         return eduList.stream()
                 .map(p -> {
-                    SeaImage seaImage = imageRepository.findById(p.getSeaImage().getImageId()).orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
+                    SeaImage seaImage = imageRepository.findByEdu(p);
+//                            .orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
                     return new mainListResponseDTO(p, seaImage);
                 }).collect(Collectors.toList());
+//                .map(p -> {
+//
+//                    SeaImage seaImage = imageRepository.findById(p.getSeaImage().getImageId()).orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
+//                    return new mainListResponseDTO(p, seaImage);
+//                }).collect(Collectors.toList());
     }
 
     public ResponseMyEduDTO getMyEdu( @AuthenticationPrincipal TokenUserInfo userInfo) {

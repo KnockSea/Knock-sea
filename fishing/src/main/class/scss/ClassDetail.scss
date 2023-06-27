@@ -26,7 +26,7 @@ body{
     display: flex;
     justify-content: space-between;
 
-    .detail-main-photo1 {
+    .detail-main-photo1, .detail-main-photo1 img {
         width: 50%;
         height: 320px;
         background: #c7c7c7;
@@ -35,7 +35,7 @@ body{
         background-size: contain;
     }
 
-    .photo {
+    .photo, .photo img {
         width: 275px;
         height: 320px;
         // border: 1px solid #000;
@@ -68,7 +68,7 @@ body{
             font-size: 25px;
             // border: 1px solid #000;
             display: block;
-            margin-bottom: 60px;
+            margin-bottom: 30px;
             }
 
 
@@ -133,11 +133,11 @@ body{
         margin: 30px auto;
     }
 
-    .profile-img{
+    .profile-img, .profile-img img {
         height: 100px;
         width: 100px;
         border-radius: 50rem;
-        background: url('https://cdn-icons-png.flaticon.com/128/1752/1752787.png');
+        // background: url('https://cdn-icons-png.flaticon.com/128/1752/1752787.png');
         overflow: hidden;
     }
 
