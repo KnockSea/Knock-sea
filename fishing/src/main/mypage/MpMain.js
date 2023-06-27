@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import {getLoginUserInfo, isLogin } from '../util/login-util';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { API_BASE_URL, USER } from '../../config/host-config'
 
 
 const MpMain = () => {
@@ -32,7 +33,7 @@ const MpMain = () => {
     
     
     const fetchUserInfo = async () => {
-        const res = await fetch('http://localhost:8012/api/v1/user/user-mylist', {
+        const res = await fetch(`${API_BASE_URL}${USER}/user-mylist`, {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')}
         });
@@ -78,7 +79,7 @@ const MpMain = () => {
                         </div>
                         <div className='ownerTap'>
                             {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>⛵ 배</h1></Link>)}
-                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>🚩 낚시터</h1></Link>)}
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpfs'}><h1>🚩 낚시터</h1></Link>)}
                             {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)}
                         </div>
                     </div>
@@ -107,8 +108,8 @@ const MpMain = () => {
                     </div>
 
 
-{/* 
-                <div className='rvbox'>
+
+                {/* <div className='rvbox'>
                        <MpReFormItem/>
                 </div> */}
                 {userInfo.userGrade==='OWNER' || userInfo.userGrade==='COMMON' &&(

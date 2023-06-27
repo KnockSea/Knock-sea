@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getLoginUserInfo } from '../util/login-util';
+import { API_BASE_URL, REVIEW } from '../../config/host-config';
 
 function MpReviewList() {
   const [reviews, setReviews] = useState(null);
@@ -13,7 +14,7 @@ function MpReviewList() {
   }, [page, size]);
 
   const fetchData = () => {
-    fetch(`http://localhost:8012/api/v1/reviews/myReview?page=${page}&size=${size}`, {
+    fetch(`${API_BASE_URL}${REVIEW}/myReview?page=${page}&size=${size}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -61,4 +62,4 @@ function MpReviewList() {
   );
 }
 
-export default MpReviewList;
+export default MpReviewList

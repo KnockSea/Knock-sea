@@ -3,6 +3,7 @@ import './scss/OwnerCheck.scss';
 import OwnerCheckHeader from './OwnerCheckHeader';
 import { getLoginUserInfo } from '../util/login-util';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL, VALIDATION } from '../../config/host-config';
 
 function OwnerCheckFishing() {
   const [fishingNumber, setFishingNumber] = useState('');
@@ -36,7 +37,7 @@ function OwnerCheckFishing() {
     formData.append('validationImage',file);
 
 
-    const res =await fetch('http://localhost:8012/api/v1/validation/insert', {
+    const res =await fetch(`${API_BASE_URL}${VALIDATION}/insert`, {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')

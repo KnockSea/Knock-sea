@@ -57,15 +57,7 @@ const MpUserDrop = () => {
           </div>
         </div>
       </div>
-      {/* <ul className='list'>
-                <li>업체정보</li>
-                <li>리뷰게시판</li>
-                <li>예약현황</li>
-                <li className='my'>내정보</li>
-                <li><Link to={'/myinfo'} className='lk'>정보 수정하기</Link></li>
-                <li>내 예약 내역</li>
-                <li>문의현황</li>
-            </ul> */}
+     
       <MpList />
     </section>
   );

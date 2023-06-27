@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUserInfo } from '../util/login-util';
 import { getLoginUserInfo } from '../util/login-util';
 import { addDays, format, parseISO } from "date-fns";
+import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
 
 function ProductRegistration() {
@@ -126,7 +127,7 @@ function ProductRegistration() {
         e.preventDefault();
     
         try {
-          const res = await fetch('http://localhost:8012/api/v1/products', {
+          const res = await fetch(`${API_BASE_URL}${PRODUCTS}`, {
           method: 'POST',
           headers: {'Authorization': 'Bearer ' + token},
           body: formData

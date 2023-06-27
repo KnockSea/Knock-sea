@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./MpScss/MpInquiryD.scss";
 import { getLoginUserInfo } from "../util/login-util";
+import { API_BASE_URL, INQUIRIES } from "../../config/host-config";
 
 const MpInquiryD = () => {
     const { inquiryId } = useParams();
@@ -54,7 +55,7 @@ const MpInquiryD = () => {
     const fetchInquiry = async () => {
         try {
             const response = await fetch(
-                `http://localhost:8012/api/v1/inquiries/${inquiryId}`
+                `${API_BASE_URL}${INQUIRIES}/${inquiryId}`
             );
             if (response.ok) {
                 const inquire = await response.json();
