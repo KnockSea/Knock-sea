@@ -1,3 +1,4 @@
+
 header {
     width: 100%;
     height: 70px;
@@ -7,6 +8,11 @@ header {
     left: 0;
     z-index: 999;
     background: #fff;
+    font-family: 'Orbit', sans-serif;
+
+    *{
+        font-family: 'Orbit', sans-serif !important;
+    }
 
     .header1 {
         display: flex;
@@ -15,6 +21,7 @@ header {
         .hdleft {
             display: flex;
             // margin: 5px 10px;
+            
             
             img {
                 margin-left: 20px;
@@ -32,7 +39,6 @@ header {
                     padding: 22px  30px;
                     display: block;
                     font-weight: 700;
-                    //    justify-content: center;
                     
                 
                     &:hover, &:active {
@@ -71,8 +77,9 @@ header {
 
             .ownerGo {
             :link {
-                font-size: 12px;
+                font-size: 15px;
                 font-weight: 500;
+                font-family: 'Gowun Batang', serif;
 
                 &:hover {
                     font-weight: 600;

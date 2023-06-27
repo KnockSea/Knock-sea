@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 .MyPageMainBox {
     width: 1136px;
     min-width: 1136px;
@@ -60,6 +61,7 @@
                 // border: 1px solid #ff0000;
                 display: flex;
                 justify-content: start;
+                
             }
 
             .profilebox {
@@ -81,22 +83,24 @@
             .userWrap {
                 height: 80px;
                 text-align: left;
-                margin-left: 30px;
+                margin-left: 40px;
                 font-size: 16px;
                 
+                
                 p, div{
-                font-family: "한컴 말랑말랑";
+                font-family: 'Jua', sans-serif;
                 margin-bottom: 10px;
                 }
 
                 .userName {
-                    color: #123282;
+                    color: #3e61b8;
                 }
-            }
 
-            .userEtc {
-                font-weight: 700;
+                
+
             }
+          
+           
 
             .namebox{
                 width: 80%;
@@ -104,6 +108,7 @@
                 padding: 10px;
                 height: fit-content;
                 text-align: left;
+                font-family: 'Adamina', serif;
                 
                 .nickName {
                     font-weight: 700;
@@ -114,6 +119,18 @@
                     height: 130px;
                     overflow: scroll;
                     font-size: 12px;
+                    padding: 5px;
+                    
+                    &::-webkit-scrollbar {
+                        width: 10px;  /* 스크롤바의 너비 */
+                        height: 1px;
+                        background: rgba(114, 137, 168, 0.1); 
+                    }
+                    &::-webkit-scrollbar-thumb {
+                        height: 30%; /* 스크롤바의 길이 */
+                        background: #a6cbe9; /* 스크롤바의 색상 */
+                        border-radius: 10px;
+                    }
                     
                 }
             }
