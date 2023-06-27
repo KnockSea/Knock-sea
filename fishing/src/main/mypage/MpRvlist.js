@@ -83,7 +83,7 @@ const MpRvlist = () => {
             <div className='rvitembox'>
               <div className='potobox'><img className="my-profile"  title="마이페이지" src={reservation.imgUrl || require('../icons/01d.png')} style={{border:"1px solid darkgray"}}/></div>
               <div className='minibox'>
-                <div className='rvlistdate'>{reservation.reserveDate}</div>
+                <div className='rvlistdate'>{reservation.reserveDate} </div>
                 <div className='rvlisttitle'>{reservation.reserveTitle}</div>
                 <div className='rvlistsally'>{reservation.reservePrice}원</div>
               </div>
