@@ -44,7 +44,7 @@ function MpReviewList() {
         reviews.map(review => (
           <div className='MpReFormItem' key={review.id}>
             <div className='numbox'></div>
-            <div className='mprebox1'>{review.image}</div>
+            <div className='mprebox1'><img src={review.image} alt='이미지' style={{ width: '100px', height: '100px' }} /></div>
             <div className='mprebox2'>
               <div className='mpreAutohr'>
                 <div>{review.userName}</div>
