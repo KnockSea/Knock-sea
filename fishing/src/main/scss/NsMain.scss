@@ -127,18 +127,19 @@ section {
                     }
                 }
 
-                .weather-list {
-                    display: flex;
+            .weather-list{
+              display: flex;
+              .weather-item{
 
-                    .weather-item {}
-                }
-
+              }
             }
 
-
+          }
+          
+          
         }
-
-
-
-    }
-}
+          
+          
+          
+        }
+      }
