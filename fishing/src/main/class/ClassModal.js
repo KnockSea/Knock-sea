@@ -86,7 +86,7 @@ function ClassModal({closeModal, oneEdu}) {
     return (
         <div className="modal-overlay" >
           <div className="modal-box">
-            <button onClick={closeModal} className='close-btn'>X</button>
+            <button onClick={closeModal} className='close-btn'><img src='https://cdn-icons-png.flaticon.com/128/7778/7778647.png'/></button>
             <h1 className='select-date'>참여 일정을 선택해주세요😀</h1>
             <hr style={{marginTop:'5px'}}/>
             <div className='calendar'>
