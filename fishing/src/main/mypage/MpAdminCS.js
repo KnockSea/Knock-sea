@@ -17,7 +17,7 @@ const MpAdminCS = () => {
 
   useEffect(() => {
     fetchInquiries();
-  }, [page, inquiries.length]);
+  }, [page, inquiries && inquiries.length]);
 
   const fetchInquiries = async () => {
     try {
@@ -56,7 +56,8 @@ const MpAdminCS = () => {
         <div className="mgcontentbox">
           <div className="ctntitle">KNOCK_SEA 관리자 화면 (문의)</div>
           <div className="ctntext">
-            {inquiries.map((inquiry) => (
+          {inquiries.length !==0 ? (
+            inquiries.map((inquiry) => (
               <div className="ctntextbox11" key={inquiry.inquiryId}>
                 <div>{inquiry.userName}</div>
                 <div>{inquiry.inquiryTitle}</div>
@@ -70,7 +71,10 @@ const MpAdminCS = () => {
                 </Link>
                 )}
               </div>
-            ))}
+            ))
+            ) : (
+              <div>문의가 입력된 것이 없습니다.</div>
+          )}
           </div>
           <Pagination
             activePage={page}
