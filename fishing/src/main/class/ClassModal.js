@@ -3,15 +3,9 @@ import "../scss/Calendar.scss"
 import "./scss/ClassModal.scss";
 import ClassCalendar from './ClassCalendar';
 import { getLoginUserInfo } from "../util/login-util";
+import { useNavigate } from 'react-router-dom';
 
-const handleLogin = (e) => {
-    e.preventDefault();
-  
-      // 회원가입 서버 요청
-    };
-    
-  // 렌더링 후 실행함수
-// timeList, price, address
+
 function ClassModal({closeModal, oneEdu}) {
   const [token, setToken] = useState(getLoginUserInfo().token);
   const listSize=oneEdu.timeList.length-1;
@@ -23,6 +17,7 @@ function ClassModal({closeModal, oneEdu}) {
   const [selectedTime, setSelectedTime] = useState(null);
   const [classTimes, setClassTimes] = useState([]);
   const[timeIndex,setTimeIndex] = useState(0);
+  const navigate = useNavigate();
 
   const handleIncrease = () => {
     setCount(count + 1);
@@ -43,8 +38,9 @@ function ClassModal({closeModal, oneEdu}) {
   const handleTimeChange = (time,timeIndex) => {
     setSelectedTime(time);
     setTimeIndex(timeIndex);
-  }    
-    const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
+  }  
+
+  const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
   
   const handlePayment=()=>{
    
@@ -69,25 +65,21 @@ function ClassModal({closeModal, oneEdu}) {
       'Authorization': 'Bearer ' + token
     };
     
-
         fetch(API_BASE_URL, {
         method: 'POST',
         headers:  requestHeader,
         body: JSON.stringify(reservation)
       })
       .then(res => {
-        if(res.status === 200) return res.json();
-        else if (res.status === 401) {
-          alert('실패');
+        if(res.status === 200) {
+        alert('예약이 완료되었습니다!😝') 
+        navigate('/rvlist'); 
+      return res.json();
+     } else if (res.status === 401) {
+          alert('예약 실패..😫');
         }
       })
-      // .then(json => {
-      //   json && setTodos(json.todos);
-      // });
   }
-
-
-
 
 
 
@@ -149,7 +141,7 @@ function ClassModal({closeModal, oneEdu}) {
                     <span> {count*oneEdu.eduPrice}원 </span>
                   </div>
                 <p className='total-result'>{formattedDate} {selectedTime} / {count}명</p>
-                <button className='class-pay-btn custom-button' onClick={handlePayment}>결제하기</button>
+                <button className='class-pay-btn custom-button' onClick={handlePayment}>예약하기</button>
             </div>
           </div>
         </div>

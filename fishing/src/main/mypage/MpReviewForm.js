@@ -10,7 +10,7 @@ const MpReviewForm = () => {
   const [reviewRating, setReviewRating] = useState("");
   const [reviewType, serReviewType] = useState("");
   const [token, setToken] = useState("");
-  const [clicked, setClicked] = useState([false, false, false, false, false]);
+  const [clicked, setClicked] = useState([1, 2, 3, 4, 5]);
 
   const ARRAY = [0, 1, 2, 3, 4];
   
