@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 public class validationModifyRequestDTO {
     private String userName;
 
+    private Long userId;
+
     private ValidationType validationType;
 
     private ValidationStatus validationStatus;

@@ -67,10 +67,11 @@ hr {
     margin-right: 50px;
     cursor: pointer;
 
-    &:hover,
-    &:focus {
-        background-color: #123282;
-}}
+    
+    &:focus, &:active {
+        background-color: #123282; 
+    }
+}
 
 .owner-check-body ul li .ship, .fishing{
     width: 100px;

@@ -109,7 +109,8 @@ const WeeklyWeather = () => {
               {weeklyWeather.slice(1).map((weather, index) => (
                 <div className="weather-item" key={index}>
                   <img
-                    src={`https://openweathermap.org/img/w/${weather.icon}.png`}
+                    // src={`https://openweathermap.org/img/w/${weather.icon}.png`}
+                    src={`https://cdn-icons-png.flaticon.com/512/4652/4652326.png`}                    
                     alt=""
                   />
                   <div>

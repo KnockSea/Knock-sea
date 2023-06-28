@@ -1,30 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { getLoginUserInfo } from '../util/login-util';
 import { API_BASE_URL, REVIEW } from '../../config/host-config';
+import Pagination from "react-js-pagination";
 
-function MpReviewList() {
-  const [reviews, setReviews] = useState([]);
+function ReviewList() {
+    const [reviews, setReviews] = useState([]);
   const [token, setToken] = useState(getLoginUserInfo().token);
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(3);
-  const [isHearted, setIsHearted] = useState(false);
+  const [size, setSize] = useState(10);
+  const [totalItemCount, setTotalItemCount] = useState(0);
+
+  const handlePageChange = (page) => {
+    setPage(page);
+    console.log(page);
+  };
 
   useEffect(() => {
     fetchData();
   }, [reviews && reviews.length, page, size]);
 
   const fetchData = () => {
-    fetch(`${API_BASE_URL}${REVIEW}/myReview?page=${page}&size=${size}`, {
+    fetch(`${API_BASE_URL}${REVIEW}?page=${page}&size=${size}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
       },
     })
       .then(response => response.json())
       .then(data => {
         if (data) {
           setReviews(data.reviews);
+          setTotalItemCount(data.pageInfo.totalCount);
+          console.log("data", data);
+          console.log(data.reviews);
         } else {
           // 처리할 에러에 대한 로직 추가
         }
@@ -58,8 +66,19 @@ function MpReviewList() {
       ) : (
         <div>리뷰가 입력된 것이 없습니다.</div>
       )}
+                          <div className="page">
+                         <Pagination
+            activePage={page}
+            itemsCountPerPage={10}
+            totalItemsCount={totalItemCount}
+            pageRangeDisplayed={5}
+            prevPageText={"‹"}
+            nextPageText={"›"}
+            onChange={handlePageChange}
+          />     
+            </div>
     </>
   );
 }
 
-export default MpReviewList
+export default ReviewList

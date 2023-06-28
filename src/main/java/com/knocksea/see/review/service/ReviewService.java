@@ -13,7 +13,9 @@ import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
 import com.knocksea.see.review.dto.response.ReviewListResponseDTO;
 import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.repository.ReviewRepository;
+import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.repository.ImageRepository;
 import com.knocksea.see.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +27,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,34 +42,55 @@ public class ReviewService {
 
     private final EduRepository eduRepository;
     private final ProductRepository productRepository;
+    private final ImageRepository imageRepository;
 
 
     public ReviewDetailResponseDTO createReview(final ReviewCreateDTO reviewDTO, final TokenUserInfo userInfo) throws RuntimeException {
         User foundUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
                 () -> new RuntimeException("회원 정보가 없습니다.")
         );
+        log.info("foundUser : "+foundUser);
+
         Product product = null;
         Edu edu = null;
-        Product productInfo = productRepository.findById(reviewDTO.getProductId()).orElseThrow(
-            () -> new RuntimeException("상품 정보가 없습니다.")
-        );
-        if (productInfo.getUser() != null ){
-            throw new RuntimeException("이미 상품 후기를 작성하였습니다.");
-        }
-        if (reviewDTO.getProductId() != null) {
-            product = productRepository.findById(reviewDTO.getProductId()).orElseThrow();
-        }
-        Edu eduInfo = eduRepository.findById(reviewDTO.getEduId()).orElseThrow();
-        if (eduInfo.getUser() != null) {
-            throw new RuntimeException("이미 클래스 후기를 작성하였습니다.");
+//        List<String> imgUrls = new ArrayList<>();
+        String imgs = null;
+
+        if (reviewDTO.getId() != null &&reviewDTO.getReviewType().equals("Product")) {
+
+            Product p = productRepository.findById(reviewDTO.getId()).get();
+            List<Review> byProduct = reviewRepository.findByProduct(p);
+//            log.warn("리스트 맞아?{}",byProduct.toArray());
+            if (!byProduct.isEmpty()) {
+                throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
+            }
+
+            product = productRepository.findById(reviewDTO.getId()).orElseThrow();
+            SeaImage eduImg = imageRepository.findByProduct(product);
+            imgs = eduImg.getImageName();
         }
 
-        if (reviewDTO.getEduId() != null) {
-            edu = eduRepository.findById(reviewDTO.getEduId()).orElseThrow();
+        if (reviewDTO.getId() != null&&reviewDTO.getReviewType().equals("EDU")) {
+            Edu e = eduRepository.findById(reviewDTO.getId()).get();
+            log.info("eeeeee : "+e);
+//            log.warn("강의 정보 어딨어?: {}",e);
+            List<Review> allByEdu = reviewRepository.findAllByEdu(e);
+            log.info("allByEdu : "+allByEdu);
+
+            if (!allByEdu.isEmpty()) {
+                throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
+            }
+
+            edu = eduRepository.findById(reviewDTO.getId()).orElseThrow();
+            SeaImage eduImg = imageRepository.findAllByEdu(edu).get(0);
+            imgs = eduImg.getImageName();
+//            imageRepository.findAllByEdu(edu).forEach( i -> {
+//                imgUrls.add(i.getImageName());
+//            });
         }
 
         Review saved = reviewRepository.save(reviewDTO.toEntity(foundUser, edu, product));
-        return new ReviewDetailResponseDTO(saved);
+        return new ReviewDetailResponseDTO(saved, imgs);
     }
 
     public ReviewListResponseDTO getUserReviewById(UserPageDTO dto, Long TokenUserId) {
@@ -79,8 +104,15 @@ public class ReviewService {
         User user = userRepository.findById(TokenUserId).orElseThrow();
         Page<Review> byUserId = reviewRepository.findByUser(user, pageable);
         List<Review> userList = byUserId.getContent();
+//        List<SeaImage> imgs = imageRepository.findAllByUser(user);
+//        List<String> imgUrls = new ArrayList<>();
+//        for (SeaImage img : imgs) {
+//            imgUrls.add(img.getImageName());
+//        }
         List<ReviewDetailResponseDTO> detailList = userList.stream()
-                .map(ReviewDetailResponseDTO::new)
+                .map(review -> {
+                    return new ReviewDetailResponseDTO(review, imgName(review));
+                })
                 .collect(Collectors.toList());
 
         log.info("byUserId - {}", byUserId);
@@ -103,8 +135,12 @@ public class ReviewService {
 
         Page<Review> reviews = reviewRepository.findAll(pageable);
         List<Review> reviewList = reviews.getContent();
+
         List<ReviewDetailResponseDTO> detailList = reviewList.stream()
-                .map(ReviewDetailResponseDTO::new)
+                .map(review -> {
+                    String type = review.getReviewType().toString();
+                    return new ReviewDetailResponseDTO(review, imgName(review));
+                })
                 .collect(Collectors.toList());
 
         return ReviewListResponseDTO.builder()
@@ -113,6 +149,21 @@ public class ReviewService {
                 .reviews(detailList)
                 .build();
     }
+
+    public String imgName(Review review) {
+        String imgs;
+        if (review.getReviewType().toString().equals("SHIP") || review.getReviewType().toString().equals("SPOT")) {
+            imgs = imageRepository.findByProduct(
+                    productRepository.findById(review.getProduct().getProductId()).orElseThrow())
+                    .getImageName();
+        } else {
+            imgs = imageRepository.findByEdu(
+                    eduRepository.findById(review.getEdu().getEduId()).orElseThrow())
+                    .getImageName();
+        }
+        return imgs;
+    }
+
 
     public void deleteReview(Long reviewId, Long TokenUserId) throws RuntimeException, SQLException {
         Review review = reviewRepository.findById(reviewId).orElseThrow();
