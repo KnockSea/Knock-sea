@@ -8,6 +8,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .custom-calendar{
+      transform: translate(-5%, -50px);
+  
+      .react-datepicker__day {
+        margin: 2px 21px;
+       }
+     }
+  
+     .no-remaining-slot {
+      text-decoration: line-through;
+      pointer-events: none;
+      color: gray ;
+    }
 }
 
 .Rv-modal-box {
@@ -163,19 +177,7 @@
     }
   }
 
-  .custom-calendar{
-    transform: translate(-5%, -50px);
 
-    .react-datepicker__day {
-      margin: 2px 21px;
-     }
-   }
-
-   .no-remaining-slot {
-    text-decoration: line-through;
-    pointer-events: none;
-    color: gray ;
-  }
   
   
   
