@@ -36,7 +36,7 @@ function ClassMain() {
   
   const handlePageChange = (page) => {
     setPage(page);
-    console.log(page);
+    // console.log(page);
   };
     
     

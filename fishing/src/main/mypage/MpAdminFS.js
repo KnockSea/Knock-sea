@@ -35,6 +35,7 @@ useEffect(() => {
             // console.log(validationType);
             const validationModifyRequestDTO = {
                 'userName' : validationUserName,
+                'userId' : validationuserId,
                 'validationType' : validationType,
                 'validationStatus' : 'YES'
             };

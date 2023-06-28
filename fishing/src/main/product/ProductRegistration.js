@@ -132,7 +132,8 @@ function ProductRegistration() {
           headers: {'Authorization': 'Bearer ' + token},
           body: formData
           });
-          
+          // console.log('API_BASE_URL',API_BASE_URL,PRODUCTS);
+          console.log(formData);
             if (res.status === 200) {
               alert('등록 성공');
             } else {
