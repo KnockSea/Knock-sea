@@ -105,18 +105,32 @@ public class EduService {
             }
 
             double reviewAverage = reviewTotal / reviews.size();
-            reviewAverage= Math.round(reviewAverage * 10)/10.0;
+            reviewAverage= Math.round(reviewAverage * 10)/10.0; //소수점 한자리만 나오도록
 
-            int decimalPlace = (int) (reviewAverage * 10) % 10;
+            int front = (int)reviewAverage/1;
+            log.info("front : "+front);
+            double back = reviewAverage%1;
+            log.info("back : "+back);
 
-            if (decimalPlace >= 1 && decimalPlace <= 4) {
-                reviewAverage = Math.floor(reviewAverage);
-            } else if (decimalPlace >= 5 && decimalPlace <= 9) {
-                reviewAverage = Math.ceil(reviewAverage);
-                if (reviewAverage % 1 != 0) {
-                    reviewAverage = Math.floor(reviewAverage) + 0.5;
-                }
+            if (back >= 0.0 && back <= 0.4) {
+                reviewAverage = front+0.0;
+            } else if(back >= 0.5 && back <= 0.9){
+                reviewAverage = front+0.5;
             }
+            log.info("reviewAverage : ",reviewAverage);
+
+//           ;
+//
+//            int decimalPlace = (int) (reviewAverage * 10) % 10;
+//
+//            if (decimalPlace >= 1 && decimalPlace <= 4) {
+//                reviewAverage = Math.floor(reviewAverage);
+//            } else if (decimalPlace >= 5 && decimalPlace <= 9) {
+//                reviewAverage = Math.ceil(reviewAverage);
+//                if (reviewAverage % 1 != 0) {
+//                    reviewAverage = Math.floor(reviewAverage) + 0.5;
+//                }
+//            }
 
             if(reviewAverage>0) {
                 edus.setReviewAverage(reviewAverage);
