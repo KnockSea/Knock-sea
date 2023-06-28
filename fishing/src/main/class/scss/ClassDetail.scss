@@ -26,7 +26,7 @@ body {
     display: flex;
     justify-content: space-between;
 
-    .detail-main-photo1 {
+    .detail-main-photo1, .detail-main-photo1 img {
         width: 50%;
         height: 320px;
         background: #c7c7c7;
@@ -54,6 +54,7 @@ body {
     .photo,
     .photo2,
     .photo3 {
+
         width: 275px;
         height: 320px;
         // border: 1px solid #000;
@@ -90,7 +91,6 @@ body {
             display: block;
             margin-bottom: 30px;
         }
-
 
         .detail-content {
             border: 1px solid #000;
