@@ -168,9 +168,9 @@ function Myinfo() {
                 onChange={userEmailHandler}
                 value={useremail}
               />
-              <button className="btn1">
+              {/* <button className="btn1">
                 <Link to={"/mypassword"}>비밀번호 변경</Link>
-              </button>
+              </button> */}
             </div>
             <div className="phoneNum">
               <div className="title">전화번호</div>
@@ -221,13 +221,19 @@ function Myinfo() {
             </div>
 
             <div className="profile">
-              <div className="title">프로필 이미지</div>
-              <input
-                type="file"
-                accept="image/*"
-                multiple={false}
-                onChange={handleFileChange}
-              />
+            <div className="title">프로필 이미지</div>
+                <label htmlFor="profile-image" className="custom-input-button">
+                  파일 선택
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="profile-image"
+                    className="modi-profile"
+                    multiple={false}
+                    onChange={handleFileChange}
+                  />
+                </label>
+                <span>선택된 파일 : {setSelectedFile}</span>
             </div>
           </div>
 

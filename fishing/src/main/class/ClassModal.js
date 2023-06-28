@@ -25,7 +25,7 @@ function ClassModal({closeModal, oneEdu}) {
     if(oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser>count){
       setCount(count + 1);    
     }else if(oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser<=count){
-      alert("신청 가능 인원을 초과하였습니다. \n인원을 다시 설정해 주세요");   
+      alert("인원 입력을 확인해주세요");   
     }
        
   };
