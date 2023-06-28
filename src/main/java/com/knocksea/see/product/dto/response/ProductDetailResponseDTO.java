@@ -28,6 +28,8 @@ public class ProductDetailResponseDTO {
     private String info;
     private String locationInfo;
     private Long userId;
+    private String userName;
+    private String userImgUrl;
     private int maxUser;
 
     // 예약 가능 시간 list있어야함
@@ -52,6 +54,8 @@ public class ProductDetailResponseDTO {
         this.locationInfo = product.getProductLocationInfo();
         this.userId = product.getUser().getUserId();
         this.maxUser = timeMaxUser;
+        this.userName = product.getUser().getUserName();
+        this.userImgUrl = product.getUser().getProfileImg();
         this.mainImgUrl = imageName;
     }
 
@@ -74,6 +78,8 @@ public class ProductDetailResponseDTO {
         this.userId = product.getUser().getUserId();
         this.timeList = dtoTimeList;
         this.reviewList = dtoReviewList;
+        this.userName = product.getUser().getUserName();
+        this.userImgUrl = product.getUser().getProfileImg();
         this.imgUrl = imgUrls;
 //        this.maxUser = product.getMaxUser();
     }
