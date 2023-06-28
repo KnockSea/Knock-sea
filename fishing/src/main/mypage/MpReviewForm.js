@@ -14,6 +14,7 @@ const MpReviewForm = () => {
   const [reviewContent, setReviewContent] = useState("");
   const [reviewType, serReviewType] = useState("");
   const [token, setToken] = useState("");
+  const [rating, setReviewRating] = useState(0);
 
 //   const [ratingIndex, setRatingIndex] = useState(1); 
 
@@ -44,7 +45,7 @@ const [value, setValue] = useState(0);
       // reviewType : reviewType,
       reviewType : "EDU",
       reviewRating : value,
-      eduId : 15
+      eduId : 1
     };
 
     console.log(formdata);
@@ -100,7 +101,7 @@ const [value, setValue] = useState(0);
                 setRatingIndex={setRatingIndex}
               />*/}              
 
-            <Wrap>
+           
                 {/* <RatingText>평가하기</RatingText> */}
                 {/* <Stars>
                   {ARRAY.map((el, idx) => {
@@ -126,7 +127,7 @@ const [value, setValue] = useState(0);
                           setValue(newValue);
                         }} />
                     </Box>
-              </Wrap>
+              
               </div>
           </div>
 

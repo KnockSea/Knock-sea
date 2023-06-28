@@ -30,7 +30,7 @@ const MpRvlist = () => {
   }, []);
 
   const userReservefetch = async() => {
-    const res = await fetch(`${API_BASE_URL}${USER}user-mylist`, {
+    const res = await fetch(`${API_BASE_URL}${USER}/user-mylist`, {
       method: 'GET',
       headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
     });

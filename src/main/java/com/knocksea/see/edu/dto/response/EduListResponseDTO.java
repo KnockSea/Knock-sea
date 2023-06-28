@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 public class EduListResponseDTO {
 
-    private int totalcount; //총게시물 수
+    private int totalCount; //총게시물 수
 
     private PageResponseDTO pageInfo; //페이지 렌더링 정보
 
