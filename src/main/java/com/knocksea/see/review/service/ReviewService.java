@@ -56,14 +56,29 @@ public class ReviewService {
 //        List<String> imgUrls = new ArrayList<>();
         String imgs = null;
 
-        if (reviewDTO.getId() != null &&reviewDTO.getReviewType().equals("Product")) {
+        if (reviewDTO.getId() != null &&reviewDTO.getReviewType().equals("SHIP")) {
 
             Product p = productRepository.findById(reviewDTO.getId()).get();
             List<Review> byProduct = reviewRepository.findByProduct(p);
 //            log.warn("리스트 맞아?{}",byProduct.toArray());
-            if (!byProduct.isEmpty()) {
-                throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
-            }
+//            if (!byProduct.isEmpty()) {
+//                throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
+//            }
+
+            product = productRepository.findById(reviewDTO.getId()).orElseThrow();
+            SeaImage eduImg = imageRepository.findByProduct(product);
+            imgs = eduImg.getImageName();
+        }
+
+        if (reviewDTO.getId() != null &&reviewDTO.getReviewType().equals("SPOT")) {
+
+            Product p = productRepository.findById(reviewDTO.getId()).get();
+            List<Review> byProduct = reviewRepository.findByProduct(p);
+//            log.warn("리스트 맞아?{}",byProduct.toArray());
+//            if (!byProduct.isEmpty()) {
+//
+//                throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
+//            }
 
             product = productRepository.findById(reviewDTO.getId()).orElseThrow();
             SeaImage eduImg = imageRepository.findByProduct(product);
@@ -77,9 +92,9 @@ public class ReviewService {
             List<Review> allByEdu = reviewRepository.findAllByEdu(e);
             log.info("allByEdu : "+allByEdu);
 
-            if (!allByEdu.isEmpty()) {
-                throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
-            }
+//            if (!allByEdu.isEmpty()) {
+//                throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
+//            }
 
             edu = eduRepository.findById(reviewDTO.getId()).orElseThrow();
             SeaImage eduImg = imageRepository.findAllByEdu(edu).get(0);
