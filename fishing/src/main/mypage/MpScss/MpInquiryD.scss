@@ -108,12 +108,17 @@
     }
 
     .replybtn1 {
-      height: 50px;
+      height: 40px;
       color: white;
       background: #123282;
       border: 1px solid #123282;
       border-radius: 10px;
-      font-weight: 700;
+      // font-weight: 700;
+
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
     }
   }
 }
