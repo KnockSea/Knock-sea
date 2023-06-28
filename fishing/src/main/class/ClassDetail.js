@@ -46,13 +46,13 @@ function ClassDetail() {
         <div className="class-detail-wrap">
             <div id="class-detail-header">
                 <div className="detail-main-photo1">
-                    <img src={oneEdu.imageList && oneEdu.imageList[0]} className='photo1'/> 
+                   <img src={oneEdu.imageList && oneEdu.imageList[0]} className='photo1'/> 
                 </div>
                 <div className="photo detail-main-photo2">
-                    <img src={oneEdu.imageList && oneEdu.imageList[1]}/>
+                    <img src={oneEdu.imageList && oneEdu.imageList[1]} className='photo2'/>
                 </div>
                 <div className="photo detail-main-photo3">
-                    <img src={oneEdu.imageList && oneEdu.imageList[2]}/>
+                    <img src={oneEdu.imageList && oneEdu.imageList[2]}className='photo3'/>
                 </div>
             </div>
             <div className='detail-content-wrap'>

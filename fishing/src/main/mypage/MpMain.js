@@ -22,7 +22,6 @@ const MpMain = () => {
         profileImageUrl: ''
       });
 
-
       const [userInfo, setUserInfo] = useState({
         token: '',
         userEmail: '',
@@ -83,7 +82,6 @@ const MpMain = () => {
 
                             {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>🚩 낚시터</h1></Link>)}
                             {/* {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)} */}
-
                         </div>
                     </div>
                     <div className='userinfobox'>
@@ -127,7 +125,7 @@ const MpMain = () => {
                             <p>아직 작성된 글이 없습니다</p>
                         </div>
                         <div>
-                        <button className='isbtn'onClick={ () => {setModal(true)} }>바로 예약하기</button>
+                        <button className='mp-isbtn'onClick={ () => {setModal(true)} }>바로 예약하기</button>
                             {modal === true ? <RegiModal closeModal={() => setModal(false)} /> : null}
                         </div>
                     </div>

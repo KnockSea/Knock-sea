@@ -36,6 +36,10 @@ public interface ImageRepository extends JpaRepository<SeaImage,Long> {
 
     SeaImage findByProduct(Product product);
 
+    List<SeaImage> findByEdu_EduId(Long eduId);
+
+    List<SeaImage> findByProduct_ProductId(Long productId);
+
 //    List<ImageDetailResponseDTO> findAllByEdu(Edu edu);
 
     List<SeaImage> findByEdu_EduId(Long eduId);

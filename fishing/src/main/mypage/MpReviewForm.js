@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MpList from "./MpList";
+import RatingSection from "./RatingSection";
 import { getLoginUserInfo } from "../util/login-util";
 import { Link } from "react-router-dom";
 import { FaStar } from 'react-icons/fa';
@@ -11,9 +12,11 @@ import { renderIntoDocument } from "react-dom/test-utils";
 
 const MpReviewForm = () => {
   const [reviewContent, setReviewContent] = useState("");
-  const [reviewRating, setReviewRating] = useState("");
   const [reviewType, serReviewType] = useState("");
   const [token, setToken] = useState("");
+
+//   const [ratingIndex, setRatingIndex] = useState(1); 
+
   const [clicked, setClicked] = useState([1, 2, 3, 4, 5]);
 const [value, setValue] = useState(0);
   const ARRAY = [0, 1, 2, 3, 4];
@@ -29,15 +32,13 @@ const [value, setValue] = useState(0);
         
     };
 
-  const handleContentChange = (event) => 
+  const handleContentChange = (reviewContent) => 
     {
-      setReviewContent(event.target.value);
+      setReviewContent(reviewContent.target.value);
     };
-    console.log("reviewContent : ",reviewContent);
-    console.log("value : ",value);
 
   const handleSubmit = () => {
-    const data = {
+    const formdata = {
       reviewContent: reviewContent,
       // reviewRating: reviewRating,
       // reviewType : reviewType,
@@ -46,16 +47,15 @@ const [value, setValue] = useState(0);
       eduId : 15
     };
 
-    let score = clicked.filter(Boolean).length;
+    console.log(formdata);
 
     fetch("http://localhost:8012/api/v1/reviews", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization : "Bearer " + token,
-        star : score
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(formdata),
     })
       .then((response) => response.json())
       .then((result) => {
@@ -95,6 +95,11 @@ const [value, setValue] = useState(0);
               <div className="cltitle">별점</div>
             </div>
             <div>
+           {/* <RatingSection
+                ratingIndex={ratingIndex}
+                setRatingIndex={setRatingIndex}
+              />*/}              
+
             <Wrap>
                 {/* <RatingText>평가하기</RatingText> */}
                 {/* <Stars>
@@ -147,35 +152,3 @@ const [value, setValue] = useState(0);
 
 
 export default MpReviewForm;
-
-const Wrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-left: 20px;
-
-`;
-
-
-const Stars = styled.div`
-  display: flex;
-  // padding-top: 5px;
-
-  & svg {
-    width :25px;
-    margin : 3px;
-    color: lightgrey;
-    cursor: pointer;
-  }
-
-  // :hover svg {
-  //   color: #fcc419;
-  // }
-
-  & svg:hover ~ svg {
-    color: lightgrey;
-  }
-
-  .yellowStar {
-    color: #fcc419;
-  }
-`;
