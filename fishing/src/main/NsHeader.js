@@ -49,18 +49,14 @@ export const NsHeader = () => {
   useEffect(() => {
     const user = getLoginUserInfo();
     setUserInfo(user);
-    setIsLoggedIn(!isLogin());
+    setIsLoggedIn(isLogin());
     // console.log(user);
 
     }, [isLogin()]);
 
     useEffect(() => {
+      isLoggedIn && 
       (async () => {
-        const user = getLoginUserInfo();
-        setUserInfo(user);
-        setIsLoggedIn(!isLogin());
-    
-        if (isLoggedIn) {
           const res = await fetch(`${API_BASE_URL}${USER}/load-s3`, {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token }
@@ -73,9 +69,9 @@ export const NsHeader = () => {
             const err = await res.text();
             setProfileUrl(null);
           }
-        }
+        
       })();
-    }, [setProfileUrl]);
+    }, [isLoggedIn]);
     
 
   return (
