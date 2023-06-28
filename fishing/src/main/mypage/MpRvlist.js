@@ -1,13 +1,12 @@
 import React from 'react'
 import './MpScss/MpRvlist.scss'
-import { Link } from 'react-router-dom'
+import { Link, json } from 'react-router-dom'
 import MpList from './MpList'
 import { useState ,useEffect} from 'react'
 import { getLoginUserInfo } from '../util/login-util'
 import { API_BASE_URL, USER } from '../../config/host-config'
 
 const MpRvlist = () => {
-
 
   const [userProfile, setUserProfile] = useState({
     userId: 0,
@@ -36,9 +35,8 @@ const MpRvlist = () => {
     });
         if (res.status === 200) {
           const json = await res.json(); // JSON 데이터 파싱
-          console.log("json",json);
+          console.log("json : ",json);
           setUserProfile(json);
-          console.log("userProfile",userProfile);
            /*
           // 서버에서 직렬화된 이미지가 응답된다.
           const profileBlob = await res.blob();
@@ -65,8 +63,7 @@ const MpRvlist = () => {
 const today = new Date().toLocaleDateString('ko-KR');
 console.log("today: ", today);
 
-
-
+const [reviewType , setReviewType]=useState("");
 
   return (
     <section className='MyPageMainBox'>
@@ -75,8 +72,9 @@ console.log("today: ", today);
         <h1>내 예약 내역</h1>
         {userProfile.reserveDTO.length > 0 ? (
         userProfile.reserveDTO.map((reservation, index) => (
-          <div className='rvlistbox' key={index}>
+          <div className='rvlistbox' key={index} >
             <div className='rvliststatus'>예약확정</div>
+            {/* <Link to={`/classdetail/${reservation.eduId}` }>   */}
             <div className='rvitembox'>
               <div className='potobox'><img className="my-profile"  title="마이페이지" src={reservation.imgUrl || require('../icons/01d.png')} style={{border:"1px solid darkgray"}}/></div>
               <div className='minibox'>
@@ -84,8 +82,10 @@ console.log("today: ", today);
                 <div className='rvlisttitle'>{reservation.reserveTitle}</div>
                 <div className='rvlistcount'>예약 인원 : {reservation.userCount}명</div>
                 <div className='rvlistsally'>{reservation.reservePrice}원</div>
+
               </div>
             </div>
+            {/* </Link> */}
             {/* {reservation.reserveDate <= today && ( // 오늘 날짜와 예약일이 같은 경우에만 후기쓰기 버튼을 보여줌
                 <div className='rvlistbtnbox'>
                   <button className='relist'>후기쓰기</button>
@@ -93,7 +93,7 @@ console.log("today: ", today);
               )} */}
 
               <div className='rvlistbtnbox'>
-                <Link to={'/review'}>
+                <Link to={'/review'} state={{ reservationInfo: reservation}}>
                   <button className='relist'>후기쓰기</button>
                 </Link>
               </div>

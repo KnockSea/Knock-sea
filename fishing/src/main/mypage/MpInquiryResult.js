@@ -41,14 +41,13 @@ const MpInquiryResult = () => {
     };
     const fetchAnswer = async () => {
         try {
-            const response = await fetch(
-                `${API_BASE_URL}${ANSWERS}/${inquiryId}`
-            );
+            const response = await fetch(`${API_BASE_URL}${ANSWERS}/${inquiryId}`);
             if (response.ok) {
                 const answer = await response.json();
                 setAnswer(answer);
             } else {
-                throw new Error("Failed to fetch answer");
+                // throw new Error("Failed to fetch answer");
+                setAnswer()
             }
         } catch (error) {
             console.log(error);
