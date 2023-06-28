@@ -4,6 +4,7 @@ import "./MpScss/MpAdminCS.scss";
 import MpInquiryD from './MpInquiryD'
 import "./MpScss/Paging.css";
 import Pagination from "react-js-pagination";
+import { API_BASE_URL, INQUIRIES } from "../../config/host-config";
 
 const MpAdminCS = () => {
   const [inquiries, setInquiries] = useState([]);
@@ -21,7 +22,7 @@ const MpAdminCS = () => {
 
   const fetchInquiries = async () => {
     try {
-      const response = await fetch(`http://localhost:8012/api/v1/inquiries?page=${page}&size=10`);
+      const response = await fetch(`${API_BASE_URL}${INQUIRIES}?page=${page}&size=10`);
       if (response.ok) {
         const data = await response.json();
         setInquiries(data.inquiries);

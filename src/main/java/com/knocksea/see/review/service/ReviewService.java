@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,29 +49,37 @@ public class ReviewService {
         User foundUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
                 () -> new RuntimeException("회원 정보가 없습니다.")
         );
+        log.info("foundUser : "+foundUser);
+
         Product product = null;
         Edu edu = null;
 //        List<String> imgUrls = new ArrayList<>();
         String imgs = null;
-        Product productInfo = productRepository.findById(reviewDTO.getProductId()).orElseThrow(
-            () -> new RuntimeException("상품 정보가 없습니다.")
-        );
-        if (productInfo.getUser() != null ){
-            throw new RuntimeException("이미 상품 후기를 작성하였습니다.");
-        }
+
         if (reviewDTO.getProductId() != null) {
+
+            Product p = productRepository.findById(reviewDTO.getProductId()).get();
+            List<Review> byProduct = reviewRepository.findByProduct(p);
+//            log.warn("리스트 맞아?{}",byProduct.toArray());
+            if (!byProduct.isEmpty()) {
+                throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
+            }
+
             product = productRepository.findById(reviewDTO.getProductId()).orElseThrow();
             SeaImage eduImg = imageRepository.findByProduct(product);
             imgs = eduImg.getImageName();
         }
-        Edu eduInfo = eduRepository.findById(reviewDTO.getEduId()).orElseThrow();
-        if (eduInfo.getUser() != null) {
-            throw new RuntimeException("이미 클래스 후기를 작성하였습니다.");
-        }
 
         if (reviewDTO.getEduId() != null) {
+            Edu e = eduRepository.findById(reviewDTO.getEduId()).get();
+//            log.warn("강의 정보 어딨어?: {}",e);
+            List<Review> allByEdu = reviewRepository.findAllByEdu(e);
+//            log.warn("리스트 맞아?{}",allByEdu.toArray());
+            if (!allByEdu.isEmpty()) {
+                throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
+            }
             edu = eduRepository.findById(reviewDTO.getEduId()).orElseThrow();
-            SeaImage eduImg = imageRepository.findByEdu(edu);
+            SeaImage eduImg = imageRepository.findAllByEdu(edu).get(0);
             imgs = eduImg.getImageName();
 //            imageRepository.findAllByEdu(edu).forEach( i -> {
 //                imgUrls.add(i.getImageName());

@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getLoginUserInfo , isLogin } from './util/login-util';
 import { useEffect ,useHistory} from 'react'
+import { API_BASE_URL, USER } from '../config/host-config'
 
 
 export const NsHeader = () => {
@@ -60,7 +61,7 @@ export const NsHeader = () => {
         setIsLoggedIn(!isLogin());
     
         if (isLoggedIn) {
-          const res = await fetch('http://localhost:8012/api/v1/user/load-s3', {
+          const res = await fetch(`${API_BASE_URL}${USER}/load-s3`, {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token }
           });

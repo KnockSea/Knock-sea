@@ -2,18 +2,24 @@ import React, { useState, useEffect } from "react";
 import "./RvScss/RvItem.scss";
 import boat from "../img/boat.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Bullseye,Calendar2Check,EmojiSmile,PersonVcard,CheckCircleFill} from "react-bootstrap-icons";
+import {
+  Bullseye,
+  Calendar2Check,
+  EmojiSmile,
+  PersonVcard,
+  CheckCircleFill,
+} from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import RvBtDetail from "./RvBtDetail";
 
 import { API_BASE_URL, PRODUCTS, SHIP } from "../../config/host-config";
 
 const RvItem = ({ productDetail }) => {
-
   const productList = productDetail.productDetail;
   return (
     <div className="shipsection">
-      {productList && productList.map((product, index) => (
+      {productList &&
+        productList.map((product, index) => (
           <div key={index} className="ShipcontentCard">
             <Link to={`/detail/${product.productId}`}>
               {/* 상세 보기 */}

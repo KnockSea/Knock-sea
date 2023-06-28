@@ -71,7 +71,7 @@ const WeeklyWeather = () => {
         <div className="apiinfo">
           <div className="wttopitem">
             <div className="imgbox111">
-              <img src={imgSrc} alt={desc} />
+              <img src={imgsSrc} alt={desc} />
             </div>
             <div className="wtinfo">
               <select onChange={handleCityChange} value={cityName}>
@@ -109,7 +109,8 @@ const WeeklyWeather = () => {
               {weeklyWeather.slice(1).map((weather, index) => (
                 <div className="weather-item" key={index}>
                   <img
-                    src={`https://openweathermap.org/img/w/${weather.icon}.png`}
+                    // src={`https://openweathermap.org/img/w/${weather.icon}.png`}
+                    src={`https://cdn-icons-png.flaticon.com/512/4652/4652326.png`}                    
                     alt=""
                   />
                   <div>

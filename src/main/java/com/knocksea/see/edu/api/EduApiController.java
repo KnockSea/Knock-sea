@@ -51,6 +51,7 @@ public class EduApiController {
 
         EduListResponseDTO allEdu = eduService.getAllEdu(pageDTO);
 
+        log.warn("이거 아닌거같은데? {}", allEdu);
         return ResponseEntity
                 .ok()
                 .body(allEdu);
@@ -80,7 +81,7 @@ public class EduApiController {
             , BindingResult result
     ) {
         log.info("/api/v1/edu POST!! - payload: {}", dto);
-        log.info("Token : "+userInfo);
+//        log.info("Token : "+userInfo);
 
         if (dto == null) {
             return ResponseEntity
@@ -93,6 +94,7 @@ public class EduApiController {
         if (fieldErros != null) return fieldErros;
 
         try {
+
             EduDetailResponseDTO responseDTO = eduService.insert(dto,userInfo);
 
             if (EduImg != null) {
@@ -108,7 +110,7 @@ public class EduApiController {
                     .ok()
                     .body(responseDTO + " 저장 성공");
         } catch (RuntimeException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return ResponseEntity
                     .internalServerError()
                     .body("서버 터짐: " + e.getMessage());

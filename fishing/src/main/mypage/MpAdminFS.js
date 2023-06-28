@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useState,useEffect } from 'react';
+import { API_BASE_URL, VALIDATION } from '../../config/host-config';
 
 const MpAdminFS = () => {
 
@@ -10,7 +11,7 @@ const MpAdminFS = () => {
 
     // API 요청
 useEffect(() => {
-    fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
+    fetch(`${API_BASE_URL}${VALIDATION}/${validationType}`)
     .then(response => response.json())
     .then(data => {
         // 요청 결과 처리
@@ -30,43 +31,38 @@ useEffect(() => {
         const confirm = window.confirm('정말 승인하시겠습니까?');
         console.log(validationList);
         if (confirm) {
-            if (confirm) {
-                const validationModifyRequestDTO = {
-                  'userName': validationUserName,
-                  'userId' : validationuserId,
-                  'validationType': validationType,
-                  'validationStatus': 'YES'
-                };
-              
-                fetch(`http://localhost:8012/api/v1/validation/`, {
-                  method: 'PUT',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')
-                  },
-                  body: JSON.stringify(validationModifyRequestDTO)
-                })
-                  .then((res) => {
-                    if (res.status === 200) {
-                      alert('전송완료');
-                      fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            // 요청 결과 처리
-                            console.log(data);
-                            setValidationList(data);
-                        })
-                        .catch(error => {
-                            // 에러 처리
-                            console.error('Error:', error);
-                        });
-                    } else {
-                      alert('서버와의 통신오류');
-                    }
-                  })
-                  .catch((error) => {
-                    console.error('Error:', error);
-                  });
+            // console.log(validationUserName);
+            // console.log(validationType);
+            const validationModifyRequestDTO = {
+                'userName' : validationUserName,
+                'validationType' : validationType,
+                'validationStatus' : 'YES'
+            };
+            
+            const res = fetch(`${API_BASE_URL}${VALIDATION}`, {
+                method: 'PUT', // 또는 'PATCH' 요청 메서드
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(validationModifyRequestDTO)
+            });
+            if (res.status === 200) {
+                alert('전송완료');
+                // 승인 요청 후 다시 리스트 가져오기
+                fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // 요청 결과 처리
+                        console.log(data);
+                        setValidationList(data);
+                        console.log('validationList : ',validationList);
+                    })
+                    .catch(error => {
+                        // 에러 처리
+                        console.error('Error:', error);
+                    });
+              } else {
+                alert('서버와의 통신오류');
               }
             }
       };

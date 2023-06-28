@@ -4,12 +4,19 @@ import HostPhotoCarousel from './hostPhotoCarousel'
 import MpList from '../mypage/MpList'
 import { getLoginUserInfo } from '../util/login-util';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
 const HostSearchMain = () => {
-    const {edus} = useParams();
+    
+    const [productId, setProductId] = useState();
 
-    // const API_BASE_URL = `http://localhost:8012/api/v1/validation/${validation_id}`
+    const hostFetch = async () => {
+        const response = await fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`);
+        
+    }
+
+    
     
     // useEffect(()=>{
     //     fetch(API_BASE_URL, { 

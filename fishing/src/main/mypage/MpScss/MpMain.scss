@@ -11,7 +11,7 @@
         width: 80%;
         // margin: 0 auto;
         .mychoicebox {
-            display: flex;
+            display: flex;  
             justify-content: space-between;
             // margin-right: 600px;
             :nth-child(2){
@@ -48,6 +48,7 @@
             }
             
         }
+
         .userinfobox {
             display: flex;
             height: 250px;
@@ -134,27 +135,52 @@
                     
                 }
             }
+            
+            .btnboxMain  {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                margin-bottom: 10px;
+
+            button {
+                width: 150px;  
+                height: 26px;        
+                color: white;
+                border-radius: 10px;
+                background: #123282;
+            }
+        }
+
         }
 
         .btbox {
             width: 100%;
             // border: 1px solid #000;
             position: relative;
-            bottom: -210px;
+            bottom: 0px;
             text-align: right;
             height: 20px;
         
            .isbtn {
-            width: 150px;
-           }
-
-           button {
-            background: #123282;
+            width: 150px;          
             color: white;
-            // font-weight: 700;
             border-radius: 10px;
-            border: #123282;
-            
+            background: #123282;
+           }
+           
+        }
+
+        .binfo-btbox {
+            position: relative;
+            bottom: 40px;
+            text-align: right;
+            height: 20px;
+
+        .binfo-isbtn {
+            width: 150px;          
+            color: white;
+            border-radius: 10px;
+            background: #123282;
            }
         }
 
@@ -220,14 +246,18 @@
                 border-bottom: 3px solid #123282; 
             }
 
-            .isbtn {
+            .inner-rvbox2 .mp-isbtn, .isbtn {
                 height: fit-content;
                 width: 150px;
                 background: #123282;
                 color: white;
-                font-weight: 700;
+                // font-weight: 700;
                border-radius: 10px;
                border: #123282;
+
+               &:hover {
+                font-weight: 600;
+               }
                }
 
 
@@ -304,4 +334,3 @@
 
     }
 }
-
