@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./scss/WeeklyWeather.scss";
+
 const WeeklyWeather = () => {
   const [temp, setTemp] = useState(0);
   const [tempMax, setTempMax] = useState(0);
@@ -11,6 +12,16 @@ const WeeklyWeather = () => {
   const [loading, setLoading] = useState(true);
   const [cityName, setCityName] = useState("Seoul");
   const [weeklyWeather, setWeeklyWeather] = useState([]);
+
+  // 이미지 경로 불러오기 함수
+  function importAll(r) {
+    let images = {};
+    r.keys().forEach((key) => (images[key] = r(key)));
+    return images;
+  }
+
+  // icons 폴더 내의 모든 이미지 파일 불러오기
+  const icons = Object.values(importAll(require.context("./icons/", false, /\.(png)$/)));
 
   useEffect(() => {
     const apiKey = "8507099a51be8da18d7fbb936ef08991";
@@ -29,7 +40,6 @@ const WeeklyWeather = () => {
       })
       .catch((error) => console.log(error));
 
-    // 주간 날씨 데이터 가져오기
     const weeklyUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}`;
     axios
       .get(weeklyUrl)
@@ -60,9 +70,6 @@ const WeeklyWeather = () => {
     setLoading(true);
   };
 
-  const imgSrc = `https://openweathermap.org/img/w/${icon}.png`;
-  const imgsSrc = `./icons/${icon}.png`;
-  console.log("img", imgsSrc);
   return (
     <div className="weather">
       {loading ? (
@@ -71,7 +78,7 @@ const WeeklyWeather = () => {
         <div className="apiinfo">
           <div className="wttopitem">
             <div className="imgbox111">
-              <img src={imgsSrc} alt={desc} />
+              <img src={`https://openweathermap.org/img/w/${icon}.png`} alt={desc} />
             </div>
             <div className="wtinfo">
               <select onChange={handleCityChange} value={cityName}>
@@ -95,7 +102,6 @@ const WeeklyWeather = () => {
                 <option value="Jeonju">전주</option>
                 <option value="Ansan">안산</option>
                 <option value="Anyang">안양</option>
-                {/* 다른 도시 옵션들 추가 */}
               </select>
               <div>현재온도: {(temp - 273.15).toFixed(0)}°</div>
               <div>최대온도: {(tempMax - 273.15).toFixed(0)}°</div>
@@ -108,10 +114,7 @@ const WeeklyWeather = () => {
             <div className="weather-list">
               {weeklyWeather.slice(1).map((weather, index) => (
                 <div className="weather-item" key={index}>
-                  <img
-                    src={`https://openweathermap.org/img/w/${weather.icon}.png`}
-                    alt=""
-                  />
+                  <img src={`https://openweathermap.org/img/w/${weather.icon}.png`} alt="" />
                   <div>
                     <p>{weather.date}</p>
                     <p>{weather.day}</p>
