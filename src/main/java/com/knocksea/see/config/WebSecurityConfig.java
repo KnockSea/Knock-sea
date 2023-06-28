@@ -18,6 +18,9 @@ public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
 
+
+
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -40,21 +43,28 @@ public class WebSecurityConfig {
                 .antMatchers("/").permitAll()
                 .antMatchers("/health-check").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/products").permitAll()
-                .antMatchers("/api/v1/products/{productId}}").permitAll()
+                .antMatchers("/api/v1/products/{productId}").permitAll()
                 .antMatchers("/api/v1/products/product-list").permitAll()
+                .antMatchers("/api/v1/products/main/ship").permitAll()
+                .antMatchers("/api/v1/products/main/spot").permitAll()
                 .antMatchers("/api/v1/products/remove/{productId}").permitAll()
                 .antMatchers("/api/v1/user/register").permitAll()
                 .antMatchers("/api/v1/user/signin").permitAll()
                 .antMatchers("/api/v1/user/check").permitAll()
                 .antMatchers("/api/v1/validation/{validationType}").permitAll()
+                .antMatchers("/api/v1/validation").permitAll()
+
 //                .antMatchers("/api/v1/edu/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/edu").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/edu/main/edu").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/edu/topFour").permitAll()
                 .antMatchers("/api/v1/edu/{eduId}").permitAll()
                 .antMatchers("/api/v1/edu/main/edu").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/inquiries").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/inquiries/{inquiryId}").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/answers/{inquiryId}").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v1/reviews").permitAll()
+                .antMatchers("/api/v1/hearts").permitAll()
 
                 .anyRequest().authenticated()
         ;

@@ -1,6 +1,5 @@
 import React, { useState,useEffect  } from 'react';
 import './scss/ClassDetail.scss';
-// import './scss/reset.scss';
 import ClassModal from "./ClassModal";
 import ClassDetailTap from "./ClassDetailTap";
 import Calendar from '../Calendar';
@@ -8,13 +7,8 @@ import { Route, Routes,Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 const handleLogin = (e) => {
-    e.preventDefault();
-  
-     
+    e.preventDefault();     
     };
-    
-  // 렌더링 후 실행함수
-  
 
 function ClassDetail() {
       const [filter, setFilter] = useState(''); 
@@ -26,7 +20,7 @@ function ClassDetail() {
         'content-type': 'application/json'
       };
       const API_BASE_URL = `http://localhost:8012/api/v1/edu/${eduId}`;
-  
+  console.log("oneEdu : ",oneEdu);
     
       useEffect(()=>{
         fetch(API_BASE_URL, { 
@@ -52,13 +46,13 @@ function ClassDetail() {
         <div className="class-detail-wrap">
             <div id="class-detail-header">
                 <div className="detail-main-photo1">
-                    <img src={oneEdu.imageList && oneEdu.imageList[0]} className='photo1'/> 
+                   <img src={oneEdu.imageList && oneEdu.imageList[0]} className='photo1'/> 
                 </div>
                 <div className="photo detail-main-photo2">
-                    <img src={oneEdu.imageList && oneEdu.imageList[1]}/>
+                    <img src={oneEdu.imageList && oneEdu.imageList[1]} className='photo2'/>
                 </div>
                 <div className="photo detail-main-photo3">
-                    <img src={oneEdu.imageList && oneEdu.imageList[2]}/>
+                    <img src={oneEdu.imageList && oneEdu.imageList[2]}className='photo3'/>
                 </div>
             </div>
             <div className='detail-content-wrap'>
@@ -96,12 +90,14 @@ function ClassDetail() {
                                     </div>        
                                 <div>
                                     <button className='box btn' onClick={ () => {setModal(true)} }>바로 예약하기</button>
-                                    {modal === true ? <ClassModal closeModal={() => setModal(false)} timeList={oneEdu.timeList} price={oneEdu.eduPrice}/> : null}
+                                    {modal === true ? <ClassModal closeModal={() => setModal(false)} oneEdu={oneEdu} /> : null}
                                 </div>
                         </div>
                         </div>
                     </div>
                 </div>
+
+                
             </div>    
         </div>
     </div>

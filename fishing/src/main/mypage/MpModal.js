@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { getLoginUserInfo } from "../util/login-util";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL, USER } from "../../config/host-config";
 
 export default function MpModal({ user }) {
   //화면이동 함수
@@ -37,7 +38,7 @@ export default function MpModal({ user }) {
     };
 
     try {
-      const res = await fetch("http://localhost:8012/api/v1/user/userDelete", {
+      const res = await fetch(`${API_BASE_URL}${USER}/userDelete`, {
         method: "DELETE",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),

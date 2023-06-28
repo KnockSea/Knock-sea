@@ -20,7 +20,7 @@ function RvFsMain({fetchFsProduct, FsProduct}) {
   const type = 'SPOT';
 
   // fetchFsProduct(page, size, type);
-
+  console.log(products);
 
   useEffect(() => {
     setProducts(FsProduct);

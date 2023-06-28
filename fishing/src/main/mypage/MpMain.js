@@ -4,14 +4,16 @@ import { Link } from 'react-router-dom'
 import MpList from './MpList'
 import MpReFormItem from './MpReFormItem'
 import MpReviewList from './MpReviewList';
+import RegiModal from './RegiModal';
 import { useLocation } from "react-router-dom";
 import {getLoginUserInfo, isLogin } from '../util/login-util';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { API_BASE_URL, USER } from '../../config/host-config'
 
 
 const MpMain = () => {
-
+    const [modal, setModal] = useState('false'); 
     const [userProfile, setUserProfile] = useState({
         userId: 0,
         userName: '',
@@ -20,10 +22,9 @@ const MpMain = () => {
         profileImageUrl: ''
       });
 
-
       const [userInfo, setUserInfo] = useState({
-        token: '', // Set default value for name
-        userEmail: '', // Set default value for email
+        token: '',
+        userEmail: '',
         userName : '',
         userGrade : '',
         userId : '',
@@ -32,7 +33,7 @@ const MpMain = () => {
     
     
     const fetchUserInfo = async () => {
-        const res = await fetch('http://localhost:8012/api/v1/user/user-mylist', {
+        const res = await fetch(`${API_BASE_URL}${USER}/user-mylist`, {
             method: 'GET',
             headers: { 'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')}
         });
@@ -78,8 +79,9 @@ const MpMain = () => {
                         </div>
                         <div className='ownerTap'>
                             {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>⛵ 배</h1></Link>)}
+
                             {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>🚩 낚시터</h1></Link>)}
-                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)}
+                            {/* {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)} */}
                         </div>
                     </div>
                     <div className='userinfobox'>
@@ -100,36 +102,29 @@ const MpMain = () => {
                                 <div>{userInfo.userPhone}</div>
                             </div>
                         </div>
-                    </div>
-                        <div className='btbox'>
-                        <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
+                        <div className='btnboxMain'>
+                        {/* <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button> */}
                         <button><Link to={'/myinfo'}>개인 정보 수정</Link></button>
                         </div>
+                    </div>
 
-
-
-                <div className='rvbox2'>
-                       <h2>리뷰 게시판</h2>
-                       <p>아직 작성된 리뷰가 없습니다</p>
-                       <MpReFormItem/>
-                </div>
-
+                {userInfo.userGrade==='OWNER' || userInfo.userGrade==='COMMON' &&(
                 <div className='rvbox'>
                     <MpReviewList />
                 </div>
-
-                {userInfo.userGrade==='OWNER' &&
-                (<div className='rvbox2'>
-                    <div className='inner-rvbox2'>
+                )}
+                <div className='rvbox2'>
+                    <div className='inner-rvbox2 btbox'>
                         <div>
                             <h2>예약 현황</h2>
                             <p>아직 작성된 글이 없습니다</p>
                         </div>
                         <div>
-                        <button className='isbtn'><Link to={'/product'}>NEW 예약 등록</Link></button>
+                        <button className='mp-isbtn'onClick={ () => {setModal(true)} }>등록하러 가기</button>
+                            {modal === true ? <RegiModal closeModal={() => setModal(false)} /> : null}
                         </div>
                     </div>
-                </div>)}
+                </div>
             </div>
         
                 <MpList style={{position:"fixed"}} />

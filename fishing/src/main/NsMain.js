@@ -15,6 +15,8 @@ import MpUserDrop from './mypage/MpUserDrop'
 import MpDrop from './mypage/MpDrop'
 import MpInquire from './mypage/MpInquire'
 import MpRvlist from './mypage/MpRvlist'
+import MpReviewForm from './mypage/MpReviewForm'
+
 import ProductRegistration from './product/ProductRegistration'
 import RvFsDetail from './fishingspot/RvFsDetail'
 import RvFsTemplate from './fishingspot/RvFsTemplate'
@@ -42,15 +44,18 @@ import EduRegistration from './product/EduRegistration';
 import ScrollToTop from './ScrollToTop';
 import MpInquiryD from './mypage/MpInquiryD';
 import MpInquiryResult from './mypage/MpInquiryResult';
+import MpAdInquire from './mypage/MpAdInquire';
+import Like from './like/Like';
+import ReviewList from './reviewList/ReviewList';
 
-const NsMain = () => {
+const NsMain = ({shipList, spotList, eduList}) => {
 
   return (
     <section>
         <ScrollToTop />
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
-            <Route path='/' element ={<MainContent />} />
+            <Route path='/' element ={<MainContent shipList={shipList} spotList={spotList} eduList={eduList} />} />
             {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
             <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
             <Route path='/fsdetail/:productId' element={<RvFsDetail/>}> </Route>
@@ -71,7 +76,9 @@ const NsMain = () => {
             <Route path='/iqinput' element={<MpIqInput/>}></Route>
             {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
-
+            관리자용 전체 문의 현황
+            <Route path='/adInquire' element={<MpAdInquire/>}></Route>
+            
             {/* 문의답변 */}
             <Route
                 path="/adminreply/:inquiryId"
@@ -80,6 +87,7 @@ const NsMain = () => {
             {/* 유저 문의 상세보기 */}
             <Route path="/inquiryResult/:inquiryId" element={<MpInquiryResult />} />
             <Route path="/rvlist" element={<MpRvlist />}></Route>
+            <Route path="/review" element={<MpReviewForm />}></Route>
 
             {/* 로그인, 회원가입 */}
             <Route path="/join" element={<SignUpForm />}></Route>
@@ -96,31 +104,32 @@ const NsMain = () => {
             <Route path="/mpfs" element={<MpFsInfo />}></Route>
             <Route path="/mpclass" element={<MpClassInfo />}></Route>
             {/* 관리자 */}
-
             <Route path='/admin' element={<MpAdmin/>}></Route>
             <Route path='/adminFs' element={<MpAdminFS/>}></Route>
             <Route path='/adminCS' element={<MpAdminCS/>}></Route>
 
             <Route path='/host' element={<HostSearchMain/>}></Route>
+            {/* 좋아요 */}
+            <Route path='/like' element={<Like />}></Route>
+            {/* 리뷰게시판 */}
+            <Route path='/reviewList' element={<ReviewList />}></Route>
         </Routes>
             
     </section>
   )
 }
-const MainContent = ({ isRouteActive }) => {
+const MainContent = ({ shipList, spotList, eduList }) => {
     return (
         <>
-           {!isRouteActive && (
+           {(
             <>
                    <NsBanner />
 
             <div className='mainbox'>
             <div className='contentbox'>
-            <NsItem 
-
-            />
-            <NsFishingSpot />
-            <NsClass />
+            <NsItem shipList={shipList}/>
+            <NsFishingSpot spotList={spotList}/>
+            <NsClass eduList={eduList}/>
 
                 </div>
             <div className='apibox'>

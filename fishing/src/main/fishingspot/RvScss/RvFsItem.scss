@@ -1,18 +1,19 @@
-
-.contentCard {
-    border: 1px solid #000;
-    width: 30%;
-    height: 250px;
-    margin-left: 20px;
-    margin-top: 20px;
-    border-radius: 15px;
-
-    .imgbox {
-        width: 100%;
+.Fssection{
+    display: flex;
+    .contentCard {
+        border: 1px solid #000;
+        // width: 30%;
+        height: 250px;
+        margin-left: 20px;
+        margin-top: 20px;
+        border-radius: 15px;
+        
+        .imgbox {
+            width: 100%;
         height: 100%;
         overflow: hidden;
         border-radius: 15px 15px 0px 0px;
-
+        
         img {
             object-fit: cover;
             width: 100%;
@@ -20,14 +21,14 @@
             border-radius: 15px;
         }
     }
-
+    
     .cardTitle {
         font-weight: 700;
         font-size: 13px;
         float: left;
     }
-
-
+    
+    
     .miniTitle {
         font-size: 13px;
         float: left;
@@ -38,10 +39,16 @@
         font-size: 13px;
         float: left;
     }
-
+    
     .calendar {
-        font-size: 13px;
-        float: left;
-        color: #3974D9;
+        width: fit-content;
+    height: fit-content;
+    font-size: 13px;
+    float: left;
+    color: #3974d9;
+    clear: left; /* 추가 */
+    /* border: 1px solid #000; */
+    text-align: left;
     }
+}
 }

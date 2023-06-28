@@ -5,6 +5,7 @@ import MpList from "./MpList";
 import { getLoginUserInfo } from "../util/login-util";
 import Stack from "@mui/material/Stack";
 import Pagination from "react-js-pagination";
+import { API_BASE_URL, INQUIRIES } from "../../config/host-config";
 
 const MpInquire = () => {
     const [inquiries, setInquiries] = useState([]);
@@ -19,7 +20,7 @@ const MpInquire = () => {
 
     const fetchData = () => {
         fetch(
-            `http://localhost:8012/api/v1/inquiries/myInquiry?page=${page}&size=10`,
+            `${API_BASE_URL}${INQUIRIES}/myInquiry?page=${page}&size=10`,
             {
                 method: "GET",
                 headers: {
@@ -31,6 +32,7 @@ const MpInquire = () => {
             .then((response) => response.json())
             .then((data) => {
                 if (data) {
+                    // console.log(data.pageInfo.totalCount);
                     setInquiries(data.inquiries);
                     setTotalItemCount(data.pageInfo.totalCount);
                 } else {
@@ -45,13 +47,13 @@ const MpInquire = () => {
 
     useEffect(() => {
         fetchData();
-    }, [inquiries.length, page]);
+    }, [inquiries && inquiries.length, page]);
 
     return (
         <section className="MyPageMainBox">
             <div className="mainbox1">
                 <h1>문의 현황</h1>
-                {inquiries && inquiries.length > 0 &&
+                {inquiries.length !==0 ? (
                     inquiries.map((inquiry) => (
                         <div key={inquiry.inquiryId} className="inbox">
                             <div className="initembox">
@@ -65,7 +67,7 @@ const MpInquire = () => {
                                     {inquiry.inquiryDateTime}
                                 </div>
                             </div>
-                            <button>
+                            <button className="detail-btn">
                             <Link
                                    to={`/inquiryResult/${inquiry.inquiryId}`}
                                 className="indetailbtn"
@@ -77,18 +79,21 @@ const MpInquire = () => {
                             {/* @@@@@@@@@@@@@@@@@@@@@@@@@ 유저 문의 상세보기 눌렀을때 나오는 폼 만들어주세요@@@@@@@@@@@@@@@@@@@@@ */}
                             {/* MpInquiryResult 임시 상세보기 만들었습니다@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */}
                         </div>
-                    ))}
+                    ))
+                    ) : (
+                        <div>문의가 입력된 것이 없습니다.</div>
+                    )}
                     <div className="page">
-                         <Pagination
-            activePage={page}
-            itemsCountPerPage={10}
-            totalItemsCount={totalItemCount}
-            pageRangeDisplayed={5}
-            prevPageText={"‹"}
-            nextPageText={"›"}
-            onChange={handlePageChange}
-          />     
-            </div>
+                        <Pagination
+                            activePage={page}
+                            itemsCountPerPage={10}
+                            totalItemsCount={totalItemCount}
+                            pageRangeDisplayed={5}
+                            prevPageText={"‹"}
+                            nextPageText={"›"}
+                            onChange={handlePageChange}
+                        />     
+                    </div>
             </div>
 
             <MpList />

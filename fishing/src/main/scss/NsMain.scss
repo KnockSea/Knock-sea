@@ -10,8 +10,9 @@ section {
         position: relative;
 
         img {
-            width: 100%;
+            width: 1920px;
             height: 200px;
+            object-fit: none;
         }
 
         .b1,
@@ -127,18 +128,19 @@ section {
                     }
                 }
 
-                .weather-list {
-                    display: flex;
+            .weather-list{
+              display: flex;
+              .weather-item{
 
-                    .weather-item {}
-                }
-
+              }
             }
 
-
+          }
+          
+          
         }
-
-
-
-    }
-}
+          
+          
+          
+        }
+      }

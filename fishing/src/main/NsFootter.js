@@ -23,7 +23,9 @@ const NsFootter = () => {
         <p>Email: helpdesk@knocksea.com</p>
         <p>고객상담</p>
     </div>
-    <p className='copyright'>Copyrightⓒ Your fishing make me happy. All rights reserved.</p>
+
+    <p className='copyright'>Copyrightⓒ Your fishing makes me happy. All rights reserved.</p>
+
    </div>
 
 

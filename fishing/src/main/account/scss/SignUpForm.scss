@@ -1,5 +1,4 @@
 
-@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 
 * {
     box-sizing: border-box;
@@ -107,6 +106,14 @@ span[id] {
     width: 700px;
     padding: 0;
     margin: 0 auto;
+
+    .chkSpan {
+        font-size: 12px;
+        color: #334f96;
+        width: 380px;
+        display: block;
+        text-align: left;
+    }
 }
 
 .sign-up-body .sign-up-input ul {
@@ -128,12 +135,7 @@ span[id] {
     font-size: 15px;
     width: 150px;
 }
-.chkSpan{
-    font-size: 12px;
-    color: #334f96;
-    width: 380px;
-    display: block;
-}
+
 
 .sign-up-body .sign-up-input li .form-control {
     width: 380px;
