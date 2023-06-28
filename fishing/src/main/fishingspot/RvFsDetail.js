@@ -7,24 +7,14 @@ import ClassModal from "../class/ClassModal";
 import { API_BASE_URL, PRODUCTS } from "../../config/host-config";
 import { useLocation, useParams } from "react-router-dom";
 import { Calendar } from "react-bootstrap-icons";
-import Modal from "../class/ClassModal";
-// import ClassDetailTap from "./ClassDetailTap";
 import { Link } from "react-router-dom";
 
-// datepicker
 
-import DatePicker from "react-datepicker";
-import { ko } from "date-fns/esm/locale";
-import { addMonths } from "date-fns";
-
-// datepicker
-
-import { Dropdown } from "primereact/dropdown";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
-import RvFsText from "./RvFsText";
 import RvFsDetailTap from "./RvFsDetailTap";
+import RvFsModal from "./RvFsModal";
 
 const RvFsDetail = () => {
   const { productId } = useParams();
@@ -45,8 +35,10 @@ const RvFsDetail = () => {
   return (
     <div className="allview">
       <div className="imgbox">
-        <img src={FsDetail.imageList && FsDetail.imageList[1]} />
-        <img src={FsDetail.imageList && FsDetail.imageList[2]} />
+        {/* <img src={FsDetail.imageList && FsDetail.imageList[1]} />
+        <img src={FsDetail.imageList && FsDetail.imageList[2]} /> */}
+          {FsDetail.imgUrl &&
+          FsDetail.imgUrl.map((url, index) => <img key={index} src={url} />)}
       </div>
 
       <div className="allContentbox">
@@ -67,7 +59,7 @@ const RvFsDetail = () => {
                 <div className="lists">
                   <Link to={"/host"}>
                     <div className="box profile-img">
-                      <img src={FsDetail.userProfileImage} />
+                      <img src={FsDetail.userImgUrl} />
                     </div>
                     <span className="box profile-page">
                       {FsDetail.userName}
@@ -75,13 +67,13 @@ const RvFsDetail = () => {
                   </Link>
                   <div className="condition">
                     <ul className="condition-box">
-                      <li>{FsDetail.Level} |</li>
+                      {/* <li>{FsDetail.Level} |</li> */}
                       <li>
                         최대{" "}
                         {FsDetail.timeList && FsDetail.timeList[0].timeMaxUser}
                         명 |
                       </li>
-                      <li>{FsDetail.Price}원</li>
+                      <li>{FsDetail.price}원</li>
                     </ul>
                   </div>
                 </div>
@@ -95,7 +87,7 @@ const RvFsDetail = () => {
                     바로 예약하기
                   </button>
                   {modal === true ? (
-                    <ClassModal
+                    <RvFsModal
                       closeModal={() => setModal(false)}
                       FsDetail={FsDetail}
                     />
