@@ -13,7 +13,7 @@ const RvFsDetailTap = ({ FsDetail}) => {
       scroller.scrollTo(tab, {
         duration: 200,
         smooth: 'easeInOutQuart',
-        offset: -150, // 스크롤 위치의 오프셋 (필요에 따라 조정)
+        offset: -130, // 스크롤 위치의 오프셋 (필요에 따라 조정)
       });
     };
   
