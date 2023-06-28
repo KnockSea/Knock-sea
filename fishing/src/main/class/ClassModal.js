@@ -18,9 +18,16 @@ function ClassModal({closeModal, oneEdu}) {
   const [classTimes, setClassTimes] = useState([]);
   const[timeIndex,setTimeIndex] = useState(0);
   const navigate = useNavigate();
+  const [index,setIndex]=useState(0);
 
+  
   const handleIncrease = () => {
-    setCount(count + 1);
+    if(oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser>count){
+      setCount(count + 1);    
+    }else if(oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser<=count){
+      alert("신청 가능 인원을 초과하였습니다. \n인원을 다시 설정해 주세요");   
+    }
+       
   };
 
   const handleDecrease = () => {
@@ -33,15 +40,17 @@ function ClassModal({closeModal, oneEdu}) {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    setCount(0);
+    setSelectedTime(null);
   };
 
-  const handleTimeChange = (time,timeIndex) => {
+  const handleTimeChange = (time,timeIndex,index) => {
     setSelectedTime(time);
     setTimeIndex(timeIndex);
-  }  
+    setIndex(index);
+  }    
+    const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
 
-  const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
-  
   const handlePayment=()=>{
    
     console.log("token",token.userId);
@@ -52,7 +61,6 @@ function ClassModal({closeModal, oneEdu}) {
       reservationUserCount : count,
       reservationPrice :  oneEdu.eduPrice,
       eduLevel : oneEdu.eduLevel,
-      // userId : token.userId,
       eduId : oneEdu.eduId,
       reservationTimeId : timeIndex 
     };
@@ -81,8 +89,6 @@ function ClassModal({closeModal, oneEdu}) {
       })
   }
 
-
-
     return (
         <div className="modal-overlay" >
           <div className="modal-box">
@@ -93,28 +99,23 @@ function ClassModal({closeModal, oneEdu}) {
               <ClassCalendar className='datePicker' handleDateChange={handleDateChange} startTime={startTime} EndTime={EndTime}/>
             </div>
 
-                {oneEdu.timeList.map((time, index) => {
-                  const timeDate = new Date(time.timeDate);
-                  const selectedLocalDate = selectedDate ? new Date(selectedDate.getTime() - (selectedDate.getTimezoneOffset() * 60000)) : null;
+            {oneEdu.timeList.map((time, index) => {
+  const remainingSlots = oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser;
+  const isNoRemainingSlot = remainingSlots === 0;
 
-                  if (selectedLocalDate && timeDate.getTime() === selectedLocalDate.getTime()) {
-                    return (
-                      <div className='class-select-time' key={oneEdu.timeList[index].timeId}>
-                        <div className='selected-time' onClick={() => handleTimeChange(`${time.timeStart}~${time.timeEnd}`,`${oneEdu.timeList[index].timeId}` )}>
-                          {time.timeStart}~{time.timeEnd}
-                        </div>
-                        <div className='selected-time'>남은 인원: {oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser}명</div>
-                        
-                        {/* {classTimes.map((time, index) => (
-                          <div key={index} className='selected-time' onClick={() => handleTimeChange(time,oneEdu.timeList[index].timeId)}>
-                            {time}
-                          </div>
-                        ))} */}
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
+  const timeDate = new Date(time.timeDate);
+  const selectedLocalDate = selectedDate ? new Date(selectedDate.getTime() - (selectedDate.getTimezoneOffset() * 60000)) : null;
+  if (selectedLocalDate && timeDate.getTime() === selectedLocalDate.getTime()) {
+    return (
+      <div className='class-select-time' key={oneEdu.timeList[index].timeId}>
+        <div className={`selected-time ${isNoRemainingSlot ? 'no-remaining-slot' : ''}`} onClick={() => handleTimeChange(`${time.timeStart}~${time.timeEnd}`,`${oneEdu.timeList[index].timeId}`, `${index}` )}>
+          {time.timeStart}~{time.timeEnd} | 남은 인원: {remainingSlots}명  
+        </div>
+      </div>
+    );
+  }
+  return null;
+})}
               
 
             <div className='result'>

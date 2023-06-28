@@ -32,7 +32,16 @@ body{
         background: #c7c7c7;
          // border: 1px solid #000;
         border-radius: 16px 0px 0px 16px;
-        background-size: contain;       
+        background-size: contain;
+
+        .detail-main-photo1 img {
+            width: 100%;
+            height: 100%;
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+        }
+
     }
 
      .detail-main-photo1 .photo1 {

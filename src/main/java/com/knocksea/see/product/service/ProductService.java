@@ -208,13 +208,13 @@ public class ProductService implements ProductDetailService {
 
     // 메인페이지 9개만 달래~
     public List<mainListResponseDTO> shipMainList() {
-        List<Product> productsShip = productRepository.findTop9ByProductTypeOrderByProductInputDateDesc("SHIP");
-        log.warn("왜 안나와 : {}", productsShip);
+        List<Product> productsShip = productRepository.findTop9ByProductType("SHIP");
+        log.info("9개 왜 못불러와  ~ : {}",productsShip);
         return getCollect(productsShip);
     }
 
     public List<mainListResponseDTO> spotMainList() {
-        List<Product> productsSpot = productRepository.findTop9ByProductTypeOrderByProductInputDateDesc("SHIP");
+        List<Product> productsSpot = productRepository.findTop9ByProductType("SHIP");
 
         return getCollect(productsSpot);
 

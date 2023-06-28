@@ -5,6 +5,7 @@ import naverbtn from '../img/naverbtn1.png';
 import kakaobtn from '../img/kakaobtn.png';
 // import RegistCalendar from '../product/RegistCalendar';
 import { setLoginUserInfo, isLogin } from '../util/login-util';
+import { API_BASE_URL, USER } from '../../config/host-config';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ function Login() {
 
   const fetchLogin = async () => {
     try {
-      const res = await fetch('http://localhost:8012/api/v1/user/signin', {
+      const res = await fetch(`${API_BASE_URL}${USER}/signin`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

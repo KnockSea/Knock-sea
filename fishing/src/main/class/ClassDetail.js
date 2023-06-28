@@ -1,6 +1,5 @@
 import React, { useState,useEffect  } from 'react';
 import './scss/ClassDetail.scss';
-// import './scss/reset.scss';
 import ClassModal from "./ClassModal";
 import ClassDetailTap from "./ClassDetailTap";
 import Calendar from '../Calendar';
@@ -21,7 +20,7 @@ function ClassDetail() {
         'content-type': 'application/json'
       };
       const API_BASE_URL = `http://localhost:8012/api/v1/edu/${eduId}`;
-  
+  console.log("oneEdu : ",oneEdu);
     
       useEffect(()=>{
         fetch(API_BASE_URL, { 

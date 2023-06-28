@@ -6,12 +6,31 @@ import { Link } from "react-router-dom";
 import { FaStar } from 'react-icons/fa';
 import styled from 'styled-components';
 
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
+import { renderIntoDocument } from "react-dom/test-utils";
+
 const MpReviewForm = () => {
   const [reviewContent, setReviewContent] = useState("");
   const [reviewType, serReviewType] = useState("");
   const [token, setToken] = useState("");
-  const [ratingIndex, setRatingIndex] = useState(1); 
 
+//   const [ratingIndex, setRatingIndex] = useState(1); 
+
+  const [clicked, setClicked] = useState([1, 2, 3, 4, 5]);
+const [value, setValue] = useState(0);
+  const ARRAY = [0, 1, 2, 3, 4];
+
+  
+  const handleRatingChange = index => 
+    {
+        let clickStates = [...clicked];
+        for (let i = 0; i < 5; i++) {
+          clickStates[i] = i <= index ? true : false;
+        }
+        setReviewRating(clickStates);
+        
+    };
 
   const handleContentChange = (reviewContent) => 
     {
@@ -21,8 +40,11 @@ const MpReviewForm = () => {
   const handleSubmit = () => {
     const formdata = {
       reviewContent: reviewContent,
-      reviewRating: ratingIndex,
-      reviewType : reviewType,
+      // reviewRating: reviewRating,
+      // reviewType : reviewType,
+      reviewType : "EDU",
+      reviewRating : value,
+      eduId : 15
     };
 
     console.log(formdata);
@@ -57,6 +79,10 @@ const MpReviewForm = () => {
     fetchToken();
   }, []);
 
+  
+
+
+
   return (
     <section className="MyPageMainBox">
       <div className="mainbox1">
@@ -69,11 +95,38 @@ const MpReviewForm = () => {
               <div className="cltitle">별점</div>
             </div>
             <div>
-            <RatingSection
+           {/* <RatingSection
                 ratingIndex={ratingIndex}
                 setRatingIndex={setRatingIndex}
-              />
-              
+              />*/}              
+
+            <Wrap>
+                {/* <RatingText>평가하기</RatingText> */}
+                {/* <Stars>
+                  {ARRAY.map((el, idx) => {
+                    return (
+                      <FaStar
+                        key={idx}
+                        size="50"
+                        onClick={() => handleRatingChange(el)}
+                        className={clicked[el] && 'yellowStar'}
+                      />
+                    );
+                  })}
+                </Stars> */}
+                  <Box
+                      sx={{
+                        '& > legend': { mt: 2 } }}
+                    >
+                      <Rating name="half-rating" 
+                      precision={0.5}
+                      value={value}
+                      size="large"
+                        onChange={(event, newValue) => {
+                          setValue(newValue);
+                        }} />
+                    </Box>
+              </Wrap>
               </div>
           </div>
 
@@ -87,7 +140,8 @@ const MpReviewForm = () => {
           </div>
       <br />
           <Link to="/inquire" className="qtUpdatebtn" onClick={handleSubmit}>
-            작성완료 </Link>
+            작성완료 
+            </Link>
         </div>
       </div>
 
@@ -95,5 +149,6 @@ const MpReviewForm = () => {
     </section>
   );
 };
+
 
 export default MpReviewForm;

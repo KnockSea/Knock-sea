@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MpList from "./MpList";
 import { getLoginUserInfo } from "../util/login-util";
 import { Link } from "react-router-dom";
+import { API_BASE_URL, INQUIRIES } from "../../config/host-config";
 
 const MpIqInput = () => {
   const [title, setTitle] = useState("");
@@ -25,7 +26,7 @@ const MpIqInput = () => {
       inquiryTitle: title,
     };
 
-    fetch("http://localhost:8012/api/v1/inquiries", {
+    fetch(`${API_BASE_URL}${INQUIRIES}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

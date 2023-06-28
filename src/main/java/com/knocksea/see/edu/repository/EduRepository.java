@@ -22,5 +22,7 @@ public interface EduRepository extends JpaRepository<Edu,Long> {
 //    List<Edu> findTop3ByOrderByCreateDate();
 
     List<Edu> findTop9ByOrderByCreateDateDesc();
+
+
 //    Optional<Edu> findByUserId(User user);
 }

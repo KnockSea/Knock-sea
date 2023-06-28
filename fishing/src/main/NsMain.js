@@ -46,14 +46,14 @@ import MpInquiryD from './mypage/MpInquiryD';
 import MpInquiryResult from './mypage/MpInquiryResult';
 import MpAdInquire from './mypage/MpAdInquire';
 
-const NsMain = () => {
+const NsMain = ({shipList, spotList, eduList}) => {
 
   return (
     <section>
         <ScrollToTop />
         <Routes>
             <Route path='/bt' element={<RvTemplate/>} ></Route>
-            <Route path='/' element ={<MainContent />} />
+            <Route path='/' element ={<MainContent shipList={shipList} spotList={spotList} eduList={eduList} />} />
             {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
             <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
             <Route path='/fsdetail/:productId' element={<RvFsDetail/>}> </Route>
@@ -112,20 +112,18 @@ const NsMain = () => {
     </section>
   )
 }
-const MainContent = ({ isRouteActive }) => {
+const MainContent = ({ shipList, spotList, eduList }) => {
     return (
         <>
-           {!isRouteActive && (
+           {(
             <>
                    <NsBanner />
 
             <div className='mainbox'>
             <div className='contentbox'>
-            <NsItem 
-
-            />
-            <NsFishingSpot />
-            <NsClass />
+            <NsItem shipList={shipList}/>
+            <NsFishingSpot spotList={spotList}/>
+            <NsClass eduList={eduList}/>
 
                 </div>
             <div className='apibox'>

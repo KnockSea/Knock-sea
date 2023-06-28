@@ -3,11 +3,14 @@ import './scss/ClassMain.scss';
 // import './scss/reset.scss';
 import { Route, Routes,Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import Pagination from "react-js-pagination";
+import { API_BASE_URL } from '../../config/host-config';
 
 const handleLogin = (e) => {
-    e.preventDefault();
   
+
+    e.preventDefault();
+
       // 회원가입 서버 요청
      
     };
@@ -17,7 +20,7 @@ const handleLogin = (e) => {
       };
       
 
-    const API_BASE_URL = 'http://localhost:8012/api/v1/edu';
+    // const API_BASE_URL = 'http://localhost:8012/api/v1/edu';
 
 
     
@@ -26,11 +29,20 @@ const handleLogin = (e) => {
  
 
 function ClassMain() {
+
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(8);
+  const [totalItemCount, setTotalItemCount] = useState(0);
+  
+  const handlePageChange = (page) => {
+    setPage(page);
+    console.log(page);
+  };
     
     const [edus, setEdus] = useState([]);
 
       useEffect(()=>{
-        fetch(API_BASE_URL, { 
+        fetch(`${API_BASE_URL}/api/v1/edu?page=${page}&size=${size}`, { 
             method: 'GET',
             headers: requestHeader
           })
@@ -42,9 +54,13 @@ function ClassMain() {
             })
             .then(json => {
               console.log(json);   //->이걸 상태관리 변수인 todos에 셋팅하면 화면에 그려짐
-              setEdus(json); //렌더링 완료
+              setEdus(json);
+              // console.log(json.pageInfo.totalCount);
+              // console.log('edus',edus);
+              setTotalItemCount(json.pageInfo.totalCount);
+
             });
-        }, []);
+        }, [page]);
 
       const TopList = [
         { id: '12', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕', place: '부둣가', price: 10000 },
@@ -78,7 +94,7 @@ function ClassMain() {
                                     </div>
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
-                                            <div className="list-star-rating">{t.star}</div>
+                                            <div className="list-star-rating">{t.reviewAverage}</div>
 
                                             <div className="userId">{t.userName}</div>
                                         </div>
@@ -116,7 +132,15 @@ function ClassMain() {
                                     </div>
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
-                                            <div className="list-star-rating">{f.star}</div>
+                                        <div className="list-star-rating">
+                                          {f.reviewAverage}
+                                            {f.reviewAverage === 0 && "☆☆☆☆☆"}
+                                            {f.reviewAverage === 1 && "☆☆☆☆⭐"}
+                                            {f.reviewAverage === 2 && "☆☆☆⭐⭐"}
+                                            {f.reviewAverage === 3 && "☆☆⭐⭐⭐"}
+                                            {f.reviewAverage === 4 && "☆⭐⭐⭐⭐"}
+                                            {f.reviewAverage === 5 && "⭐⭐⭐⭐⭐"}
+                                          </div>
                                             <div className="userId">{f.userName}</div>
                                         </div>
                                         <div className="text-place list-t">🚩위치 : {f.eduLocation}</div>
@@ -125,10 +149,19 @@ function ClassMain() {
                                     </div>
                                     </div>
                             </Link>
-                                ))}                                
-
-                        </div>        
-                        
+                                ))}   
+                                  <div className="page">
+                                  <Pagination
+                                  activePage={page}
+                                  itemsCountPerPage={size}
+                                  totalItemsCount={totalItemCount}
+                                  pageRangeDisplayed={5}
+                                  prevPageText={"‹"}
+                                  nextPageText={"›"}
+                                  onChange={handlePageChange}
+                                  />     
+                                  </div>                     
+                        </div>       
                     </div>
                 </div>
             </div>    

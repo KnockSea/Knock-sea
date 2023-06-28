@@ -36,7 +36,7 @@
 
         &:hover {
           font-weight: bold;
-          color: #123282;
+          color: black;
         }
       }
     }
@@ -164,3 +164,16 @@
   .custom-calendar .react-datepicker__day {
     margin: 2px 21px;
    }
+
+   .no-remaining-slot {
+    text-decoration: line-through;
+    pointer-events: none;
+    color: gray ;
+  }
+  
+  
+  
+  
+  
+  
+  

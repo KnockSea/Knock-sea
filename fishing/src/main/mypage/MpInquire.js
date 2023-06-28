@@ -5,6 +5,7 @@ import MpList from "./MpList";
 import { getLoginUserInfo } from "../util/login-util";
 import Stack from "@mui/material/Stack";
 import Pagination from "react-js-pagination";
+import { API_BASE_URL, INQUIRIES } from "../../config/host-config";
 
 const MpInquire = () => {
     const [inquiries, setInquiries] = useState([]);
@@ -19,7 +20,7 @@ const MpInquire = () => {
 
     const fetchData = () => {
         fetch(
-            `http://localhost:8012/api/v1/inquiries/myInquiry?page=${page}&size=10`,
+            `${API_BASE_URL}${INQUIRIES}/myInquiry?page=${page}&size=10`,
             {
                 method: "GET",
                 headers: {
@@ -31,6 +32,7 @@ const MpInquire = () => {
             .then((response) => response.json())
             .then((data) => {
                 if (data) {
+                    // console.log(data.pageInfo.totalCount);
                     setInquiries(data.inquiries);
                     setTotalItemCount(data.pageInfo.totalCount);
                 } else {

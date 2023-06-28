@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useState,useEffect } from 'react';
+import { API_BASE_URL, VALIDATION } from '../../config/host-config';
 
 const MpAdminFS = () => {
 
@@ -10,7 +11,7 @@ const MpAdminFS = () => {
 
     // API 요청
 useEffect(() => {
-    fetch(`http://localhost:8012/api/v1/validation/${validationType}`)
+    fetch(`${API_BASE_URL}${VALIDATION}/${validationType}`)
     .then(response => response.json())
     .then(data => {
         // 요청 결과 처리
@@ -22,13 +23,13 @@ useEffect(() => {
         // 에러 처리
         console.error('Error:', error);
     });
-}, [validationType]);
+}, []);
     //검증요청 승인하는 함수
-    const updateValidation = async (e, validationUserName, validationType) => {
+    const updateValidation = async (e, validationUserName, validationType,validationuserId) => {
         e.preventDefault();
         console.log(validationUserName,validationType);
         const confirm = window.confirm('정말 승인하시겠습니까?');
-        // console.log(validationList);
+        console.log(validationList);
         if (confirm) {
             // console.log(validationUserName);
             // console.log(validationType);
@@ -38,7 +39,7 @@ useEffect(() => {
                 'validationStatus' : 'YES'
             };
             
-            const res = fetch('http://localhost:8012/api/v1/validation', {
+            const res = fetch(`${API_BASE_URL}${VALIDATION}`, {
                 method: 'PUT', // 또는 'PATCH' 요청 메서드
                 headers: {
                 'Content-Type': 'application/json'
@@ -63,8 +64,8 @@ useEffect(() => {
               } else {
                 alert('서버와의 통신오류');
               }
-        }
-    };
+            }
+      };
 
   return (
     <section>
@@ -89,23 +90,23 @@ useEffect(() => {
             {validationList.length > 0 ? (
             validationList.map((validation) => (
             <div key={validation.validationId}>
+                {validation.userId ? (
+                <div className='username'>{validation.userId}</div>
+                ) : (
+                <div>등록유저번호없음</div>
+                )}
                 {validation.userName ? (
                 <div className='username'>{validation.userName}</div>
                 ) : (
                 <div>등록유저이름없음</div>
                 )}
-                {validation.validationShipRegi ? (
-                <div className='shipregiimg'>{validation.validationShipRegi}</div>
+                {validation.validationBusinessRegi? (
+                <div className='username'>{validation.validationBusinessRegi}</div>
                 ) : (
-                <div>선박등록이미지 없음</div>
-                )}
-                {validation.validationShipLicense ? (
-                <div className='shipregistnum'>{validation.validationShipLicense}</div>
-                ) : (
-                <div>선박면허증 없음</div>
+                <div>낚시터사업자번호등록안됌</div>
                 )}
                 <div>
-                <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType)}>승인</button>
+                <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
                 <button>취소</button>
                 </div>
                 <div>{validation.validationStatus}</div>
