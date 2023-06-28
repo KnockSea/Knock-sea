@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ReviewCreateDTO {
-    private Long reviewRating; // 5L
+    private Double reviewRating; // 5L
     private String reviewContent; // "이거 재밌어여"
     private String reviewType; // 타입
     // 작성자 정보

@@ -91,6 +91,13 @@ body{
     margin-top: 5px;
     color: rgb(110, 110, 110);
     font-size: 16px;
+
+    .list-t {
+        width: 237px;
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 
 .list-t {

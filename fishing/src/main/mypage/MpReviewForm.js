@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from "react";
 import MpList from "./MpList";
+import RatingSection from "./RatingSection";
 import { getLoginUserInfo } from "../util/login-util";
 import { Link } from "react-router-dom";
 import { FaStar } from 'react-icons/fa';
 import styled from 'styled-components';
 
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
+import { renderIntoDocument } from "react-dom/test-utils";
+
 const MpReviewForm = () => {
   const [reviewContent, setReviewContent] = useState("");
-  const [reviewRating, setReviewRating] = useState("");
   const [reviewType, serReviewType] = useState("");
   const [token, setToken] = useState("");
-  const [clicked, setClicked] = useState([1, 2, 3, 4, 5]);
 
+//   const [ratingIndex, setRatingIndex] = useState(1); 
+
+  const [clicked, setClicked] = useState([1, 2, 3, 4, 5]);
+const [value, setValue] = useState(0);
   const ARRAY = [0, 1, 2, 3, 4];
+
   
   const handleRatingChange = index => 
     {
@@ -21,31 +29,33 @@ const MpReviewForm = () => {
           clickStates[i] = i <= index ? true : false;
         }
         setReviewRating(clickStates);
+        
     };
 
-  const handleContentChange = (event) => 
+  const handleContentChange = (reviewContent) => 
     {
-      setReviewContent(event.target.value);
+      setReviewContent(reviewContent.target.value);
     };
-
 
   const handleSubmit = () => {
-    const data = {
+    const formdata = {
       reviewContent: reviewContent,
-      reviewRating: reviewRating,
-      reviewType : reviewType,
+      // reviewRating: reviewRating,
+      // reviewType : reviewType,
+      reviewType : "EDU",
+      reviewRating : value,
+      eduId : 15
     };
 
-    let score = clicked.filter(Boolean).length;
+    console.log(formdata);
 
     fetch("http://localhost:8012/api/v1/reviews", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization : "Bearer " + token,
-        star : score
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(formdata),
     })
       .then((response) => response.json())
       .then((result) => {
@@ -69,6 +79,10 @@ const MpReviewForm = () => {
     fetchToken();
   }, []);
 
+  
+
+
+
   return (
     <section className="MyPageMainBox">
       <div className="mainbox1">
@@ -81,9 +95,14 @@ const MpReviewForm = () => {
               <div className="cltitle">별점</div>
             </div>
             <div>
+           {/* <RatingSection
+                ratingIndex={ratingIndex}
+                setRatingIndex={setRatingIndex}
+              />*/}              
+
             <Wrap>
                 {/* <RatingText>평가하기</RatingText> */}
-                <Stars>
+                {/* <Stars>
                   {ARRAY.map((el, idx) => {
                     return (
                       <FaStar
@@ -94,7 +113,19 @@ const MpReviewForm = () => {
                       />
                     );
                   })}
-                </Stars>
+                </Stars> */}
+                  <Box
+                      sx={{
+                        '& > legend': { mt: 2 } }}
+                    >
+                      <Rating name="half-rating" 
+                      precision={0.5}
+                      value={value}
+                      size="large"
+                        onChange={(event, newValue) => {
+                          setValue(newValue);
+                        }} />
+                    </Box>
               </Wrap>
               </div>
           </div>
@@ -109,7 +140,8 @@ const MpReviewForm = () => {
           </div>
       <br />
           <Link to="/inquire" className="qtUpdatebtn" onClick={handleSubmit}>
-            작성완료 </Link>
+            작성완료 
+            </Link>
         </div>
       </div>
 
@@ -118,36 +150,5 @@ const MpReviewForm = () => {
   );
 };
 
+
 export default MpReviewForm;
-
-const Wrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-left: 20px;
-
-`;
-
-
-const Stars = styled.div`
-  display: flex;
-  // padding-top: 5px;
-
-  & svg {
-    width :25px;
-    margin : 3px;
-    color: lightgrey;
-    cursor: pointer;
-  }
-
-  // :hover svg {
-  //   color: #fcc419;
-  // }
-
-  & svg:hover ~ svg {
-    color: lightgrey;
-  }
-
-  .yellowStar {
-    color: #fcc419;
-  }
-`;

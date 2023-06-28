@@ -18,11 +18,10 @@ function ClassModal({closeModal, oneEdu}) {
   const [classTimes, setClassTimes] = useState([]);
   const[timeIndex,setTimeIndex] = useState(0);
   const navigate = useNavigate();
-
+  const [index,setIndex]=useState(0);
 
   
   const handleIncrease = () => {
-    console.log("진짜 index : ",index);
     if(oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser>count){
       setCount(count + 1);    
     }else if(oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser<=count){
@@ -51,7 +50,7 @@ function ClassModal({closeModal, oneEdu}) {
     setIndex(index);
   }    
     const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
- 
+
   const handlePayment=()=>{
    
     console.log("token",token.userId);
@@ -90,11 +89,10 @@ function ClassModal({closeModal, oneEdu}) {
       })
   }
 
-
     return (
         <div className="modal-overlay" >
           <div className="modal-box">
-            <button onClick={closeModal} className='close-btn'>X</button>
+            <button onClick={closeModal} className='close-btn'><img src='https://cdn-icons-png.flaticon.com/128/7778/7778647.png'/></button>
             <h1 className='select-date'>참여 일정을 선택해주세요😀</h1>
             <hr style={{marginTop:'5px'}}/>
             <div className='calendar'>

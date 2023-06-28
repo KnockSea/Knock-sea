@@ -133,6 +133,7 @@ function ClassMain() {
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
                                         <div className="list-star-rating">
+                                          {f.reviewAverage}
                                             {f.reviewAverage === 0 && "☆☆☆☆☆"}
                                             {f.reviewAverage === 1 && "☆☆☆☆⭐"}
                                             {f.reviewAverage === 2 && "☆☆☆⭐⭐"}
@@ -142,9 +143,9 @@ function ClassMain() {
                                           </div>
                                             <div className="userId">{f.userName}</div>
                                         </div>
-                                        <div className="text-place list-t">위치 : {f.eduLocation}</div>
-                                        <div className="text-price">가격 : {f.eduPrice}</div>
-                                        <div className="text-title list-t">{f.eduTitle}</div>
+                                        <div className="text-place list-t">🚩위치 : {f.eduLocation}</div>
+                                        <div className="text-price list-t">💰가격 : {f.eduPrice}</div>
+                                        <div className="text-title list-t">💙{f.eduTitle}</div>
                                     </div>
                                     </div>
                             </Link>

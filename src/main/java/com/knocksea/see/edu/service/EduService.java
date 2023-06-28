@@ -67,8 +67,12 @@ public class EduService {
 
     //좋아요 상위 4개 조회
     public EduTopFourListResponseDTO findTopFour(){
+        log.info("gggg");
         //정 안되면 Edu 테이블에 좋아요 칼럼 만들기
         //리뷰테이블에서 평점이 높은 topFour를 찾아서 그 eduId를 찾음. eduId로 edu테이블에서 찾음
+//        List<Edu> eduList = eduRepository.findTop4ByReviewRating();
+
+//        log.info("eduList : "+eduList);
 
         return null;
     }
@@ -103,6 +107,19 @@ public class EduService {
             }
 
             double reviewAverage = reviewTotal / reviews.size();
+            reviewAverage= Math.round(reviewAverage * 10)/10.0;
+
+            int decimalPlace = (int) (reviewAverage * 10) % 10;
+
+            if (decimalPlace >= 1 && decimalPlace <= 4) {
+                reviewAverage = Math.floor(reviewAverage);
+            } else if (decimalPlace >= 5 && decimalPlace <= 9) {
+                reviewAverage = Math.ceil(reviewAverage);
+                if (reviewAverage % 1 != 0) {
+                    reviewAverage = Math.floor(reviewAverage) + 0.5;
+                }
+            }
+
             if(reviewAverage>0) {
                 edus.setReviewAverage(reviewAverage);
             }else {
@@ -142,6 +159,7 @@ public class EduService {
                             reviewDetailResponseDTO.setEduId(review.getEdu().getEduId());
                             reviewDetailResponseDTO.setReviewRating(review.getReviewRating());
                             reviewDetailResponseDTO.setInquiryDateTime(review.getInquiryDateTime());
+                            reviewDetailResponseDTO.setProfileImg(review.getUser().getProfileImg());
                             return reviewDetailResponseDTO;
                         }
                         ).collect(Collectors.toList());

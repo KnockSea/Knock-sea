@@ -249,7 +249,7 @@ public class UserService {
                 List<Review> findByShipReviews = reviewRepository.findByProduct(product);
                 entireInfoResponseDTO.setShipReviewList(findByShipReviews);
                 for (Review findByShipReview : findByShipReviews) {
-                    Long reviewRating = findByShipReview.getReviewRating();
+                    Double reviewRating = findByShipReview.getReviewRating();
                     shipReviewTotal += reviewRating;
                 }
 
@@ -259,7 +259,7 @@ public class UserService {
                 List<Review> findBySpotReviews = reviewRepository.findByProduct(product);
                 entireInfoResponseDTO.setSpotReviewList(findBySpotReviews);
                 for (Review findBySpotReview : findBySpotReviews) {
-                    Long reviewRating = findBySpotReview.getReviewRating();
+                    Double reviewRating = findBySpotReview.getReviewRating();
                     spotReviewTotal +=reviewRating;
                 }
                 entireInfoResponseDTO.setSpotReviewAvgScore((int)spotReviewTotal/findBySpotReviews.size());
@@ -270,7 +270,7 @@ public class UserService {
             List<Review> findByEduReviews = reviewRepository.findAllByEdu(edu);
             entireInfoResponseDTO.setEduReviewList(findByEduReviews);
             for (Review findByEduReview : findByEduReviews) {
-                Long reviewRating = findByEduReview.getReviewRating();
+                Double reviewRating = findByEduReview.getReviewRating();
                 eduReviewTotal+=reviewRating;
             }
             entireInfoResponseDTO.setEduReviewAvgScore((int)eduReviewTotal/findByEduReviews.size());
@@ -346,8 +346,7 @@ public class UserService {
             ReservationTime time = r.getReservationTime();
             if(r.getReservationType().equals("EDU")){
                 Edu edu=r.getEdu();
-                SeaImage seaImage= imageRepository.findByEdu_EduId(edu.getEduId()).get(0);
-
+                SeaImage seaImage= imageRepository.findAllByEdu(edu).get(0);
 //                img=edu.getSeaImage();
                 log.info("img : "+seaImage);
                 reservationResponseDTOS.add(new ReservationResponseDTO(r, time, edu, seaImage));

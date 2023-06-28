@@ -1,4 +1,6 @@
-.modal-overlay {
+
+.regi-modal-overlay {
+
     position: fixed;
     top: -30px;
     left: 0;
@@ -8,56 +10,76 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
 
-.modal-box {
-    position: relative;
-    top: 30px;
-    background-color: white;
-    border-radius: 10px 0px 10px 10px;
-    width: 650px;
-    height: 250px;
-    padding: 20px;
-    overflow-y: auto;
-    overflow-x:hidden;
-    }
+    .regi-modal-box {
+      position: relative;
+      top: 30px;
+      background-color: white;
+      border-radius: 10px;
+      width: 650px;
+      height: 260px;
+      padding: 20px;
+      overflow-y: auto;
+      overflow-x:hidden;
 
-    .regi-modal-title {
-      font-size: 20px !important;
-      font-family: 'Gowun Batang';
-
-      span {
-        color: rgb(179, 0, 0);
-        font-size: 25px;
-        font-family: 'Gowun Batang';
-      }
-    }
-    
-
-    .result {
-      display: flex;
-      justify-content: space-around;
-      .btn-wrap {
-        margin-top: 30px;
-        width: 40%;
-        text-align: center;
-      }
-
-      .custom-button {
+      .regi-close-btn {
         padding: 0;
-        width: 200px;
-        height: 100px;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
-        background: #73a6e0bb;
-        border: none;
-        font-size: 18px;
-        font-weight: 600;
-        font-family: 'Orbit', sans-serif;
+        margin: 0;
+        width: 20px;
+        height: 20px;
+        position: relative;
+        background: #fff;
+        display: inline;
 
-        &:hover{
-          background: #213164;
-          color: #ffffff;
+        & img {
+          width: 35px;
+          height: 35px;
+          position: absolute;
+          top: -8px;
+          right: -5px;
         }
       }
-    }
+      
+      .regi-modal-title {
+        font-size: 20px !important;
+        font-family: 'Gowun Batang';
+  
+        span {
+          color: rgb(179, 0, 0);
+          font-size: 25px;
+          font-family: 'Gowun Batang';
+        }
+      }
 
+      .regi-result {
+        display: flex;
+        justify-content: space-around;
+        .regi-btn-wrap {
+          margin-top: 30px;
+          width: 40%;
+          text-align: center;
+        }
+  
+        .regi-custom-button {
+          padding: 0;
+          width: 200px;
+          height: 100px;
+          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+          background: #73a6e0bb;
+          border: none;
+          font-size: 18px;
+          font-weight: 600;
+          font-family: 'Orbit', sans-serif;
+  
+          &:hover{
+            background: #213164;
+            color: #ffffff;
+          }
+        }
+      }
+      }
+  
+      
+      
+      
+}
