@@ -68,10 +68,7 @@ public class EduService {
         log.info("gggg");
         //정 안되면 Edu 테이블에 좋아요 칼럼 만들기
         //리뷰테이블에서 평점이 높은 topFour를 찾아서 그 eduId를 찾음. eduId로 edu테이블에서 찾음
-//        List<Edu> eduList = eduRepository.findTop4ByReviewRating();
-
-//        log.info("eduList : "+eduList);
-
+// List<Long> eduTopFourList = eduRepository.findTop4ByReviewRating();
         return null;
     }
 
@@ -92,66 +89,63 @@ public class EduService {
         List<Edu> content = allEdu.getContent();
         log.info("content : "+content);
 
+        List<Edu> top4ByReviewRating = eduRepository.findTop4ByReviewRating();
+
         List<EduListDataResponseDTO> list = content.stream().map( edu -> {
-            EduListDataResponseDTO edus = new EduListDataResponseDTO(edu);
-            double reviewTotal = 0;
-            User user = userRepository.findById(edu.getUser().getUserId()).get();
+            return getEduListDataResponseDTO(edu);
+        }).collect(Collectors.toList());
 
-            edus.setUserName(user.getUserName());
-            List<Review> reviews = edu.getReviews();
-
-            for (Review review : reviews) {
-                reviewTotal += review.getReviewRating();
-            }
-
-            double reviewAverage = reviewTotal / reviews.size();
-            reviewAverage= Math.round(reviewAverage * 10)/10.0; //소수점 한자리만 나오도록
-
-            int front = (int)reviewAverage/1;
-            log.info("front : "+front);
-            double back = reviewAverage%1;
-            log.info("back : "+back);
-
-            if (back >= 0.0 && back <= 0.4) {
-                reviewAverage = front+0.0;
-            } else if(back >= 0.5 && back <= 0.9){
-                reviewAverage = front+0.5;
-            }
-            log.info("reviewAverage : ",reviewAverage);
-
-//           ;
-//
-//            int decimalPlace = (int) (reviewAverage * 10) % 10;
-//
-//            if (decimalPlace >= 1 && decimalPlace <= 4) {
-//                reviewAverage = Math.floor(reviewAverage);
-//            } else if (decimalPlace >= 5 && decimalPlace <= 9) {
-//                reviewAverage = Math.ceil(reviewAverage);
-//                if (reviewAverage % 1 != 0) {
-//                    reviewAverage = Math.floor(reviewAverage) + 0.5;
-//                }
-//            }
-
-            if(reviewAverage>0) {
-                edus.setReviewAverage(reviewAverage);
-            }else {
-                edus.setReviewAverage(0);
-            }
-            List<SeaImage> mainImage = imageRepository.findAllByEdu(edu);
-//            edus.setMainImage(mainImage.get(0).getImageName());
-            mainImage.forEach(seaImage -> {
-                String imageName = seaImage.getImageName();
-                edus.setMainImage(imageName);
-                log.info("mainImage : "+imageName);
-            });
-            return edus;
+        List<EduListDataResponseDTO> topFourList = top4ByReviewRating.stream().map( edu -> {
+            return getEduListDataResponseDTO(edu);
         }).collect(Collectors.toList());
 
         return EduListResponseDTO.builder()
                 .totalCount(list.size())
                 .posts(list)
+                .topFour(topFourList)
                 .pageInfo(new PageResponseDTO(allEdu))
                 .build();
+    }
+
+    private EduListDataResponseDTO getEduListDataResponseDTO(Edu edu) {
+        EduListDataResponseDTO edus = new EduListDataResponseDTO(edu);
+        double reviewTotal = 0;
+        User user = userRepository.findById(edu.getUser().getUserId()).get();
+
+        edus.setUserName(user.getUserName());
+        List<Review> reviews = edu.getReviews();
+
+        for (Review review : reviews) {
+            reviewTotal += review.getReviewRating();
+        }
+
+        double reviewAverage = reviewTotal / reviews.size();
+        reviewAverage= Math.round(reviewAverage * 10)/10.0; //소수점 한자리만 나오도록
+
+        int front = (int) reviewAverage;
+        log.info("front : "+front);
+        double back = reviewAverage%1;
+        log.info("back : "+back);
+
+        if (back >= 0.0 && back <= 0.4) {
+            reviewAverage = front+0.0;
+        } else if(back >= 0.5 && back <= 0.9){
+            reviewAverage = front+0.5;
+        }
+        log.info("reviewAverage : "+reviewAverage);
+
+        if(reviewAverage>0) {
+            edus.setReviewAverage(reviewAverage);
+        }else {
+            edus.setReviewAverage(0);
+        }
+        List<SeaImage> mainImage = imageRepository.findAllByEdu(edu);
+
+        mainImage.forEach(seaImage -> {
+            String imageName = seaImage.getImageName();
+            edus.setMainImage(imageName);
+        });
+        return edus;
     }
 
     // 상품 상세조회 기능 (예약 가능 시간 정보 포함)

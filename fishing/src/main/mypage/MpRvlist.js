@@ -64,8 +64,6 @@ const MpRvlist = () => {
   });
 
 const today = new Date().toLocaleDateString('ko-KR');
-console.log("today: ", today);
-
 
 useEffect(() => {
 
