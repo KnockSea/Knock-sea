@@ -30,7 +30,8 @@ useEffect(() => {
     .then(response => response.json())
     .then(data => {
         // 요청 결과 처리
-        console.log(data);
+        console.log('data',data);
+        // console.log(data);
         setValidationList(data);
     })
     .catch(error => {
@@ -78,6 +79,7 @@ const updateValidation = async (e, validationUserName, validationType,validation
             //         // 에러 처리
             //         console.error('Error:', error);
             //     });
+            setValidationList();
           } else {
             alert('서버와의 통신오류');
           }
