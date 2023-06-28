@@ -33,7 +33,7 @@ public class HeartService {
     private final ProductRepository productRepository;
     private final EduRepository eduRepository;
 
-    public boolean createAndDeleteHeart(Long tokenUserId, HeartCreateDTO dto) {
+    public boolean createAndDeleteHeart(HeartCreateDTO dto) {
 
         Product product = null;
         Edu edu = null;
@@ -45,7 +45,7 @@ public class HeartService {
         if (dto.getEduId() != null) {
             edu = eduRepository.findById(dto.getEduId()).orElseThrow();
         }
-        User user = userRepository.findById(tokenUserId).orElseThrow();
+        User user = userRepository.findById(dto.getUserId()).orElseThrow();
         Heart saved = null;
         boolean heartOrNot = heartRepository.existsByUserAndHeartType(user, HeartType.valueOf(dto.getHeartType()));
         if (!heartOrNot) {
@@ -61,8 +61,11 @@ public class HeartService {
         }
         return !heartOrNot;
     }
+    public boolean existsByUserAndHeartType(Long userId, String heartType) {
+        User user = userRepository.findById(userId).orElseThrow();
+        return heartRepository.existsByUserAndHeartType(user, HeartType.valueOf(heartType));
+    }
 
 }
-
 
 

@@ -15,6 +15,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class HeartCreateDTO {
+    private Long userId;
     private String heartType;
     private Long eduId;
     private Long productId;

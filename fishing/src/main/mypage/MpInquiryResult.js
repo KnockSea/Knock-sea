@@ -8,20 +8,15 @@ const MpInquiryResult = () => {
     const { inquiryId } = useParams();
     const [inquiry, setInquiry] = useState([]);
     const [token, setToken] = useState(getLoginUserInfo().token);
-    const [answer, setAnswer] = useState([]);
     const [grade, setGrade] = useState(getLoginUserInfo().userGrade);
   
  
 
     const handleSubmitAnswer = (e) => {
         e.preventDefault();
-        // TODO: Submit the answer
         console.log(inquiryId);
         console.log(inquiry);
         console.log(inquiry.inquiryDetails);
-        console.log(answer);
-        console.log(answer.answerDetails);
-        // Reset the answer field
     };
 
     const fetchInquiry = async () => {
@@ -39,25 +34,9 @@ const MpInquiryResult = () => {
             console.log(error);
         }
     };
-    const fetchAnswer = async () => {
-        try {
-            const response = await fetch(`${API_BASE_URL}${ANSWERS}/${inquiryId}`);
-            if (response.ok) {
-                const answer = await response.json();
-                setAnswer(answer);
-            } else {
-                // throw new Error("Failed to fetch answer");
-                setAnswer()
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     useEffect(() => {
         fetchInquiry();
-        fetchAnswer();
-    }, []);
+    }, [inquiry && inquiry.length]);
 
     return (
         <section>
@@ -93,7 +72,7 @@ const MpInquiryResult = () => {
                             </div>
                             <div className="adminreplyinput">
                                 <div className="answer">
-                                {answer && answer.answerDetails}
+                                {inquiry && inquiry.answerDetails}
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getLoginUserInfo } from '../util/login-util';
 import { API_BASE_URL, REVIEW } from '../../config/host-config';
+import { Link } from 'react-router-dom';
 
 function MpReviewList() {
   const [reviews, setReviews] = useState([]);
@@ -52,6 +53,13 @@ function MpReviewList() {
               </div>
               <div className='mpstar'>{review.reviewRating}</div>
               <div>{review.reviewContent}</div>
+              <button className="reviewbtn">
+                {review.eduId !== null ? (
+                <Link to={`/classdetail/${review.eduId}`}>상세보기</Link>)
+                : 
+                (<Link to={`/classdetail/${review.productId}`}>상세보기</Link>)
+              }
+              </button>
             </div>
           </div>
         ))

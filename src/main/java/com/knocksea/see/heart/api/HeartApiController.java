@@ -26,12 +26,11 @@ public class HeartApiController {
 
     @PostMapping
     public ResponseEntity<?> create(
-            @AuthenticationPrincipal TokenUserInfo userInfo,
             @Validated @RequestBody HeartCreateDTO dto
             , BindingResult result
     ) {
         log.info("/api/v1/hearts ReviewCreateDTO POST!! - {}", dto);
-        log.info("userInfo - {}", userInfo);
+//        log.info("userInfo - {}", userInfo);
 
         if (dto == null) {
             return ResponseEntity
@@ -43,11 +42,11 @@ public class HeartApiController {
 
         try {
 //            boolean isLiked = heartService.checkIfLiked(userInfo, dto);
-            boolean heart = heartService.createAndDeleteHeart(userInfo.getUserId(), dto);
+            boolean heart = heartService.createAndDeleteHeart(dto);
 
             return ResponseEntity
-                       .ok()
-                       .body(heart);
+                    .ok()
+                    .body(heart);
 
 
         } catch (Exception e) {
@@ -75,4 +74,20 @@ public class HeartApiController {
         return null;
     }
 
+    @GetMapping("/exists")
+    public ResponseEntity<?> existsByUserAndHeartType(
+            @RequestParam("userId") Long userId,
+            @RequestParam("heartType") String heartType
+    ) {
+        try {
+            log.info("userId@@@@@@@@@@@@@@@@@@@@@@@ {}", userId);
+            log.info("heartType@@@@@@@@@@@@@@@@@@@@ {}", heartType);
+            boolean exists = heartService.existsByUserAndHeartType(userId, heartType);
+            log.info("exists @@@@@@@@ {}", exists);
+            return ResponseEntity.ok().body(exists);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("서버 터짐 원인: " + e.getMessage());
+        }
+    }
 }
