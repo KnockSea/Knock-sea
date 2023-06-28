@@ -75,7 +75,7 @@ export const NsHeader = () => {
           }
         }
       })();
-    }, [isLogin,setProfileUrl]);
+    }, [setProfileUrl]);
     
 
   return (
@@ -128,3 +128,4 @@ export const NsHeader = () => {
 
   )
 }
+

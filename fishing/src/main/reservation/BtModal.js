@@ -47,17 +47,16 @@ function BtModal({closeModal, sDetail}) {
     const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
   
   const handlePayment=()=>{
-   
     console.log("token",token.userId);
     const reservation = {
       reservationType : "SHIP",
       reservationDate : formattedDate, 
-      reservationAddress : sDetail.eduFullAddress,
+      reservationAddress : sDetail.fullAddress,
       reservationUserCount : count,
-      reservationPrice :  sDetail.eduPrice,
-      eduLevel : sDetail.eduLevel,
+      reservationPrice :  sDetail.price,
+      // eduLevel : sDetail.eduLevel,
       // userId : token.userId,
-      eduId : sDetail.eduId,
+      productId : sDetail.productId,
       reservationTimeId : timeIndex 
     };
     

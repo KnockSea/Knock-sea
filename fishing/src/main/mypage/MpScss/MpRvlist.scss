@@ -40,6 +40,13 @@
             background: #123282;
             border: 1px solid #123282;
         }
+
+        .norelist{
+            width: 85%;
+            background: rgb(187, 187, 187);
+            border: 1px solid rgb(187, 187, 187);
+            cursor: no-drop;
+        }
     }
 
 }

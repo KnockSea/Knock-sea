@@ -50,14 +50,14 @@ function RvFsModal({closeModal, FsDetail}) {
    
     console.log("token",token.userId);
     const reservation = {
-      reservationType : "SHIP",
+      reservationType : "SPOT",
       reservationDate : formattedDate, 
-      reservationAddress : FsDetail.eduFullAddress,
+      reservationAddress : FsDetail.fullAddress,
       reservationUserCount : count,
-      reservationPrice :  FsDetail.eduPrice,
-      eduLevel : FsDetail.eduLevel,
+      reservationPrice :  FsDetail.price,
+      // eduLevel : FsDetail.eduLevel,
       // userId : token.userId,
-      eduId : FsDetail.eduId,
+      productId : FsDetail.productId,
       reservationTimeId : timeIndex 
     };
     

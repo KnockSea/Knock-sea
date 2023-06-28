@@ -18,13 +18,13 @@ public interface HeartRepository extends JpaRepository<Heart, Long> {
     boolean existsByUserAndEduOrProduct(User user, Edu edu, Product product);
 
 
-/*    @Query(value = "SELECT edu_id FROM sea_like GROUP BY edu_id ORDER BY COUNT(edu_id) DESC)", nativeQuery = true)
-    TypedQuery<Heart> findLikeRank();*/
+    /*    @Query(value = "SELECT edu_id FROM sea_like GROUP BY edu_id ORDER BY COUNT(edu_id) DESC)", nativeQuery = true)
+        TypedQuery<Heart> findLikeRank();*/
     //제품으로 좋아요 리스트 뽑아오는 기능
     @Query("SELECT h FROM Heart h WHERE h.product = :product")
     List<Heart> findByProduct(Product product);
 
-//    @Query(value = "SELECT distinct * FROM sea_like e JOIN sea_product_edu h GROUP BY e.edu_id ORDER BY COUNT(e.edu_id) desc limit 0,4", nativeQuery = true)
+    //    @Query(value = "SELECT distinct * FROM sea_like e JOIN sea_product_edu h GROUP BY e.edu_id ORDER BY COUNT(e.edu_id) desc limit 0,4", nativeQuery = true)
 /*    @Query(value = "select count(spe.edu_id) as like_cnt,\n" +
             "\tspe.edu_id, spe.edu_full_address, spe.edu_level,\n" +
             "\tspe.edu_price, spe.edu_title, spe.user_id\n" +
@@ -44,6 +44,9 @@ public interface HeartRepository extends JpaRepository<Heart, Long> {
     Heart findByUserAndEduAndProduct(User user,Edu edu,Product product);
 
     boolean existsByUserAndHeartType(User user, HeartType heartType);
+
+//    @Query("SELECT CASE WHEN COUNT(h) > 0 THEN true ELSE false END FROM Heart h WHERE h.user.userId = :userId AND h.heartType = :heartType")
+//    boolean existsByUserAndHeartType(@Param("userId") Long userId, @Param("heartType") String heartType);
 
     @Query("SELECT h FROM Heart h WHERE h.user = :user AND h.heartType = :heartType")
     Heart existsByUserAndHeartType1(@Param("user") User user, @Param("heartType") HeartType heartType);

@@ -5,6 +5,7 @@ import MpList from './MpList'
 import { useState ,useEffect} from 'react'
 import { getLoginUserInfo } from '../util/login-util'
 import { API_BASE_URL, USER } from '../../config/host-config'
+import { setDate } from 'date-fns'
 
 const MpRvlist = () => {
 
@@ -15,6 +16,8 @@ const MpRvlist = () => {
     reserveDTO: [],
     profileImageUrl: ''
   });
+
+  const [dateStatus, setDateStatus] = useState(true);
 
 
   useEffect(() => {
@@ -63,6 +66,23 @@ const MpRvlist = () => {
 const today = new Date().toLocaleDateString('ko-KR');
 console.log("today: ", today);
 
+
+useEffect(() => {
+
+  const todayDate = new Date();
+  userProfile.reserveDTO.map((target, i) => {
+    const formattedDateString = target.reserveDate.replace('년', '-').replace('월', '-').replace('일', '');
+    const targetDate = new Date(formattedDateString);
+
+    if (todayDate <= targetDate) {
+      setDateStatus(false);
+    } else {
+      setDateStatus(true)
+    }
+
+  });
+});
+
 const [reviewType , setReviewType]=useState("");
 
   return (
@@ -72,17 +92,18 @@ const [reviewType , setReviewType]=useState("");
         <h1>내 예약 내역</h1>
         {userProfile.reserveDTO.length > 0 ? (
         userProfile.reserveDTO.map((reservation, index) => (
+          
           <div className='rvlistbox' key={index} >
             <div className='rvliststatus'>예약확정</div>
             {/* <Link to={`/classdetail/${reservation.eduId}` }>   */}
             <div className='rvitembox'>
               <div className='potobox'><img className="my-profile"  title="마이페이지" src={reservation.imgUrl || require('../icons/01d.png')} style={{border:"1px solid darkgray"}}/></div>
               <div className='minibox'>
-                <div className='rvlistdate'>{reservation.reserveDate} {reservation.timeStart} ~ {reservation.timeEnd}</div>
+                <div className='rvlistdate' >{reservation.reserveDate} {reservation.timeStart} ~ {reservation.timeEnd}</div>
                 <div className='rvlisttitle'>{reservation.reserveTitle}</div>
                 <div className='rvlistcount'>예약 인원 : {reservation.userCount}명</div>
                 <div className='rvlistsally'>{reservation.reservePrice}원</div>
-
+                
               </div>
             </div>
             {/* </Link> */}
@@ -91,13 +112,19 @@ const [reviewType , setReviewType]=useState("");
                   <button className='relist'>후기쓰기</button>
                 </div>
               )} */}
-
+            {dateStatus && (
               <div className='rvlistbtnbox'>
-                <Link to={'/review'} state={{ reservationInfo: reservation}}>
+                <Link to={'/review'} state={{ reservationInfo : reservation}}>
                   <button className='relist'>후기쓰기</button>
                 </Link>
               </div>
-          </div>
+            )}
+            {dateStatus || (
+              <div className='rvlistbtnbox'>
+                  <button className='norelist'>후기 등록 기간이 아닙니다.</button>
+              </div>
+            )}
+            </div>
         ))
       ) : (
         <div>예약 내역이 없습니다.</div>

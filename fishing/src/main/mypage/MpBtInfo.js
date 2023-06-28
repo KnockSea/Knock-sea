@@ -113,23 +113,19 @@ const MpBtInfo = () => {
                    <div className='userinfobox'>
                       <div className='userinfoWrap'>
                           <div className='profilebox'>
-                            {shipinfo.shipImageLocation && shipinfo.shipImageLocation.length > 0 ? (
-                                <img className="my-profile" title="마이페이지" src={shipinfo.shipImageLocation[0]} />
-                            ) : (
-                                <img className="my-profile" title="마이페이지" src={require('./../icons/defaultProfile.png')} />
-                            )}
+                            {shipinfo.shipImageLocation && shipinfo.shipImageLocation.length > 0 ? (<img className="my-profile" title="마이페이지" src={shipinfo.shipImageLocation[0]} />) : (<img className="my-profile" title="마이페이지" src={require('./../icons/defaultProfile.png')} />)}
                           </div>
-                        <div className='namebox'>
-                          <div className="nickName">
-                            {shipinfo.shipName ? <span>{shipinfo.shipName}</span> : <span>등록된 배가  없습니다.</span>}
+                          <div className='namebox'>
+                              <div className="nickName">
+                                {shipinfo.shipName ? <span>{shipinfo.shipName}</span> : <span>등록된 배가  없습니다.</span>}
+                              </div>
+                              <div className="content">
+                                {shipinfo.shipDescription ? <span>{shipinfo.shipDescription}</span> : <span>배를 등록해주세요.</span>}
+                              </div>
+                              <div>
+                                {shipinfo.shipLikeCount ||<span>{setShipinfo.shipLikeCount}</span>}
+                              </div> 
                           </div>
-                          <div className="content">
-                            {shipinfo.shipDescription ? <span>{shipinfo.shipDescription}</span> : <span>배를 등록해주세요.</span>}
-                          </div>
-                          <div>
-                            {shipinfo.shipLikeCount ||<span>{setShipinfo.shipLikeCount}</span>}
-                          </div> 
-                        </div>
                       </div>
                     </div>
                     <div className='binfo-btbox'>
@@ -140,7 +136,7 @@ const MpBtInfo = () => {
                             </>
                               ) : (
                               <button className='binfo-isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
-                              )}
+                            )}
                     </div>
 
                 <div className='rvbox'>
