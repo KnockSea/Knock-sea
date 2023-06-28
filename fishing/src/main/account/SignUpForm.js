@@ -311,7 +311,7 @@ function SignUpForm(){
         userData.append('profileImage', profileImage);
 
         // fetch를 사용하여 회원가입 요청 보내기
-        fetch(`${API_BASE_URL}${USER}/register`, {
+        fetch(`${API_BASE_URL}/register`, {
           method: 'POST',
           body: userData
         })

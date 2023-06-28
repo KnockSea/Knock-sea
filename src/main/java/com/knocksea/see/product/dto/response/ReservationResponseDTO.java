@@ -30,6 +30,10 @@ public class ReservationResponseDTO {
     private String reserveTitle;
     private int reservePrice;
 
+    private Long id;
+
+    private String type;
+
     public ReservationResponseDTO(Reservation r, ReservationTime time, Product product, SeaImage img) {
         this.imgUrl = img.getImageName();
         this.reserveDate=time.getTimeDate();
@@ -37,6 +41,9 @@ public class ReservationResponseDTO {
         this.reservePrice = r.getReservationPrice();
         this.timeStart = time.getTimeStart();
         this.timeEnd = time.getTimeEnd();
+        this.userCount = r.getReservationUserCount();
+        this.id=product.getProductId();
+        this.type=r.getReservationType();
     }
 
     public ReservationResponseDTO(Reservation r, ReservationTime time, Edu edu, SeaImage img) {
@@ -47,5 +54,7 @@ public class ReservationResponseDTO {
         this.timeEnd = time.getTimeEnd();
         this.reserveDate=time.getTimeDate();
         this.userCount = r.getReservationUserCount();
+        this.id=edu.getEduId();
+        this.type=r.getReservationType();
     }
 }

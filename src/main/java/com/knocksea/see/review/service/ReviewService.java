@@ -56,29 +56,32 @@ public class ReviewService {
 //        List<String> imgUrls = new ArrayList<>();
         String imgs = null;
 
-        if (reviewDTO.getProductId() != null) {
+        if (reviewDTO.getId() != null &&reviewDTO.getReviewType().equals("Product")) {
 
-            Product p = productRepository.findById(reviewDTO.getProductId()).get();
+            Product p = productRepository.findById(reviewDTO.getId()).get();
             List<Review> byProduct = reviewRepository.findByProduct(p);
 //            log.warn("리스트 맞아?{}",byProduct.toArray());
             if (!byProduct.isEmpty()) {
                 throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
             }
 
-            product = productRepository.findById(reviewDTO.getProductId()).orElseThrow();
+            product = productRepository.findById(reviewDTO.getId()).orElseThrow();
             SeaImage eduImg = imageRepository.findByProduct(product);
             imgs = eduImg.getImageName();
         }
 
-        if (reviewDTO.getEduId() != null) {
-            Edu e = eduRepository.findById(reviewDTO.getEduId()).get();
+        if (reviewDTO.getId() != null&&reviewDTO.getReviewType().equals("EDU")) {
+            Edu e = eduRepository.findById(reviewDTO.getId()).get();
+            log.info("eeeeee : "+e);
 //            log.warn("강의 정보 어딨어?: {}",e);
             List<Review> allByEdu = reviewRepository.findAllByEdu(e);
-//            log.warn("리스트 맞아?{}",allByEdu.toArray());
+            log.info("allByEdu : "+allByEdu);
+
             if (!allByEdu.isEmpty()) {
                 throw new RuntimeException("이미 리뷰 정보를 작성해서 작성할수 없습니다.");
             }
-            edu = eduRepository.findById(reviewDTO.getEduId()).orElseThrow();
+
+            edu = eduRepository.findById(reviewDTO.getId()).orElseThrow();
             SeaImage eduImg = imageRepository.findAllByEdu(edu).get(0);
             imgs = eduImg.getImageName();
 //            imageRepository.findAllByEdu(edu).forEach( i -> {
