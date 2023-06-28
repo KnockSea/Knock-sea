@@ -134,7 +134,7 @@ public class EduService {
         }).collect(Collectors.toList());
 
         return EduListResponseDTO.builder()
-                .totalcount(list.size())
+                .totalCount(list.size())
                 .posts(list)
                 .pageInfo(new PageResponseDTO(allEdu))
                 .build();
@@ -187,7 +187,7 @@ public class EduService {
             throw new RuntimeException("이미 등록한 클래스가 있습니다.");
         }
 
-
+        log.warn("이거 되면 안되는데?");
         //Edu 엔터티랑 ReservationTime엔터티에 저장
         //entity로 변환해서 저장
         Edu saveEdu = eduRepository.save(dto.toEduEntity(user));
