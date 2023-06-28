@@ -96,6 +96,8 @@ function ClassDetail() {
                         </div>
                     </div>
                 </div>
+
+                
             </div>    
         </div>
     </div>
