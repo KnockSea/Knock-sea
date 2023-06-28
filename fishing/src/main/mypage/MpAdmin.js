@@ -146,6 +146,6 @@ const updateValidation = async (e, validationUserName, validationType,validation
     </div>
 </section>
   )
-}}
-
+}
+}
 export default MpAdmin;

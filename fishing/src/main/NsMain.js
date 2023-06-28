@@ -45,6 +45,8 @@ import ScrollToTop from './ScrollToTop';
 import MpInquiryD from './mypage/MpInquiryD';
 import MpInquiryResult from './mypage/MpInquiryResult';
 import MpAdInquire from './mypage/MpAdInquire';
+import Like from './like/Like';
+import ReviewList from './reviewList/ReviewList';
 
 const NsMain = ({shipList, spotList, eduList}) => {
 
@@ -107,6 +109,10 @@ const NsMain = ({shipList, spotList, eduList}) => {
             <Route path='/adminCS' element={<MpAdminCS/>}></Route>
 
             <Route path='/host' element={<HostSearchMain/>}></Route>
+            {/* 좋아요 */}
+            <Route path='/like' element={<Like />}></Route>
+            {/* 리뷰게시판 */}
+            <Route path='/reviewList' element={<ReviewList />}></Route>
         </Routes>
             
     </section>
