@@ -123,7 +123,7 @@ public class ValidationApiController {
                     = validationService.modifyStatus(dto);
             return ResponseEntity.ok().body(latestvalidationStatus);
         }
-        catch (Exception e){
+        catch (RuntimeException e){
             return ResponseEntity
                     .internalServerError()
                     .body(e.getMessage());
