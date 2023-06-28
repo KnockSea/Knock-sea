@@ -49,7 +49,8 @@ public class EduApiController {
     public ResponseEntity<?> list(PageDTO pageDTO) {
         log.info("/api/v1/posts?page={}&size={}", pageDTO.getPage(), pageDTO.getSize());
 
-        List<EduListDataResponseDTO> allEdu = eduService.getAllEdu(pageDTO);
+        EduListResponseDTO allEdu = eduService.getAllEdu(pageDTO);
+
         return ResponseEntity
                 .ok()
                 .body(allEdu);

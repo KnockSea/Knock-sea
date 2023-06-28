@@ -2,14 +2,12 @@ package com.knocksea.see.edu.service;
 
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
-import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
-import com.knocksea.see.edu.dto.response.EduListDataResponseDTO;
-import com.knocksea.see.edu.dto.response.EduTopFourListResponseDTO;
-import com.knocksea.see.edu.dto.response.ResponseMyEduDTO;
+import com.knocksea.see.edu.dto.response.*;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.heart.repository.HeartRepository;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
+import com.knocksea.see.inquiry.dto.page.PageResponseDTO;
 import com.knocksea.see.product.dto.response.ReservationTimeResponseDTO;
 import com.knocksea.see.product.dto.response.mainListResponseDTO;
 import com.knocksea.see.product.entity.Reservation;
@@ -78,7 +76,7 @@ public class EduService {
     }
 
     //전체 조회
-    public List<EduListDataResponseDTO> getAllEdu(PageDTO dto) {
+    public EduListResponseDTO getAllEdu(PageDTO dto) {
         //유저이름, 리뷰 평점, 위치, 가격, 제목
         //User,heart
         //Pageable 객체 생성
@@ -135,7 +133,11 @@ public class EduService {
             return edus;
         }).collect(Collectors.toList());
 
-        return list;
+        return EduListResponseDTO.builder()
+                .totalcount(list.size())
+                .posts(list)
+                .pageInfo(new PageResponseDTO(allEdu))
+                .build();
     }
 
     // 상품 상세조회 기능 (예약 가능 시간 정보 포함)
