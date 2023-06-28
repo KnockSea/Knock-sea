@@ -30,7 +30,7 @@ const MpRvlist = () => {
   }, []);
 
   const userReservefetch = async() => {
-    const res = await fetch(`${API_BASE_URL}${USER}user-mylist`, {
+    const res = await fetch(`${API_BASE_URL}${USER}/user-mylist`, {
       method: 'GET',
       headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
     });
@@ -62,12 +62,8 @@ const MpRvlist = () => {
     userPhone : ''
   });
 
-
-
-
-
-
-
+const today = new Date().toLocaleDateString('ko-KR');
+console.log("today: ", today);
 
 
 
@@ -84,14 +80,23 @@ const MpRvlist = () => {
             <div className='rvitembox'>
               <div className='potobox'><img className="my-profile"  title="마이페이지" src={reservation.imgUrl || require('../icons/01d.png')} style={{border:"1px solid darkgray"}}/></div>
               <div className='minibox'>
-                <div className='rvlistdate'>{reservation.reserveDate}</div>
+                <div className='rvlistdate'>{reservation.reserveDate} {reservation.timeStart} ~ {reservation.timeEnd}</div>
                 <div className='rvlisttitle'>{reservation.reserveTitle}</div>
+                <div className='rvlistcount'>예약 인원 : {reservation.userCount}명</div>
                 <div className='rvlistsally'>{reservation.reservePrice}원</div>
               </div>
             </div>
-            <div className='rvlistbtnbox'>
-              <button className='relist'>후기쓰기</button>
-            </div>
+            {/* {reservation.reserveDate <= today && ( // 오늘 날짜와 예약일이 같은 경우에만 후기쓰기 버튼을 보여줌
+                <div className='rvlistbtnbox'>
+                  <button className='relist'>후기쓰기</button>
+                </div>
+              )} */}
+
+              <div className='rvlistbtnbox'>
+                <Link to={'/review'}>
+                  <button className='relist'>후기쓰기</button>
+                </Link>
+              </div>
           </div>
         ))
       ) : (

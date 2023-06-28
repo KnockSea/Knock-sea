@@ -47,15 +47,14 @@ function OwnerCheckFishing() {
 
 
     if(res.status===200){
-          alert('낚시터검증요청에 성공했습니다')
+          alert('낚시터 검증요청에 성공했습니다')
           //window.location.href = '/login';
           navi('/');
         }else if(res.status==500){
-          const errorResponse = await res.json(); // Parse error response as JSON
-          alert('등록에 오류가발생했습니다');
-          console.log(errorResponse);
+          const errorResponse = await res.text(); // Parse error response as JSON
+          alert('이미 검증에 등록된 정보가있습니다');
         }else{
-          alert('서버와의 접속이 원활하지않습니다');
+          alert('서버와의 접속이 원활하지 않습니다');
         }
   };
 

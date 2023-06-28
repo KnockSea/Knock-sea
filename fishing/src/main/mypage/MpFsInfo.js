@@ -79,7 +79,7 @@ useEffect(() => {
           <div className='ownerTap'>
            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>⛵ 배</h1></Link>)}
             {userInfo.userGrade==='OWNER' &&(<Link to={'/mpfs'}><h1>🚩 낚시터</h1></Link>)}
-            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)}
+            {/* {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)} */}
           </div>
         </div>
 
@@ -94,14 +94,16 @@ useEffect(() => {
             </div>
           </div>
         </div>
-            <div className="btbox">
-              {spotInfo && spotInfo[0] ?(<><button className='isbtn'><Link to={'/myquery'}>글 삭제하기</Link></button><button className='isbtn'><Link to={'/myquery'}>낚시터 정보 수정하기</Link></button></>):(<button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>)}
-              {/* {spotInfo===null &&(<button className="isbtn"><Link to={"/myquery"}>글 등록하기</Link></button>)} */}
-              {/* {spotInfo!==null &&(<button className="isbtn"><Link to={"/myquery"}>글 수정하기</Link></button>)} */}
-                {/* <button> */}
-                  {/* <Link to={'/myinfo'}>배 업체 정보 수정</Link> */}
-                  {/* 작성 폼 불러와서 수정 진행 Link 걸어야 함 */}
-                {/* </button> */}
+            <div className="binfo-btbox">
+              {spotInfo && spotInfo[0] ?(
+              <>
+              <button className='binfo-isbtn'><Link to={'/myquery'}>글 삭제하기</Link></button>
+              {/* <button className='isbtn'><Link to={'/myquery'}>낚시터 정보 수정하기</Link></button> */}
+              </>
+              ):(
+              <button className='binfo-isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
+              )}
+             
            </div>
 
         <div className="rvbox">

@@ -9,6 +9,7 @@ const MpInquiryResult = () => {
     const [inquiry, setInquiry] = useState([]);
     const [token, setToken] = useState(getLoginUserInfo().token);
     const [answer, setAnswer] = useState([]);
+    const [grade, setGrade] = useState(getLoginUserInfo().userGrade);
   
  
 
@@ -62,6 +63,7 @@ const MpInquiryResult = () => {
     return (
         <section>
             <div className="adminbox">
+                {grade ==='ADMIN' &&(
                 <div className="mgbox">
                     <div className="mgtitle">
                         <p>관리자</p>
@@ -78,6 +80,7 @@ const MpInquiryResult = () => {
                         </div>
                     </div>
                 </div>
+                )}
                 <div className="mgcontentbox">
                     <div className="ctntitle">
                         KNOCK_SEA 유저 화면
@@ -97,10 +100,13 @@ const MpInquiryResult = () => {
                         </div>
                         </div>
                     </div>
+                    {grade ==='ADMIN' ? (
                     <button onClick={handleSubmitAnswer}className="replybtn1">
-                         <Link to="/inquire">돌아가기</Link>
+                         <Link to="/adInquire">돌아가기</Link>
                     </button>
-
+                    ) : (                    <button onClick={handleSubmitAnswer}className="replybtn1">
+                    <Link to="/inquire">돌아가기</Link>
+               </button>)}
                 </div>
             </div>
         </section>

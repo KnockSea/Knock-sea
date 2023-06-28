@@ -3,6 +3,7 @@ package com.knocksea.see.validation.service;
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.user.entity.User;
+import com.knocksea.see.user.entity.UserGrade;
 import com.knocksea.see.user.repository.UserRepository;
 import com.knocksea.see.validation.dto.request.ValidationCreateDTO;
 import com.knocksea.see.validation.dto.request.validationModifyRequestDTO;
@@ -98,10 +99,13 @@ public class ValidationService {
     public ValidationStatus modifyStatus(validationModifyRequestDTO dto) {
 
         String userName = dto.getUserName();
+        Long userId= dto.getUserId();
         ValidationStatus validationStatus = dto.getValidationStatus();
         ValidationType validationType=dto.getValidationType();
 
-        User user = userRepository.findByUserName(userName);
+        User user = userRepository.findById(userId).orElseThrow(()->{
+            throw new RuntimeException("해당유저는 존재하지않습니다");
+        });
         Validation validation = validationRepository.findByUserAndValidationType(user, validationType);
 
         Validation save=null;
