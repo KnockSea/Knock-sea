@@ -364,7 +364,7 @@ public class ImageService {
         }
     }
 
-    public void saveProductImg(List<MultipartFile> productImages, TokenUserInfo userInfo, Product product) throws IOException {
+    public List<String> saveProductImg(List<MultipartFile> productImages, TokenUserInfo userInfo, Product product) throws IOException {
 
         List<String> list = new ArrayList<>();
 
@@ -380,7 +380,10 @@ public class ImageService {
                     .product(product)
                     .imageType(ProductCategory.valueOf(product.getProductType()))
                     .build());
+
         }
+
+        return list;
     }
 
     public void deleteEduImg(List<MultipartFile> Img, Long userId){

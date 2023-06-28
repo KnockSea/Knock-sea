@@ -5,13 +5,13 @@ import MpList from "./MpList";
 import { getLoginUserInfo } from "../util/login-util";
 import Stack from "@mui/material/Stack";
 import Pagination from "react-js-pagination";
-import { API_BASE_URL, INQUIRIES } from "../../config/host-config";
 
-const MpInquire = () => {
+const MpAdInquire = () => {
     const [inquiries, setInquiries] = useState([]);
     const [token, setToken] = useState(getLoginUserInfo().token);
     const [totalItemCount, setTotalItemCount] = useState(0);
     const [page, setPage] = useState(1);
+    const [grade, setGrade] = useState(getLoginUserInfo().userGrade);
 
     const handlePageChange = (page) => {
         setPage(page);
@@ -20,19 +20,17 @@ const MpInquire = () => {
 
     const fetchData = () => {
         fetch(
-            `${API_BASE_URL}${INQUIRIES}/myInquiry?page=${page}&size=10`,
+            `http://localhost:8012/api/v1/inquiries?page=${page}&size=10`,
             {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + token,
+                    "Content-Type": "application/json"
                 },
             }
         )
             .then((response) => response.json())
             .then((data) => {
                 if (data) {
-                    // console.log(data.pageInfo.totalCount);
                     setInquiries(data.inquiries);
                     setTotalItemCount(data.pageInfo.totalCount);
                 } else {
@@ -67,7 +65,7 @@ const MpInquire = () => {
                                     {inquiry.inquiryDateTime}
                                 </div>
                             </div>
-                            <button className="detail-btn">
+                            <button>
                             <Link
                                    to={`/inquiryResult/${inquiry.inquiryId}`}
                                 className="indetailbtn"
@@ -84,16 +82,16 @@ const MpInquire = () => {
                         <div>문의가 입력된 것이 없습니다.</div>
                     )}
                     <div className="page">
-                        <Pagination
-                            activePage={page}
-                            itemsCountPerPage={10}
-                            totalItemsCount={totalItemCount}
-                            pageRangeDisplayed={5}
-                            prevPageText={"‹"}
-                            nextPageText={"›"}
-                            onChange={handlePageChange}
-                        />     
-                    </div>
+                         <Pagination
+            activePage={page}
+            itemsCountPerPage={10}
+            totalItemsCount={totalItemCount}
+            pageRangeDisplayed={5}
+            prevPageText={"‹"}
+            nextPageText={"›"}
+            onChange={handlePageChange}
+          />     
+            </div>
             </div>
 
             <MpList />
@@ -102,4 +100,4 @@ const MpInquire = () => {
     );
 };
 
-export default MpInquire;
+export default MpAdInquire;

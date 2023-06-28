@@ -48,7 +48,7 @@ const ClassDetailTap = (props) => {
 
         
       </ul>
-      <div>
+      <div style={{textAlign:"left"}}>
         <Element name='소개'>
           <h2>클래스 소개</h2>
           <p>{props.eduInfo}</p>
@@ -57,7 +57,14 @@ const ClassDetailTap = (props) => {
         <Element name='후기'>
           <h2>수강 후기</h2>
           {props.reviewList && props.reviewList.map((review, index) => (
-            <p key={index}>{review.reviewContent}</p>
+            // <p key={index}>{review.reviewContent}</p>
+            <div className='rvitembox'>
+              <div className='potobox'><img className="my-profile"  title="마이페이지" src={review.profileImg || require('../icons/01d.png')} style={{border:"1px solid darkgray"}}/></div>
+              <div className='minibox'>
+                <div className='rvlisttitle'>이름 평점</div>
+                <div className='rvlistcount'>{review.reviewContent}</div>
+              </div>
+            </div>
           ))}
         </Element>
       </div>

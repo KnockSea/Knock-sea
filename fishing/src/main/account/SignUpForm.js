@@ -4,13 +4,13 @@ import { Route, Routes } from 'react-router-dom';
 import { useNavigate, Link } from 'react-router-dom';
 import Post from './Post';
 import ProfileUpload from './ProfileUpload';
+import { API_BASE_URL as BASE, USER } from '../../config/host-config';
 
-// import { API_BASE_URL as BASE, USER } from '../config/host-config';
 
 function SignUpForm(){
 
 
-  // const API_BASE_URL = BASE + USER;
+  const API_BASE_URL = BASE + USER;
 
   const redirection = useNavigate();
 
@@ -100,6 +100,31 @@ function SignUpForm(){
   }
 
   // 회원가입페이지 입력 검증
+   // 이메일 중복체크 서버 통신 함수
+   const fetchDuplicateCheck = async (userEmail) => {
+
+    const res = await fetch(`${API_BASE_URL}/check?userEmail=${userEmail}`);
+
+    let msg = '', flag = false;
+    if (res.status === 200) {
+      const json = await res.json();
+      console.log(json);
+      if (json) {
+        msg = '이메일이 중복되었습니다!';
+        flag = false;
+      } else {
+        msg = '🙆🏻‍♂️';
+        flag = true;
+      }
+    } else {
+      alert('서버 통신이 원활하지 않습니다!');
+    }
+
+    setUserValue({...userValue, userEmail: userEmail });
+    setMessage({...message, userEmail: msg });
+    setCorrect({...correct, userEmail: flag });
+      
+  };
   // 이메일 입력
   const emailHandler = e => {
 
@@ -115,7 +140,7 @@ function SignUpForm(){
       msg = '이메일 형식에 맞게 작성해주세요.';
       flag = false;
     } else{
-      // 이메일 중복체크 로직작성
+      fetchDuplicateCheck(inputVal);
       msg = '🙆🏻‍♂️';
       flag = true;
     }
@@ -286,7 +311,7 @@ function SignUpForm(){
         userData.append('profileImage', profileImage);
 
         // fetch를 사용하여 회원가입 요청 보내기
-        fetch(`${API_BASE_URL}${USER}/register`, {
+        fetch(`${API_BASE_URL}/register`, {
           method: 'POST',
           body: userData
         })
@@ -317,7 +342,7 @@ function SignUpForm(){
     <div className="container">
       <div className="sign-up-wrap">
         <div className="sign-up-header">
-          <div className="header">회원 가입</div>
+          <div className="header">회원 가입</div>``
           <img className="image-82-CzH" src="https://cdn-icons-png.flaticon.com/128/5778/5778669.png" id="SignUpImg"/>
           <div className="head2">
             <p><span>KNOCK_SEA</span>의 회원이 되어보세요.</p>

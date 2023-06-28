@@ -3,15 +3,9 @@ import "../scss/Calendar.scss"
 import "./scss/ClassModal.scss";
 import ClassCalendar from './ClassCalendar';
 import { getLoginUserInfo } from "../util/login-util";
+import { useNavigate } from 'react-router-dom';
 
-const handleLogin = (e) => {
-    e.preventDefault();
-  
-      // 회원가입 서버 요청
-    };
-    
-  // 렌더링 후 실행함수
-// timeList, price, address
+
 function ClassModal({closeModal, oneEdu}) {
   const [token, setToken] = useState(getLoginUserInfo().token);
   const listSize=oneEdu.timeList.length-1;
@@ -23,9 +17,17 @@ function ClassModal({closeModal, oneEdu}) {
   const [selectedTime, setSelectedTime] = useState(null);
   const [classTimes, setClassTimes] = useState([]);
   const[timeIndex,setTimeIndex] = useState(0);
+  const navigate = useNavigate();
+  const [index,setIndex]=useState(0);
 
+  
   const handleIncrease = () => {
-    setCount(count + 1);
+    if(oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser>count){
+      setCount(count + 1);    
+    }else if(oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser<=count){
+      alert("인원 입력을 확인해주세요");   
+    }
+       
   };
 
   const handleDecrease = () => {
@@ -38,14 +40,17 @@ function ClassModal({closeModal, oneEdu}) {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    setCount(0);
+    setSelectedTime(null);
   };
 
-  const handleTimeChange = (time,timeIndex) => {
+  const handleTimeChange = (time,timeIndex,index) => {
     setSelectedTime(time);
     setTimeIndex(timeIndex);
+    setIndex(index);
   }    
     const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
-  
+
   const handlePayment=()=>{
    
     console.log("token",token.userId);
@@ -56,7 +61,6 @@ function ClassModal({closeModal, oneEdu}) {
       reservationUserCount : count,
       reservationPrice :  oneEdu.eduPrice,
       eduLevel : oneEdu.eduLevel,
-      // userId : token.userId,
       eduId : oneEdu.eduId,
       reservationTimeId : timeIndex 
     };
@@ -69,60 +73,49 @@ function ClassModal({closeModal, oneEdu}) {
       'Authorization': 'Bearer ' + token
     };
     
-
         fetch(API_BASE_URL, {
         method: 'POST',
         headers:  requestHeader,
         body: JSON.stringify(reservation)
       })
       .then(res => {
-        if(res.status === 200) return res.json();
-        else if (res.status === 401) {
-          alert('실패');
+        if(res.status === 200) {
+        alert('예약이 완료되었습니다!😝') 
+        navigate('/rvlist'); 
+      return res.json();
+     } else if (res.status === 401) {
+          alert('예약 실패..😫');
         }
       })
-      // .then(json => {
-      //   json && setTodos(json.todos);
-      // });
   }
-
-
-
-
-
 
     return (
         <div className="modal-overlay" >
           <div className="modal-box">
-            <button onClick={closeModal} className='close-btn'>X</button>
+            <button onClick={closeModal} className='close-btn'><img src='https://cdn-icons-png.flaticon.com/128/7778/7778647.png'/></button>
             <h1 className='select-date'>참여 일정을 선택해주세요😀</h1>
             <hr style={{marginTop:'5px'}}/>
             <div className='calendar'>
               <ClassCalendar className='datePicker' handleDateChange={handleDateChange} startTime={startTime} EndTime={EndTime}/>
             </div>
 
-                {oneEdu.timeList.map((time, index) => {
-                  const timeDate = new Date(time.timeDate);
-                  const selectedLocalDate = selectedDate ? new Date(selectedDate.getTime() - (selectedDate.getTimezoneOffset() * 60000)) : null;
+            {oneEdu.timeList.map((time, index) => {
+  const remainingSlots = oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser;
+  const isNoRemainingSlot = remainingSlots === 0;
 
-                  if (selectedLocalDate && timeDate.getTime() === selectedLocalDate.getTime()) {
-                    return (
-                      <div className='class-select-time' key={oneEdu.timeList[index].timeId}>
-                        <div className='selected-time' onClick={() => handleTimeChange(`${time.timeStart}~${time.timeEnd}`,`${oneEdu.timeList[index].timeId}` )}>
-                          {time.timeStart}~{time.timeEnd}
-                        </div>
-                        <div className='selected-time'>남은 인원: {oneEdu.timeList[index].timeMaxUser - oneEdu.timeList[index].timeCurrentUser}명</div>
-                        
-                        {/* {classTimes.map((time, index) => (
-                          <div key={index} className='selected-time' onClick={() => handleTimeChange(time,oneEdu.timeList[index].timeId)}>
-                            {time}
-                          </div>
-                        ))} */}
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
+  const timeDate = new Date(time.timeDate);
+  const selectedLocalDate = selectedDate ? new Date(selectedDate.getTime() - (selectedDate.getTimezoneOffset() * 60000)) : null;
+  if (selectedLocalDate && timeDate.getTime() === selectedLocalDate.getTime()) {
+    return (
+      <div className='class-select-time' key={oneEdu.timeList[index].timeId}>
+        <div className={`selected-time ${isNoRemainingSlot ? 'no-remaining-slot' : ''}`} onClick={() => handleTimeChange(`${time.timeStart}~${time.timeEnd}`,`${oneEdu.timeList[index].timeId}`, `${index}` )}>
+          {time.timeStart}~{time.timeEnd} | 남은 인원: {remainingSlots}명  
+        </div>
+      </div>
+    );
+  }
+  return null;
+})}
               
 
             <div className='result'>
@@ -149,7 +142,7 @@ function ClassModal({closeModal, oneEdu}) {
                     <span> {count*oneEdu.eduPrice}원 </span>
                   </div>
                 <p className='total-result'>{formattedDate} {selectedTime} / {count}명</p>
-                <button className='class-pay-btn custom-button' onClick={handlePayment}>결제하기</button>
+                <button className='class-pay-btn custom-button' onClick={handlePayment}>예약하기</button>
             </div>
           </div>
         </div>

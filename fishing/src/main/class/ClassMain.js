@@ -3,11 +3,17 @@ import './scss/ClassMain.scss';
 // import './scss/reset.scss';
 import { Route, Routes,Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Pagination from "react-js-pagination";
+import { API_BASE_URL } from '../../config/host-config';
 
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
 
 const handleLogin = (e) => {
-    e.preventDefault();
   
+
+    e.preventDefault();
+
       // 회원가입 서버 요청
      
     };
@@ -17,7 +23,7 @@ const handleLogin = (e) => {
       };
       
 
-    const API_BASE_URL = 'http://localhost:8012/api/v1/edu';
+    // const API_BASE_URL = 'http://localhost:8012/api/v1/edu';
 
 
     
@@ -26,11 +32,22 @@ const handleLogin = (e) => {
  
 
 function ClassMain() {
-    
-    const [edus, setEdus] = useState([]);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(8);
+  const [totalItemCount, setTotalItemCount] = useState(0);
+  const [edus, setEdus] = useState([]);
+  const [value, setValue] = useState(0);
 
+  const handlePageChange = (page) => {
+    setPage(page);
+    // console.log(page);
+  };
+    
+    
+
+      // console.log('edus',edus);
       useEffect(()=>{
-        fetch(API_BASE_URL, { 
+        fetch(`${API_BASE_URL}/api/v1/edu?page=${page}&size=${size}`, { 
             method: 'GET',
             headers: requestHeader
           })
@@ -41,11 +58,14 @@ function ClassMain() {
               }
             })
             .then(json => {
-              console.log(json);   //->이걸 상태관리 변수인 todos에 셋팅하면 화면에 그려짐
-              setEdus(json); //렌더링 완료
+              console.log('json', json); // Check the fetched data
+              setEdus(json);
+              setTotalItemCount(json.pageInfo.totalCount);
+              console.log('edus: ' , edus);
+              console.log('setValue : ' , value);
             });
-        }, []);
-
+        }, [page]);
+        
       const TopList = [
         { id: '12', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕', place: '부둣가', price: 10000 },
         { id: '123', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
@@ -60,7 +80,7 @@ function ClassMain() {
       };
 
     return(
-      edus.length > 0  && (
+      edus.posts && (
           <div className="class-container">
         <div className="class-wrap">
             <div id="class-header">
@@ -78,7 +98,7 @@ function ClassMain() {
                                     </div>
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
-                                            <div className="list-star-rating">{t.star}</div>
+                                            <div className="list-star-rating">{t.reviewAverage}</div>
 
                                             <div className="userId">{t.userName}</div>
                                         </div>
@@ -107,7 +127,7 @@ function ClassMain() {
                     <div className="class-list">
                         <div className='lists'>
                         
-                            {edus.map((f) => (
+                            {edus.posts.map((f) => (
                             <Link to={`/classdetail/${f.eduId}` } style={{ color: 'black', textDecoration: 'none' }}> 
                                     <div className="class-list-1" key={f.eduId}>
                                     <div className="writer" data-id={f.eduId}></div>
@@ -116,19 +136,39 @@ function ClassMain() {
                                     </div>
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
-                                            <div className="list-star-rating">{f.star}</div>
+                                        <div className="list-star-rating">
+                                          {f.reviewAverage}
+                                              <Box
+                                                  sx={{
+                                                    '& > legend': { mt: 2 } }}
+                                                >
+                                                  <Rating name="half-rating" 
+                                                  value={f.reviewAverage}
+                                                  precision={0.5}
+                                                  readOnly />
+                                                </Box>
+                                          </div>
                                             <div className="userId">{f.userName}</div>
                                         </div>
-                                        <div className="text-place list-t">위치 : {f.eduLocation}</div>
-                                        <div className="text-price">가격 : {f.eduPrice}</div>
-                                        <div className="text-title list-t">{f.eduTitle}</div>
+                                        <div className="text-place list-t">🚩위치 : {f.eduLocation}</div>
+                                        <div className="text-price list-t">💰가격 : {f.eduPrice}</div>
+                                        <div className="text-title list-t">💙{f.eduTitle}</div>
                                     </div>
                                     </div>
                             </Link>
-                                ))}                                
-
-                        </div>        
-                        
+                                ))}   
+                                  <div className="page">
+                                  <Pagination
+                                  activePage={page}
+                                  itemsCountPerPage={size}
+                                  totalItemsCount={totalItemCount}
+                                  pageRangeDisplayed={5}
+                                  prevPageText={"‹"}
+                                  nextPageText={"›"}
+                                  onChange={handlePageChange}
+                                  />     
+                                  </div>                     
+                        </div>       
                     </div>
                 </div>
             </div>    

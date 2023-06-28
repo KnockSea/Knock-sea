@@ -2,24 +2,11 @@ import React, { useEffect, useState } from "react";
 import ex from "./img/ex.jpg";
 import "./scss/NsItem.scss";
 import { Link } from "react-router-dom";
-import { API_BASE_URL, PRODUCTS } from "../config/host-config";
 
 
-const NsItem = () => {
- 
+const NsItem = ({shipList}) => { 
 
-  // product 객체에서 필요한 값을 추출
-  // const imageUrlList = mainship?.imgUrl || []; 
-  // 배 이미지 URL 리스트
-
-  // 최신 순으로 정렬된 이미지 URL 리스트
-  // const sortedImageUrlList = imageUrlList.sort(
-  //   (a, b) => b.createdAt - a.createdAt
-  // );
-
-  // console.log("NSitem !! ! ! ! ! ! mainship:", mainship);
-   // product 변수 콘솔 출력
-
+  // 뿌리는 이미지 캐러셀 쓰면 있어보이나? 3덩어리라 조잡할지도?
   return (
     <div className="ship">
       <div className="title">
@@ -29,11 +16,11 @@ const NsItem = () => {
         </p>
       </div>
       <div className="shipboxs">
-        {/* {sortedImageUrlList.slice(0, 3).map((imgUrl, index) => (
+        {shipList.slice(0, 3).map((imgUrl, index) => (
           <div key={index}>
-            <img src={imgUrl || ex} alt={`Image ${index + 1}`} />
+            <img src={imgUrl.imgUrl || ex} alt={`Image ${index + 1}`} />
           </div>
-        ))} */}
+        ))}
       </div>
     </div>
   );

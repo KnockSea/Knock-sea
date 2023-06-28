@@ -2,14 +2,12 @@ package com.knocksea.see.edu.service;
 
 import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
-import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
-import com.knocksea.see.edu.dto.response.EduListDataResponseDTO;
-import com.knocksea.see.edu.dto.response.EduTopFourListResponseDTO;
-import com.knocksea.see.edu.dto.response.ResponseMyEduDTO;
+import com.knocksea.see.edu.dto.response.*;
 import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.heart.repository.HeartRepository;
 import com.knocksea.see.inquiry.dto.page.PageDTO;
+import com.knocksea.see.inquiry.dto.page.PageResponseDTO;
 import com.knocksea.see.product.dto.response.ReservationTimeResponseDTO;
 import com.knocksea.see.product.dto.response.mainListResponseDTO;
 import com.knocksea.see.product.entity.Reservation;
@@ -67,14 +65,18 @@ public class EduService {
 
     //좋아요 상위 4개 조회
     public EduTopFourListResponseDTO findTopFour(){
+        log.info("gggg");
         //정 안되면 Edu 테이블에 좋아요 칼럼 만들기
         //리뷰테이블에서 평점이 높은 topFour를 찾아서 그 eduId를 찾음. eduId로 edu테이블에서 찾음
+//        List<Edu> eduList = eduRepository.findTop4ByReviewRating();
+
+//        log.info("eduList : "+eduList);
 
         return null;
     }
 
     //전체 조회
-    public List<EduListDataResponseDTO> getAllEdu(PageDTO dto) {
+    public EduListResponseDTO getAllEdu(PageDTO dto) {
         //유저이름, 리뷰 평점, 위치, 가격, 제목
         //User,heart
         //Pageable 객체 생성
@@ -103,6 +105,33 @@ public class EduService {
             }
 
             double reviewAverage = reviewTotal / reviews.size();
+            reviewAverage= Math.round(reviewAverage * 10)/10.0; //소수점 한자리만 나오도록
+
+            int front = (int)reviewAverage/1;
+            log.info("front : "+front);
+            double back = reviewAverage%1;
+            log.info("back : "+back);
+
+            if (back >= 0.0 && back <= 0.4) {
+                reviewAverage = front+0.0;
+            } else if(back >= 0.5 && back <= 0.9){
+                reviewAverage = front+0.5;
+            }
+            log.info("reviewAverage : ",reviewAverage);
+
+//           ;
+//
+//            int decimalPlace = (int) (reviewAverage * 10) % 10;
+//
+//            if (decimalPlace >= 1 && decimalPlace <= 4) {
+//                reviewAverage = Math.floor(reviewAverage);
+//            } else if (decimalPlace >= 5 && decimalPlace <= 9) {
+//                reviewAverage = Math.ceil(reviewAverage);
+//                if (reviewAverage % 1 != 0) {
+//                    reviewAverage = Math.floor(reviewAverage) + 0.5;
+//                }
+//            }
+
             if(reviewAverage>0) {
                 edus.setReviewAverage(reviewAverage);
             }else {
@@ -118,7 +147,11 @@ public class EduService {
             return edus;
         }).collect(Collectors.toList());
 
-        return list;
+        return EduListResponseDTO.builder()
+                .totalCount(list.size())
+                .posts(list)
+                .pageInfo(new PageResponseDTO(allEdu))
+                .build();
     }
 
     // 상품 상세조회 기능 (예약 가능 시간 정보 포함)
@@ -142,6 +175,7 @@ public class EduService {
                             reviewDetailResponseDTO.setEduId(review.getEdu().getEduId());
                             reviewDetailResponseDTO.setReviewRating(review.getReviewRating());
                             reviewDetailResponseDTO.setInquiryDateTime(review.getInquiryDateTime());
+                            reviewDetailResponseDTO.setProfileImg(review.getUser().getProfileImg());
                             return reviewDetailResponseDTO;
                         }
                         ).collect(Collectors.toList());
@@ -167,7 +201,7 @@ public class EduService {
             throw new RuntimeException("이미 등록한 클래스가 있습니다.");
         }
 
-
+        log.warn("이거 되면 안되는데?");
         //Edu 엔터티랑 ReservationTime엔터티에 저장
         //entity로 변환해서 저장
         Edu saveEdu = eduRepository.save(dto.toEduEntity(user));
@@ -262,9 +296,15 @@ public class EduService {
 
         return eduList.stream()
                 .map(p -> {
-                    SeaImage seaImage = imageRepository.findById(p.getSeaImage().getImageId()).orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
+                    SeaImage seaImage = imageRepository.findByEdu(p);
+//                            .orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
                     return new mainListResponseDTO(p, seaImage);
                 }).collect(Collectors.toList());
+//                .map(p -> {
+//
+//                    SeaImage seaImage = imageRepository.findById(p.getSeaImage().getImageId()).orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
+//                    return new mainListResponseDTO(p, seaImage);
+//                }).collect(Collectors.toList());
     }
 
     public ResponseMyEduDTO getMyEdu( @AuthenticationPrincipal TokenUserInfo userInfo) {

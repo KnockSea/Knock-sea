@@ -70,9 +70,9 @@ public class Edu {
     @Builder.Default
     private List<Review> reviews = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id")
-    private SeaImage seaImage;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "image_id")
+//    private SeaImage seaImage;
 
 
     // 수정메서드

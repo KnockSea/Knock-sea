@@ -106,41 +106,37 @@ const MpBtInfo = () => {
                         <div className='ownerTap'>
                             {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>⛵ 배</h1></Link>)}
                             {userInfo.userGrade==='OWNER' &&(<Link to={'/mpfs'}><h1>🚩 낚시터</h1></Link>)}
-                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)}
+                            {/* {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)} */}
                         </div>
                     </div>
                    
                    <div className='userinfobox'>
                       <div className='userinfoWrap'>
                           <div className='profilebox'>
-                            {shipinfo.shipImageLocation && shipinfo.shipImageLocation.length > 0 ? (
-                                <img className="my-profile" title="마이페이지" src={shipinfo.shipImageLocation[0]} />
-                            ) : (
-                                <img className="my-profile" title="마이페이지" src={require('./../icons/defaultProfile.png')} />
-                            )}
+                            {shipinfo.shipImageLocation && shipinfo.shipImageLocation.length > 0 ? (<img className="my-profile" title="마이페이지" src={shipinfo.shipImageLocation[0]} />) : (<img className="my-profile" title="마이페이지" src={require('./../icons/defaultProfile.png')} />)}
                           </div>
-                        <div className='namebox'>
-                          <div className="nickName">
-                            {shipinfo.shipName ? <span>{shipinfo.shipName}</span> : <span>등록된 배가  없습니다.</span>}
+                          <div className='namebox'>
+                              <div className="nickName">
+                                {shipinfo.shipName ? <span>{shipinfo.shipName}</span> : <span>등록된 배가  없습니다.</span>}
+                              </div>
+                              <div className="content">
+                                {shipinfo.shipDescription ? <span>{shipinfo.shipDescription}</span> : <span>배를 등록해주세요.</span>}
+                              </div>
+                              <div>
+                                {shipinfo.shipLikeCount ||<span>{setShipinfo.shipLikeCount}</span>}
+                              </div> 
                           </div>
-                          <div className="content">
-                            {shipinfo.shipDescription ? <span>{shipinfo.shipDescription}</span> : <span>배를 등록해주세요.</span>}
-                          </div>
-                          <div>
-                            {shipinfo.shipLikeCount ||<span>{setShipinfo.shipLikeCount}</span>}
-                          </div> 
-                        </div>
                       </div>
                     </div>
-                    <div className='btbox'>
+                    <div className='binfo-btbox'>
                           {shipinfo && shipinfo.shipId ? (
                             <>
-                              <button className='isbtn' onClick={deleteShip}>배 정보 삭제하기</button>
-                              <button className='isbtn'>배 정보 수정하기</button>
+                              <button className='binfo-isbtn' onClick={deleteShip}>배 정보 삭제하기</button>
+                              {/* <button className='binfo-isbtn'>배 정보 수정하기</button> */}
                             </>
                               ) : (
-                              <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
-                              )}
+                              <button className='binfo-isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
+                            )}
                     </div>
 
                 <div className='rvbox'>
