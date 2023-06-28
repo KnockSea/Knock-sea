@@ -135,7 +135,7 @@ function EduRegistration() {
             alert("등록 성공");
             navigate("/");
           } else {
-            alert("이미 등록된 클래스가 있어요😥");
+            alert(res.status);
           }
 
     } catch (error) {
