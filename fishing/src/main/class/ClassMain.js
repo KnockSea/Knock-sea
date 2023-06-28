@@ -29,7 +29,6 @@ const handleLogin = (e) => {
  
 
 function ClassMain() {
-
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(8);
   const [totalItemCount, setTotalItemCount] = useState(0);
@@ -40,7 +39,9 @@ function ClassMain() {
   };
     
     const [edus, setEdus] = useState([]);
+    console.log('edus' , edus);
 
+      // console.log('edus',edus);
       useEffect(()=>{
         fetch(`${API_BASE_URL}/api/v1/edu?page=${page}&size=${size}`, { 
             method: 'GET',
@@ -53,12 +54,9 @@ function ClassMain() {
               }
             })
             .then(json => {
-              console.log(json);   //->이걸 상태관리 변수인 todos에 셋팅하면 화면에 그려짐
+              console.log('eduList', json); // Check the fetched data
               setEdus(json);
-              // console.log(json.pageInfo.totalCount);
-              // console.log('edus',edus);
               setTotalItemCount(json.pageInfo.totalCount);
-
             });
         }, [page]);
 
@@ -76,7 +74,7 @@ function ClassMain() {
       };
 
     return(
-      edus.length > 0  && (
+      edus.length > 0 && (
           <div className="class-container">
         <div className="class-wrap">
             <div id="class-header">
