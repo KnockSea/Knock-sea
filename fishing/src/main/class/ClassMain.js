@@ -74,7 +74,7 @@ function ClassMain() {
       };
 
     return(
-      edus.length > 0 && (
+      edus.posts > 0 && (
           <div className="class-container">
         <div className="class-wrap">
             <div id="class-header">
