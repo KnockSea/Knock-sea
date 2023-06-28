@@ -170,6 +170,8 @@ public class EduService {
                             reviewDetailResponseDTO.setReviewRating(review.getReviewRating());
                             reviewDetailResponseDTO.setInquiryDateTime(review.getInquiryDateTime());
                             reviewDetailResponseDTO.setProfileImg(review.getUser().getProfileImg());
+                            reviewDetailResponseDTO.setUserName(review.getUser().getUserName());
+                            reviewDetailResponseDTO.setReviewRating(review.getReviewRating());
                             return reviewDetailResponseDTO;
                         }
                         ).collect(Collectors.toList());
