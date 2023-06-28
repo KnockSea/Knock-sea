@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import Pagination from "react-js-pagination";
 import { API_BASE_URL } from '../../config/host-config';
 
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
+
 const handleLogin = (e) => {
   
 
@@ -33,7 +36,8 @@ function ClassMain() {
   const [size, setSize] = useState(8);
   const [totalItemCount, setTotalItemCount] = useState(0);
   const [edus, setEdus] = useState([]);
-  
+  const [value, setValue] = useState(0);
+
   const handlePageChange = (page) => {
     setPage(page);
     // console.log(page);
@@ -54,10 +58,11 @@ function ClassMain() {
               }
             })
             .then(json => {
-              console.log('eduList', json); // Check the fetched data
+              console.log('json', json); // Check the fetched data
               setEdus(json);
               setTotalItemCount(json.pageInfo.totalCount);
-              // console.log('edus' , edus.posts);
+              console.log('edus: ' , edus);
+              console.log('setValue : ' , value);
             });
         }, [page]);
         
@@ -133,12 +138,15 @@ function ClassMain() {
                                         <div className='list-title-wrap list-t'>
                                         <div className="list-star-rating">
                                           {f.reviewAverage}
-                                            {f.reviewAverage === 0 && "☆☆☆☆☆"}
-                                            {f.reviewAverage === 1 && "☆☆☆☆⭐"}
-                                            {f.reviewAverage === 2 && "☆☆☆⭐⭐"}
-                                            {f.reviewAverage === 3 && "☆☆⭐⭐⭐"}
-                                            {f.reviewAverage === 4 && "☆⭐⭐⭐⭐"}
-                                            {f.reviewAverage === 5 && "⭐⭐⭐⭐⭐"}
+                                              <Box
+                                                  sx={{
+                                                    '& > legend': { mt: 2 } }}
+                                                >
+                                                  <Rating name="half-rating" 
+                                                  value={f.reviewAverage}
+                                                  precision={0.5}
+                                                  readOnly />
+                                                </Box>
                                           </div>
                                             <div className="userId">{f.userName}</div>
                                         </div>

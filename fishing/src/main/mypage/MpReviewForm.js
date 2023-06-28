@@ -17,23 +17,7 @@ const MpReviewForm = () => {
   const [token, setToken] = useState("");
   const [rating, setReviewRating] = useState(0);
   const [id,setId]=useState(0);
-
-//   const [ratingIndex, setRatingIndex] = useState(1); 
-
-  const [clicked, setClicked] = useState([1, 2, 3, 4, 5]);
-const [value, setValue] = useState(0);
-  const ARRAY = [0, 1, 2, 3, 4];
-
-  
-  // const handleRatingChange = index => 
-  //   {
-  //       let clickStates = [...clicked];
-  //       for (let i = 0; i < 5; i++) {
-  //         clickStates[i] = i <= index ? true : false;
-  //       }
-  //       setReviewRating(clickStates);
-        
-  //   };
+  const [value, setValue] = useState(0);
 
   const handleContentChange = (reviewContent) => 
     {
@@ -99,25 +83,6 @@ const location = useLocation();
               <div className="cltitle">별점</div>
             </div>
             <div>
-           {/* <RatingSection
-                ratingIndex={ratingIndex}
-                setRatingIndex={setRatingIndex}
-              />*/}              
-
-           
-                {/* <RatingText>평가하기</RatingText> */}
-                {/* <Stars>
-                  {ARRAY.map((el, idx) => {
-                    return (
-                      <FaStar
-                        key={idx}
-                        size="50"
-                        onClick={() => handleRatingChange(el)}
-                        className={clicked[el] && 'yellowStar'}
-                      />
-                    );
-                  })}
-                </Stars> */}
                   <Box
                       sx={{
                         '& > legend': { mt: 2 } }}
@@ -145,7 +110,7 @@ const location = useLocation();
       <br />
           <Link to="/inquire" className="qtUpdatebtn" onClick={handleSubmit}>
             작성완료 
-            </Link>
+          </Link>
         </div>
       </div>
 

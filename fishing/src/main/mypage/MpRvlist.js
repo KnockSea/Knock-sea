@@ -93,7 +93,7 @@ const [reviewType , setReviewType]=useState("");
               )} */}
 
               <div className='rvlistbtnbox'>
-                <Link to={'/review'} state={{ reservationInfo: reservation}}>
+                <Link to={'/review'} state={{ reservationInfo : reservation}}>
                   <button className='relist'>후기쓰기</button>
                 </Link>
               </div>
