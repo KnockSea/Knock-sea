@@ -26,7 +26,7 @@
         private Long reviewId;
 
         @Column(name = "review_rating", nullable = false)
-        private Long reviewRating;
+        private Double reviewRating;
 
         @Column(name = "review_content", nullable = false)
         private String reviewContent;

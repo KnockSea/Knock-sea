@@ -19,7 +19,7 @@ import java.util.List;
 public class ReviewDetailResponseDTO {
 
     private Long reviewId;
-    private Long reviewRating;
+    private Double reviewRating;
     private String reviewContent;
     private ReviewType reviewType;
     private Long userId;
