@@ -13,7 +13,7 @@ if(clientHostNmae === 'localhost'){
 export const API_BASE_URL = backEndHostName;
 export const SHIP = '/api/v1/ship';
 
-export const FISHINGSPOT = 'api/v1/fishing';
+export const FISHINGSPOT = '/api/v1/fishing';
 
 export const EDU = '/api/v1/edu';
 

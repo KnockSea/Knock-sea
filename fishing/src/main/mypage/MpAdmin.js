@@ -17,27 +17,31 @@ const MpAdmin = () => {
         userId : '',
         userPhone : ''
       });
+      
+    useEffect(() => {
+        const user = getLoginUserInfo();
+        // console.log(userInfo);
+        setUserInfo(user);
+    },[])
 
-useEffect(() => {
-    const user = getLoginUserInfo();
-    console.log(userInfo);
-    setUserInfo(user);
-},[])
-
-//검증요청 리스트 서버에서 받아오기
-useEffect(() => {
-    fetch(`${API_BASE_URL}${VALIDATION}/${validationType}`)
-    .then(response => response.json())
-    .then(data => {
-        // 요청 결과 처리
-        console.log(data);
-        setValidationList(data);
-    })
-    .catch(error => {
-        // 에러 처리
-        console.error('Error:', error);
-    });
-}, []);
+    //검증요청 리스트 서버에서 받아오기
+    useEffect(() => {
+        fetch(`${API_BASE_URL}${VALIDATION}/${validationType}`)
+        .then(response => {
+            console.log(`${API_BASE_URL}${VALIDATION}/${validationType}`);
+            console.log(response.status);
+            return response.json();
+        })
+        .then(data => {
+            // 요청 결과 처리
+            console.log('데이터 있나요?', data);
+            setValidationList(data);
+        })
+        .catch(error => {
+            // 에러 처리
+            console.error('Error:', error);
+        });
+    }, []);
 
 //검증요청 승인하는 함수
 const updateValidation = async (e, validationUserName, validationType,validationuserId) => {
@@ -83,68 +87,57 @@ const updateValidation = async (e, validationUserName, validationType,validation
           }
         }
   };
-
   
-  
-  
-  
-  
-  
-  
-
-
   return (
-<section>
+    <section>
 
-    <div className='adminbox'>
-        {/* 관리자목록박스  */}
-    <div className='mgbox'>
-        <div className='mgtitle'>
-            <p>관리자</p>
-        </div>
-        <div className='mglist'>
-            <div><Link to='/admin'>배 검증요청</Link></div>
-            <div className='ch2'><Link to='/adminFS'>낚시터 검증요청</Link></div>
-            <div><Link to='/adminCS'>문의 현황</Link></div>
-        </div>
-    </div>
-        <div className='mgcontentbox'>
-            <div className='ctntitle'>KNOCK_SEA 관리자 화면 (배)</div>
-
-            {/* 본문내용 */}
-            <div className='ctntext'>
-        {validationList.length > 0 ? (
-            validationList.map((validation) => (
-            <div key={validation.validationId}>
-                {validation.userId ? (
-                <div className='username'>{validation.userId}</div>
-                ) : (
-                <div>등록유저번호</div>
-                )}
-                {validation.userName ? (
-                <div className='username'>{validation.userName}</div>
-                ) : (
-                <div>등록유저이름없음</div>
-                )}
-                {validation.validationShipRegi ? (
-                <div className='spotregi'>{validation.validationBusinessRegi}</div>
-                ) : (
-                <div>사업장등록  번호없음</div>
-                )}
-                <div>
-                <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
-                <button>취소</button>
-                </div>
-                <div>{validation.validationStatus}</div>
+        <div className='adminbox'>
+            {/* 관리자목록박스  */}
+        <div className='mgbox'>
+            <div className='mgtitle'>
+                <p>관리자</p>
             </div>
-            ))
-        ) : (
-            <div>데이터 없음</div>
-        )}
-</div>
+            <div className='mglist'>
+                <div><Link to='/admin'>배 검증요청</Link></div>
+                <div className='ch2'><Link to='/adminFS'>낚시터 검증요청</Link></div>
+                <div><Link to='/adminCS'>문의 현황</Link></div>
+            </div>
         </div>
-    </div>
-</section>
+            <div className='mgcontentbox'>
+                <div className='ctntitle'>KNOCK_SEA 관리자 화면 (배)</div>
+
+                {/* 본문내용 */}
+                <div className='ctntext'>
+            {!!validationList ? (
+                validationList.map((validation) => (
+                <div key={validation.validationId}>
+                    {validation.userId ? (
+                    <div className='username'>{validation.userId}</div>
+                    ) : (
+                    <div>등록유저번호</div>
+                    )}
+                    {validation.userName ? (
+                    <div className='username'>{validation.userName}</div>
+                    ) : (
+                    <div>등록유저이름없음</div>
+                    )}
+                    {validation.validationShipRegi ? (
+                    <div className='spotregi'>{validation.validationBusinessRegi}</div>
+                    ) : (
+                    <div>사업장등록  번호없음</div>
+                    )}
+                    <div>
+                    <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
+                    <button>취소</button>
+                    </div>
+                    <div>{validation.validationStatus}</div>
+                </div>
+                ))
+            ) : (<div>데이터 없음</div>)}
+                </div>
+            </div>
+        </div>
+    </section>
   )
 }
 }

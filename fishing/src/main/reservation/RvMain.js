@@ -9,20 +9,29 @@ import RvItem from './RvItem';
 import { Link, Route, Routes } from 'react-router-dom';
 import RvBtDetail from './RvBtDetail';
 import RvMap from './RvMap';
+import Pagination from "react-js-pagination";
+
 
 
 function RvMain({fetchFsProduct, FsProduct}) {
 
-
+  const [totalItemCount, setTotalItemCount] = useState(0);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(6);
   const [products, setProducts] = useState(FsProduct);
   const type = 'SHIP';
 
   console.log('안녕 나는 rvmain이야 ');
-  
+  const handlePageChange = (page) => {
+    setPage(page);
+    console.log(page);
+  };
+    
   useEffect(() => {
     // fetchFsProduct(page, size, type);
+    if (FsProduct.length === 0) {
+      setPage(1);
+    }
     setProducts(FsProduct);    
   },[FsProduct]);
   
@@ -47,8 +56,33 @@ function RvMain({fetchFsProduct, FsProduct}) {
               </div>
             </div>
         </div>
+
         {/* 페이징 버튼 영역 */}
-    </div>
+        <div className='page'>
+        {FsProduct && FsProduct.length > 0 && (
+          <Pagination
+            activePage={page}
+            itemsCountPerPage={size}
+            totalItemsCount={FsProduct.length}
+            pageRangeDisplayed={5}
+            prevPageText={'‹'}
+            nextPageText={'›'}
+            onChange={handlePageChange}
+          />
+        )}
+        {FsProduct && FsProduct.length === 0 && (
+          <Pagination
+            activePage={page}
+            itemsCountPerPage={size}
+            totalItemsCount={0}
+            pageRangeDisplayed={5}
+            prevPageText={'‹'}
+            nextPageText={'›'}
+            onChange={handlePageChange}
+          />
+        )}
+      </div>                              
+      </div>
   )
 }
 

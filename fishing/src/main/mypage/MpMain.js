@@ -108,28 +108,23 @@ const MpMain = () => {
                         </div>
                     </div>
 
-
-
-                {/* <div className='rvbox'>
-                       <MpReFormItem/>
-                </div> */}
                 {userInfo.userGrade==='OWNER' || userInfo.userGrade==='COMMON' &&(
                 <div className='rvbox'>
                     <MpReviewList />
                 </div>
                 )}
-                {userInfo.userGrade==='OWNER' &&(<div className='rvbox2'>
+                <div className='rvbox2'>
                     <div className='inner-rvbox2 btbox'>
                         <div>
                             <h2>예약 현황</h2>
                             <p>아직 작성된 글이 없습니다</p>
                         </div>
                         <div>
-                        <button className='mp-isbtn'onClick={ () => {setModal(true)} }>바로 예약하기</button>
+                        <button className='mp-isbtn'onClick={ () => {setModal(true)} }>등록하러 가기</button>
                             {modal === true ? <RegiModal closeModal={() => setModal(false)} /> : null}
                         </div>
                     </div>
-                </div>)}
+                </div>
             </div>
         
                 <MpList style={{position:"fixed"}} />

@@ -68,10 +68,13 @@
                         margin-right: 5px;
                     }
                 }
+
+
              }
             //  내용 작성부분 
              .qtbox2 {
                     // border: 1px solid #000;
+                    margin-bottom: 50px;
                 .exx1 {
                     height: 300px;
                 }
@@ -122,15 +125,14 @@
                     margin: 10px 0px 0px 20px;
                 }
             }
-             
             .qtUpdatebtn{
-                width: 150px;
-                padding: 5px 20px;
+                width: 200px;
+                padding: 10px 40px;
                 border: none;
                 background: #123282;
                 border-radius: 10px;
-                margin: 30px auto 0;
-
+                margin: 50px auto 0;
+        
                 &:hover {
                     font-weight: 600;
                     background: #fff;
@@ -138,21 +140,9 @@
                     border: 1px solid #123282;
                 }
             }
+            
             }
             
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
+  
 }

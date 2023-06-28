@@ -9,7 +9,7 @@ function RvFsTemplate() {
 
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(6);
-  const [type, setType] = useState("SPOT");
+  const [type, setType] = useState('SPOT');
   const [totalItemCount, setTotalItemCount] = useState(0);
   const handlePageChange = (page) => {
     setPage(page);
@@ -19,6 +19,9 @@ function RvFsTemplate() {
   // 낚시터 상품 정보 전체를 가져오는 함수
   const fetchFsProduct = async ({p,s,t}) => {
    
+
+    console.log(Fsproduct);
+
 
     fetch(`${API_BASE_URL}${PRODUCTS}/product-list?page=${p}&size=${s}&type=${t}`)
         .then(response => response.json())

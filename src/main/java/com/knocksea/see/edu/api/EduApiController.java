@@ -50,8 +50,8 @@ public class EduApiController {
         log.info("/api/v1/posts?page={}&size={}", pageDTO.getPage(), pageDTO.getSize());
 
         EduListResponseDTO allEdu = eduService.getAllEdu(pageDTO);
-
-        log.warn("이거 아닌거같은데? {}", allEdu);
+        log.info("Page DTO : {}",pageDTO);
+//        log.warn("이거 아닌거같은데? {}", allEdu);
         return ResponseEntity
                 .ok()
                 .body(allEdu);

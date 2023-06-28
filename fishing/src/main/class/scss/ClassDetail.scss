@@ -50,7 +50,7 @@ body{
             object-fit: cover;
             border-radius: 16px 0px 0px 16px;
         }
-    .photo, .photo2 {
+    .photo, .photo2, .photo3 {
         width: 275px;
         height: 320px;
         // border: 1px solid #000;
@@ -155,6 +155,9 @@ body{
         border-radius: 50rem;
         // background: url('https://cdn-icons-png.flaticon.com/128/1752/1752787.png');
         overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
 
         .profile-img img {
             height: 100%;
@@ -162,6 +165,7 @@ body{
             display: flex; 
             justify-content: center;
             align-items: center;
+
         }
     }
 

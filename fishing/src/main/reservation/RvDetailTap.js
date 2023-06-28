@@ -13,7 +13,7 @@ const RvDetailTap = ({ sDetail}) => {
       scroller.scrollTo(tab, {
         duration: 200,
         smooth: 'easeInOutQuart',
-        offset: -150, // 스크롤 위치의 오프셋 (필요에 따라 조정)
+        offset: -100, // 스크롤 위치의 오프셋 (필요에 따라 조정)
       });
     };
   
@@ -77,7 +77,7 @@ const RvDetailTap = ({ sDetail}) => {
         ))}
       </Element>
       <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/><br/> <br/> <br/> <br/>
-      <Element name='후기'>
+      <Element name='주의사항'>
         <h2>주의 사항</h2>
             <RvBtText
             FsDetail={ sDetail}
