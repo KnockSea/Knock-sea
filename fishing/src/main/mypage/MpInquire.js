@@ -67,7 +67,7 @@ const MpInquire = () => {
                                     {inquiry.inquiryDateTime}
                                 </div>
                             </div>
-                            <button>
+                            <button className="detail-btn">
                             <Link
                                    to={`/inquiryResult/${inquiry.inquiryId}`}
                                 className="indetailbtn"
@@ -84,16 +84,16 @@ const MpInquire = () => {
                         <div>문의가 입력된 것이 없습니다.</div>
                     )}
                     <div className="page">
-                         <Pagination
-            activePage={page}
-            itemsCountPerPage={10}
-            totalItemsCount={totalItemCount}
-            pageRangeDisplayed={5}
-            prevPageText={"‹"}
-            nextPageText={"›"}
-            onChange={handlePageChange}
-          />     
-            </div>
+                        <Pagination
+                            activePage={page}
+                            itemsCountPerPage={10}
+                            totalItemsCount={totalItemCount}
+                            pageRangeDisplayed={5}
+                            prevPageText={"‹"}
+                            nextPageText={"›"}
+                            onChange={handlePageChange}
+                        />     
+                    </div>
             </div>
 
             <MpList />
