@@ -5,6 +5,7 @@ import { getLoginUserInfo } from "../util/login-util";
 import { Link } from "react-router-dom";
 import { FaStar } from 'react-icons/fa';
 import styled from 'styled-components';
+import { useLocation } from "react-router-dom";
 
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
@@ -12,9 +13,10 @@ import { renderIntoDocument } from "react-dom/test-utils";
 
 const MpReviewForm = () => {
   const [reviewContent, setReviewContent] = useState("");
-  const [reviewType, serReviewType] = useState("");
+  const [reviewType, setReviewType] = useState("");
   const [token, setToken] = useState("");
   const [rating, setReviewRating] = useState(0);
+  const [id,setId]=useState(0);
 
 //   const [ratingIndex, setRatingIndex] = useState(1); 
 
@@ -23,32 +25,31 @@ const [value, setValue] = useState(0);
   const ARRAY = [0, 1, 2, 3, 4];
 
   
-  const handleRatingChange = index => 
-    {
-        let clickStates = [...clicked];
-        for (let i = 0; i < 5; i++) {
-          clickStates[i] = i <= index ? true : false;
-        }
-        setReviewRating(clickStates);
+  // const handleRatingChange = index => 
+  //   {
+  //       let clickStates = [...clicked];
+  //       for (let i = 0; i < 5; i++) {
+  //         clickStates[i] = i <= index ? true : false;
+  //       }
+  //       setReviewRating(clickStates);
         
-    };
+  //   };
 
   const handleContentChange = (reviewContent) => 
     {
       setReviewContent(reviewContent.target.value);
     };
 
+
   const handleSubmit = () => {
     const formdata = {
       reviewContent: reviewContent,
-      // reviewRating: reviewRating,
-      // reviewType : reviewType,
-      reviewType : "EDU",
+      reviewType : reviewType,
       reviewRating : value,
-      eduId : 1
+      id : id
     };
 
-    console.log(formdata);
+    console.log("formdata : ",formdata);
 
     fetch("http://localhost:8012/api/v1/reviews", {
       method: "POST",
@@ -75,14 +76,16 @@ const [value, setValue] = useState(0);
     setToken(token);
   };
 
+const location = useLocation();
   // 컴포넌트가 마운트될 때 토큰을 얻어오도록 useEffect를 사용하여 호출
   useEffect(() => {
     fetchToken();
+    const reservationInfo = location.state.reservationInfo;
+    console.log("reservationInfo : ",reservationInfo);
+    setId(reservationInfo.id);
+    setReviewType(reservationInfo.type);
   }, []);
-
-  
-
-
+ 
 
   return (
     <section className="MyPageMainBox">
