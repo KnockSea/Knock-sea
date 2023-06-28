@@ -3,6 +3,12 @@ import  img1 from './img/ns1.png'
 import  img2 from './img/ns2.png'
 import  img3 from './img/ns3.png'
 
+import sea1 from './img/sea1_1.png'
+import sea2 from './img/sea1_2.jpg'
+import sea3 from './img/sea1_3.png'
+
+
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useLocation } from 'react-router-dom';
 
@@ -17,7 +23,7 @@ const NsBanner = () => {
   // }
 
 
-  const images = [img1, img2, img3];
+  const images = [sea1, sea2, sea3];
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // 다음 이미지로 이동

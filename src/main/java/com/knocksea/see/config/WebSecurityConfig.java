@@ -41,6 +41,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 //어딴 요청에서 인증을 안할 것인지 설정, 언제 할 것인지 설정
                 .antMatchers("/").permitAll()
+                .antMatchers("/health-check").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/products").permitAll()
                 .antMatchers("/api/v1/products/{productId}").permitAll()
                 .antMatchers("/api/v1/products/product-list").permitAll()

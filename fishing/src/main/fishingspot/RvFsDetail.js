@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./RvScss/RvFsDetail.scss";
 import dt1 from "../img/dtRv.png";
 import fs from "../img/fs.jpg";
-import ClassModal from "../class/ClassModal";
 
 import { API_BASE_URL, PRODUCTS } from "../../config/host-config";
 import { useLocation, useParams } from "react-router-dom";

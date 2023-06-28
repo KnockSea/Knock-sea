@@ -17,7 +17,7 @@ const MpReviewForm = () => {
   const [token, setToken] = useState("");
   const [rating, setReviewRating] = useState(0);
   const [id,setId]=useState(0);
-const [value, setValue] = useState(0);
+  const [value, setValue] = useState(0);
 
   const handleContentChange = (reviewContent) => 
     {

@@ -75,7 +75,7 @@ export const NsHeader = () => {
           }
         }
       })();
-    }, [isLogin,setProfileUrl]);
+    }, [setProfileUrl]);
     
 
   return (
