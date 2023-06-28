@@ -5,7 +5,7 @@ const RvBtText = ({sDetail}) => {
 
 
   return (
-    <div className="left">
+    <div>
     <div className="title">
       {/* <h1> {sDetail.title} </h1>{" "} */}
       {/* <h1>[영종도] 뉴동관호 1호~3호 대방어 낚시</h1> */}{" "}
