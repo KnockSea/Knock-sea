@@ -41,18 +41,7 @@ function RvTemplate() {
         <RvMain
         // fetchFsProduct={fetchFsProduct}
         FsProduct={Fsproduct}
-        />
-        <div className="page">
-          <Pagination
-          activePage={page}
-          itemsCountPerPage={size}
-          totalItemsCount={Fsproduct.pageInfo.totalCount}
-          pageRangeDisplayed={5}
-          prevPageText={"‹"}
-          nextPageText={"›"}
-          onChange={handlePageChange}
-          />     
-        </div>               
+        />      
     </div>
 
   )
