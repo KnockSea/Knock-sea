@@ -15,26 +15,13 @@ import Pagination from "react-js-pagination";
 
 function RvMain({fetchFsProduct, FsProduct}) {
 
-  const [totalItemCount, setTotalItemCount] = useState(0);
-  const [page, setPage] = useState(1);
-  const [size, setSize] = useState(6);
+  
   const [products, setProducts] = useState(FsProduct);
   const type = 'SHIP';
 
   // console.log('안녕 나는 rvmain이야 ');
-  const handlePageChange = (page) => {
-    setPage(page);
-    console.log(page);
-  };
-    
-  useEffect(() => {
-    // fetchFsProduct(page, size, type);
-    if (FsProduct.length === 0) {
-      setPage(1);
-    }
-    setProducts(FsProduct);    
-    setTotalItemCount(products.pageInfo.totalCount);
-  },[FsProduct]);
+  
+
   
   console.log('얘는 존재 해?', FsProduct);
 
@@ -60,17 +47,7 @@ function RvMain({fetchFsProduct, FsProduct}) {
 
         {/* 페이징 버튼 영역 */}
                             
-        <div className="page">
-          <Pagination
-          activePage={page}
-          itemsCountPerPage={size}
-          totalItemsCount={totalItemCount}
-          pageRangeDisplayed={5}
-          prevPageText={"‹"}
-          nextPageText={"›"}
-          onChange={handlePageChange}
-          />     
-        </div>                 
+          
       </div>
   )
 }
