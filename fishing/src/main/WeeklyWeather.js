@@ -22,29 +22,7 @@ const WeeklyWeather = () => {
 
   // icons 폴더 내의 모든 이미지 파일 불러오기
   // const icons = Object.values(importAll(require.context("./icons/", false, /\.(png)$/)));
-  // icons 폴더 내의 모든 이미지 파일 가져오기
 
-  // const icons = [
-  //   { image: require("./icons/01d.png"), code: "01d" },
-  //   { image: require("./icons/01n.png"), code: "01n" },
-  //   { image: require("./icons/02d.png"), code: "o2d" },
-  //   { image: require("./icons/02n.png"), code: "02n" },
-  //   { image: require("./icons/03d.png"), code: "03d" },
-  //   { image: require("./icons/03n.png"), code: "03n" },
-  //   { image: require("./icons/04d.png"), code: "04d" },
-  //   { image: require("./icons/04n.png"), code: "04n" },
-  //   { image: require("./icons/09d.png"), code: "09d" },
-  //   { image: require("./icons/09n.png"), code: "09n" },
-  //   { image: require("./icons/10d.png"), code: "10d" },
-  //   { image: require("./icons/10n.png"), code: "10n" },
-  //   { image: require("./icons/11d.png"), code: "11d" },
-  //   { image: require("./icons/11n.png"), code: "11n" },
-  //   { image: require("./icons/13d.png"), code: "13d" },
-  //   { image: require("./icons/13n.png"), code: "13n" },
-  //   { image: require("./icons/50d.png"), code: "50d" },
-  //   { image: require("./icons/50n.png"), code: "50n" },
-  //   { image: require("./icons/unknown.png"), code: "unknown" }
-  // ];
 
   const icons = {
     "01d": require("./icons/01d.png").default,

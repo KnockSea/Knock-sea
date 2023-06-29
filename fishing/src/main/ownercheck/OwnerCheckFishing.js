@@ -130,8 +130,8 @@ function OwnerCheckFishing() {
               <button type="submit" className="btn">
                 취소
               </button>
-              <button type="submit" className="btn" onClick={handleOwnerConfirm}>
-                다음
+              <button type="submit" className="btn">
+                완료
               </button>
             </div>
           </form>
