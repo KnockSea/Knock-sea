@@ -146,12 +146,10 @@ useEffect(() => {
               <div className="detail-section">
                 <div className="detail-box detail-list-profile">
                   <div className="lists">
-                    <Link to="/host">
-                      <div className="box profile-img">
+                    <div className="box profile-img">
                         <img src={oneEdu.userProfileImage} alt="Profile" />
                       </div>
                       <span className="box profile-page">{oneEdu.userName}</span>
-                    </Link>
                     <div>
                       <button
                         onClick={createHeart}
@@ -162,15 +160,14 @@ useEffect(() => {
                           cursor: 'pointer',
                         }}
                       >
-                        {exists ? '❤️' : '🤍'}
-                        <h3>{eduHeartCount}</h3>
+                        {exists ? '❤️' : '🤍'} <span>{eduHeartCount}</span>
                       </button>
                     </div>
                     <div className="condition">
                       <ul className="condition-box">
                         <li>{oneEdu.eduLevel} |</li>
-                        <li>최대 {oneEdu.timeList && oneEdu.timeList[0].timeMaxUser}명 |</li>
-                        <li>{oneEdu.eduPrice}원</li>
+                        <li> 최대 {oneEdu.timeList && oneEdu.timeList[0].timeMaxUser}명 |</li>
+                        <li> {oneEdu.eduPrice}원</li>
                       </ul>
                     </div>
                   </div>
