@@ -21,6 +21,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.persistence.EntityNotFoundException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -66,6 +67,16 @@ public class HeartService {
         return heartRepository.existsByUserAndHeartType(user, HeartType.valueOf(heartType));
     }
 
+    public int eduHeart(Long eduId, String heartType) {
+        Optional<Edu> eduOptional = eduRepository.findById(eduId);
+        Edu edu = eduOptional.orElse(null);
+
+        if (edu == null) {
+            return 0;
+        }
+        int eduHeartCount = heartRepository.countByEduAndHeartType(edu, HeartType.valueOf(heartType));
+        return eduHeartCount;
+    }
 }
 
 

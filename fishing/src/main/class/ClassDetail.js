@@ -13,6 +13,15 @@ function ClassDetail() {
   const [userId, setUserId] = useState(getLoginUserInfo().userId);
   const [isHearted, setIsHearted] = useState(false);
   const [exists, setExists] = useState(false);
+  const [eduHeartCount, setEduHeartCount] = useState(0);
+  
+
+  const fetchEduHeartCount = () => {
+    fetch(`http://localhost:8012/api/v1/hearts/eduHeart?eduId=${eduId}&heartType=${'EDU'}`)
+      .then(response => response.json())
+      .then(data => setEduHeartCount(data))
+      .catch(error => console.error('Error fetching edu heart count:', error));
+  };
 
   useEffect(() => {
     const fetchHeartExists = async () => {
@@ -56,6 +65,7 @@ function ClassDetail() {
         // 하트 생성 후 exists 값을 업데이트
         const updatedExists = !exists;
         setExists(updatedExists);
+        fetchEduHeartCount();
       } else {
         console.error('하트 생성 또는 삭제 실패');
       }
@@ -87,8 +97,10 @@ function ClassDetail() {
       .then((json) => {
         console.log(json);
         setOneEdu(json);
+        fetchEduHeartCount();
       });
-  }, [eduId]);
+      fetchEduHeartCount();
+  }, [eduId, exists]);
 
   return (
     <div className="class-detail-container">
@@ -125,13 +137,14 @@ function ClassDetail() {
                       <button
                         onClick={createHeart}
                         style={{
-                          color: isHearted ? 'red' : 'black',
+                          color: exists ? 'red' : 'black',
                           border: 'none',
                           background: 'transparent',
                           cursor: 'pointer',
                         }}
                       >
                         {exists ? '❤️' : '🤍'}
+                        <h3>{eduHeartCount}</h3>
                       </button>
                     </div>
                     <div className="condition">
