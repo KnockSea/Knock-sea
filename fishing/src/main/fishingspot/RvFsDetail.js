@@ -7,7 +7,8 @@ import { API_BASE_URL, PRODUCTS } from "../../config/host-config";
 import { useLocation, useParams } from "react-router-dom";
 import { Calendar } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
-
+import { getLoginUserInfo } from "../util/login-util";
+import { useNavigate } from 'react-router-dom';
 
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.css";
@@ -17,11 +18,21 @@ import RvFsModal from "./RvFsModal";
 
 const RvFsDetail = () => {
   const { productId } = useParams();
-
   const [startDate, setStartDate] = useState(new Date());
-
   const [modal, setModal] = useState(false);
   const [FsDetail, setFsdetail] = useState({});
+  const [token, setToken] = useState(getLoginUserInfo().token);
+  const navigate = useNavigate();
+
+  const handleRegiIsloign = (e) => {
+    if (!token) {
+            alert("로그인이 필요한 서비스입니다!😏");
+            navigate('/login');
+        return;
+          } else {
+            setModal(true);
+            e.preventDefault();
+            }};
 
   useEffect(() => {
     fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`)
@@ -79,9 +90,7 @@ const RvFsDetail = () => {
                 <div>
                   <button
                     className="box btn"
-                    onClick={() => {
-                      setModal(true);
-                    }}
+                    onClick={handleRegiIsloign}
                   >
                     바로 예약하기
                   </button>

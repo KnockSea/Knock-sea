@@ -170,8 +170,8 @@ function OwnerCheckShip() {
               <button type="submit" className="btn">
                 취소
               </button>
-              <button type="submit" className="btn" onClick={handleOwnerCheck}>
-                다음
+              <button type="submit" className="btn">
+                완료
               </button>
             </div>
           </form>

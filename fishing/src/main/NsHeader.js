@@ -80,10 +80,10 @@ export const NsHeader = () => {
         <div className='hdleft'>
           <Link to={'/'}><img src={logoPath}/></Link>
             <ul>
-                <li><Link to={'/bt'} style={linkStyle} className='hdleft-tap'> 배낚시</Link></li>
-                <li><Link to={'/fs'}  style={linkStyle} className='hdleft-tap'> 낚시터</Link></li>
-                <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap'> 클래스</Link></li>
-                {userInfo.userGrade === 'ADMIN' ? (<li><Link to={'/admin'}>관리자</Link></li>) : (userInfo.token && (<li><Link to={'/my'} style={linkStyle}>마이페이지</Link></li>))}
+                <li><Link to={'/bt'} style={linkStyle} className='hdleft-tap active'> 배낚시</Link></li>
+                <li><Link to={'/fs'}  style={linkStyle} className='hdleft-tap active'> 낚시터</Link></li>
+                <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap active'> 클래스</Link></li>
+                {userInfo.userGrade === 'ADMIN' ? (<li className='hdleft-tap active'><Link to={'/admin'}>관리자</Link></li>) : (userInfo.token && (<li className='hdleft-tap active'><Link to={'/my'} style={linkStyle}>마이페이지</Link></li>))}
             </ul>
         </div>
    
