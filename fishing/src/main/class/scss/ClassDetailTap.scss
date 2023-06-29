@@ -12,10 +12,12 @@
   li {
     width: 20%;
     font-size: 16px;
+    font-weight: 700;
     text-align: center;
     padding: 20px;
     cursor: pointer;
 
+    
     .custom-link {
       text-align: left;
       color: inherit;
@@ -35,4 +37,32 @@
       font-weight: 700;
     }
   }
+}
+
+.detail-content-wrapped {
+  border-style: none;
+  margin-top: 40px;
+
+    h2 {
+      font-size: 20px;
+      font-family: 'Orbit', sans-serif;
+      font-weight: 700;
+      margin: 20px 0;
+    }
+
+    .rvitembox {
+      display: flex;
+      margin-bottom: 10px;
+
+      img{
+        width: 100px;
+        height: 100px;
+        margin-right: 20px;
+      }
+
+      .review-username {
+        font-size: 17px;
+        display: inline;
+      }
+    }
 }

@@ -3,10 +3,9 @@ import RvTemplate from './reservation/RvTemplate'
 import './scss/NsHeader.scss'
 import logoPath from './img/logo.png'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getLoginUserInfo , isLogin } from './util/login-util';
-import { useEffect ,useHistory} from 'react'
 import { API_BASE_URL, USER } from '../config/host-config'
 
 
@@ -73,6 +72,18 @@ export const NsHeader = () => {
       })();
     }, [isLoggedIn]);
     
+    useEffect(() => {
+      const handleBackButton = () => {
+        alert('다시 로그인 해주세요!😏')
+        navi('/login');
+      };
+  
+      window.addEventListener('popstate', handleBackButton);
+  
+      return () => {
+        window.removeEventListener('popstate', handleBackButton);
+      };
+    }, []);
 
   return (
     <header>
@@ -80,10 +91,10 @@ export const NsHeader = () => {
         <div className='hdleft'>
           <Link to={'/'}><img src={logoPath}/></Link>
             <ul>
-                <li><Link to={'/bt'} style={linkStyle} className='hdleft-tap'> 배낚시</Link></li>
-                <li><Link to={'/fs'}  style={linkStyle} className='hdleft-tap'> 낚시터</Link></li>
-                <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap'> 클래스</Link></li>
-                {userInfo.userGrade === 'ADMIN' ? (<li><Link to={'/admin'}>관리자</Link></li>) : (userInfo.token && (<li><Link to={'/my'} style={linkStyle}>마이페이지</Link></li>))}
+                <li><Link to={'/bt'} style={linkStyle} className='hdleft-tap active'> 배낚시</Link></li>
+                <li><Link to={'/fs'}  style={linkStyle} className='hdleft-tap active'> 낚시터</Link></li>
+                <li><Link to={'/class'}  style={linkStyle} className='hdleft-tap active'> 클래스</Link></li>
+                {userInfo.userGrade === 'ADMIN' ? (<li className='hdleft-tap active'><Link to={'/admin'}>관리자</Link></li>) : (userInfo.token && (<li className='hdleft-tap active'><Link to={'/my'} style={linkStyle}>마이페이지</Link></li>))}
             </ul>
         </div>
    

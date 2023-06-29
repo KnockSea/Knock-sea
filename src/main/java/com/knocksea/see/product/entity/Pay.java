@@ -13,7 +13,7 @@ public class Pay {
     private LocalDateTime payDate;
     private String payMethod;
 //    @ManyToOne
-//    @JoinColumn(name = "reservation_id")
+//    @JoinColumn(name = "reservation_id",cascade = CascadeType.REMOVE)
 //    private Reservation reservation;
 
 }

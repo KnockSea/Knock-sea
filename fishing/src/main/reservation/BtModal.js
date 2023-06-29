@@ -3,6 +3,7 @@ import "../scss/Calendar.scss"
 import "../fishingspot/RvScss/RvModal.scss"
 import { getLoginUserInfo } from "../util/login-util";
 import ClassCalendar from '../class/ClassCalendar';
+import { API_BASE_URL,RESERVATION } from '../../config/host-config';
 
 const handleLogin = (e) => {
     e.preventDefault();
@@ -69,7 +70,7 @@ function BtModal({closeModal, sDetail}) {
     };
     
 
-        fetch(API_BASE_URL, {
+        fetch(`${API_BASE_URL}${RESERVATION}`, {
         method: 'POST',
         headers:  requestHeader,
         body: JSON.stringify(reservation)
