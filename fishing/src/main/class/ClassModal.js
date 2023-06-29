@@ -4,7 +4,8 @@ import "./scss/ClassModal.scss";
 import ClassCalendar from './ClassCalendar';
 import { getLoginUserInfo } from "../util/login-util";
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL, RESERVATION } from '../../config/host-config';
+import { API_BASE_URL,RESERVATION } from '../../config/host-config';
+
 
 
 function ClassModal({closeModal, oneEdu}) {
@@ -50,8 +51,6 @@ function ClassModal({closeModal, oneEdu}) {
     setTimeIndex(timeIndex);
     setIndex(index);
   }    
-    
-
   const handlePayment=()=>{
    
     console.log("token",token.userId);

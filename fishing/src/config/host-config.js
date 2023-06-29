@@ -32,7 +32,7 @@ export const REVIEW = '/api/v1/reviews';
 
 export const HOST = '/api/v1/products';
 
-export const RESERVATION = '/api/v1/reservation'
+export const RESERVATION = '/api/v1/reservation';
 
 export const HEART = '/api/v1/hearts';
 
