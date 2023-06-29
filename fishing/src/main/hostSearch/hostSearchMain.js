@@ -17,7 +17,6 @@ const HostSearchMain = () => {
     }
 
     
-    
     // useEffect(()=>{
     //     fetch(API_BASE_URL, { 
     //         method: 'GET',
@@ -46,9 +45,7 @@ const HostSearchMain = () => {
                                       
                     <div className='user-search-box'>
                         <div className='user-photo-box'>
-                            <div>
                                 <HostPhotoCarousel/>    
-                            </div>
                         </div>
 
                         <div className='user-info-box'>

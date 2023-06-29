@@ -11,42 +11,40 @@ import { useNavigate } from 'react-router-dom';
 
 
 function ClassDetail() {
-     const [modal, setModal] = useState('false'); 
-     const { eduId } = useParams();
-     const [oneEdu, setOneEdu] = useState([]);
-     const [token, setToken] = useState(getLoginUserInfo().token);
-     const [userId, setUserId] = useState(getLoginUserInfo().userId);
-     const [isHearted, setIsHearted] = useState(false);
-     const [exists, setExists] = useState(false);
+    const [modal, setModal] = useState('false'); 
+    const { eduId } = useParams();
+    const [oneEdu, setOneEdu] = useState([]);
+    const [token, setToken] = useState(getLoginUserInfo().token);
+    const [userId, setUserId] = useState(getLoginUserInfo().userId);
+    const [isHearted, setIsHearted] = useState(false);
+    const [exists, setExists] = useState(false);
     const navigate = useNavigate();
 
-      const handleRegiIsloign = (e) => {
-        if (!token) {
-                alert("로그인이 필요한 서비스입니다!😏");
-                navigate('/login');
-            return;
-             } else {
-                setModal(true);
-                e.preventDefault();
-                }};
+    const handleRegiIsloign = (e) => {
+      if (!token) {
+              alert("로그인이 필요한 서비스입니다!😏");
+              navigate('/login');
+          return;
+            } else {
+              setModal(true);
+              e.preventDefault();
+              }};
 
+    useEffect(() => {
+      const fetchHeartExists = async () => {
+        try {
+          const heartType = 'EDU'; // 하트 타입
 
+          const apiUrl = `http://localhost:8012/api/v1/hearts/exists?userId=${userId}&heartType=${heartType}`;
 
-  useEffect(() => {
-    const fetchHeartExists = async () => {
-      try {
-        const heartType = 'EDU'; // 하트 타입
+          const response = await fetch(apiUrl);
+          const exists = await response.json();
 
-        const apiUrl = `http://localhost:8012/api/v1/hearts/exists?userId=${userId}&heartType=${heartType}`;
-
-        const response = await fetch(apiUrl);
-        const exists = await response.json();
-
-        setExists(exists);
-      } catch (error) {
-        console.error('API 요청 실패:', error);
-      }
-    };
+          setExists(exists);
+        } catch (error) {
+          console.error('API 요청 실패:', error);
+        }
+      };
 
     fetchHeartExists();
   }, [userId]);

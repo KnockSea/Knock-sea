@@ -122,8 +122,7 @@ const MainContent = ({ shipList, spotList, eduList }) => {
         <>
            {(
             <>
-                   <NsBanner />
-
+            <NsBanner />
             <div className='mainbox'>
             <div className='contentbox'>
             <NsItem shipList={shipList}/>
