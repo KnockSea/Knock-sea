@@ -5,7 +5,13 @@ import MpList from './MpList'
 import { useState ,useEffect} from 'react'
 import { getLoginUserInfo } from '../util/login-util'
 import { API_BASE_URL, USER } from '../../config/host-config'
-import { setDate } from 'date-fns'
+
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const MpRvlist = () => {
 
@@ -18,6 +24,18 @@ const MpRvlist = () => {
   });
 
   const [dateStatus, setDateStatus] = useState(true);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    //삭제 패치 때리기
+    
+  };
 
 
   useEffect(() => {
@@ -64,9 +82,31 @@ const MpRvlist = () => {
   });
 
 
-useEffect(() => {
-
-});
+  const useConfirm = (message = null, onConfirm, onCancel) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+    if (onCancel && typeof onCancel !== "function") {
+      return;
+    }
+  
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      } else {
+        onCancel();
+      }
+    };
+  
+    return confirmAction;
+  };
+  const deleteConfirm = () => console.log("삭제했습니다.");
+  const cancelConfirm = () => console.log("취소했습니다.");
+  const confirmDelete = useConfirm(
+    "삭제하시겠습니까? \n취소 환불 규정 어쩌구 저쩌구",
+    deleteConfirm,
+    cancelConfirm
+  );
 
 const dateStatusCheck=(checkDate)=>{
   const todayDate = new Date();
@@ -101,9 +141,33 @@ const dateStatusCheck=(checkDate)=>{
         <h1>내 예약 내역</h1>
         {userProfile.reserveDTO.length > 0 ? (
         userProfile.reserveDTO.map((reservation, index) => (
-          
           <div className='rvlistbox' key={index} >
             <div className='rvliststatus'>예약확정</div>
+            {/* <button onClick={confirmDelete}>취소하기</button> */}
+            <div>
+                    <Button variant="outlined" onClick={handleClickOpen}>
+                      Open alert dialog
+                    </Button>
+                    <Dialog
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          정말 예약을 취소하시겠습니까?
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleClose}>아니오</Button>
+                        <Button onClick={handleClose} autoFocus>네</Button>
+                      </DialogActions>
+                    </Dialog>
+            </div>
+            
             {/* <Link to={`/classdetail/${reservation.eduId}` }>   */}
             <div className='rvitembox'>
               <div className='potobox'><img className="my-profile"  title="마이페이지" src={reservation.imgUrl || require('../icons/01d.png')} style={{border:"1px solid darkgray"}}/></div>
