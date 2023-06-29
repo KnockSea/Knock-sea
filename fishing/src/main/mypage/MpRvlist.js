@@ -63,25 +63,36 @@ const MpRvlist = () => {
     userPhone : ''
   });
 
-const today = new Date().toLocaleDateString('ko-KR');
 
 useEffect(() => {
 
+});
+
+const dateStatusCheck=(checkDate)=>{
   const todayDate = new Date();
-  userProfile.reserveDTO.map((target, i) => {
-    const formattedDateString = target.reserveDate.replace('년', '-').replace('월', '-').replace('일', '');
+  // userProfile.reserveDTO.map((target, i) => {
+  //   const formattedDateString = target.reserveDate.replace('년', '-').replace('월', '-').replace('일', '');
+  //   const targetDate = new Date(formattedDateString);
+
+  //   if (todayDate <= targetDate) {
+  //     setDateStatus(false);
+  //   } else {
+  //     setDateStatus(true)
+  //   }
+  // });
+
+  const formattedDateString = checkDate.replace('년', '-').replace('월', '-').replace('일', '');
     const targetDate = new Date(formattedDateString);
 
     if (todayDate <= targetDate) {
-      setDateStatus(false);
+      // setDateStatus(false);
+      return false;
     } else {
-      setDateStatus(true)
+      // setDateStatus(true)
+      return true;
     }
+}
 
-  });
-});
-
-const [reviewType , setReviewType]=useState("");
 
   return (
     <section className='MyPageMainBox'>
@@ -101,7 +112,6 @@ const [reviewType , setReviewType]=useState("");
                 <div className='rvlisttitle'>{reservation.reserveTitle}</div>
                 <div className='rvlistcount'>예약 인원 : {reservation.userCount}명</div>
                 <div className='rvlistsally'>{reservation.reservePrice}원</div>
-                
               </div>
             </div>
             {/* </Link> */}
@@ -110,14 +120,14 @@ const [reviewType , setReviewType]=useState("");
                   <button className='relist'>후기쓰기</button>
                 </div>
               )} */}
-            {dateStatus && (
+            {dateStatusCheck(reservation.reserveDate) && (
               <div className='rvlistbtnbox'>
                 <Link to={'/review'} state={{ reservationInfo : reservation}}>
                   <button className='relist'>후기쓰기</button>
                 </Link>
               </div>
             )}
-            {dateStatus || (
+            {dateStatusCheck (reservation.reserveDate) || (
               <div className='rvlistbtnbox'>
                   <button className='norelist'>후기 등록 기간이 아닙니다.</button>
               </div>
