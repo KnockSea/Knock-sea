@@ -3,15 +3,9 @@ import "./RvScss/RvModal.scss"
 import "../class/scss/ClassModal.scss"
 import { getLoginUserInfo } from "../util/login-util";
 import ClassCalendar from '../class/ClassCalendar';
+import { API_BASE_URL, RESERVATION } from '../../config/host-config';
 
-const handleLogin = (e) => {
-    e.preventDefault();
-  
-      // 회원가입 서버 요청
-    };
-    
-  // 렌더링 후 실행함수
-// timeList, price, address
+
 function RvFsModal({closeModal, FsDetail}) {
   const [token, setToken] = useState(getLoginUserInfo().token);
   const listSize=FsDetail.timeList.length-1;
@@ -44,7 +38,7 @@ function RvFsModal({closeModal, FsDetail}) {
     setSelectedTime(time);
     setTimeIndex(timeIndex);
   }    
-  const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
+  
   
   const handlePayment=()=>{
    
@@ -70,7 +64,7 @@ function RvFsModal({closeModal, FsDetail}) {
     };
     
 
-        fetch(API_BASE_URL, {
+        fetch(`${API_BASE_URL}${RESERVATION}`, {
         method: 'POST',
         headers:  requestHeader,
         body: JSON.stringify(reservation)

@@ -4,16 +4,22 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ko from 'date-fns/locale/ko';
 import '../scss/Calendar.scss';
 
-const ClassCalendar = ({  handleDateChange,startTime, EndTime }) => {
+const ClassCalendar = ({ handleDateChange, startTime, EndTime }) => {
   
   const [selectedDate, setSelectedDate] = useState(null);
-  const minDate = new Date(startTime); // 최소 날짜
-  const maxDate = new Date(EndTime); // 최대 날짜
+  const minDate = new Date(startTime); 
+  const maxDate = new Date(EndTime); 
   maxDate.setDate(maxDate.getDate());
   
   const handleChange = (date) => {
     setSelectedDate(date);
     handleDateChange(date); 
+  };
+
+  const filterPastDates = (date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); 
+    return date >= today;
   };
 
   return (
@@ -34,8 +40,9 @@ const ClassCalendar = ({  handleDateChange,startTime, EndTime }) => {
         open 
         calendarClassName="custom-calendar"
         locale={ko}
-        minDate={minDate} // 최소 날짜 설정
-        maxDate={maxDate} // 최대 날짜 설정
+        minDate={minDate} 
+        maxDate={maxDate} 
+        filterDate={filterPastDates}
       />
     </div>
   );

@@ -50,7 +50,7 @@ public class FishingSpot {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "spot", orphanRemoval = true)
-    private List<SeaImage> images = new ArrayList<>();
+//    @OneToMany(mappedBy = "spot", orphanRemoval = true)
+//    private List<SeaImage> images = new ArrayList<>();
 
 }
