@@ -29,7 +29,7 @@ const RvDetailTap = ({ sDetail}) => {
           duration={100}
           onClick={() => handleTabClick('소개')}
         >
-          낚시터 소개
+          배낚시 소개
         </Link>
       </li>
       <li className={activeTab === '후기' ? 'active' : ''}>
@@ -42,7 +42,7 @@ const RvDetailTap = ({ sDetail}) => {
           onClick={() => handleTabClick('후기')}
           className='custom-link'
         >
-          낚시터 후기
+          배낚시 후기
         </Link>
       </li>
       <li className={activeTab === '주의사항' ? 'active' : ''}>
@@ -66,12 +66,12 @@ const RvDetailTap = ({ sDetail}) => {
     </ul>
     <div>
       <Element name='소개'>
-        <h2>낚시터 소개</h2>
+        <h2>배낚시 소개</h2>
         <p>{sDetail.info}</p>
       </Element>
       <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/><br/> <br/> <br/> <br/>
       <Element name='후기'>
-        <h2>낚시터 후기</h2>
+        <h2>배낚시 후기</h2>
         {sDetail.reviewList && sDetail.reviewList.map((review, index) => (
           <p key={index}>{review.reviewContent}</p>
         ))}

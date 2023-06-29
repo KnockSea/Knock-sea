@@ -19,27 +19,27 @@ const RvFsItem = ({ productDetail }) => {
     <div className="Fssection">
       {productList &&
         productList.map((product, index) => (
-          <div key={index} className="contentCard">
+          <div key={index} className="contentCard1">
             <Link to={`/fsdetail/${product.productId}`}>
-              상세 보기
-              <div className="imgbox">
+              {/* 상세 보기 */}
+              <div className="imgbox1">
                 <img src={product.mainImgUrl} alt="Spot" />
               </div>
-              <div className="cardTitle">
+              <div className="cardTitle1">
                 <CheckCircleFill />
                 {product.title}
               </div>
               <br />
-              <div className="miniTitle">주소 : {product.locationInfo}</div>
+              <div className="miniTitle1">주소 : {product.locationInfo}</div>
               <br />
-              <div className="miniContent">
+              <div className="miniContent1">
                 <Bullseye />
                 상세 위치 :{product.fullAddress}
                 &nbsp;
                 {/* <PersonVcard/> 신분증 지참 &nbsp; */}
                 <EmojiSmile /> 최대 {product.maxUser}명
               </div>
-              <div className="calendar">
+              <div className="calendar1">
                 <Calendar2Check
                   style={{ color: "#3974D9", float: "left", marginTop: "5" }}
                 />
