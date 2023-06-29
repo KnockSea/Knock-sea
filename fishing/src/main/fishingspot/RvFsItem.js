@@ -39,7 +39,7 @@ const RvFsItem = ({ productDetail }) => {
                 {/* <PersonVcard/> 신분증 지참 &nbsp; */}
                 <EmojiSmile /> 최대 {product.maxUser}명
               </div>
-              <div className="calendar">
+              <div className="calendar1">
                 <Calendar2Check
                   style={{ color: "#3974D9", float: "left", marginTop: "5" }}
                 />

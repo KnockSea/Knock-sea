@@ -26,7 +26,6 @@ const RvItem = ({ productDetail }) => {
               <div className="imgbox">
                 <img src={product.mainImgUrl} alt="Ship" />
               </div>
-
               <div className="cardTitle">
                 <CheckCircleFill />
                 {product.title}
