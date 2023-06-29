@@ -3,7 +3,8 @@ import "../scss/Calendar.scss";
 import "./scss/ClassModal.scss";
 import ClassCalendar from "./ClassCalendar";
 import { getLoginUserInfo } from "../util/login-util";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL,RESERVATION } from '../../config/host-config';
 
 function ClassModal({ closeModal, oneEdu }) {
   const [token, setToken] = useState(getLoginUserInfo().token);
@@ -59,11 +60,10 @@ function ClassModal({ closeModal, oneEdu }) {
     setSelectedTime(time);
     setTimeIndex(timeIndex);
     setIndex(index);
-  };
-  const API_BASE_URL = "http://localhost:8012/api/v1/reservation";
-
-  const handlePayment = () => {
-    console.log("token", token.userId);
+  };  
+  const handlePayment=()=>{
+   
+    console.log("token",token.userId);
     const reservation = {
       reservationType: "EDU",
       reservationDate: formattedDate,
@@ -81,6 +81,22 @@ function ClassModal({ closeModal, oneEdu }) {
       "content-type": "application/json",
       Authorization: "Bearer " + token,
     };
+   
+        fetch(`${API_BASE_URL}${RESERVATION}`, {
+        method: 'POST',
+        headers:  requestHeader,
+        body: JSON.stringify(reservation)
+      })
+      .then(res => {
+        if(res.status === 200) {
+        alert('예약이 완료되었습니다!😝') 
+        navigate('/rvlist'); 
+      return res.json();
+     } else if (res.status === 401) {
+          alert('예약 실패..😫');
+        }
+      })
+  }
 
     fetch(API_BASE_URL, {
       method: "POST",

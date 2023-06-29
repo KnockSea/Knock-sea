@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import { renderIntoDocument } from "react-dom/test-utils";
+import { API_BASE_URL, REVIEW } from "../../config/host-config";
 
 const MpReviewForm = () => {
   const [reviewContent, setReviewContent] = useState("");
@@ -35,7 +36,7 @@ const MpReviewForm = () => {
 
     console.log("formdata : ",formdata);
 
-    fetch("http://localhost:8012/api/v1/reviews", {
+    fetch(`${API_BASE_URL}${REVIEW}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

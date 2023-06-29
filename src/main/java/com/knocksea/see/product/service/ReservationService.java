@@ -83,20 +83,26 @@ public class ReservationService {
     // 예약한 인원수 빼주고, 결제 정보 취소도 필요해?
     public boolean cancelReservation(ReservationCancelDTO dto, TokenUserInfo userInfo) throws RuntimeException {
         Reservation reservation = reservationRepository.findById(dto.getReservationId()).orElseThrow(() -> new RuntimeException("예약 정보가 없습니다."));
-
+        log.info("reservation : "+reservation);
+        log.info("dto : "+dto.getReservationId());
         if (!reservation.getUser().getUserId().equals(userInfo.getUserId())) {
             throw new RuntimeException("본인의 예약만 취소할 수 있습니다.");
         }
 
         // 현재 예약에 신청중인 사람 수
         int reserveCount = reservation.getReservationUserCount();
+        log.info("reserveCount : "+reserveCount);
         ReservationTime reservationTime = reservation.getReservationTime();
+        log.info("reservationTime : "+reservationTime);
+
         reservationTime.setTimeCurrentUser(reservationTime.getTimeCurrentUser() - reserveCount);
 
         // 인원수 변동 후 업데이트
         ReservationTime savedTime = reservationTimeRepository.save(reservationTime);
+        log.info("savedTime : "+savedTime);
 
         reservationRepository.deleteById(dto.getReservationId());
+        log.info("deleteById");
 
         return reservationRepository.findById(dto.getReservationId()).isPresent();
     }

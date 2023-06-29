@@ -5,6 +5,7 @@ import MpList from "./MpList";
 import { getLoginUserInfo } from "../util/login-util";
 import Stack from "@mui/material/Stack";
 import Pagination from "react-js-pagination";
+import { API_BASE_URL, INQUIRIES } from "../../config/host-config";
 
 const MpAdInquire = () => {
     const [inquiries, setInquiries] = useState([]);
@@ -20,7 +21,7 @@ const MpAdInquire = () => {
 
     const fetchData = () => {
         fetch(
-            `http://localhost:8012/api/v1/inquiries?page=${page}&size=10`,
+            `${API_BASE_URL}${INQUIRIES}?page=${page}&size=10`,
             {
                 method: "GET",
                 headers: {

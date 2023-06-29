@@ -97,11 +97,18 @@ body{
         white-space: nowrap; 
         overflow: hidden;
         text-overflow: ellipsis;
+
+    .list-star-rating {
+        display: flex;
+        .review-rate {
+            font-size: 15px;
+        }
+    }
     }
 }
 
 .list-t {
-    margin-top: 5px;
+    margin-top: 2px;
 }
 
 .text-title {
