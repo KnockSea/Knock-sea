@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "../scss/Calendar.scss"
+import "./RvScss/RvModal.scss"
 import "../class/scss/ClassModal.scss"
 import { getLoginUserInfo } from "../util/login-util";
 import ClassCalendar from '../class/ClassCalendar';
@@ -44,7 +44,7 @@ function RvFsModal({closeModal, FsDetail}) {
     setSelectedTime(time);
     setTimeIndex(timeIndex);
   }    
-    const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
+  const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
   
   const handlePayment=()=>{
    
@@ -92,9 +92,9 @@ function RvFsModal({closeModal, FsDetail}) {
 
 
     return (
-        <div className="modal-overlay" >
-          <div className="modal-box">
-            <button onClick={closeModal} className='close-btn'>X</button>
+        <div className="Rv-modal-overlay" >
+          <div className="Rv-modal-box">
+            <button onClick={closeModal} className='close-btn'><img src='https://cdn-icons-png.flaticon.com/128/7778/7778647.png'/></button>
             <h1 className='select-date'>참여 일정을 선택해주세요😀</h1>
             <hr style={{marginTop:'5px'}}/>
             <div className='calendar'>
