@@ -2,28 +2,40 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useState,useEffect } from 'react';
 import { API_BASE_URL, VALIDATION } from '../../config/host-config';
+import Pagination from "react-js-pagination";
 
 const MpAdminFS = () => {
 
-
+    const [totalItemCount, setTotalItemCount] = useState(0);
+    const [page, setPage] = useState(1);
+    const [size, setSize] = useState(10);
     const [validationList, setValidationList] = useState([]);
     const [validationType, setValidationType] = useState('SPOT');
 
+    const handlePageChange = (page) => {
+        setPage(page);
+        // console.log(page);
+      };
+
+      console.log(validationList);
     // API 요청
     useEffect(() => {
-        fetch(`${API_BASE_URL}${VALIDATION}/${validationType}`)
+        fetch(`${API_BASE_URL}${VALIDATION}/validationlist?page=${page}&size=${size}&type=${validationType}`)
         .then(response => response.json())
         .then(data => {
             // 요청 결과 처리
             console.log(data);
-            setValidationList(data);
+            setValidationList(data.validationListResponseDTO);
+            // console.log(data.validationListResponseDTO);
+            setTotalItemCount(data.pageInfo.totalCount);
             // console.log('validationList : ',validationList);
         })
         .catch(error => {
             // 에러 처리
             console.error('Error:', error);
         });
-    }, []);
+    }, [validationList]);
+
     //검증요청 승인하는 함수
     const updateValidation = async (e, validationUserName, validationType,validationuserId) => {
         e.preventDefault();
@@ -51,18 +63,18 @@ const MpAdminFS = () => {
             if (res.status === 200) {
                 alert('전송완료');
                 // 승인 요청 후 다시 리스트 가져오기
-                fetch(`${API_BASE_URL}${VALIDATION}/${validationType}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // 요청 결과 처리
-                        console.log(data);
-                        setValidationList(data);
-                        console.log('validationList : ',validationList);
-                    })
-                    .catch(error => {
-                        // 에러 처리
-                        console.error('Error:', error);
-                    });
+                // fetch(`${API_BASE_URL}${VALIDATION}/${validationType}`)
+                //     .then(response => response.json())
+                //     .then(data => {
+                //         // 요청 결과 처리
+                //         console.log(data);
+                //         setValidationList(data);
+                //         console.log('validationList : ',validationList);
+                //     })
+                //     .catch(error => {
+                //         // 에러 처리
+                //         console.error('Error:', error);
+                //     });
               } else {
                 
                 alert('서버와의 통신오류', res.status);
@@ -102,12 +114,12 @@ const MpAdminFS = () => {
                             ) : (
                             <div>등록유저이름없음</div>
                         )}
-                        {validation.validationBusinessRegi? (
+                        {validation.validationBusnessRegi? (
                             <div className='username'>{validation.validationBusinessRegi}</div>
                             ) : (
                             <div>낚시터사업자번호등록안됌</div>
                         )}
-                        <div>
+                        <div>i
                             <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
                             <button>취소</button>
                         </div>
@@ -115,7 +127,19 @@ const MpAdminFS = () => {
                     </div>
                     ))
                 ) : (<div>데이터 없음</div>)}
+                 <div className="page">
+                <Pagination
+                activePage={page}
+                itemsCountPerPage={size}
+                totalItemsCount={totalItemCount}
+                pageRangeDisplayed={5}
+                prevPageText={"‹"}
+                nextPageText={"›"}
+                onChange={handlePageChange}
+                />     
+            </div>          
             </div>
+               
     </div>
     </section>
   )
