@@ -2,10 +2,21 @@ import React, { useState,useEffect } from 'react';
 import { Link, Element, scroller } from 'react-scroll';
 import './scss/ClassDetailTap.scss';
 import { useParams } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
+import Pagination from "react-js-pagination";
 
 
 const ClassDetailTap = (props) => {
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(10);
   const [activeTab, setActiveTab] = useState('소개');
+  const [totalItemCount, setTotalItemCount] = useState(0);
+
+  const handlePageChange = (page) => {
+    setPage(page);
+    console.log(page);
+  };
   // console.log("props : ",props.reviewList[0].reviewContent);
 
   const handleTabClick = (tab) => {
@@ -61,11 +72,33 @@ const ClassDetailTap = (props) => {
             <div className='rvitembox'>
               <div className='potobox'><img className="my-profile"  title="마이페이지" src={review.profileImg || require('../icons/01d.png')} style={{border:"1px solid darkgray"}}/></div>
               <div className='minibox'>
-                <div className='rvlisttitle'>이름 평점</div>
+                <div className='rvlisttitle'>{review.userName} {review.reviewRating}</div>
+                {/* <span className='rvstar'>
+                    <Box
+                      sx={{
+                        '& > legend': { mt: 2 } }}
+                    >
+                      <Rating name="half-rating" 
+                      value={review.reviewRating}
+                      precision={0.5}
+                      readOnly />
+                  </Box>
+                </span> */}
                 <div className='rvlistcount'>{review.reviewContent}</div>
               </div>
             </div>
           ))}
+                                    <div className="page">
+                         <Pagination
+            activePage={page}
+            itemsCountPerPage={10}
+            totalItemsCount={totalItemCount}
+            pageRangeDisplayed={5}
+            prevPageText={"‹"}
+            nextPageText={"›"}
+            onChange={handlePageChange}
+          />     
+            </div>
         </Element>
       </div>
     </div>

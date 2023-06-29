@@ -66,7 +66,7 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.GET,"/api/v1/reviews").permitAll()
                 .antMatchers("/api/v1/hearts").permitAll()
                 .antMatchers("/api/v1/hearts/exists").permitAll()
-
+                .antMatchers("/api/v1/hearts/eduHeart").permitAll()
                 .anyRequest().authenticated()
         ;
 

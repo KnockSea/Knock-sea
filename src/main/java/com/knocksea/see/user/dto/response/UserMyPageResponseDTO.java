@@ -23,8 +23,9 @@ public class UserMyPageResponseDTO {
 
     private List<ReservationResponseDTO> reserveDTO;
 
-
     private String profileImageUrl;
+
+    private List<Long> reviewId;
 
     public UserMyPageResponseDTO(User user, List<ReservationResponseDTO> reservationTime) {
         this.userId = user.getUserId();

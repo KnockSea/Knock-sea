@@ -48,7 +48,7 @@ const fetchSpotInfo = async () => {
         const imgUrl = window.URL.createObjectURL(profileBlob);
         setProfileUrl(imgUrl);
         */
-    } else if(res.status===500){
+    } else if(res.status===400){
         alert('등록된 낚시터가없습니다!');
     }else{
       alert('서버와의 통신이 원활하지않습니다!')
