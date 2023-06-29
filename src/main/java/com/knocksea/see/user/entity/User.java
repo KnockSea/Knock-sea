@@ -67,10 +67,12 @@ public class User {
     private String profileImg;
 
     @ToString.Exclude
+    @Builder.Default
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<Inquiry> inquiries = new ArrayList<>();
 
     @ToString.Exclude
+    @Builder.Default
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<Validation> validations = new ArrayList<>();
 

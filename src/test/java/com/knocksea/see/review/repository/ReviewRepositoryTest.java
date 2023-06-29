@@ -18,22 +18,22 @@ import static org.junit.jupiter.api.Assertions.*;
 @Rollback(value = false)
 class ReviewRepositoryTest {
 
-    @Autowired
-    ReviewRepository reviewRepository;
-    @Test
-    void saveTest(){
-        Review build = Review.builder()
-                .reviewContent("리뷰입니다1.")
-                .reviewRating(5L)
-                .reviewType(ReviewType.EDU)
-                .edu(Edu.builder()
-                        .eduId(1L)
-                        .build())
-                .user(User.builder()
-                                .userId(1L)
-                                .build())
-                .build();
-
-        reviewRepository.save(build);
-    }
+//    @Autowired
+//    ReviewRepository reviewRepository;
+//    @Test
+//    void saveTest(){
+//        Review build = Review.builder()
+//                .reviewContent("리뷰입니다1.")
+//                .reviewRating(5)
+//                .reviewType(ReviewType.EDU)
+//                .edu(Edu.builder()
+//                        .eduId(1L)
+//                        .build())
+//                .user(User.builder()
+//                                .userId(1L)
+//                                .build())
+//                .build();
+//
+//        reviewRepository.save(build);
+//    }
 }

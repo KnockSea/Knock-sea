@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL,RESERVATION } from '../../config/host-config';
 
 
+
 function ClassModal({closeModal, oneEdu}) {
   const [token, setToken] = useState(getLoginUserInfo().token);
   const listSize=oneEdu.timeList.length-1;
@@ -50,7 +51,6 @@ function ClassModal({closeModal, oneEdu}) {
     setTimeIndex(timeIndex);
     setIndex(index);
   }    
-
   const handlePayment=()=>{
    
     console.log("token",token.userId);

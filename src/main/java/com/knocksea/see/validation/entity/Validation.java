@@ -14,7 +14,7 @@ import static com.knocksea.see.validation.entity.ValidationStatus.WAIT;
 @Setter
 @Getter
 @ToString
-@EqualsAndHashCode(of = "eduId")
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder @Entity

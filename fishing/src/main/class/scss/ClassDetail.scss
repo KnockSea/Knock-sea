@@ -146,6 +146,7 @@ body {
 .detail-list-profile {
     text-align: center;
     border: 1px solid #cccccc;
+    background: #fff;
     box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 
@@ -180,23 +181,19 @@ body {
                 text-decoration: underline;
             }
         }
+    }
+    .condition {
+        width: 80%;
+        margin: 20px auto 0;
 
-        .condition {
-            width: 80%;
-            margin: 20px auto 0;
+        .condition-box {
+            display: flex;
+            background: #eaecf1da;
+            border-radius: 5px;
+            justify-content: space-around;
+            padding: 20px;
 
-            .condition-box {
-                display: flex;
-                background: #eef2fa;
-                border-radius: 5px;
-                justify-content: space-around;
-                padding: 20px;
-
-
-            }
         }
-
-
     }
 
 }

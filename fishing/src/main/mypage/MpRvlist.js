@@ -212,13 +212,13 @@ const dateStatusCheck=(checkDate)=>{
                   <button className='relist'>후기쓰기</button>
                 </div>
               )} */}
-            {dateStatusCheck(reservation.reserveDate) && (
+            {/* {dateStatusCheck(reservation.reserveDate) && ( */}
               <div className='rvlistbtnbox'>
                 <Link to={'/review'} state={{ reservationInfo : reservation}}>
                   <button className='relist'>후기쓰기</button>
                 </Link>
               </div>
-            )}
+            {/* )} */}
             {dateStatusCheck (reservation.reserveDate) || (
               <div className='rvlistbtnbox'>
                   <button className='norelist'>후기 등록 기간이 아닙니다.</button>

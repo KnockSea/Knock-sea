@@ -59,45 +59,35 @@ const ClassDetailTap = (props) => {
 
         
       </ul>
-      <div style={{textAlign:"left"}}>
+      <div style={{textAlign:"left"}} className='detail-content-wrapped'>
         <Element name='소개'>
-          <h2>클래스 소개</h2>
+          <h2>✨ 클래스 소개</h2>
           <p>{props.eduInfo}</p>
         </Element>
-        <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/><br/> <br/> <br/> <br/>
+        <br/> <br/>
         <Element name='후기'>
-          <h2>수강 후기</h2>
+          <h2 className='review'>✨ 수강 후기</h2>
           {props.reviewList && props.reviewList.map((review, index) => (
-            // <p key={index}>{review.reviewContent}</p>
             <div className='rvitembox'>
-              <div className='potobox'><img className="my-profile"  title="마이페이지" src={review.profileImg || require('../icons/01d.png')} style={{border:"1px solid darkgray"}}/></div>
+              <div className='potobox'>
+                <img className="my-profile"  title="마이페이지" src={review.profileImg || require('../icons/01d.png')} style={{border:"1px solid darkgray"}}/>
+              </div>
               <div className='minibox'>
-                <div className='rvlisttitle'>{review.userName} {review.reviewRating}</div>
-                {/* <span className='rvstar'>
-                    <Box
-                      sx={{
-                        '& > legend': { mt: 2 } }}
-                    >
-                      <Rating name="half-rating" 
-                      value={review.reviewRating}
-                      precision={0.5}
-                      readOnly />
-                  </Box>
-                </span> */}
+                <div className='rvlisttitle'><span className='review-username'>{review.userName}</span> ( {review.reviewRating} )</div>
                 <div className='rvlistcount'>{review.reviewContent}</div>
               </div>
             </div>
           ))}
-                                    <div className="page">
-                         <Pagination
-            activePage={page}
-            itemsCountPerPage={10}
-            totalItemsCount={totalItemCount}
-            pageRangeDisplayed={5}
-            prevPageText={"‹"}
-            nextPageText={"›"}
-            onChange={handlePageChange}
-          />     
+            <div className="page">
+                <Pagination
+                  activePage={page}
+                  itemsCountPerPage={10}
+                  totalItemsCount={totalItemCount}
+                  pageRangeDisplayed={5}
+                  prevPageText={"‹"}
+                  nextPageText={"›"}
+                  onChange={handlePageChange}
+                />     
             </div>
         </Element>
       </div>

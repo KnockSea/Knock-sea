@@ -7,6 +7,7 @@ import { Route, Routes,Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { getLoginUserInfo } from "../util/login-util";
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL, EDU, HEART } from '../../config/host-config';
 
 
 
@@ -23,7 +24,7 @@ function ClassDetail() {
 
 
   const fetchEduHeartCount = () => {
-    fetch(`http://localhost:8012/api/v1/hearts/eduHeart?eduId=${eduId}&heartType=${'EDU'}`)
+    fetch(`${API_BASE_URL}${HEART}/eduHeart?eduId=${eduId}&heartType=${'EDU'}`)
       .then(response => response.json())
       .then(data => setEduHeartCount(data))
       .catch(error => console.error('Error fetching edu heart count:', error));
@@ -44,7 +45,7 @@ function ClassDetail() {
       try {
         const heartType = 'EDU'; // 하트 타입
 
-        const apiUrl = `http://localhost:8012/api/v1/hearts/exists?userId=${userId}&heartType=${heartType}`;
+        const apiUrl = `${API_BASE_URL}${HEART}/exists?userId=${userId}&heartType=${heartType}`;
 
         const response = await fetch(apiUrl);
         const exists = await response.json();
@@ -60,7 +61,7 @@ function ClassDetail() {
 
   const createHeart = async () => {
     try {
-      const response = await fetch('http://localhost:8012/api/v1/hearts', {
+      const response = await fetch(`${API_BASE_URL}${HEART}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -95,7 +96,7 @@ function ClassDetail() {
         'Authorization': 'Bearer ' + token
       };
 
- const API_BASE_URL = `http://localhost:8012/api/v1/edu/${eduId}`;
+ const API_BASE_URL = `${API_BASE_URL}${EDU}/${eduId}`;
  console.log("oneEdu : ",oneEdu);
 
 useEffect(() => {
@@ -146,12 +147,10 @@ useEffect(() => {
               <div className="detail-section">
                 <div className="detail-box detail-list-profile">
                   <div className="lists">
-                    <Link to="/host">
-                      <div className="box profile-img">
+                    <div className="box profile-img">
                         <img src={oneEdu.userProfileImage} alt="Profile" />
                       </div>
                       <span className="box profile-page">{oneEdu.userName}</span>
-                    </Link>
                     <div>
                       <button
                         onClick={createHeart}
@@ -162,15 +161,14 @@ useEffect(() => {
                           cursor: 'pointer',
                         }}
                       >
-                        {exists ? '❤️' : '🤍'}
-                        <h3>{eduHeartCount}</h3>
+                        {exists ? '❤️' : '🤍'} <span>{eduHeartCount}</span>
                       </button>
                     </div>
                     <div className="condition">
                       <ul className="condition-box">
                         <li>{oneEdu.eduLevel} |</li>
-                        <li>최대 {oneEdu.timeList && oneEdu.timeList[0].timeMaxUser}명 |</li>
-                        <li>{oneEdu.eduPrice}원</li>
+                        <li> 최대 {oneEdu.timeList && oneEdu.timeList[0].timeMaxUser}명 |</li>
+                        <li> {oneEdu.eduPrice}원</li>
                       </ul>
                     </div>
                   </div>
