@@ -126,27 +126,6 @@ function ProductRegistration() {
       const handleProductRegi = async (e) => {
         e.preventDefault();
         
-        const handleSubmit = () => {
-          // Check if required fields are filled
-          if (
-            productLabelType &&
-            productTitle &&
-            productInfo &&
-            productLocationInfo &&
-            productFullAddress &&
-            productPrice &&
-            timeMaxUser &&
-            timeDate.length > 0 &&
-            timeStarts.length > 0 &&
-            timeEnds.length > 0 &&
-            productService &&
-            productImages.length > 0
-          ) return true;
-          else{
-            return false;
-          }
-        }
-        if(handleSubmit){
         try {
           const res = await fetch(`${API_BASE_URL}${PRODUCTS}`, {
           method: 'POST',
@@ -158,14 +137,11 @@ function ProductRegistration() {
             if (res.status === 200) {
               alert('등록 성공');
             } else {
-              alert(res.status);
+              alert("이미 등록된 클래스가 있어요😥");
             }
           } catch (error) {
             console.error('데이터 전송 실패!');
           }
-        }else{
-          alert('필수 값이 비어있습니다!')
-        }
   };
 
   return (
@@ -185,9 +161,7 @@ function ProductRegistration() {
                 <div className="regi-title">카테고리 선택<span className="imp">*</span></div>
                 <select
                     value={productLabelType}
-                    onChange={(e) => {
-     setProductCategory(e.target.value);
-                    }}
+                    onChange={(e) => { setProductCategory(e.target.value);}}
                     required
                     aria-required="true"
                     className="category-custom-select"

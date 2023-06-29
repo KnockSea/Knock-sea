@@ -9,27 +9,10 @@ import { API_BASE_URL } from '../../config/host-config';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 
-const handleLogin = (e) => {
-  
 
-    e.preventDefault();
-
-      // 회원가입 서버 요청
-     
-    };
-
-    const requestHeader = {
-        'content-type': 'application/json'
-      };
-      
-
-    // const API_BASE_URL = 'http://localhost:8012/api/v1/edu';
-
-
-    
-  // 렌더링 후 실행함수
-
- 
+const requestHeader = {
+      'content-type': 'application/json'
+  };
 
 function ClassMain() {
   const [page, setPage] = useState(1);
@@ -41,13 +24,10 @@ function ClassMain() {
 
   const handlePageChange = (page) => {
     setPage(page);
-    // console.log(page);
   };
     
-    
-
-      // console.log('edus',edus);
-      useEffect(()=>{
+  
+   useEffect(()=>{
         fetch(`${API_BASE_URL}/api/v1/edu?page=${page}&size=${size}`, { 
             method: 'GET',
             headers: requestHeader

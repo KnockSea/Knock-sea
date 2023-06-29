@@ -90,4 +90,15 @@ public class HeartApiController {
             return ResponseEntity.internalServerError().body("서버 터짐 원인: " + e.getMessage());
         }
     }
+
+    @GetMapping("/eduHeart")
+    public ResponseEntity<?> eduHeart(
+            @RequestParam("eduId") Long eduId,
+            @RequestParam("heartType") String heartType
+    ) {
+        log.info("heartType@@@@@@@@@@@@@@@@@@@@@@@@@@@ {}", heartType);
+        int eduHeartCount = heartService.eduHeart(eduId, heartType);
+        log.info("eduHeartCount@@@@ {}", eduHeartCount);
+        return ResponseEntity.ok().body(eduHeartCount);
+    }
 }

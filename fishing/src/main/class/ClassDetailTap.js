@@ -4,10 +4,19 @@ import './scss/ClassDetailTap.scss';
 import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
+import Pagination from "react-js-pagination";
 
 
 const ClassDetailTap = (props) => {
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(10);
   const [activeTab, setActiveTab] = useState('소개');
+  const [totalItemCount, setTotalItemCount] = useState(0);
+
+  const handlePageChange = (page) => {
+    setPage(page);
+    console.log(page);
+  };
   // console.log("props : ",props.reviewList[0].reviewContent);
 
   const handleTabClick = (tab) => {
@@ -79,6 +88,17 @@ const ClassDetailTap = (props) => {
               </div>
             </div>
           ))}
+                                    <div className="page">
+                         <Pagination
+            activePage={page}
+            itemsCountPerPage={10}
+            totalItemsCount={totalItemCount}
+            pageRangeDisplayed={5}
+            prevPageText={"‹"}
+            nextPageText={"›"}
+            onChange={handlePageChange}
+          />     
+            </div>
         </Element>
       </div>
     </div>

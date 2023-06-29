@@ -3,9 +3,10 @@ import  img1 from './img/ns1.png'
 import  img2 from './img/ns2.png'
 import  img3 from './img/ns3.png'
 
-import sea1 from './img/sea1_1.png'
-import sea2 from './img/sea1_2.jpg'
-import sea3 from './img/sea1_3.png'
+import sea1 from './img/nbs1.jpg'
+import sea2 from './img/nbs3.jpg'
+import sea3 from './img/nbs2.jpg'
+import sea4 from './img/nbs4.jpg'
 
 
 
@@ -23,7 +24,7 @@ const NsBanner = () => {
   // }
 
 
-  const images = [sea1, sea2, sea3];
+  const images = [sea1, sea2, sea3, sea4];
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // 다음 이미지로 이동
@@ -40,7 +41,7 @@ const NsBanner = () => {
     // 5초마다 이미지 변경
     const timer = setInterval(() => {
       nextSlide();
-    }, 5000);
+    }, 6000);
 
     return () => {
       clearInterval(timer);
