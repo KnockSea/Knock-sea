@@ -2,26 +2,34 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useState,useEffect } from 'react';
 import { API_BASE_URL, VALIDATION } from '../../config/host-config';
+import Pagination from "react-js-pagination";
 
 const MpAdmin = () => {
 
-
+    const [totalItemCount, setTotalItemCount] = useState(0);
     const [validationList, setValidationList] = useState([]);
     const [validationType, setValidationType] = useState('SHIP');
-
+    const [page, setPage] = useState(1);
+    const [size, setSize] = useState(6);
+    const handlePageChange = (page) => {
+        setPage(page);
+        // console.log(page);
+      };
     // API 요청
     useEffect(() => {
-        fetch(`${API_BASE_URL}${VALIDATION}/${validationType}`)
+        fetch(`${API_BASE_URL}${VALIDATION}/validationlist?page=${page}&size=${size}&type=${validationType}`)
         .then(response => response.json())
         .then(data => {
             // 요청 결과 처리
-            // console.log(validationType);
+            console.log(data);
             setValidationList(data);
+
+            setTotalItemCount(validationList.pageInfo.totalCount);
             // console.log('validationList : ',validationList);
         })
         .catch(error => {
             // 에러 처리
-            console.error('Error:', error);
+            // console.error('Error:', error);
         });
     }, []);
     //검증요청 승인하는 함수
@@ -113,6 +121,17 @@ const MpAdmin = () => {
                     </div>
                     ))
                 ) : (<div>데이터 없음</div>)}
+                 <div className="page">
+                <Pagination
+                activePage={page}
+                itemsCountPerPage={size}
+                totalItemsCount={totalItemCount}
+                pageRangeDisplayed={5}
+                prevPageText={"‹"}
+                nextPageText={"›"}
+                onChange={handlePageChange}
+                />     
+            </div>      
             </div>
     </div>
     </section>
