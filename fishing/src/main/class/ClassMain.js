@@ -4,7 +4,7 @@ import './scss/ClassMain.scss';
 import { Route, Routes,Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Pagination from "react-js-pagination";
-import { API_BASE_URL } from '../../config/host-config';
+import { API_BASE_URL, EDU } from '../../config/host-config';
 
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
@@ -28,7 +28,7 @@ function ClassMain() {
     
   
    useEffect(()=>{
-        fetch(`${API_BASE_URL}/api/v1/edu?page=${page}&size=${size}`, { 
+        fetch(`${API_BASE_URL}${EDU}/?page=${page}&size=${size}`, { 
             method: 'GET',
             headers: requestHeader
           })
