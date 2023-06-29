@@ -126,6 +126,25 @@ function ProductRegistration() {
       const handleProductRegi = async (e) => {
         e.preventDefault();
         
+        if (
+          !productLabelType ||
+          !productTitle ||
+          !productInfo ||
+          !productLocationInfo ||
+          !productFullAddress ||
+          !productPrice ||
+          !timeMaxUser ||
+          !timeDate.length ||
+          !timeStarts.length ||
+          !timeEnds.length ||
+          !productService ||
+          productImages.length === 0
+        ) {
+          alert('모든 필수 항목을 입력해주세요.');
+          return;
+        }
+      
+
         try {
           const res = await fetch(`${API_BASE_URL}${PRODUCTS}`, {
           method: 'POST',

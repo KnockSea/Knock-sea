@@ -54,7 +54,6 @@ const NsMain = ({shipList, spotList, eduList}) => {
     <section>
         <ScrollToTop />
         <Routes>
-            <Route path='/bt' element={<RvTemplate/>} ></Route>
             <Route path='/' element ={<MainContent shipList={shipList} spotList={spotList} eduList={eduList} />} />
             {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
             <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
