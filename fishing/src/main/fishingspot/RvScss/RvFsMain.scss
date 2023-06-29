@@ -40,6 +40,8 @@
       height: 50%;
       overflow: hidden;
       border-radius: 10px;
+      position: sticky;
+      top: 120px; /* 스크롤 임계값을 조정해 적절한 위치로 설정하세요 */
     }
   }
 }

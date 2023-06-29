@@ -52,7 +52,7 @@ function RvMain({ fetchFsProduct, FsProduct }) {
         <div className="rvApibox">
           <div>위치 확인하기</div>
           <div className="mapbox">
-            <RvMap productDetail={FsProduct} />
+            <RvMap  productDetail={FsProduct}/>
           </div>
         </div>
       </div>
