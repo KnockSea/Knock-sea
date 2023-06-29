@@ -31,6 +31,7 @@ public class ReservationResponseDTO {
     private int reservePrice;
 
     private Long id;
+    private Long reservationId;
 
     private String type;
 
@@ -45,6 +46,7 @@ public class ReservationResponseDTO {
         this.timeEnd = time.getTimeEnd();
         this.userCount = r.getReservationUserCount();
         this.id=product.getProductId();
+        this.reservationId=r.getReservationId();
         this.type=r.getReservationType();
     }
 
@@ -56,7 +58,8 @@ public class ReservationResponseDTO {
         this.timeEnd = time.getTimeEnd();
         this.reserveDate=time.getTimeDate();
         this.userCount = r.getReservationUserCount();
-        this.id=edu.getEduId();
+        this.id= edu.getEduId();
+        this.reservationId=r.getReservationId();
         this.type=r.getReservationType();
     }
 }
