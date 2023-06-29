@@ -20,7 +20,7 @@ function ClassDetail() {
      const [exists, setExists] = useState(false);
      const navigate = useNavigate();
      const [eduHeartCount, setEduHeartCount] = useState(0);
-  
+
 
   const fetchEduHeartCount = () => {
     fetch(`http://localhost:8012/api/v1/hearts/eduHeart?eduId=${eduId}&heartType=${'EDU'}`)
@@ -89,7 +89,7 @@ function ClassDetail() {
       console.error('하트 생성 또는 삭제 실패:', error);
     }
   };
-  
+
         const requestHeader = {
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + token
