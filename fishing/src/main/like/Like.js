@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getLoginUserInfo } from '../util/login-util';
+import { API_BASE_URL, HEART } from '../../config/host-config';
 
 function Like() {
   const [token, setToken] = useState(getLoginUserInfo().token);
@@ -10,7 +11,7 @@ function Like() {
 
   const createHeart = async () => {
     try {
-      const response = await fetch('http://localhost:8012/api/v1/hearts', {
+      const response = await fetch(`${API_BASE_URL, HEART}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

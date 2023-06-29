@@ -3,6 +3,7 @@ import "./RvScss/RvModal.scss"
 import "../class/scss/ClassModal.scss"
 import { getLoginUserInfo } from "../util/login-util";
 import ClassCalendar from '../class/ClassCalendar';
+import { API_BASE_URL, RESERVATION } from '../../config/host-config';
 
 const handleLogin = (e) => {
     e.preventDefault();
@@ -44,7 +45,7 @@ function RvFsModal({closeModal, FsDetail}) {
     setSelectedTime(time);
     setTimeIndex(timeIndex);
   }    
-  const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
+  
   
   const handlePayment=()=>{
    
@@ -70,7 +71,7 @@ function RvFsModal({closeModal, FsDetail}) {
     };
     
 
-        fetch(API_BASE_URL, {
+        fetch(`${API_BASE_URL}${RESERVATION}`, {
         method: 'POST',
         headers:  requestHeader,
         body: JSON.stringify(reservation)
