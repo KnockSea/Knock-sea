@@ -20,11 +20,11 @@ const RvBtDetail = () => {
   const [token, setToken] = useState(getLoginUserInfo().token);
   const [selectedCity, setSelectedCity] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
+  const navigate = useNavigate();
   const cities = [
     { name: "옵션선택안함", code: "B1" },
     { name: "초보자옵션1 (1인당 15000원)", code: "A1" },
   ];
-  const navigate = useNavigate();
 
 
   // const location = useLocation();
@@ -47,7 +47,7 @@ const RvBtDetail = () => {
             e.preventDefault();
             }};
 
-
+            
   useEffect(() => {
     fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`)
       .then((response) => response.json())
@@ -104,15 +104,13 @@ const RvBtDetail = () => {
                 <div>
                   <button
                     className="box btn"
-                    onClick={() => {
-                      setModal(true);
-                    }}
+                    onClick={handleRegiIsloign}
                   >
                     바로 예약하기
                   </button>
                   {modal === true ? (
                     <BtModal
-                      closeModal={handleRegiIsloign}
+                      closeModal={() => setModal(false)}
                       sDetail={sDetail}
                     />
                   ) : null}
