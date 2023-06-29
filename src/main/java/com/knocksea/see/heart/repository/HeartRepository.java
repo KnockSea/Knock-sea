@@ -52,4 +52,6 @@ public interface HeartRepository extends JpaRepository<Heart, Long> {
     Heart existsByUserAndHeartType1(@Param("user") User user, @Param("heartType") HeartType heartType);
 
     int countByEduAndHeartType(@Param("edu")Edu edu, @Param("heartType") HeartType heartType);
+
+    int countByProductAndHeartType(@Param("product") Product product, @Param("heartType") HeartType heartType);
 }

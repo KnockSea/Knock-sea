@@ -67,6 +67,7 @@ public class WebSecurityConfig {
                 .antMatchers("/api/v1/hearts").permitAll()
                 .antMatchers("/api/v1/hearts/exists").permitAll()
                 .antMatchers("/api/v1/hearts/eduHeart").permitAll()
+                .antMatchers("/api/v1/hearts/spotHeart").permitAll()
                 .anyRequest().authenticated()
         ;
 
