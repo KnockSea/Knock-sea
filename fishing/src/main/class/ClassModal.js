@@ -4,6 +4,7 @@ import "./scss/ClassModal.scss";
 import ClassCalendar from './ClassCalendar';
 import { getLoginUserInfo } from "../util/login-util";
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL, RESERVATION } from '../../config/host-config';
 
 
 function ClassModal({closeModal, oneEdu}) {
@@ -49,7 +50,7 @@ function ClassModal({closeModal, oneEdu}) {
     setTimeIndex(timeIndex);
     setIndex(index);
   }    
-    const API_BASE_URL = 'http://localhost:8012/api/v1/reservation';
+    
 
   const handlePayment=()=>{
    
@@ -73,7 +74,7 @@ function ClassModal({closeModal, oneEdu}) {
       'Authorization': 'Bearer ' + token
     };
     
-        fetch(API_BASE_URL, {
+        fetch(`${API_BASE_URL}${RESERVATION}`, {
         method: 'POST',
         headers:  requestHeader,
         body: JSON.stringify(reservation)
