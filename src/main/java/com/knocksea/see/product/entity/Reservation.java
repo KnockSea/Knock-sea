@@ -37,7 +37,7 @@ public class Reservation {
     @Builder.Default
     private EduLevel eduLevel = EduLevel.LOWER;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -45,12 +45,12 @@ public class Reservation {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "edu_id")
     private Edu edu;
 
     // 예약 시간
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "time_id", nullable = false)
     private ReservationTime reservationTime;
 

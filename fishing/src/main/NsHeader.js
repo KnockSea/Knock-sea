@@ -3,10 +3,9 @@ import RvTemplate from './reservation/RvTemplate'
 import './scss/NsHeader.scss'
 import logoPath from './img/logo.png'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getLoginUserInfo , isLogin } from './util/login-util';
-import { useEffect ,useHistory} from 'react'
 import { API_BASE_URL, USER } from '../config/host-config'
 
 
@@ -73,6 +72,18 @@ export const NsHeader = () => {
       })();
     }, [isLoggedIn]);
     
+    useEffect(() => {
+      const handleBackButton = () => {
+        alert('다시 로그인 해주세요!😏')
+        navi('/login');
+      };
+  
+      window.addEventListener('popstate', handleBackButton);
+  
+      return () => {
+        window.removeEventListener('popstate', handleBackButton);
+      };
+    }, []);
 
   return (
     <header>

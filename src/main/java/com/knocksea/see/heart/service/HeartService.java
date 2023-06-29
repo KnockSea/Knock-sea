@@ -77,6 +77,18 @@ public class HeartService {
         int eduHeartCount = heartRepository.countByEduAndHeartType(edu, HeartType.valueOf(heartType));
         return eduHeartCount;
     }
+    public int spotAndShipHeart(Long productId, String heartType) {
+        Optional<Product> byId = productRepository.findById(productId);
+        Product product = byId.orElse(null);
+
+        if (product == null) {
+            return 0;
+        }
+        int productHeartCount = heartRepository.countByProductAndHeartType(product, HeartType.valueOf(heartType));
+        return productHeartCount;
+    }
+
+
 }
 
 

@@ -1,33 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import { NsHeader } from '../NsHeader'
-import RvMain from './RvMain'
-import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
+import React, { useEffect, useState } from "react";
+import { NsHeader } from "../NsHeader";
+import RvMain from "./RvMain";
+import { API_BASE_URL, PRODUCTS } from "../../config/host-config";
 import Pagination from "react-js-pagination";
 
 function RvTemplate() {
-  const [Fsproduct , setFsproduct] = useState(null);
+  const [Fsproduct, setFsproduct] = useState(null);
+  const [totalItemCount, setTotalItemCount] = useState(0);
+  const handlePageChange = (page) => {
+    setPage(page);
+    // console.log(page);
+  };
 
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(6);  
+  const [size, setSize] = useState(6);
   const [type, setType] = useState("SHIP");
-  const handlePageChange = (page) => {
-        setPage(page);
-        // console.log(page);
-      };
 
-  console.log('안녕 나는 rvtemplate이야', Fsproduct);
+  console.log("안녕 나는 rvtemplate이야", Fsproduct);
 
   // 배 상품 정보를 전체 가져오는 함수
-  const fetchFsProduct = async ({p,s,t}) => {
+  const fetchFsProduct = async ({ p, s, t }) => {
+    console.log("안녕 나는 rvtemplate fetch야");
 
-    
-    console.log('안녕 나는 rvtemplate fetch야');
-    
-    fetch(`${API_BASE_URL}${PRODUCTS}/product-list?page=${p}&size=${s}&type=${t}`)
-        .then(response => response.json())
-        .then(res => {
-          setFsproduct(res);            
-    });   
+    fetch(
+      `${API_BASE_URL}${PRODUCTS}/product-list?page=${p}&size=${s}&type=${t}`
+    )
+      .then((response) => response.json())
+      .then((res) => {
+        setFsproduct(res);
+        setTotalItemCount(res.pageInfo.totalCount);
+      });
   };
 
   useEffect(() => {
@@ -35,16 +37,28 @@ function RvTemplate() {
   }, []);
 
   return (
-    Fsproduct &&
-    <div>
+    Fsproduct && (
+      <div>
         <NsHeader />
         <RvMain
-        // fetchFsProduct={fetchFsProduct}
-        FsProduct={Fsproduct}
-        />      
-    </div>
-
-  )
+          // fetchFsProduct={fetchFsProduct}
+          FsProduct={Fsproduct}
+        />
+         <div className="page">
+              <Pagination
+              activePage={page}
+              itemsCountPerPage={size}
+              totalItemsCount={totalItemCount}
+              pageRangeDisplayed={5}
+              prevPageText={"‹"}
+              nextPageText={"›"}
+              onChange={handlePageChange}
+              />     
+         </div>          
+      </div>
+      
+    )
+  );
 }
 
-export default RvTemplate
+export default RvTemplate;
