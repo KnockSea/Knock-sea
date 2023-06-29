@@ -335,26 +335,22 @@ public class UserService {
 
         // 이거 리스트네? 유저가 예약한것들 전체
         List<Reservation> reservation = reservationRepository.findAllByUser(user);
-//                .orElseThrow(() -> new RuntimeException("예약 정보가 없습니다."));
 
-        log.info("reservation~~" + reservation);
+        //유저가 작성한 리뷰를 찾고
+        List<Long> reviewIdByUser = reviewRepository.findReviewIdByUser(user);
+        log.info("reviewIdByUser : "+reviewIdByUser); //reviewIdByUser : [7, 11]
 
         List<ReservationResponseDTO> reservationResponseDTOS = new ArrayList<>();
-//        foundReserve(reservation, reservationResponseDTOS);
-//        SeaImage img = new SeaImage();
+
         for (Reservation r : reservation) {
             ReservationTime time = r.getReservationTime();
             if(r.getReservationType().equals("EDU")){
                 Edu edu=r.getEdu();
                 SeaImage seaImage= imageRepository.findAllByEdu(edu).get(0);
-//                img=edu.getSeaImage();
-                log.info("img : "+seaImage);
                 reservationResponseDTOS.add(new ReservationResponseDTO(r, time, edu, seaImage));
             }else {
                 Product product = r.getProduct();
-//                img=product.getSeaImage();
                 SeaImage seaImage = imageRepository.findByProduct_ProductId(product.getProductId()).get(0);
-
                 reservationResponseDTOS.add(new ReservationResponseDTO(r, time, product, seaImage));
             }
 

@@ -90,15 +90,13 @@ const RvFsDetail = () => {
                 <div>
                   <button
                     className="box btn"
-                    onClick={() => {
-                      setModal(true);
-                    }}
+                    onClick={handleRegiIsloign}
                   >
                     바로 예약하기
                   </button>
                   {modal === true ? (
                     <RvFsModal
-                      closeModal={handleRegiIsloign}
+                      closeModal={() => setModal(false)}
                       FsDetail={FsDetail}
                     />
                   ) : null}

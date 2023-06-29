@@ -11,40 +11,49 @@ import { useNavigate } from 'react-router-dom';
 
 
 function ClassDetail() {
-    const [modal, setModal] = useState('false'); 
-    const { eduId } = useParams();
-    const [oneEdu, setOneEdu] = useState([]);
-    const [token, setToken] = useState(getLoginUserInfo().token);
-    const [userId, setUserId] = useState(getLoginUserInfo().userId);
-    const [isHearted, setIsHearted] = useState(false);
-    const [exists, setExists] = useState(false);
-    const navigate = useNavigate();
+     const [modal, setModal] = useState('false'); 
+     const { eduId } = useParams();
+     const [oneEdu, setOneEdu] = useState([]);
+     const [token, setToken] = useState(getLoginUserInfo().token);
+     const [userId, setUserId] = useState(getLoginUserInfo().userId);
+     const [isHearted, setIsHearted] = useState(false);
+     const [exists, setExists] = useState(false);
+     const navigate = useNavigate();
+     const [eduHeartCount, setEduHeartCount] = useState(0);
 
-    const handleRegiIsloign = (e) => {
-      if (!token) {
-              alert("로그인이 필요한 서비스입니다!😏");
-              navigate('/login');
-          return;
-            } else {
-              setModal(true);
-              e.preventDefault();
-              }};
 
-    useEffect(() => {
-      const fetchHeartExists = async () => {
-        try {
-          const heartType = 'EDU'; // 하트 타입
+  const fetchEduHeartCount = () => {
+    fetch(`http://localhost:8012/api/v1/hearts/eduHeart?eduId=${eduId}&heartType=${'EDU'}`)
+      .then(response => response.json())
+      .then(data => setEduHeartCount(data))
+      .catch(error => console.error('Error fetching edu heart count:', error));
+  };
 
-          const apiUrl = `http://localhost:8012/api/v1/hearts/exists?userId=${userId}&heartType=${heartType}`;
+      const handleRegiIsloign = (e) => {
+        if (!token) {
+                alert("로그인이 필요한 서비스입니다!😏");
+                navigate('/login');
+            return;
+             } else {
+                setModal(true);
+                e.preventDefault();
+                }};
 
-          const response = await fetch(apiUrl);
-          const exists = await response.json();
+  useEffect(() => {
+    const fetchHeartExists = async () => {
+      try {
+        const heartType = 'EDU'; // 하트 타입
 
-          setExists(exists);
-        } catch (error) {
-          console.error('API 요청 실패:', error);
-        }
-      };
+        const apiUrl = `http://localhost:8012/api/v1/hearts/exists?userId=${userId}&heartType=${heartType}`;
+
+        const response = await fetch(apiUrl);
+        const exists = await response.json();
+
+        setExists(exists);
+      } catch (error) {
+        console.error('API 요청 실패:', error);
+      }
+    };
 
     fetchHeartExists();
   }, [userId]);
@@ -69,46 +78,49 @@ function ClassDetail() {
         setIsHearted(updatedIsHearted);
         localStorage.setItem('isHearted', updatedIsHearted.toString());
 
-                // 하트 생성 후 exists 값을 업데이트
-                const updatedExists = !exists;
-                setExists(updatedExists);
-            } else {
-                console.error('하트 생성 또는 삭제 실패');
-            }
-            } catch (error) {
-            console.error('하트 생성 또는 삭제 실패:', error);
-            }
-        };
+        // 하트 생성 후 exists 값을 업데이트
+        const updatedExists = !exists;
+        setExists(updatedExists);
+        fetchEduHeartCount();
+      } else {
+        console.error('하트 생성 또는 삭제 실패');
+      }
+    } catch (error) {
+      console.error('하트 생성 또는 삭제 실패:', error);
+    }
+  };
 
-      const requestHeader = {
+        const requestHeader = {
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + token
       };
 
-      const API_BASE_URL = `http://localhost:8012/api/v1/edu/${eduId}`;
-     console.log("oneEdu : ",oneEdu);
-    
+ const API_BASE_URL = `http://localhost:8012/api/v1/edu/${eduId}`;
+ console.log("oneEdu : ",oneEdu);
 
-    useEffect(() => {
-        const loginUserInfo = getLoginUserInfo();
-        setToken(loginUserInfo.token);
-        setIsHearted(localStorage.getItem('isHearted') === 'true');
+useEffect(() => {
+  const loginUserInfo = getLoginUserInfo();
+  setToken(loginUserInfo.token);
+  setIsHearted(localStorage.getItem('isHearted') === 'true');
 
-        fetch(API_BASE_URL, {
-        method: 'GET',
-        headers: requestHeader,
-        })
-        .then((res) => {
-            if (res.status === 200) return res.json();
-            else {
-            alert('서버가 불안정합니다');
-            }
-        })
-        .then((json) => {
-            console.log(json);
-            setOneEdu(json);
-        });
-    }, [eduId]);
+  fetch(API_BASE_URL, {
+    method: 'GET',
+    headers: requestHeader,
+  })
+    .then((res) => {
+      if (res.status === 200) return res.json();
+      else {
+        alert('서버가 불안정합니다');
+      }
+    })
+    .then((json) => {
+      console.log(json);
+      setOneEdu(json);
+      fetchEduHeartCount();
+    });
+    fetchEduHeartCount();
+}, [eduId, exists]);
+
 
   return (
     <div className="class-detail-container">
@@ -144,13 +156,14 @@ function ClassDetail() {
                       <button
                         onClick={createHeart}
                         style={{
-                          color: isHearted ? 'red' : 'black',
+                          color: exists ? 'red' : 'black',
                           border: 'none',
                           background: 'transparent',
                           cursor: 'pointer',
                         }}
                       >
                         {exists ? '❤️' : '🤍'}
+                        <h3>{eduHeartCount}</h3>
                       </button>
                     </div>
                     <div className="condition">

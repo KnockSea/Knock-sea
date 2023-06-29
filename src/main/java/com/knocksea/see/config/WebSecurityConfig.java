@@ -41,6 +41,9 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 //어딴 요청에서 인증을 안할 것인지 설정, 언제 할 것인지 설정
                 .antMatchers("/").permitAll()
+                .antMatchers("/myapi.html").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/v3/api-docs/**","/swagger*/**").permitAll()
                 .antMatchers("/health-check").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/products").permitAll()
                 .antMatchers("/api/v1/products/{productId}").permitAll()
@@ -66,7 +69,7 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.GET,"/api/v1/reviews").permitAll()
                 .antMatchers("/api/v1/hearts").permitAll()
                 .antMatchers("/api/v1/hearts/exists").permitAll()
-
+                .antMatchers("/api/v1/hearts/eduHeart").permitAll()
                 .anyRequest().authenticated()
         ;
 
