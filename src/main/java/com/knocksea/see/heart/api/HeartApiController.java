@@ -107,7 +107,17 @@ public class HeartApiController {
             @RequestParam("heartType") String heartType
     ) {
         log.info("heartType@@@@@@@@@@@@@@@@@@@@@@@@@@@ {}", heartType);
-        int productHeartCount = heartService.spotHeart(productId, heartType);
+        int productHeartCount = heartService.spotAndShipHeart(productId, heartType);
+        log.info("eduHeartCount@@@@ {}", productHeartCount);
+        return ResponseEntity.ok().body(productHeartCount);
+    }
+    @GetMapping("/shipHeart")
+    public ResponseEntity<?> shipHeart(
+            @RequestParam("productId") Long productId,
+            @RequestParam("heartType") String heartType
+    ) {
+        log.info("heartType@@@@@@@@@@@@@@@@@@@@@@@@@@@ {}", heartType);
+        int productHeartCount = heartService.spotAndShipHeart(productId, heartType);
         log.info("eduHeartCount@@@@ {}", productHeartCount);
         return ResponseEntity.ok().body(productHeartCount);
     }

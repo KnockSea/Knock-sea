@@ -77,7 +77,7 @@ public class HeartService {
         int eduHeartCount = heartRepository.countByEduAndHeartType(edu, HeartType.valueOf(heartType));
         return eduHeartCount;
     }
-    public int spotHeart(Long productId, String heartType) {
+    public int spotAndShipHeart(Long productId, String heartType) {
         Optional<Product> byId = productRepository.findById(productId);
         Product product = byId.orElse(null);
 
@@ -87,6 +87,8 @@ public class HeartService {
         int productHeartCount = heartRepository.countByProductAndHeartType(product, HeartType.valueOf(heartType));
         return productHeartCount;
     }
+
+
 }
 
 
