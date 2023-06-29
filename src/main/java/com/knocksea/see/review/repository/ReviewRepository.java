@@ -30,5 +30,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r FROM Review r WHERE r.product = :product")
     List<Review> findByProduct(@Param("product") Product product);
 
+    List<Review> findAllByUser(User user);
 
+    @Query("SELECT r.reviewId FROM Review r WHERE r.user = :user")
+    List<Long> findReviewIdByUser(@Param("user") User user); //user가 작성한 reviewId 찾기
 }

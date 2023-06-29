@@ -126,27 +126,25 @@ function ProductRegistration() {
       const handleProductRegi = async (e) => {
         e.preventDefault();
         
-        const handleSubmit = () => {
-          // Check if required fields are filled
-          if (
-            productLabelType &&
-            productTitle &&
-            productInfo &&
-            productLocationInfo &&
-            productFullAddress &&
-            productPrice &&
-            timeMaxUser &&
-            timeDate.length > 0 &&
-            timeStarts.length > 0 &&
-            timeEnds.length > 0 &&
-            productService &&
-            productImages.length > 0
-          ) return true;
-          else{
-            return false;
-          }
+        if (
+          !productLabelType ||
+          !productTitle ||
+          !productInfo ||
+          !productLocationInfo ||
+          !productFullAddress ||
+          !productPrice ||
+          !timeMaxUser ||
+          !timeDate.length ||
+          !timeStarts.length ||
+          !timeEnds.length ||
+          !productService ||
+          productImages.length === 0
+        ) {
+          alert('모든 필수 항목을 입력해주세요.');
+          return;
         }
-        if(handleSubmit){
+      
+
         try {
           const res = await fetch(`${API_BASE_URL}${PRODUCTS}`, {
           method: 'POST',
@@ -163,9 +161,6 @@ function ProductRegistration() {
           } catch (error) {
             console.error('데이터 전송 실패!');
           }
-        }else{
-          alert('필수 값이 비어있습니다!')
-        }
   };
 
   return (

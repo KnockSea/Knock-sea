@@ -19,6 +19,7 @@ function ClassMain() {
   const [size, setSize] = useState(8);
   const [totalItemCount, setTotalItemCount] = useState(0);
   const [edus, setEdus] = useState([]);
+  const [topFourEdus, setTopFourEdus] = useState([]);
   const [value, setValue] = useState(0);
 
   const handlePageChange = (page) => {
@@ -41,17 +42,17 @@ function ClassMain() {
               console.log('json', json); // Check the fetched data
               setEdus(json);
               setTotalItemCount(json.pageInfo.totalCount);
-              console.log('edus: ' , edus);
-              console.log('setValue : ' , value);
+              setTopFourEdus(json.topFour);
+              console.log("topFourEdus",topFourEdus);
             });
         }, [page]);
         
-      const TopList = [
-        { id: '12', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕', place: '부둣가', price: 10000 },
-        { id: '123', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
-        { id: '1234', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
-        { id: '돔쟁123이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
-      ];
+      // const TopList = [
+      //   { id: '12', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕', place: '부둣가', price: 10000 },
+      //   { id: '123', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
+      //   { id: '1234', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
+      //   { id: '돔쟁123이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
+      // ];
 
       const [filter, setFilter] = useState('');
 
@@ -70,22 +71,32 @@ function ClassMain() {
                 <div className="class-HOT">
                     <p><span className='class-list-title'>HOT! </span>지금 인기 많은 클래스</p>
                     <div className='lists'>
-                            {TopList.map((t) => (
+                            {topFourEdus.map((t) => (
                                     <div className="class-list-1" key={t.eduId}>
                                       <div className="writer" data-id={t.eduId}></div>
                                     <div className="list-img-wrapper">
-                                        <img src={t.feedImg} alt="" id="list-img" />
+                                        <img src={t.mainImage} alt="" id="list-img" />
                                     </div>
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
-                                            <div className="list-star-rating">{t.reviewAverage}</div>
+                                            <div className="list-star-rating">
+                                                {t.reviewAverage}
+                                                    <Box
+                                                        sx={{
+                                                          '& > legend': { mt: 2 } }}
+                                                      >
+                                                        <Rating name="half-rating" 
+                                                        value={t.reviewAverage}
+                                                        precision={0.5}
+                                                        readOnly />
+                                                      </Box>
+                                            </div>
 
                                             <div className="userId">{t.userName}</div>
                                         </div>
-                                        <div className="text-place list-t">위치 : {t.eduLocation}</div>
-                                        <div className="text-price">가격 : {t.eduPrice}원</div>
-                                        <div className="text-title list-t">{t.eduTitle}</div>
-
+                                        <div className="text-place list-t">🚩위치 : {t.eduLocation}</div>
+                                        <div className="text-price">💰가격 : {t.eduPrice}원</div>
+                                        <div className="text-title list-t">💙{t.eduTitle}</div>
                                     </div>
                                     </div>
                                 ))}

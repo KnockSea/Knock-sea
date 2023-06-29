@@ -23,6 +23,11 @@ public interface EduRepository extends JpaRepository<Edu,Long> {
 
     List<Edu> findTop9ByOrderByCreateDateDesc();
 
+    @Query(value = "SELECT r.edu FROM Review r " +
+            "GROUP BY r.edu " +
+            "ORDER BY AVG(r.reviewRating) DESC")
+    List<Edu> findTop4ByReviewRating();
+
 
 //    Optional<Edu> findByUserId(User user);
 }
