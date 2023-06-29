@@ -2,7 +2,10 @@ import React, { useState,useEffect } from 'react';
 import { Link, Element, scroller } from 'react-scroll';
 import './scss/ClassDetailTap.scss';
 import { useParams } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
 import Pagination from "react-js-pagination";
+
 
 const ClassDetailTap = (props) => {
   const [page, setPage] = useState(1);
@@ -69,7 +72,18 @@ const ClassDetailTap = (props) => {
             <div className='rvitembox'>
               <div className='potobox'><img className="my-profile"  title="마이페이지" src={review.profileImg || require('../icons/01d.png')} style={{border:"1px solid darkgray"}}/></div>
               <div className='minibox'>
-                <div className='rvlisttitle'>이름 평점</div>
+                <div className='rvlisttitle'>{review.userName} {review.reviewRating}</div>
+                {/* <span className='rvstar'>
+                    <Box
+                      sx={{
+                        '& > legend': { mt: 2 } }}
+                    >
+                      <Rating name="half-rating" 
+                      value={review.reviewRating}
+                      precision={0.5}
+                      readOnly />
+                  </Box>
+                </span> */}
                 <div className='rvlistcount'>{review.reviewContent}</div>
               </div>
             </div>

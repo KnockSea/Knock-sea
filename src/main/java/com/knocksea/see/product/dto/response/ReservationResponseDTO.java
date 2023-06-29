@@ -34,6 +34,8 @@ public class ReservationResponseDTO {
 
     private String type;
 
+    private boolean isReviewed;
+
     public ReservationResponseDTO(Reservation r, ReservationTime time, Product product, SeaImage img) {
         this.imgUrl = img.getImageName();
         this.reserveDate=time.getTimeDate();
