@@ -44,7 +44,7 @@ public class ReviewDetailResponseDTO {
         this.profileImg = review.getUser().getProfileImg();
         this.productTitle = review.getProduct() != null ? review.getProduct().getProductTitle() : null;
         this.eduTitle = review.getEdu() != null ? review.getEdu().getEduTitle() : null;
-        this.title = review.getEdu().getEduTitle() != null ? review.getEdu().getEduTitle() : review.getProduct().getProductTitle();
+//        this.title = review.getEdu().getEduTitle() != null ? review.getEdu().getEduTitle() : review.getProduct().getProductTitle();
         this.userName = review.getUser().getUserName();
 //        this.image = review.getEdu().getSeaImage().getImageName() != null ? review.getEdu().getSeaImage().getImageName() : review.getProduct().getSeaImage().getImageName();
         this.image = imgUrls;

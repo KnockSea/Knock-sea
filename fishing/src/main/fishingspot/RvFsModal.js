@@ -5,14 +5,7 @@ import { getLoginUserInfo } from "../util/login-util";
 import ClassCalendar from '../class/ClassCalendar';
 import { API_BASE_URL, RESERVATION } from '../../config/host-config';
 
-const handleLogin = (e) => {
-    e.preventDefault();
-  
-      // 회원가입 서버 요청
-    };
-    
-  // 렌더링 후 실행함수
-// timeList, price, address
+
 function RvFsModal({closeModal, FsDetail}) {
   const [token, setToken] = useState(getLoginUserInfo().token);
   const listSize=FsDetail.timeList.length-1;

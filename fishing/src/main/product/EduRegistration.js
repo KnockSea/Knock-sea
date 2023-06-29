@@ -9,7 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../util/login-util";
 import { getLoginUserInfo } from "../util/login-util";
 import { addDays, format, parseISO } from "date-fns";
-import { API_BASE_URL, USER } from "../../config/host-config";
+
+import { API_BASE_URL, EDU } from '../../config/host-config'
 
 function EduRegistration() {
   const [token, setToken] = useState(getLoginUserInfo().token);
@@ -127,7 +128,7 @@ function EduRegistration() {
 
     try {
       console.log("EduLevel : " ,eduLevel);
-      const res = await fetch(`${API_BASE_URL}${USER}`, {
+      const res = await fetch(`${API_BASE_URL}${EDU}`, {
           method: "POST",
           headers: { Authorization: "Bearer " + token },
           body: formData,

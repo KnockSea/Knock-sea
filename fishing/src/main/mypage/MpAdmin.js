@@ -78,9 +78,9 @@ const MpAdmin = () => {
                 <p>관리자</p>
             </div>
             <div className='mglist'>
-                <div><Link to='/admin'>배 검증요청</Link></div>
-                <div className='ch2'><Link to='/adminFS'>낚시터 검증요청</Link></div>
-                <div><Link to='/adminCS'>문의 현황</Link></div>
+                <div><Link to='/admin' className='mgcontent'>배 검증요청</Link></div>
+                <div className='ch2'><Link to='/adminFS'  className='mgcontent'>낚시터 검증요청</Link></div>
+                <div><Link to='/adminCS' className='mgcontent'>문의 현황</Link></div>
             </div>
         </div>
             <div className='mgcontentbox'>

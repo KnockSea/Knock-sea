@@ -80,18 +80,17 @@ function ClassMain() {
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
                                             <div className="list-star-rating">
-                                                {t.reviewAverage}
                                                     <Box
                                                         sx={{
                                                           '& > legend': { mt: 2 } }}
-                                                      >
+                                                          >
                                                         <Rating name="half-rating" 
                                                         value={t.reviewAverage}
                                                         precision={0.5}
                                                         readOnly />
-                                                      </Box>
+                                                    </Box>
+                                            <span className='review-rate'> ({t.reviewAverage})</span>
                                             </div>
-
                                             <div className="userId">{t.userName}</div>
                                         </div>
                                         <div className="text-place list-t">🚩위치 : {t.eduLocation}</div>
@@ -128,16 +127,16 @@ function ClassMain() {
                                     <div className="list-text">
                                         <div className='list-title-wrap list-t'>
                                         <div className="list-star-rating">
-                                          {f.reviewAverage}
                                               <Box
                                                   sx={{
                                                     '& > legend': { mt: 2 } }}
-                                                >
+                                                    >
                                                   <Rating name="half-rating" 
                                                   value={f.reviewAverage}
                                                   precision={0.5}
                                                   readOnly />
                                                 </Box>
+                                                <span className='review-rate'> ({f.reviewAverage})</span> 
                                           </div>
                                             <div className="userId">{f.userName}</div>
                                         </div>
