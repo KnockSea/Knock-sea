@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   justify-content: space-around;
   
-  .ShipcontentCard {
+  .contentCard1 {
     display: flex;
     flex-wrap: nowrap;
     width: calc(33.3333333333% - 20px);
@@ -15,7 +15,7 @@
     justify-content: space-evenly;
     align-items: stretch;
 
-    .imgbox {
+    .imgbox1 {
       width: 100%;
       height: 100%;
       overflow: hidden;
@@ -29,19 +29,19 @@
       }
     }
 
-    .cardTitle {
+    .cardTitle1 {
       font-weight: 700;
       font-size: 13px;
       float: left;
     }
 
-    .miniTitle {
+    .miniTitle1 {
       font-size: 11px;
       float: left;
       color: #5f5f5f;
     }
 
-    .miniContent {
+    .miniContent1 {
       font-size: 13px;
       float: left;
     }
@@ -57,7 +57,7 @@
     }
   }
 
-  .ShipcontentCard:nth-child(n + 4):nth-child(-n + 6) {
+  .contentCard1:nth-child(n + 4):nth-child(-n + 6) {
     margin-top: 100px;
   }
 }

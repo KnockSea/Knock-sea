@@ -7,7 +7,7 @@
 
   display: flex;
   justify-content: space-between;
-  .rvContent {
+  .rvContent1 {
     width: 79%;
     // .x1 {
     //   font-size: 7px;
@@ -19,21 +19,21 @@
     //   margin-right: 5px;
     // }
 
-    .cardBox {
+    .cardBox1 {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
     }
   }
 
-  .rvApibox {
+  .rvApibox1 {
     width: 20%;
     height: 800px;
     // background: green;
     div {
       font-weight: 700;
     }
-    .mapbox {
+    .mapbox1 {
       margin-top: 50px;
 
       width: 100%;

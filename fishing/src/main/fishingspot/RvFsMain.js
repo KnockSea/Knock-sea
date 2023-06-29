@@ -41,14 +41,14 @@ function RvFsMain({ fetchFsProduct, FsProduct }) {
   return (
     <div>
       <div className="rvMain">
-        <div className="rvContent">
-          <div className="cardBox">
+        <div className="rvContent1">
+          <div className="cardBox1">
             <RvFsItem productDetail={FsProduct} />
           </div>
         </div>
-        <div className="rvApibox">
+        <div className="rvApibox1">
           <div>위치 확인하기</div>
-          <div className="mapbox">
+          <div className="mapbox1">
             <RvFsMap productDetail={FsProduct} />
           </div>
         </div>
