@@ -159,3 +159,29 @@
     }
 
 }
+.mgcontentbox{
+.ctntext {
+    
+    .answertext {
+         padding: 10px;
+        font-family: 'Gowun Batang', serif;
+    }
+    .adminreplyinput {
+
+        textarea {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #b8b8b8;
+            border-radius: 10px;
+        }
+    }
+}
+
+.replybtn1 {
+    a {
+        text-decoration: none;
+        color: #fff;
+    }
+    
+}
+}

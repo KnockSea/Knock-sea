@@ -100,7 +100,7 @@ const MpAdmin = () => {
         {/* 관리자목록박스  */}
         <div className='mgbox'>
             <div className='mgtitle'>
-                <p>[ 관리자 ]</p>
+                <p>[관리자]</p>
             </div>
             <div className='mglist'>
                 <div><Link to='/admin' className='mgcontent'>배 검증요청</Link></div>
