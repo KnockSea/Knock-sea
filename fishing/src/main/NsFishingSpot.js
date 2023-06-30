@@ -1,13 +1,11 @@
 import React from "react";
-import ocean from "./img/ocean.png";
-import "./scss/NsFishingSpot.scss";
-import ex1 from "./img/bg.jpg";
-import { Link } from "react-router-dom";
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
+import { Link } from "react-router-dom";
+import "./scss/NsFishingSpot.scss";
 
-const NsFishingSpot = ( { spotList } ) => {
+const NsFishingSpot = ({ spotList, linkdetail }) => {
   const carouselSettings = {
     dots: true,
     infinite: true,
@@ -15,8 +13,8 @@ const NsFishingSpot = ( { spotList } ) => {
     slidesToShow: 4,
     slidesToScroll: 1,
     centerMode: false,
-    autoplay: true, // 자동 전환 설정
-    autoplaySpeed: 3000, // 전환 간격 (3초)
+    autoplay: true,
+    autoplaySpeed: 3000,
   };
 
   return (
@@ -27,13 +25,19 @@ const NsFishingSpot = ( { spotList } ) => {
           <Link to={"/bt"}>더보기</Link>
         </p>
       </div>
-      <div className="shipboxs"> {/* 캐러셀의 부모 요소 */}
+      <div className="shipboxs">
         <Slider {...carouselSettings}>
-          {spotList.map((item) => (
-            <div key={item.id} className="image">
-              <img src={item.imgUrl} alt={item.title} />
-            </div>
-          ))}
+        {spotList.map((item) => {
+            const productId = item.id;
+
+            return (
+              <div key={item.id} className="image">
+                <Link to={`/detail/${productId}`}>
+                  <img src={item.imgUrl} alt={item.title} />
+                </Link>
+              </div>
+            );
+          })}
         </Slider>
       </div>
     </div>

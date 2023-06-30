@@ -12,6 +12,7 @@ const NsTemplate = () => {
   const [mainship, setmainship] = useState([]);
   const [mainspot, setmainspot] = useState([]);
   const [mainedu, setmainedu] = useState([]); 
+  const [linkdetail, setlinkdetail] = useState([]);
 
   const mainimgs = () => {
 
@@ -30,7 +31,12 @@ const NsTemplate = () => {
     .then(res => {
       setmainedu(res);
     });
-     
+       fetch(`${API_BASE_URL}${PRODUCTS}/product-list`)
+  .then(response => response.json())
+  .then(res =>{
+        setlinkdetail(res);
+        console.log("dasdasdasdasdasdas" ,res);
+    })  
   }
 
 
@@ -45,7 +51,12 @@ const NsTemplate = () => {
     <div>
       <NsHeader />
 
-      <NsMain shipList={mainship} spotList={mainspot} eduList={mainedu}/>
+      <NsMain 
+      shipList={mainship} 
+      spotList={mainspot} 
+      eduList={mainedu}
+      linkdetail={linkdetail}
+      />
 
       {showFooter && <NsFootter />}
     </div>
