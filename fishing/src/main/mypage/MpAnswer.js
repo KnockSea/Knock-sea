@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MpList from './MpList';
 import { getLoginUserInfo } from '../util/login-util';
 import { ANSWERS, API_BASE_URL } from '../../config/host-config';
+import './MpScss/MpAdmin.scss';
 
 function MpAnswer() {
     
@@ -77,7 +78,7 @@ function MpAnswer() {
                   <div className='cltitle'>내용</div>
                 </div>
                 <div className='cltextbox qttext'>
-                  <textarea value={content} onChange={handleContentChange} />
+                  <textarea value={content} onChange={handleContentChange}/>
                 </div>
               </div>
     

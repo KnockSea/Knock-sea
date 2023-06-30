@@ -45,7 +45,7 @@ const MpAdminCS = () => {
       <div className="MpAdminbox">
         <div className="mgbox">
           <div className="mgtitle">
-            <p>[ 관리자 ]</p>
+            <p>[관리자]</p>
           </div>
           <div className="mglist">
             <div>
