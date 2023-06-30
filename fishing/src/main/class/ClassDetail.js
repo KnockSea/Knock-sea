@@ -96,7 +96,7 @@ function ClassDetail() {
         'Authorization': 'Bearer ' + token
       };
 
- const API_BASE_URL = `${API_BASE_URL}${EDU}/${eduId}`;
+//  const API_BASE_URL = `${API_BASE_URL}${EDU}/${eduId}`;
  console.log("oneEdu : ",oneEdu);
 
 useEffect(() => {
@@ -104,7 +104,7 @@ useEffect(() => {
   setToken(loginUserInfo.token);
   setIsHearted(localStorage.getItem('isHearted') === 'true');
 
-  fetch(API_BASE_URL, {
+  fetch(`${API_BASE_URL}${EDU}/${eduId}`, {
     method: 'GET',
     headers: requestHeader,
   })
