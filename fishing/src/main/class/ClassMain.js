@@ -5,7 +5,7 @@ import { Route, Routes,Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Pagination from "react-js-pagination";
 import { API_BASE_URL, EDU } from '../../config/host-config';
-
+import { getLoginUserInfo } from '../util/login-util';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 
@@ -21,7 +21,14 @@ function ClassMain() {
   const [edus, setEdus] = useState([]);
   const [topFourEdus, setTopFourEdus] = useState([]);
   const [value, setValue] = useState(0);
-
+  const [userInfo, setUserInfo] = useState({
+    token: '',
+    userEmail: '',
+    userName : '',
+    userGrade : '',
+    userId : '',
+    userPhone : ''
+  });
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -50,7 +57,11 @@ function ClassMain() {
               console.log("topFourEdus",topFourEdus);
             });
         }, [page]);
-        
+
+        useEffect(() => {
+          const user = getLoginUserInfo();
+          setUserInfo(user);
+        }, []);
       // const TopList = [
       //   { id: '12', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕', place: '부둣가', price: 10000 },
       //   { id: '123', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
@@ -97,9 +108,9 @@ function ClassMain() {
                                             </div>
                                             <div className="userId">{t.userName}</div>
                                         </div>
-                                        <div className="text-place list-t">🚩위치 : {t.eduLocation}</div>
-                                        <div className="text-price">💰가격 : {t.eduPrice}원</div>
-                                        <div className="text-title list-t">💙{t.eduTitle}</div>
+                                        <div className="text-place list-t">🚩 위치 : {t.eduLocation}</div>
+                                        <div className="text-price list-t">💰 가격 : {t.eduPrice}원</div>
+                                        <div className="text-title list-t">💙 {t.eduTitle}</div>
                                     </div>
                                     </div>
                                 ))}
@@ -109,13 +120,16 @@ function ClassMain() {
                 <div className="class-list-wrap">
                     <div className='class-list-top'>
                         <span className='class-list-title'>전체 클래스</span>
-                        <div className='class-filter'>
-                        <select value={filter} onChange={handleFilterChange}>
+                        {userInfo.userGrade == 'OWNER' && (
+                        <div className='class-regi'>
+                        <Link to={('/edu')}><div>등록하러 가기</div></Link>
+                        {/* <select value={filter} onChange={handleFilterChange}>
                             <option value="">전체보기</option>
                             <option value="popular">인기 순</option>
                             <option value="Deadline approaching">마감 임박 순</option>
-                          </select>
+                        </select> */}
                         </div>
+                        )}
                     </div>
 
                     <div className="class-list">
@@ -144,9 +158,9 @@ function ClassMain() {
                                           </div>
                                             <div className="userId">{f.userName}</div>
                                         </div>
-                                        <div className="text-place list-t">🚩위치 : {f.eduLocation}</div>
-                                        <div className="text-price list-t">💰가격 : {f.eduPrice}</div>
-                                        <div className="text-title list-t">💙{f.eduTitle}</div>
+                                        <div className="text-place list-t">🚩 위치 : {f.eduLocation}</div>
+                                        <div className="text-price list-t">💰 가격 : {f.eduPrice}</div>
+                                        <div className="text-title list-t">💙 {f.eduTitle}</div>
                                     </div>
                                     </div>
                             </Link>
