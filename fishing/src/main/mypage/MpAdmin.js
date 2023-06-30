@@ -7,7 +7,7 @@ import "./MpScss/MpAdmin.scss";
 
 const MpAdmin = () => {
 
-    const [totalItemCount, setTotalItemCount] = useState(0);
+    const [totalItemCount, setTotalItemCount] = useState(1);
     const [validationList, setValidationList] = useState([]);
     const [validationType, setValidationType] = useState('SHIP');
     const [page, setPage] = useState(1);
@@ -79,6 +79,7 @@ const MpAdmin = () => {
     
           if (response.ok) {
             alert('검증요청 삭제 완료');
+            setIsApprovalComplete(true);
             // 성공적으로 삭제되었을 때 수행할 작업 추가
           } else {
             // console.log('삭제 실패');
@@ -110,36 +111,13 @@ const MpAdmin = () => {
         </div>
             <div className='mgcontentbox'>
                 <div className='ctntitle'>KNOCK_SEA 관리자 화면 (배)</div>
-
+                <div className='ctncontent-wrap'>        
                 {/* 본문내용 */}
-                {validationList.length > 0 ? (
-                validationList.map((validation, index) => (
-                <>
-                    <div key={index}>
-                    {validation.validationId}
-                    {validation.userName}
-                    {validation.validationType}
-                    {validation.validationShipRegi}
-                    {validation.validationShipLicense}
-                    {validation.validationBusinessRegi}
-                    {validation.validationStatus}
-                    {/* Render other properties as needed */}
-                    </div>
-                     <div>
-                     <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
-                     <button onClick={(e)=> deleteValidation(e,validation.validationId)}>취소</button>
-                 </div>
-                 </>
-                ))
-                ) : (
-                <div>데이터 없음</div>
-                )}
+                
 
 
-                <div className="page">
 
-                  {/*                <div className='ctntitle'>KNOCK_SEA 관리자 화면 (배낚시)</div>
-                <div className='ctncontent-wrap'>              
+            
                 {validationList.length > 0 ? (
                     validationList.map((validation) => (
                     <div key={validation.validationId} className='ctncontent'>
@@ -153,22 +131,28 @@ const MpAdmin = () => {
                             ) : (
                             <div>등록 유저이름 없음</div>
                         )}
-                        {validation.validationBusinessRegi? (
-                            <div className='username name'>{validation.validationBusinessRegi}</div>
+                        {validation.validationShipRegi? (
+                            <div className='username name'>{validation.validationShipRegi}</div>
                             ) : (
-                            <div>배낚시 사업자번호 등록 안됨</div>
+                            <div>선박 등록증 등록 안됨</div>
+                        )}
+                        {validation.validationShipLicense?(
+                            <div className='username name'>{validation.validationShipRegi}</div>
+                            ):(
+                            <div>선박면허 등록 안됨</div>
                         )}
                         <div>
-                            <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
-                            <button>취소</button>
+                            <button className='admin-confirm' onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
+                            <button className='admin-confirm' onClick={(e) => deleteValidation(e, validation.validationId)}>취소</button>
                         </div>
                         <div>{validation.validationStatus}</div>
                     </div>
                     ))
                 ) : (<div className='ctncontent'>❎ 현재 요청데이터 없음</div>)}
                 </div>
-                 <div className="page"> */}
 
+
+               <div className="page"> 
                 <Pagination
                 activePage={page}
                 itemsCountPerPage={size}
