@@ -108,8 +108,8 @@ function Login() {
                 </li>
                 <li className='login-etc'>
                   <div>
-                    <input type="checkbox" id="auto-login" name="autoLogin" />
-                    <label htmlFor="auto-login" className="auto-login">로그인 유지</label>
+                    {/* <input type="checkbox" id="auto-login" name="autoLogin" />
+                    <label htmlFor="auto-login" className="auto-login">로그인 유지</label> */}
                   </div>
                   <div>
                     <Link to="/join" className="sign-up">🌊회원가입</Link>

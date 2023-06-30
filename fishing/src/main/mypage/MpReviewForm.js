@@ -109,7 +109,7 @@ const location = useLocation();
             </div>
           </div>
       <br />
-          <Link to="/inquire" className="qtUpdatebtn" onClick={handleSubmit}>
+          <Link to="/my" className="qtUpdatebtn" onClick={handleSubmit}>
             작성완료 
           </Link>
         </div>
