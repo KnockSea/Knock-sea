@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./RvScss/RvBtDetail.scss";
 import dt1 from "../img/dtRv.png";
 import boat from "../img/boat.jpg";
-import { API_BASE_URL, PRODUCTS } from "../../config/host-config";
+import { API_BASE_URL, PRODUCTS, HEART } from "../../config/host-config";
 import { useLocation, useParams } from "react-router-dom";
 import { Calendar } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
@@ -12,7 +12,6 @@ import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
 import RvDetailTap from "./RvDetailTap";
 import BtModal from "./BtModal";
-import { API_BASE_URL, HEART } from "../../config/host-config";
 
 const RvBtDetail = () => {
   const { productId } = useParams();
