@@ -214,7 +214,7 @@ public class ProductService implements ProductDetailService {
     }
 
     public List<mainListResponseDTO> spotMainList() {
-        List<Product> productsSpot = productRepository.findTop9ByProductType("SHIP");
+        List<Product> productsSpot = productRepository.findTop9ByProductType("SPOT");
 
         return getCollect(productsSpot);
 
@@ -223,9 +223,11 @@ public class ProductService implements ProductDetailService {
     private List<mainListResponseDTO> getCollect(List<Product> product) {
         return product.stream()
                 .map(p -> {
-                    SeaImage seaImage = imageRepository.findByProduct(p);
+//                    SeaImage seaImage = imageRepository.findByProduct(p);
+                    List<SeaImage> seaImage = imageRepository.findByProduct(p);
+                    log.warn("하나만 가져올거라!! : {}", seaImage);
 //                            .orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
-                    return new mainListResponseDTO(p, seaImage);
+                    return new mainListResponseDTO(p, seaImage.get(0));
                 }).collect(Collectors.toList());
     }
 

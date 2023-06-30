@@ -114,22 +114,22 @@ const MpAdminFS = () => {
     
   return (
     <section>
-    <div className='adminbox'>
+    <div className='MpAdminbox'>
 
         {/* 관리자목록박스  */}
         <div className='mgbox'>
             <div className='mgtitle'>
-                <p>관리자</p>
+                <p>[ 관리자 ]</p>
             </div>
             <div className='mglist'>
-                <div><Link to='/admin'>배 검증요청</Link></div>
-                <div className='ch2'><Link to='/adminFS'>낚시터 검증요청</Link></div>
-                <div><Link to='/adminCS'>문의 현황</Link></div>
+                <div><Link to='/admin' className='mgcontent'>배 검증요청</Link></div>
+                <div><Link to='/adminFS' className='mgcontent'>낚시터 검증요청</Link></div>
+                <div><Link to='/adminCS' className='mgcontent'>문의 현황</Link></div>
             </div>
         </div>
             <div className='mgcontentbox'>
                 <div className='ctntitle'>KNOCK_SEA 관리자 화면 (낚시터)</div>
-
+                <div className='ctncontent-wrap'>
                 {/* 본문내용 */}
                 {validationList.length > 0 ? (
                 validationList.map((validation, index) => (
@@ -150,8 +150,36 @@ const MpAdminFS = () => {
                 ) : (
                 <div>데이터 없음</div>
                 )}
+
+  {/*                    validationList.map((validation) => (
+                    <div key={validation.validationId} className='ctncontent'>
+                        {validation.userId ? (
+                            <div className='username'>▪{validation.userId}번</div>
+                            ) : (
+                            <div>❗ 등록유저번호 없음 ❗</div>
+                        )}
+                        {validation.userName ? (
+                            <div className='username name'> {validation.userName}</div>
+                            ) : (
+                            <div>❗ 등록유저이름 없음 ❗</div>
+                        )}
+                        {validation.validationBusnessRegi? (
+                            <div className='username'>{validation.validationBusinessRegi}</div>
+                            ) : (
+                            <div>❗ 낚시터사업자번호 등록안됨 ❗</div>
+                        )}
+                        <div>
+                            <button className='admin-confirm' onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
+                            <button className='admin-confirm' onClick={(e)=> deleteValidation(e,validation.validationId)}>취소</button>
+                        </div>
+                        <div>{validation.validationStatus}</div>
+                    </div>
+                    ))
+                ) : (<div className='ctncontent'>❎ 현재 요청데이터 없음</div>)}
+                </div> */}
+
                  <div className="page">
-                <Pagination
+                <Pagination 
                 activePage={page}
                 itemsCountPerPage={size}
                 totalItemsCount={totalItemCount}

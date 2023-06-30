@@ -73,12 +73,12 @@ const MpRvlist = () => {
       };
     }
       console.log("formdata : ",formdata);
-      // console.log("토큰토큰토큰: ", userInfo.token);
 
       const requestHeader = {
         'content-type': 'application/json',
         Authorization : "Bearer " + userInfo.token
       };
+
      //삭제 패치 때리기
       fetch(`${API_BASE_URL}${RESERVATION}/remove`, {
         method: 'DELETE',
@@ -92,19 +92,13 @@ const MpRvlist = () => {
       .then(json => {
         setUserProfile(json);
       });
-    
+
      setOpen(false);
-    //  console.log("userProfile : ",userProfile);
-     userReservefetch();
-   
+
+    
   }
 
   useEffect(() => {
-    // const user = getLoginUserInfo();
-    // setUserInfo(user);
-    // console.log(userInfo);
-    // 배 정보를 가져오는 함수
-  
     const user = getLoginUserInfo();
     setUserInfo(user);
     // fetchShipInfo();
@@ -170,32 +164,35 @@ const dateStatusCheck=(checkDate)=>{
         {!!userProfile.reserveDTO ? (
         userProfile.reserveDTO.map((reservation, index) => (
           <div className='rvlistbox' key={index} >
+
+            <div className='rvlistwrap'>
             <div className='rvliststatus'>예약확정</div>
-            {/* <button onClick={confirmDelete}>취소하기</button> */}
-            {/* <div>
-                    <Button variant="outlined" onClick={handleClickOpen}>
-                      예약 취소하기
-                    </Button>
-                    <Dialog
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="alert-dialog-title"
-                      aria-describedby="alert-dialog-description"
-                    >
-                      <DialogTitle id="alert-dialog-title">
-                      </DialogTitle>
-                      <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                          정말 예약을 취소하시겠습니까?
-                        </DialogContentText>
-                      </DialogContent>
-                      <DialogActions>
-                        <Button onClick={handleClose}>아니오</Button>
-                        <Button onClick={() => handleCancle(reservation)} autoFocus>네</Button>
-                      </DialogActions>
-                    </Dialog>
-            </div> */}
-            
+                  <div> 
+                    {/* {dateStatusCheck (reservation.reserveDate) || ( */}
+                      <Button variant="outlined" onClick={handleClickOpen}>
+                        예약 취소
+                      </Button>
+                      {/* )} */}
+                      <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogTitle id="alert-dialog-title">
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            정말 예약을 취소하시겠습니까?
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleClose}>아니오</Button>
+                          <Button onClick={() => handleCancle(reservation)} autoFocus>네</Button>
+                        </DialogActions>
+                      </Dialog>
+                  </div>
+            </div>
             {/* <Link to={`/classdetail/${reservation.eduId}` }>   */}
             <div className='rvitembox'>
               <div className='potobox'><img className="my-profile"  title="마이페이지" src={reservation.imgUrl || require('../icons/01d.png')} style={{border:"1px solid darkgray"}}/></div>
@@ -212,36 +209,29 @@ const dateStatusCheck=(checkDate)=>{
                   <button className='relist'>후기쓰기</button>
                 </div>
               )} */}
+              <div className='rvlistbtnbox-wrap'>
+               {dateStatusCheck (reservation.reserveDate) || (
+                <div className='rvlistbtnbox'>
+                    <button className='norelist'>후기 등록 기간이 아닙니다.</button>
+                </div>
+               )}
             {/* {dateStatusCheck(reservation.reserveDate) && ( */}
               <div className='rvlistbtnbox'>
                 <Link to={'/review'} state={{ reservationInfo : reservation}}>
-                  <button className='relist'>후기쓰기</button>
+                  <button className='relist'>🖍 후기쓰기</button>
                 </Link>
               </div>
             {/* )} */}
-            {dateStatusCheck (reservation.reserveDate) || (
-              <div className='rvlistbtnbox'>
-                  <button className='norelist'>후기 등록 기간이 아닙니다.</button>
-              </div>
-            )}
+            </div>
             </div>
         ))
       ) : (
         <div>예약 내역이 없습니다.</div>
       )}
-
-
   </div>
-    {/* <ul className='list'>
-        <li>업체정보</li>
-        <li>리뷰게시판</li>
-        <li>예약현황</li>
-        <li className='my'>내정보</li>
-        <li><Link to={'/myinfo'}>정보 수정하기</Link></li>
-        <li>내 예약 내역</li>
-        <li>문의현황</li>
-    </ul> */}
+
     <MpList/>
+    
 </section>
   )
 }

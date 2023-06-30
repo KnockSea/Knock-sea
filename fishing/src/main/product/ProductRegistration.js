@@ -226,7 +226,7 @@ function ProductRegistration() {
                     className="form-control"
                     required
                     aria-required="true"
-                    placeholder="ex) 입문자도 한 시간만에 낚시 마스터!"
+                    placeholder="ex) [강태공호] 영종도 출발 대방어 낚시"
                   />
                 </div>
               </li>

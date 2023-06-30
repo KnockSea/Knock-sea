@@ -66,8 +66,9 @@ public class ReviewService {
 //            }
 
             product = productRepository.findById(reviewDTO.getId()).orElseThrow();
-            SeaImage eduImg = imageRepository.findByProduct(product);
-            imgs = eduImg.getImageName();
+            List<SeaImage> productImg = imageRepository.findAllByProduct(product);
+            if (!productImg.isEmpty()) imgs = productImg.get(0).getImageName();
+            else imgs = null;
         }
 
         if (reviewDTO.getId() != null &&reviewDTO.getReviewType().equals("SPOT")) {
@@ -81,8 +82,9 @@ public class ReviewService {
 //            }
 
             product = productRepository.findById(reviewDTO.getId()).orElseThrow();
-            SeaImage eduImg = imageRepository.findByProduct(product);
-            imgs = eduImg.getImageName();
+            List<SeaImage> productImg = imageRepository.findAllByProduct(product);
+            if (!productImg.isEmpty()) imgs = productImg.get(0).getImageName();
+            else imgs = null;
         }
 
         if (reviewDTO.getId() != null&&reviewDTO.getReviewType().equals("EDU")) {
@@ -170,7 +172,7 @@ public class ReviewService {
         if (review.getReviewType().toString().equals("SHIP") || review.getReviewType().toString().equals("SPOT")) {
             imgs = imageRepository.findByProduct(
                     productRepository.findById(review.getProduct().getProductId()).orElseThrow())
-                    .getImageName();
+                    .get(0).getImageName();
         } else {
             imgs = imageRepository.findByEdu(
                     eduRepository.findById(review.getEdu().getEduId()).orElseThrow())

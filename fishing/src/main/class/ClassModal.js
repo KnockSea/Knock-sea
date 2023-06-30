@@ -208,7 +208,9 @@ function ClassModal({ closeModal, oneEdu }) {
           <button
             className="class-pay-btn custom-button"
             onClick={handlePayment}
+            
           >
+            
             예약하기
           </button>
         </div>

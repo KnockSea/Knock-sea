@@ -12,27 +12,34 @@ const HostSearchMain = () => {
     const [productId, setProductId] = useState();
 
     const hostFetch = async () => {
-        const response = await fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`);
+        const response = await fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`, {
+            
+        });
+
+        if (response.status === 200) {
+            console.log(response.status);
+            console.log(response.json());
+        }
         
     }
 
     
-    // useEffect(()=>{
-    //     fetch(API_BASE_URL, { 
-    //         method: 'GET',
-    //         headers:  {'content-type': 'application/json'}
-    //       })
-    //         .then(res => {
-    //           if (res.status === 200) return res.json();
-    //          else {
-    //             alert('서버가 불안정합니다');
-    //           }
-    //         })
-    //         .then(json => {
-    //           console.log(json); 
-    //         });
+    useEffect(()=>{
+        // fetch(API_BASE_URL, { 
+        //     method: 'GET',
+        //     headers:  {'content-type': 'application/json'}
+        //   })
+        //     .then(res => {
+        //       if (res.status === 200) return res.json();
+        //      else {
+        //         alert('서버가 불안정합니다');
+        //       }
+        //     })
+        //     .then(json => {
+        //       console.log(json); 
+        //     });
     
-    //     }, []);
+    }, []);
 
 
     return (

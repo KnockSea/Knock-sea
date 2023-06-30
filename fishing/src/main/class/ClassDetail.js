@@ -96,15 +96,14 @@ function ClassDetail() {
         'Authorization': 'Bearer ' + token
       };
 
- const API_BASE_URL = `${API_BASE_URL}${EDU}/${eduId}`;
  console.log("oneEdu : ",oneEdu);
-
+// const API_BASE_URL = `${API_BASE_URL}${EDU}/${eduId}`;
 useEffect(() => {
   const loginUserInfo = getLoginUserInfo();
   setToken(loginUserInfo.token);
   setIsHearted(localStorage.getItem('isHearted') === 'true');
 
-  fetch(API_BASE_URL, {
+  fetch(`${API_BASE_URL}${EDU}/${eduId}`, {
     method: 'GET',
     headers: requestHeader,
   })
@@ -176,7 +175,9 @@ useEffect(() => {
                     <button className="box btn" onClick={handleRegiIsloign}>
                       바로 예약하기
                     </button>
+                    
                     {modal === true ? <ClassModal closeModal={() => setModal(false)} oneEdu={oneEdu} /> : null}
+                    
                   </div>
                   </div>
                 </div>
