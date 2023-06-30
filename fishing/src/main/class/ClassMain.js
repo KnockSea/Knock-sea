@@ -108,9 +108,9 @@ function ClassMain() {
                                             </div>
                                             <div className="userId">{t.userName}</div>
                                         </div>
+                                        <div className="text-title list-t">💙 {t.eduTitle}</div>
                                         <div className="text-place list-t">🚩 위치 : {t.eduLocation}</div>
                                         <div className="text-price list-t">💰 가격 : {t.eduPrice}원</div>
-                                        <div className="text-title list-t">💙 {t.eduTitle}</div>
                                     </div>
                                     </div>
                                 ))}
@@ -158,9 +158,9 @@ function ClassMain() {
                                           </div>
                                             <div className="userId">{f.userName}</div>
                                         </div>
+                                        <div className="text-title list-t">💙 {f.eduTitle}</div>
                                         <div className="text-place list-t">🚩 위치 : {f.eduLocation}</div>
                                         <div className="text-price list-t">💰 가격 : {f.eduPrice}</div>
-                                        <div className="text-title list-t">💙 {f.eduTitle}</div>
                                     </div>
                                     </div>
                             </Link>
