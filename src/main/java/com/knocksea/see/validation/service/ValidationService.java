@@ -140,4 +140,11 @@ public class ValidationService {
         return validationSaved.getValidationStatus();
     }
 
+
+    // pk번호로 검증요청 삭제
+    public void deletevalidation(Long validationId) {
+
+        validationRepository.deleteById(validationId);
+
+    }
 }

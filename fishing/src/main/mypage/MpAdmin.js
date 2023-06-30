@@ -10,28 +10,32 @@ const MpAdmin = () => {
     const [validationList, setValidationList] = useState([]);
     const [validationType, setValidationType] = useState('SHIP');
     const [page, setPage] = useState(1);
-    const [size, setSize] = useState(6);
+    const [size, setSize] = useState(10);
+    const [isApprovalComplete, setIsApprovalComplete] = useState(false);
+
     const handlePageChange = (page) => {
         setPage(page);
         // console.log(page);
       };
+
+      console.log('data',validationList);
+
     // API 요청
     useEffect(() => {
         fetch(`${API_BASE_URL}${VALIDATION}/validationlist?page=${page}&size=${size}&type=${validationType}`)
-        .then(response => response.json())
-        .then(data => {
-            // 요청 결과 처리
-            console.log(data);
-            setValidationList(data);
+          .then(response => response.json())
+          .then(data => {
+            const { validationListResponseDTO } = data;
 
-            setTotalItemCount(validationList.pageInfo.totalCount);
-            // console.log('validationList : ',validationList);
-        })
-        .catch(error => {
-            // 에러 처리
-            // console.error('Error:', error);
-        });
-    }, []);
+                setValidationList(validationListResponseDTO);
+
+                // Update the totalItemCount state variable if necessary
+                setTotalItemCount(data.pageInfo.totalCount);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      }, [isApprovalComplete]);
     //검증요청 승인하는 함수
     const updateValidation = async (e, validationUserName, validationType,validationuserId) => {
         e.preventDefault();
@@ -57,23 +61,35 @@ const MpAdmin = () => {
             });
             if (res.status === 200) {
                 alert('전송완료');
-                // 승인 요청 후 다시 리스트 가져오기
-                fetch(`${API_BASE_URL}${VALIDATION}/${validationType}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // 요청 결과 처리
-                        console.log(data);
-                        setValidationList(data);
-                        console.log('validationList : ',validationList);
-                    })
-                    .catch(error => {
-                        // 에러 처리
-                        console.error('Error:', error);
-                    });
-              } else {
-                alert('서버와의 통신오류');
-              }
+                setIsApprovalComplete(true);
+              } 
             }
+      };
+
+      const deleteValidation = async (e, validationId) => {
+        e.preventDefault();
+        console.log(validationId);
+        const confirm = window.confirm('정말 삭제하시겠습니까?');
+        if(confirm){
+        try {
+          const response = await fetch(`${API_BASE_URL}${VALIDATION}/${validationId}`, {
+            method: 'DELETE',
+          });
+    
+          if (response.ok) {
+            alert('검증요청 삭제 완료');
+            // 성공적으로 삭제되었을 때 수행할 작업 추가
+          } else {
+            // console.log('삭제 실패');
+            alert('검증요청 삭제실패');
+            // 삭제 실패 시 수행할 작업 추가
+          }
+        } catch (error) {
+            alert('검증요청 삭제 오류발생',error);
+        }
+    }else{
+        return ;
+    }
       };
 
   return (
@@ -92,36 +108,34 @@ const MpAdmin = () => {
             </div>
         </div>
             <div className='mgcontentbox'>
-                <div className='ctntitle'>KNOCK_SEA 관리자 화면 (낚시터)</div>
+                <div className='ctntitle'>KNOCK_SEA 관리자 화면 (배)</div>
 
                 {/* 본문내용 */}
                 {validationList.length > 0 ? (
-                    validationList.map((validation) => (
-                    <div key={validation.validationId}>
-                        {validation.userId ? (
-                            <div className='username'>{validation.userId}</div>
-                            ) : (
-                            <div>등록유저번호없음</div>
-                        )}
-                        {validation.userName ? (
-                            <div className='username'>{validation.userName}</div>
-                            ) : (
-                            <div>등록유저이름없음</div>
-                        )}
-                        {validation.validationBusinessRegi? (
-                            <div className='username'>{validation.validationBusinessRegi}</div>
-                            ) : (
-                            <div>낚시터사업자번호등록안됌</div>
-                        )}
-                        <div>
-                            <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
-                            <button>취소</button>
-                        </div>
-                        <div>{validation.validationStatus}</div>
+                validationList.map((validation, index) => (
+                <>
+                    <div key={index}>
+                    {validation.validationId}
+                    {validation.userName}
+                    {validation.validationType}
+                    {validation.validationShipRegi}
+                    {validation.validationShipLicense}
+                    {validation.validationBusinessRegi}
+                    {validation.validationStatus}
+                    {/* Render other properties as needed */}
                     </div>
-                    ))
-                ) : (<div>데이터 없음</div>)}
-                 <div className="page">
+                     <div>
+                     <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
+                     <button onClick={(e)=> deleteValidation(e,validation.validationId)}>취소</button>
+                 </div>
+                 </>
+                ))
+                ) : (
+                <div>데이터 없음</div>
+                )}
+
+
+                <div className="page">
                 <Pagination
                 activePage={page}
                 itemsCountPerPage={size}
@@ -131,7 +145,7 @@ const MpAdmin = () => {
                 nextPageText={"›"}
                 onChange={handlePageChange}
                 />     
-            </div>      
+                </div>      
             </div>
     </div>
     </section>
