@@ -5,18 +5,7 @@ import "./scss/NsItem.scss";
 import { Link } from "react-router-dom";
 
 const NsItem = ({ shipList }) => {
-  const groupedShipList = [];
-  let tempGroup = [];
-
-  for (let i = 0; i < shipList.length; i++) {
-    tempGroup.push(shipList[i]);
-
-    if (tempGroup.length === 2 || i === shipList.length - 1) {
-      groupedShipList.push(tempGroup);
-      tempGroup = [];
-    }
-  }
-
+  
   return (
     <div className="ship">
       <div className="title">
@@ -26,13 +15,12 @@ const NsItem = ({ shipList }) => {
         </p>
       </div>
       <div className="shipboxs">
-        {groupedShipList.map((group, groupIndex) => (
-          <div className="group" key={groupIndex}>
-            {group.map((imgUrl, index) => (
-              <div className="image" key={index}>
-                <img src={imgUrl.imgUrl || ocean} alt={`Image ${groupIndex}-${index + 1}`} />
-              </div>
-            ))}
+        
+        {shipList.map(t => (
+          <div className="group">
+            <div className="image">            
+              <img src={t.imgUrl}/>
+            </div>
           </div>
         ))}
       </div>

@@ -16,11 +16,11 @@ function RvTemplate() {
   const [size, setSize] = useState(6);
   const [type, setType] = useState("SHIP");
 
-  console.log("안녕 나는 rvtemplate이야", Fsproduct);
+  // console.log("안녕 나는 rvtemplate이야", Fsproduct);
 
   // 배 상품 정보를 전체 가져오는 함수
   const fetchFsProduct = async ({ p, s, t }) => {
-    console.log("안녕 나는 rvtemplate fetch야");
+    // console.log("안녕 나는 rvtemplate fetch야");
 
     fetch(
       `${API_BASE_URL}${PRODUCTS}/product-list?page=${p}&size=${s}&type=${t}`
