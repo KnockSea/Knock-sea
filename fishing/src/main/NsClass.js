@@ -5,6 +5,7 @@ import c1 from './img/bn3.jpg'
 import { Link } from "react-router-dom";
 
 const NsClass = ({eduList}) => {
+  console.log('edu')
   const groupedEduList = [];
   let tempGroup = [];
 
@@ -22,7 +23,7 @@ const NsClass = ({eduList}) => {
       <div className="title">
         <p className="t1">오늘의 클래스 &gt; </p>
         <p className="t2">
-          <Link to={"/bt"}>더보기</Link>
+          <Link to={"/class"}>더보기</Link>
         </p>
       </div>
       <div className="shipboxs">
