@@ -292,9 +292,9 @@ public class EduService {
 
         return eduList.stream()
                 .map(p -> {
-                    SeaImage seaImage = imageRepository.findByEdu(p);
+                    List<SeaImage> seaImage = imageRepository.findAllByEdu(p);
 //                            .orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
-                    return new mainListResponseDTO(p, seaImage);
+                    return new mainListResponseDTO(p, seaImage.get(0));
                 }).collect(Collectors.toList());
 //                .map(p -> {
 //

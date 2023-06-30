@@ -253,7 +253,7 @@ public class ProductService implements ProductDetailService {
                     .title(ship.getShipName())
                     .imgUrl(shipImg.get(0).getImageName())
                     .info(ship.getShipDescription())
-                    .rateAvg(score/pReview.size())
+                    .rateAvg(score != 0 ? score/pReview.size() : 0)
                     .build();
         } else {
             spot = fishingSpotRepository.findByUser(owner);
@@ -267,15 +267,24 @@ public class ProductService implements ProductDetailService {
                     .imgUrl(spotImg.get(0).getImageName())
                     .info(spot.getSpotDescription())
                     .rateAvg(score/pReview.size())
+                    .rateAvg(score != 0 ? score/pReview.size() : 0)
                     .build();
         }
+        log.warn("왜 NAN? {}", hostDTO.getRateAvg());
         return hostDTO;
     }
 
-    public List<HostReviewResponseDTO> hostReview(Long productId) {
-        Ship ship = shipRepository.findById(1L).orElseThrow(() -> new RuntimeException("배 정보가 없습니다."));
-        User user = ship.getUser();
-        Product pro = productRepository.findByTargetProduct(user, "SHIP");
+    public List<HostReviewResponseDTO> hostReview(Long id, String type) {
+        User users = new User();
+        Product newPro = new Product();
+        if (type.equals("PRODUCT")) {
+            newPro = productRepository.findById(id).orElseThrow(() -> new RuntimeException("배 정보가 없습니다."));
+        } else {
+            Ship ship = shipRepository.findById(id).orElseThrow(() -> new RuntimeException("배 정보가 없습니다."));
+            users = ship.getUser();
+
+        }
+        Product pro = productRepository.findByTargetProduct(users, "SHIP");
 
 //        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("상품 정보가 없습니다."));
 

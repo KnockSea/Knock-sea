@@ -8,43 +8,51 @@ import { useState, useEffect } from 'react';
 import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
 
-const HostSearchMain = ({id, typeP}) => {
+const HostSearchMain = () => {
+
+    const params = useParams();
     
-    const [productId, setProductId] = useState(id);
-    const [type, setType] = useState(typeP);
+    const [productId, setProductId] = useState(params.productId);
+    const [type, setType] = useState(params.type);
     const [token, setToken] = useState(getLoginUserInfo().token);
+    const [userInfo, setUserInfo] = useState({});
 
 
     const hostFetch = async () => {
 
-
-        const response = await fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`, {
-
-        });
-
-        if (response.status === 200) {
-            console.log(response.status);
-            console.log(response.json());
-        }
+        try {
+            const response = await fetch(`${API_BASE_URL}${PRODUCTS}/host-info?productId=${productId}&type=${type}`);
+          
+            if (response.status === 200) {
+              const data = await response.json();
+              setUserInfo(data);
+            } else {
+              // Handle other status codes
+            }
+          } catch (error) {
+            // Handle fetch error
+          }
         
     }
 
+    const hostReview = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}${PRODUCTS}/host-review?shipId=${shipId}`);
+          
+            if (response.status === 200) {
+              const data = await response.json();
+              setUserInfo(data);
+            } else {
+              // Handle other status codes
+            }
+          } catch (error) {
+            // Handle fetch error
+          }
+    }
     
     useEffect(()=>{
-        // fetch(API_BASE_URL, { 
-        //     method: 'GET',
-        //     headers:  {'content-type': 'application/json'}
-        //   })
-        //     .then(res => {
-        //       if (res.status === 200) return res.json();
-        //      else {
-        //         alert('서버가 불안정합니다');
-        //       }
-        //     })
-        //     .then(json => {
-        //       console.log(json); 
-        //     });
-    
+        hostFetch();
+        console.log('유저 정보', userInfo);
     }, []);
 
 
@@ -58,7 +66,8 @@ const HostSearchMain = ({id, typeP}) => {
                                       
                     <div className='user-search-box'>
                         <div className='user-photo-box'>
-                                <HostPhotoCarousel/>    
+                            <img src={userInfo.imgUrl}/>
+                                {/* <HostPhotoCarousel/>     */}
                         </div>
 
                         <div className='user-info-box'>
@@ -71,7 +80,7 @@ const HostSearchMain = ({id, typeP}) => {
                                 </div>
                             </div>
                             <div className='user-content-page'>
-                                <p>제목입니둥</p>
+                                {/* <p>{userInfo.title}</p> */}
                                 <p>소개소개소개</p>
                             </div>
                         </div>

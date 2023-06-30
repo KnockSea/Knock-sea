@@ -4,6 +4,7 @@ import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.NoneMatchUserException;
 import com.knocksea.see.product.dto.request.PageDTO;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
+import com.knocksea.see.product.dto.response.HostInfoResponseDTO;
 import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
 import com.knocksea.see.product.dto.response.ProductListResponseDTO;
 import com.knocksea.see.product.dto.response.mainListResponseDTO;
@@ -153,16 +154,25 @@ public class ProductController {
 
         log.info("/api/v1/products/host-info GET ! - {} ", productId);
 
-        return ResponseEntity.ok().body(productService.hostUser(productId, type));
+        HostInfoResponseDTO host = productService.hostUser(productId, type);
+        return ResponseEntity.ok().body(host);
     }
 
-    @GetMapping("/host-review")
-    public ResponseEntity<?> hostReviews(@RequestParam Long shipId) {
+    @GetMapping("/hostuser-review")
+    public ResponseEntity<?> hostReviews(@RequestParam Long id, @RequestParam String type) {
 
-        log.info("/api/v1/products/hostReviews GET ! - {} ", shipId);
+        log.info("/api/v1/products/hostReviews GET ! - {} ", id);
 
-        return ResponseEntity.ok().body(productService.hostReview(shipId));
+        return ResponseEntity.ok().body(productService.hostReview(id, type));
     }
+
+//    @GetMapping("/host-review")
+//    public ResponseEntity<?> hostReview(@RequestParam Long producd, @RequestParam String type) {
+//
+//        log.info("/api/v1/products/hostReviews GET ! - {} ", productId);
+//
+//        return ResponseEntity.ok().body(productService.hostReview(productId, type));
+//    }
 
     @GetMapping("/host-product")
     public ResponseEntity<?> hostProduct() {

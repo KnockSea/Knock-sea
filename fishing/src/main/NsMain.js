@@ -108,6 +108,7 @@ const NsMain = ({shipList, spotList, eduList}) => {
             <Route path='/adminCS' element={<MpAdminCS/>}></Route>
 
             <Route path='/host/:productId/:type' element={<HostSearchMain/>}></Route>
+            {/* <Route path='/hostuser/:userId/:type' element={<HostSearchMain/>}></Route> */}
             
             {/* 리뷰게시판 */}
             <Route path='/reviewList' element={<ReviewList />}></Route>
