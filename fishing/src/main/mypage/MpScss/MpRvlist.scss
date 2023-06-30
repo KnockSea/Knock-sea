@@ -1,52 +1,84 @@
+
+
 .rvlistbox {
-    border: 1px solid #000;
+    border: 1px solid #c5c5c5;
+    border-radius: 15px;
     width: 70%;
     margin-left: 270px;
     margin-top: 30px;
     height: 190px;
+
+    .rvlistwrap {
+        display: flex;
+        justify-content: space-between;
+
+        .css-1rwt2y5-MuiButtonBase-root-MuiButton-root{
+            border: 1px solid #123282;
+            color: #123282;
+            width: 120px;
+            height: 30px;
+            margin-top: 10px;
+
+            &:hover {
+                background: #343a4b;
+                border: none;
+                color: #fff;
+            }
+        }
+
+    }
     .rvliststatus{
         display: flex;
         font-weight: 700;
-        margin-left: 10px;
+        margin: 5px 10px;
         font-size: 20px;
     }
 
     .rvitembox {
-        // border: 1px solid #000;
         display: flex;
         align-items: center;
-        height: 65%;
         .potobox {
-        margin-left: 10px;
+            margin-left: 10px;
             width: 100px;
             height: 80px;
 
            &.potobox img {
             width: 100px;
             height: 80px;
+            border: none;
             }
         }
         
         .minibox {
             margin-left: 20px;
             text-align: left;
+            div{
+                font-family:'Gowun Batang', serif;
+            }
         }
     }
-    .rvlistbtnbox {
-        
-        margin-bottom: 10px;
-        .relist{
-            width: 85%;
-            background: #123282;
-            border: 1px solid #123282;
-        }
+    .rvlistbtnbox-wrap {
+        display: flex;
+        justify-content: end;
 
-        .norelist{
-            width: 85%;
-            background: rgb(187, 187, 187);
-            border: 1px solid rgb(187, 187, 187);
-            cursor: no-drop;
+        .rvlistbtnbox {
+            width: 300px;
+            margin-top: 10px;
+    
+            .relist{
+                width: 85%;
+                background: #123282;
+                border: 1px solid #123282;
+            }
+    
+            .norelist{
+                width: 85%;
+                background: rgb(187, 187, 187);
+                border: 1px solid rgb(187, 187, 187);
+                cursor: no-drop;
+            }
         }
     }
+    
 
 }
