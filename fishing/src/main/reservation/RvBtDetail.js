@@ -12,6 +12,7 @@ import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
 import RvDetailTap from "./RvDetailTap";
 import BtModal from "./BtModal";
+import { API_BASE_URL, HEART } from "../../config/host-config";
 
 const RvBtDetail = () => {
   const { productId } = useParams();
@@ -24,7 +25,7 @@ const RvBtDetail = () => {
   const [eduHeartCount, setEduHeartCount] = useState(0);
   
   const fetchEduHeartCount = () => {
-    fetch(`http://localhost:8012/api/v1/hearts/shipHeart?productId=${productId}&heartType=${'SHIP'}`)
+    fetch(`${API_BASE_URL}${HEART}/shipHeart?productId=${productId}&heartType=${'SHIP'}`)
       .then(response => response.json())
       .then(data => setEduHeartCount(data))
       .catch(error => console.error('Error fetching edu heart count:', error));
@@ -37,7 +38,7 @@ const RvBtDetail = () => {
       try {
         const heartType = 'SHIP'; // 하트 타입
   
-        const apiUrl = `http://localhost:8012/api/v1/hearts/exists?userId=${userId}&heartType=${heartType}`;
+        const apiUrl = `${API_BASE_URL}${HEART}/exists?userId=${userId}&heartType=${heartType}`;
   
         const response = await fetch(apiUrl);
         const exists = await response.json();
@@ -53,7 +54,7 @@ const RvBtDetail = () => {
   
   const createHeart = async () => {
     try {
-      const response = await fetch('http://localhost:8012/api/v1/hearts', {
+      const response = await fetch(`${API_BASE_URL}${HEART}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
