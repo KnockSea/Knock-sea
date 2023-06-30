@@ -26,9 +26,29 @@ function RvFsModal({ closeModal, FsDetail }) {
   const [classTimes, setClassTimes] = useState([]);
   const [timeIndex, setTimeIndex] = useState(0);
   const navigate = useNavigate();
+ const [index, setIndex] = useState(0);
+
+
   const handleIncrease = () => {
-    setCount(count + 1);
+  if (
+      FsDetail.timeList[index].timeMaxUser -
+      FsDetail.timeList[index].timeCurrentUser >
+      count
+    ) {
+      setCount(count + 1);
+    } else if (
+      FsDetail.timeList[index].timeMaxUser -
+      FsDetail.timeList[index].timeCurrentUser <=
+      count
+    ) {
+      alert("인원 입력을 확인해주세요");
+    }
   };
+
+
+
+
+
 
   const handleDecrease = () => {
     if (count > 0) {
