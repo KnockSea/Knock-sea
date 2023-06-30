@@ -19,7 +19,7 @@ const MpInquiryD = () => {
             inquiryId: inquiryId,
         };
 
-        fetch(`${API_BASE_URL}${ANSWERS}makeAnswer`, {
+        fetch(`${API_BASE_URL}${ANSWERS}/makeAnswer`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -96,7 +96,6 @@ function ClassDetail() {
         'Authorization': 'Bearer ' + token
       };
 
- 
  console.log("oneEdu : ",oneEdu);
 // const API_BASE_URL = `${API_BASE_URL}${EDU}/${eduId}`;
 useEffect(() => {

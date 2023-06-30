@@ -129,7 +129,7 @@ function SignUpForm(){
   const emailHandler = e => {
 
     const inputVal = e.target.value;
-    const emailRegex = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+    const emailRegex = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z\-]+/;
     let msg;
     let flag;
 

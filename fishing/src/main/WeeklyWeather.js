@@ -101,10 +101,10 @@ const WeeklyWeather = () => {
   const matchedIcon = icons[icon];
   const imageSrc = matchedIcon || null;
 
-  console.log("이미지 불러와져라아아아ㅏ!", imageSrc)
+  // console.log("이미지 불러와져라아아아ㅏ!", imageSrc)
   // console.log("하하하하호호호호", matchedIcon)
   // console.log("이런 젠장", icons)
-  console.log("이런 젠장 ㅜㅜㅜ", icon)
+  // console.log("이런 젠장 ㅜㅜㅜ", icon)
   
   return (
     <div className="weather">
@@ -153,7 +153,7 @@ const WeeklyWeather = () => {
               {weeklyWeather.slice(1).map((weather, index) => (
                 <div className="weather-item" key={index}>
                   <img src={`https://openweathermap.org/img/w/${weather.icon}.png`} alt="" />
-                  
+
 
                   <div>
                     <p>{weather.date}</p>
