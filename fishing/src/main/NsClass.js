@@ -11,11 +11,13 @@ import "slick-carousel/slick/slick-theme.css";
 const NsClass = ({eduList}) => {
   const carouselSettings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
     centerMode: false,
+    autoplay: true, // 자동 전환 설정
+    autoplaySpeed: 3000, // 전환 간격 (3초)
   };
 
   return (
