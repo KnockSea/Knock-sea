@@ -5,7 +5,6 @@ import "./scss/NsItem.scss";
 import { Link } from "react-router-dom";
 
 const NsItem = ({ shipList }) => {
-  
   return (
     <div className="ship">
       <div className="title">
@@ -14,8 +13,7 @@ const NsItem = ({ shipList }) => {
           <Link to={"/bt"}>더보기</Link>
         </p>
       </div>
-      <div className="shipboxs">
-        
+      <div className="shipboxs">       
         {shipList.map(t => (
           <div className="group">
             <div className="image">            

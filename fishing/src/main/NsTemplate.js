@@ -19,7 +19,6 @@ const NsTemplate = () => {
       .then(response => response.json())
       .then(res => {
         setmainship(res);
-        // console.log(res);
       });
     fetch(`${API_BASE_URL}${PRODUCTS}/main/spot`)
     .then(response => response.json())
@@ -30,7 +29,6 @@ const NsTemplate = () => {
     .then(response => response.json())
     .then(res => {
       setmainedu(res);
-      // console.log(res);
     });
      
   }

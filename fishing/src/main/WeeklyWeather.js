@@ -153,7 +153,7 @@ const WeeklyWeather = () => {
               {weeklyWeather.slice(1).map((weather, index) => (
                 <div className="weather-item" key={index}>
                   <img src={`https://openweathermap.org/img/w/${weather.icon}.png`} alt="" />
-                  
+
 
                   <div>
                     <p>{weather.date}</p>
