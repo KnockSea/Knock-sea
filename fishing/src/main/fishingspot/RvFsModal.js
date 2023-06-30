@@ -26,6 +26,7 @@ function RvFsModal({ closeModal, FsDetail }) {
   const [classTimes, setClassTimes] = useState([]);
   const [timeIndex, setTimeIndex] = useState(0);
   const navigate = useNavigate();
+  
   const handleIncrease = () => {
     setCount(count + 1);
   };

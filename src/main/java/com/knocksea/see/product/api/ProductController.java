@@ -147,4 +147,26 @@ public class ProductController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
+
+    @GetMapping("/host-info")
+    public ResponseEntity<?> hostInfo(@RequestParam Long productId, @RequestParam String type) {
+
+        log.info("/api/v1/products/host-info GET ! - {} ", productId);
+
+        return ResponseEntity.ok().body(productService.hostUser(productId, type));
+    }
+
+    @GetMapping("/host-review")
+    public ResponseEntity<?> hostReviews(@RequestParam Long shipId) {
+
+        log.info("/api/v1/products/hostReviews GET ! - {} ", shipId);
+
+        return ResponseEntity.ok().body(productService.hostReview(shipId));
+    }
+
+    @GetMapping("/host-product")
+    public ResponseEntity<?> hostProduct() {
+
+        return null;
+    }
 }

@@ -107,9 +107,16 @@ const MpMain = () => {
                         <button><Link to={'/myinfo'}>개인 정보 수정</Link></button>
                         </div>
                     </div>
-
-                {userInfo.userGrade==='OWNER' || userInfo.userGrade==='COMMON' &&(
+                    
+                {userInfo.userGrade==='OWNER'&&(
                 <div className='rvbox'>
+                    <h2>리뷰 현황</h2>
+                    <MpReviewList />
+                </div>
+                )}
+                {userInfo.userGrade==='COMMON'&&(
+                <div className='rvbox'>
+                    <h2>리뷰 현황</h2>
                     <MpReviewList />
                 </div>
                 )}

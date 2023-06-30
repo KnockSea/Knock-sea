@@ -42,6 +42,7 @@
     "sass": "^1.62.1",
     "slick-carousel": "^1.8.1",
     "source-map-loader": "^4.0.1",
+    "tosspayments-react-native": "^1.0.7",
     "tw-daterange": "^1.1.24",
     "web-vitals": "^2.1.4"
   },
