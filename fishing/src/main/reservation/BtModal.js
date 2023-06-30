@@ -4,6 +4,7 @@ import "../fishingspot/RvScss/RvModal.scss";
 import { getLoginUserInfo } from "../util/login-util";
 import ClassCalendar from "../class/ClassCalendar";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL, API_BASE_URL, RESERVATION } from "../../config/host-config";
 const handleLogin = (e) => {
   e.preventDefault();
 
@@ -50,7 +51,7 @@ function BtModal({ closeModal, sDetail }) {
     setSelectedTime(time);
     setTimeIndex(timeIndex);
   };
-  const API_BASE_URL = "http://localhost:8012/api/v1/reservation";
+  const API_BASE_URL = `${API_BASE_URL}${RESERVATION}`;
 
   const handlePayment = () => {
     console.log("token", token.userId);

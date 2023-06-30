@@ -3,7 +3,7 @@ import "./RvScss/RvFsDetail.scss";
 import dt1 from "../img/dtRv.png";
 import fs from "../img/fs.jpg";
 
-import { API_BASE_URL, PRODUCTS } from "../../config/host-config";
+import { API_BASE_URL, PRODUCTS, HEART } from "../../config/host-config";
 import { useLocation, useParams } from "react-router-dom";
 import { Calendar } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
@@ -14,7 +14,6 @@ import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
 import RvFsDetailTap from "./RvFsDetailTap";
 import RvFsModal from "./RvFsModal";
-
 
 
 const RvFsDetail = () => {
@@ -29,7 +28,7 @@ const RvFsDetail = () => {
 
 
  const fetchEduHeartCount = () => {
-    fetch(`http://localhost:8012/api/v1/hearts/spotHeart?productId=${productId}&heartType=${'SPOT'}`)
+    fetch(`${API_BASE_URL}${HEART}/spotHeart?productId=${productId}&heartType=${'SPOT'}`)
       .then(response => response.json())
       .then(data => setEduHeartCount(data))
       .catch(error => console.error('Error fetching edu heart count:', error));
@@ -42,7 +41,7 @@ const RvFsDetail = () => {
       try {
         const heartType = 'SPOT'; // 하트 타입
   
-        const apiUrl = `http://localhost:8012/api/v1/hearts/exists?userId=${userId}&heartType=${heartType}`;
+        const apiUrl = `${API_BASE_URL}${HEART}/exists?userId=${userId}&heartType=${heartType}`;
   
         const response = await fetch(apiUrl);
         const exists = await response.json();
@@ -58,7 +57,7 @@ const RvFsDetail = () => {
   
   const createHeart = async () => {
     try {
-      const response = await fetch('http://localhost:8012/api/v1/hearts', {
+      const response = await fetch(`${API_BASE_URL}${HEART}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
