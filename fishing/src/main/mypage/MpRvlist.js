@@ -94,7 +94,6 @@ const MpRvlist = () => {
       });
 
      setOpen(false);
-    //  window.location.reload();
 
     
   }
