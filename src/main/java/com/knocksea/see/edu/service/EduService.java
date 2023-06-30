@@ -291,10 +291,10 @@ public class EduService {
         List<Edu> eduList = eduRepository.findTop9ByOrderByCreateDateDesc();
 
         return eduList.stream()
-                .map(p -> {
-                    SeaImage seaImage = imageRepository.findByEdu(p);
+                .map(e -> {
+                    List<SeaImage> seaImage = imageRepository.findAllByEdu(e);
 //                            .orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
-                    return new mainListResponseDTO(p, seaImage);
+                    return new mainListResponseDTO(e, seaImage.get(0));
                 }).collect(Collectors.toList());
 //                .map(p -> {
 //

@@ -132,4 +132,18 @@ public class ValidationApiController {
                     .body(e.getMessage());
         }
     }
+
+    //검증요청상태 반려(삭제)
+    @DeleteMapping("/{validationId}")
+    public ResponseEntity<?> deleteValidation(
+            @PathVariable Long validationId
+    ){
+
+        log.info("delete mapping DELETE ! : {}",validationId );
+
+        validationService.deletevalidation(validationId);
+
+        return ResponseEntity.ok().body("삭제 성공");
+    }
+
 }
