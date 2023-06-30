@@ -139,8 +139,7 @@ const MpAdmin = () => {
                 <div className="page">
 
                   {/*                <div className='ctntitle'>KNOCK_SEA 관리자 화면 (배낚시)</div>
-                <div className='ctncontent-wrap'>
-                {/* 본문내용 */}
+                <div className='ctncontent-wrap'>              
                 {validationList.length > 0 ? (
                     validationList.map((validation) => (
                     <div key={validation.validationId} className='ctncontent'>

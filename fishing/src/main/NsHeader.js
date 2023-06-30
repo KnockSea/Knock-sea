@@ -1,4 +1,3 @@
-
 import React from 'react'
 import RvTemplate from './reservation/RvTemplate'
 import './scss/NsHeader.scss'
@@ -9,80 +8,82 @@ import { useNavigate } from 'react-router-dom'
 import { getLoginUserInfo , isLogin } from './util/login-util';
 import { API_BASE_URL, USER } from '../config/host-config'
 
+
 export const NsHeader = () => {
   const navi = useNavigate();
 
   const linkStyle = {
     color: 'black',
-    textDecoration: 'none',
+    textDecoration: 'none'
   };
 
-  const [profileUrl, setProfileUrl] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(isLogin());
+  //프로필이미지 url 상태변수
+  const [profileUrl,setProfileUrl] = useState('');
+
+  const [isLoggedIn, setIsLoggedIn] = useState(isLogin()); 
+
   const [userInfo, setUserInfo] = useState({
-    token: '',
-    userEmail: '',
-    userName: '',
-    userGrade: '',
-    userId: '',
-    userPhone: '',
+    token: '', // Set default value for name
+    userEmail: '', // Set default value for email
+    userName : '',
+    userGrade : '',
+    userId : '',
+    userPhone : ''
   });
 
-  const resetStorage = (e) => {
+  const resetStorage = (e) =>{
     e.preventDefault();
-    const confirm = window.confirm('정말 로그아웃하시겠어요?');
-    if (confirm) {
+    const confirm =window.confirm('정말 로그아웃하시겠어요?');
+    if(confirm){
       setIsLoggedIn(!isLogin());
       setProfileUrl(null);
       localStorage.clear();
-      window.history.pushState(null, null, '/');
       navi('/');
-    } else {
-      return false;
+    }else{
+      return false; // Add this line to prevent further actions
     }
-  };
+  }
 
+  // 로그인 상태 변화를 감지하는 useEffect를 추가
   useEffect(() => {
     const user = getLoginUserInfo();
     setUserInfo(user);
     setIsLoggedIn(isLogin());
-  }, [isLogin()]);
+    // console.log(user);
 
-  useEffect(() => {
-    isLoggedIn &&
+    }, [isLogin()]);
+
+    useEffect(() => {
+      isLoggedIn && 
       (async () => {
-        const res = await fetch(`${API_BASE_URL}${USER}/load-s3`, {
-          method: 'GET',
-          headers: { Authorization: 'Bearer ' + getLoginUserInfo().token },
-        });
-
-        if (res.status === 200) {
-          const imgUrl = await res.text();
-          setProfileUrl(imgUrl);
-        } else {
-          const err = await res.text();
-          setProfileUrl(null);
-        }
+          const res = await fetch(`${API_BASE_URL}${USER}/load-s3`, {
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token }
+          });
+    
+          if (res.status === 200) {
+            const imgUrl = await res.text();
+            setProfileUrl(imgUrl);
+          } else {
+            const err = await res.text();
+            setProfileUrl(null);
+          }
+        
       })();
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    const handleBackButton = (e) => {
-      if (!isLoggedIn) {
-        e.preventDefault();
-        e.returnValue = '';
-        alert('다시 로그인 해주세요!😏');
+    }, [isLoggedIn]);
+    
+    useEffect(() => {
+      const handleBackButton = () => {
+        alert('다시 로그인 해주세요!😏')
         navi('/login');
-      }
-    };
-
-    window.onpopstate = handleBackButton;
-
-    return () => {
-      window.onpopstate = null;
-    };
-  }, [isLoggedIn]);
-
+      };
+  
+      window.addEventListener('popstate', handleBackButton);
+  
+      return () => {
+        window.removeEventListener('popstate', handleBackButton);
+      };
+    }, []);
 
   return (
     <header>

@@ -175,8 +175,8 @@ const MpAdminFS = () => {
                         <div>{validation.validationStatus}</div>
                     </div>
                     ))
-                ) : (<div className='ctncontent'>❎ 현재 요청데이터 없음</div>)}
-                </div> */}
+                ) : (<div className='ctncontent'>❎ 현재 요청데이터 없음</div>)}*/}
+                </div> 
 
                  <div className="page">
                 <Pagination 
