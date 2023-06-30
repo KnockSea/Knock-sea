@@ -26,7 +26,7 @@
 
 // export default NsFishingSpot
 import React from 'react';
-import ex from "./img/ex.jpg";
+import ocean from "./img/ocean.png";
 import './scss/NsFishingSpot.scss';
 import ex1 from './img/bg.jpg';
 import { Link } from "react-router-dom";
@@ -57,7 +57,7 @@ const NsFishingSpot = ({ spotList }) => {
           <div className="group" key={groupIndex}>
             {group.map((imgUrl, index) => (
               <div className="image" key={index}>
-                <img src={imgUrl.imgUrl || ex} alt={`Image ${groupIndex}-${index + 1}`} />
+                <img src={imgUrl.imgUrl || ocean} alt={`Image ${groupIndex}-${index + 1}`} />
               </div>
             ))}
           </div>
