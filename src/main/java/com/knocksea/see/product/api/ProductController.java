@@ -128,9 +128,10 @@ public class ProductController {
     @GetMapping("/main/spot")
     public ResponseEntity<?> mainPageSpot() {
 
-//        log.info("/api/v1/products GET ! - {} ", );
 
-        return ResponseEntity.ok().body(productService.spotMainList());
+        List<mainListResponseDTO> spots = productService.spotMainList();
+        log.info("/api/v1/products 낚시터 GET ! - {} ", spots );
+        return ResponseEntity.ok().body(spots);
     }
 
 

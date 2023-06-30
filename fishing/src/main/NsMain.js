@@ -49,7 +49,6 @@ import Like from './like/Like';
 import ReviewList from './reviewList/ReviewList';
 
 const NsMain = ({shipList, spotList, eduList}) => {
-    console.log('MAIN ! shipList:', shipList); // shipList 콘솔 출력
   return (
     <section>
         <ScrollToTop />

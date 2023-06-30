@@ -19,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @Transactional
@@ -101,8 +103,14 @@ public class ReservationService {
         ReservationTime savedTime = reservationTimeRepository.save(reservationTime);
         log.info("savedTime : "+savedTime);
 
+        reservation.setUser(null);
+        reservation.setReservationTime(null);
+        reservation.setEdu(null);
+        reservation.setProduct(null);
+
         reservationRepository.deleteById(dto.getReservationId());
         log.info("deleteById");
+        List<Reservation> research = reservationRepository.findAll();
 
         return reservationRepository.findById(dto.getReservationId()).isPresent();
     }

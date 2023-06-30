@@ -13,11 +13,11 @@ const NsItem = ({ shipList }) => {
           <Link to={"/bt"}>더보기</Link>
         </p>
       </div>
-      <div className="shipboxs">
-        {shipList.map((t) => (
+      <div className="shipboxs">       
+        {shipList.map(t => (
           <div className="group">
-            <div className="image">
-              <img src={t.imgUrl} />
+            <div className="image">            
+              <img src={t.imgUrl}/>
             </div>
           </div>
         ))}
