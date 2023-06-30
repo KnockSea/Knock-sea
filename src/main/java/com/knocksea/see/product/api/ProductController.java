@@ -157,11 +157,11 @@ public class ProductController {
     }
 
     @GetMapping("/host-review")
-    public ResponseEntity<?> hostReviews(Long productId) {
+    public ResponseEntity<?> hostReviews(@RequestParam Long shipId) {
 
-        log.info("/api/v1/products/hostReviews GET ! - {} ", productId);
+        log.info("/api/v1/products/hostReviews GET ! - {} ", shipId);
 
-        return ResponseEntity.ok().body(productService.hostReview(productId));
+        return ResponseEntity.ok().body(productService.hostReview(shipId));
     }
 
     @GetMapping("/host-product")

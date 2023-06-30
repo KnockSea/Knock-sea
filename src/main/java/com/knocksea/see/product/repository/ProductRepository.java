@@ -30,4 +30,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p WHERE p.productType=:type")
     Page<Product> findAllByType(PageRequest pageable, @Param("type") String type);
+
+    @Query("SELECT p FROM Product p WHERE p.user = :user AND p.productType = :type")
+    Product findByTargetProduct(@Param("user") User user, @Param("type") String ship);
+
+//    Product findByUserAndType(User user, String type);
 }

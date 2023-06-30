@@ -273,9 +273,14 @@ public class ProductService implements ProductDetailService {
     }
 
     public List<HostReviewResponseDTO> hostReview(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("상품 정보가 없습니다."));
+        Ship ship = shipRepository.findById(1L).orElseThrow(() -> new RuntimeException("배 정보가 없습니다."));
+        User user = ship.getUser();
+        Product pro = productRepository.findByTargetProduct(user, "SHIP");
 
-        List<Review> byProduct = getByProduct(product);
+//        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("상품 정보가 없습니다."));
+
+        List<Review> byProduct = getByProduct(pro);
+        log.warn("이거 안되면 큰일난다. {}", byProduct);
         List<HostReviewResponseDTO> reviewList = byProduct.stream().map(r -> {
             String s = reviewService.imgName(r);
 
@@ -292,14 +297,16 @@ public class ProductService implements ProductDetailService {
         return reviewList;
     }
 
-    public void hostProduct(Long userId, Long productId, String type) {
+    public void hostProduct(Long userId, String type) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+        if (type.equals("SHIP")) {
+//            productRepository.findByUserAndType(user, type);
 
+        }
     }
 
     // 얘도 ... 리뷰에 만들어야 되는데...
     private List<Review> getByProduct(Product product) {
-
-
         return reviewRepository.findByProduct(product);
     }
 }
