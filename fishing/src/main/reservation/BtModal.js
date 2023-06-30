@@ -4,7 +4,7 @@ import "../fishingspot/RvScss/RvModal.scss";
 import { getLoginUserInfo } from "../util/login-util";
 import ClassCalendar from "../class/ClassCalendar";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL, API_BASE_URL, RESERVATION } from "../../config/host-config";
+import { API_BASE_URL, RESERVATION } from "../../config/host-config";
 const handleLogin = (e) => {
   e.preventDefault();
 
