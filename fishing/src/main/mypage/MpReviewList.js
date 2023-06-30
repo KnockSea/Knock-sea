@@ -49,7 +49,8 @@ function MpReviewList() {
             <div className='mprebox2'>
               <div className='mpreAutohr'>
                 <div>{review.userName}</div>
-                <div>{review.title}</div>
+                {review.eduId !== null ?(<div>{review.eduTitle}</div>)
+                :(<div>{review.productTitle}</div>)}      
               </div>
               <div className='mpstar'>{review.reviewRating}</div>
               <div>{review.reviewContent}</div>

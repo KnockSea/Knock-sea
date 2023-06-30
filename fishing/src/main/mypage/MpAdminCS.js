@@ -15,9 +15,14 @@ const MpAdminCS = () => {
     setPage(page);
     console.log(page);
   };
+  useEffect(() => {
+    fetchInquiries();
+  }, []);
+
 
   useEffect(() => {
     fetchInquiries();
+    console.log(inquiries);
   }, [page, inquiries && inquiries.length]);
 
   const fetchInquiries = async () => {
