@@ -31,59 +31,64 @@ export const NsHeader = () => {
     userPhone : ''
   });
 
-  const resetStorage = (e) =>{
+  const resetStorage = (e) => {
     e.preventDefault();
-    const confirm =window.confirm('정말 로그아웃하시겠어요?');
-    if(confirm){
+    const confirm = window.confirm('정말 로그아웃하시겠어요?');
+    if (confirm) {
       setIsLoggedIn(!isLogin());
       setProfileUrl(null);
       localStorage.clear();
+      window.history.pushState(null, null, '/');
       navi('/');
-    }else{
-      return false; // Add this line to prevent further actions
+    } else {
+      return false;
     }
-  }
-
+  };
+  
   // 로그인 상태 변화를 감지하는 useEffect를 추가
   useEffect(() => {
     const user = getLoginUserInfo();
     setUserInfo(user);
     setIsLoggedIn(isLogin());
-    // console.log(user);
-
-    }, [isLogin()]);
-
-    useEffect(() => {
-      isLoggedIn && 
+  }, [isLogin()]);
+  
+  useEffect(() => {
+    isLoggedIn &&
       (async () => {
-          const res = await fetch(`${API_BASE_URL}${USER}/load-s3`, {
-            method: 'GET',
-            headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token }
-          });
-    
-          if (res.status === 200) {
-            const imgUrl = await res.text();
-            setProfileUrl(imgUrl);
-          } else {
-            const err = await res.text();
-            setProfileUrl(null);
-          }
-        
+        const res = await fetch(`${API_BASE_URL}${USER}/load-s3`, {
+          method: 'GET',
+          headers: { 'Authorization': 'Bearer ' + getLoginUserInfo().token }
+        });
+  
+        if (res.status === 200) {
+          const imgUrl = await res.text();
+          setProfileUrl(imgUrl);
+        } else {
+          const err = await res.text();
+          setProfileUrl(null);
+        }
       })();
-    }, [isLoggedIn]);
-    
-    useEffect(() => {
-      const handleBackButton = () => {
-        alert('다시 로그인 해주세요!😏')
+  }, [isLoggedIn]);
+  
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (!isLoggedIn) {
+        alert('다시 로그인 해주세요!😏');
         navi('/login');
-      };
+        window.history.pushState(null, null, '/');
+      }
+    };
   
+    if (!isLoggedIn) {
       window.addEventListener('popstate', handleBackButton);
+    }
   
-      return () => {
+    return () => {
+      if (!isLoggedIn) {
         window.removeEventListener('popstate', handleBackButton);
-      };
-    }, []);
+      }
+    };
+  }, [isLoggedIn]);
 
   return (
     <header>
