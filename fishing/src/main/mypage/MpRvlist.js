@@ -73,12 +73,12 @@ const MpRvlist = () => {
       };
     }
       console.log("formdata : ",formdata);
-      // console.log("토큰토큰토큰: ", userInfo.token);
 
       const requestHeader = {
         'content-type': 'application/json',
         Authorization : "Bearer " + userInfo.token
       };
+
      //삭제 패치 때리기
       fetch(`${API_BASE_URL}${RESERVATION}/remove`, {
         method: 'DELETE',
@@ -92,19 +92,14 @@ const MpRvlist = () => {
       .then(json => {
         setUserProfile(json);
       });
-    
+
      setOpen(false);
-    //  console.log("userProfile : ",userProfile);
-     userReservefetch();
-   
+    //  window.location.reload();
+
+    
   }
 
   useEffect(() => {
-    // const user = getLoginUserInfo();
-    // setUserInfo(user);
-    // console.log(userInfo);
-    // 배 정보를 가져오는 함수
-  
     const user = getLoginUserInfo();
     setUserInfo(user);
     // fetchShipInfo();
@@ -172,29 +167,32 @@ const dateStatusCheck=(checkDate)=>{
           <div className='rvlistbox' key={index} >
             <div className='rvliststatus'>예약확정</div>
             {/* <button onClick={confirmDelete}>취소하기</button> */}
-            {/* <div>
-                    <Button variant="outlined" onClick={handleClickOpen}>
-                      예약 취소하기
-                    </Button>
-                    <Dialog
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="alert-dialog-title"
-                      aria-describedby="alert-dialog-description"
-                    >
-                      <DialogTitle id="alert-dialog-title">
-                      </DialogTitle>
-                      <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                          정말 예약을 취소하시겠습니까?
-                        </DialogContentText>
-                      </DialogContent>
-                      <DialogActions>
-                        <Button onClick={handleClose}>아니오</Button>
-                        <Button onClick={() => handleCancle(reservation)} autoFocus>네</Button>
-                      </DialogActions>
-                    </Dialog>
-            </div> */}
+           
+                  <div> 
+                    {/* {dateStatusCheck (reservation.reserveDate) || ( */}
+                      <Button variant="outlined" onClick={handleClickOpen}>
+                        예약 취소하기
+                      </Button>
+                      {/* )} */}
+                      <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogTitle id="alert-dialog-title">
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            정말 예약을 취소하시겠습니까?
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleClose}>아니오</Button>
+                          <Button onClick={() => handleCancle(reservation)} autoFocus>네</Button>
+                        </DialogActions>
+                      </Dialog>
+                  </div>
             
             {/* <Link to={`/classdetail/${reservation.eduId}` }>   */}
             <div className='rvitembox'>
