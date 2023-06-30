@@ -6,7 +6,7 @@ import Pagination from "react-js-pagination";
 
 const MpAdminFS = () => {
 
-    const [totalItemCount, setTotalItemCount] = useState(0);
+    const [totalItemCount, setTotalItemCount] = useState(1);
     const [page, setPage] = useState(1);
     const [size, setSize] = useState(10);
     const [validationList, setValidationList] = useState([]);
@@ -131,51 +131,35 @@ const MpAdminFS = () => {
                 <div className='ctntitle'>KNOCK_SEA 관리자 화면 (낚시터)</div>
                 <div className='ctncontent-wrap'>
                 {/* 본문내용 */}
-                {validationList.length > 0 ? (
-                validationList.map((validation, index) => (
-                <>
-                    <div key={index}>
-                    {validation.validationId}
-                    {validation.userName}
-                    {validation.validationType}
-                    {validation.validationBusinessRegi}
-                    {validation.validationStatus}
-                    </div>
-                     <div>
-                     <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
-                     <button onClick={(e)=> deleteValidation(e,validation.validationId)}>취소</button>
-                 </div>
-                 </>
-                ))
-                ) : (
-                <div>데이터 없음</div>
-                )}
+           
 
-  {/*                    validationList.map((validation) => (
-                    <div key={validation.validationId} className='ctncontent'>
-                        {validation.userId ? (
-                            <div className='username'>▪{validation.userId}번</div>
-                            ) : (
-                            <div>❗ 등록유저번호 없음 ❗</div>
-                        )}
-                        {validation.userName ? (
-                            <div className='username name'> {validation.userName}</div>
-                            ) : (
-                            <div>❗ 등록유저이름 없음 ❗</div>
-                        )}
-                        {validation.validationBusnessRegi? (
-                            <div className='username'>{validation.validationBusinessRegi}</div>
-                            ) : (
-                            <div>❗ 낚시터사업자번호 등록안됨 ❗</div>
-                        )}
-                        <div>
-                            <button className='admin-confirm' onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
-                            <button className='admin-confirm' onClick={(e)=> deleteValidation(e,validation.validationId)}>취소</button>
-                        </div>
-                        <div>{validation.validationStatus}</div>
+                {validationList.map((validation) => (
+                <div key={validation.validationId} className='ctncontent'>
+                    {validation.userId ? (
+                    <div className='username'>▪{validation.userId}번</div>
+                    ) : (
+                    <div>❗ 등록유저번호 없음 ❗</div>
+                    )}
+                    {validation.userName ? (
+                    <div className='username name'>{validation.userName}</div>
+                    ) : (
+                    <div>❗ 등록유저이름 없음 ❗</div>
+                    )}
+                    {validation.validationBusnessRegi ? (
+                    <div className='username'>{validation.validationBusinessRegi}</div>
+                    ) : (
+                    <div>❗ 낚시터사업자번호 등록안됨 ❗</div>
+                    )}
+                    <div>
+                    <button className='admin-confirm' onClick={(e) => updateValidation(e, validation.userName, validation.validationType, validation.userId)}>승인</button>
+                    <button className='admin-confirm' onClick={(e) => deleteValidation(e, validation.validationId)}>취소</button>
                     </div>
-                    ))
-                ) : (<div className='ctncontent'>❎ 현재 요청데이터 없음</div>)}*/}
+                    <div>{validation.validationStatus}</div>
+                </div>
+                ))}
+
+{validationList.length === 0 && <div className='ctncontent'>❎ 현재 요청데이터 없음</div>}
+
                 </div> 
 
                  <div className="page">
