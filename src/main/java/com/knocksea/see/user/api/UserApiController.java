@@ -240,6 +240,7 @@ public class UserApiController {
             return ResponseEntity.ok().body(entireInfo);
 
         }catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.badRequest().body("좋아요/리뷰 리스트를 얻어오는데 실패했습니다");
         }
     }

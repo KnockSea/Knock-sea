@@ -41,14 +41,18 @@ public class ScheduleService {
 
         if (!productList.isEmpty()) {
 //            System.out.println("productList = " + productList);
+            log.warn("스케쥴 프로덕트: {}",productList);
             productList.forEach(old -> {
 //                System.out.println(" 30초 마다 ?");
                 log.info("상품 : {}", old);
                 List<ReservationTime> time = reservationTimeRepository
                         .findAllByProduct_ProductId(old.getProductId());
 
-                if (time.get(time.size() - 1).getTimeStart().compareTo(LocalTime.now()) >= 1) {
+                int timer = time.get(time.size() - 1).getTimeStart().compareTo(LocalTime.now());
+                log.warn("타이머 : {}", timer);
+                if (timer <= 1) {
                     old.setStatusValid("INACTIVE");
+                    log.warn("여기 타지?????????????");
                     productRepository.save(old);
                     List<Reservation> reserveList
                             = reservationRepository.findAllByProduct_ProductId(old.getProductId());
@@ -61,6 +65,7 @@ public class ScheduleService {
                     }
                     time.forEach(t -> {
                         t.setStatusValid("INACTIVE");
+                        reservationTimeRepository.save(t);
                     });
                 }
 

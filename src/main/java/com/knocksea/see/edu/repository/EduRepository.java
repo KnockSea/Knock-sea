@@ -12,7 +12,8 @@ import java.util.List;
 
 
 public interface EduRepository extends JpaRepository<Edu,Long> {
-    List<Edu> findByUser_UserId(User user);
+    @Query("SELECT e FROM Edu e WHERE e.user = :user")
+    List<Edu> findByUser(@Param("user") User user);
 
     @Query("SELECT e FROM Edu e WHERE e.user = :user")
     Edu findByUserUserId(@Param("user") User user);
@@ -27,6 +28,8 @@ public interface EduRepository extends JpaRepository<Edu,Long> {
             "GROUP BY r.edu " +
             "ORDER BY AVG(r.reviewRating) DESC")
     List<Edu> findTop4ByReviewRating();
+
+
 
 
 //    Optional<Edu> findByUserId(User user);

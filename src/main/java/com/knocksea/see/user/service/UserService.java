@@ -237,7 +237,8 @@ public class UserService {
 
         //유저 객체로 상품리스트 뽑아오기
         List<Product> findByUser = productRepository.findByUser(user);
-        List<Edu> findEdu = eduRepository.findByUser_UserId(user);
+        List<Edu> findEdu = eduRepository.findByUser(user);
+        log.warn("찾아라{} 드래곤볼 :{}", findEdu, findByUser);
 
         int shipReviewTotal = 0;
         int spotReviewTotal = 0;

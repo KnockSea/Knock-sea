@@ -7,13 +7,19 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { API_BASE_URL, PRODUCTS } from '../../config/host-config';
 
-const HostSearchMain = () => {
+
+const HostSearchMain = ({id, typeP}) => {
     
-    const [productId, setProductId] = useState();
+    const [productId, setProductId] = useState(id);
+    const [type, setType] = useState(typeP);
+    const [token, setToken] = useState(getLoginUserInfo().token);
+
 
     const hostFetch = async () => {
+
+
         const response = await fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`, {
-            
+
         });
 
         if (response.status === 200) {

@@ -1,7 +1,6 @@
 package com.knocksea.see.product.service;
 
 import com.knocksea.see.auth.TokenUserInfo;
-import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.exception.NoneMatchUserException;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
@@ -12,9 +11,12 @@ import com.knocksea.see.product.entity.ViewProduct;
 import com.knocksea.see.product.repository.*;
 import com.knocksea.see.product.dto.request.PageDTO;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
+import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.repository.ReviewRepository;
 import com.knocksea.see.review.service.ReviewService;
+import com.knocksea.see.user.entity.FishingSpot;
 import com.knocksea.see.user.entity.SeaImage;
+import com.knocksea.see.user.entity.Ship;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.FishingSpotRepository;
 import com.knocksea.see.user.repository.ImageRepository;
@@ -231,5 +233,80 @@ public class ProductService implements ProductDetailService {
                 }).collect(Collectors.toList());
     }
 
-//    public autoTrans
+    public HostInfoResponseDTO hostUser(Long productId, String productType) {
+        Product target = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+
+        User owner = target.getUser();
+        Ship ship = new Ship();
+        FishingSpot spot = new FishingSpot();
+        HostInfoResponseDTO hostDTO = new HostInfoResponseDTO();
+        double score = 0;
+        if (productType.equals("SHIP")) {
+            ship = shipRepository.findByUser(owner);
+            List<SeaImage> shipImg = imageRepository.findByShip(ship);
+            List<Review> pReview = getByProduct(target);
+            for (Review review : pReview) {
+                score += review.getReviewRating();
+            }
+            hostDTO = HostInfoResponseDTO.builder()
+                    .title(ship.getShipName())
+                    .imgUrl(shipImg.get(0).getImageName())
+                    .info(ship.getShipDescription())
+                    .rateAvg(score/pReview.size())
+                    .build();
+        } else {
+            spot = fishingSpotRepository.findByUser(owner);
+            List<SeaImage> spotImg = imageRepository.findBySpot(spot);
+            List<Review> pReview = getByProduct(target);
+            for (Review review : pReview) {
+                score += review.getReviewRating();
+            }
+            hostDTO = HostInfoResponseDTO.builder()
+                    .title(spot.getSpotTitle())
+                    .imgUrl(spotImg.get(0).getImageName())
+                    .info(spot.getSpotDescription())
+                    .rateAvg(score/pReview.size())
+                    .build();
+        }
+        return hostDTO;
+    }
+
+    public List<HostReviewResponseDTO> hostReview(Long productId) {
+        Ship ship = shipRepository.findById(1L).orElseThrow(() -> new RuntimeException("배 정보가 없습니다."));
+        User user = ship.getUser();
+        Product pro = productRepository.findByTargetProduct(user, "SHIP");
+
+//        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("상품 정보가 없습니다."));
+
+        List<Review> byProduct = getByProduct(pro);
+        log.warn("이거 안되면 큰일난다. {}", byProduct);
+        List<HostReviewResponseDTO> reviewList = byProduct.stream().map(r -> {
+            String s = reviewService.imgName(r);
+
+            return HostReviewResponseDTO.builder()
+                    .reviewId(r.getReviewId())
+                    .reviewContent(r.getReviewContent())
+                    .reviewRating(r.getReviewRating())
+                    .reviewType(r.getReviewType())
+                    .image(s)
+                    .userName(r.getUser().getUserName())
+                    .build();
+        }).collect(Collectors.toList());
+
+        return reviewList;
+    }
+
+    public void hostProduct(Long userId, String type) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+        if (type.equals("SHIP")) {
+//            productRepository.findByUserAndType(user, type);
+
+        }
+    }
+
+    // 얘도 ... 리뷰에 만들어야 되는데...
+    private List<Review> getByProduct(Product product) {
+        return reviewRepository.findByProduct(product);
+    }
 }
