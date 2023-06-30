@@ -20,10 +20,7 @@ import com.knocksea.see.user.dto.request.LoginRequestDTO;
 import com.knocksea.see.user.dto.request.UserDeleteRequest;
 import com.knocksea.see.user.dto.request.UserModifyRequestDTO;
 import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
-import com.knocksea.see.user.dto.response.EntireInfoResponseDTO;
-import com.knocksea.see.user.dto.response.LoginResponseDTO;
-import com.knocksea.see.user.dto.response.UserModifyresponseDTO;
-import com.knocksea.see.user.dto.response.UserMyPageResponseDTO;
+import com.knocksea.see.user.dto.response.*;
 import com.knocksea.see.user.entity.SeaImage;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.exception.DuplicatedEmailException;
@@ -39,11 +36,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -358,6 +355,85 @@ public class UserService {
         }
         log.info("reservationResponseDTOS : "+reservationResponseDTOS);
         return new UserMyPageResponseDTO(user, reservationResponseDTOS);
+    }
+
+    public AllReviewsResponseDTO getMyproductReview(Long userId) {
+
+        Product ship = null;
+        Product spot = null;
+        Edu edu = null;
+        
+        //유저 번호로 유저 가져오기
+        User findUserById = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당유저는 존재하지않습니다"));
+
+        //유저로  상품 가져오기
+        List<Product> findbyUserProduct = productRepository.findByUser(findUserById);
+        
+        
+        //유저 정보로 클래스 가져오기!
+        Edu findEduByUser = eduRepository.findByUserUserId(findUserById);
+        
+
+        if(findbyUserProduct==null){
+            throw new RuntimeException("등록된 상품(교육)이 존재하지않습니다!");
+        }
+        
+        if(findEduByUser==null){
+            throw new RuntimeException("등록한 교육이 존재하지않습니다!");
+        }
+
+        //상품들 돌리면서 타입별로 집어넣어놓기
+        for (Product product : findbyUserProduct) {
+            if (product.getProductType().toString().equals("SHIP")){
+                ship = product;
+            }else if(product.getProductType().toString().equals("SPOT")){
+                spot = product;
+            }
+        }
+
+
+        //두개의 상품 타입을 받아서 리턴하기! //1차 포장하기
+        AllReviewsResponseDTO reviewsByProduct = findReviewsByProduct(ship, spot, edu);
+
+        return reviewsByProduct;
+
+
+    }
+
+    private AllReviewsResponseDTO findReviewsByProduct(Product ship, Product spot, Edu edu) {
+
+        //배 상품의 리뷰들 가져오기!
+        List<Review> shipProductReviews = reviewRepository.findByProduct(ship);
+
+        //낚시터 상품의 리뷰들 가져오기!
+        List<Review> spotProductReviews = reviewRepository.findByProduct(spot);
+
+        //클래스의 리뷰들 가져오기
+        List<Review> eduReviews = reviewRepository.findAllByEdu(edu);
+
+
+        List<SeaImage> shipImages = imageRepository.findByProduct(ship);
+
+        List<SeaImage> spotImages = imageRepository.findByProduct(spot);
+
+        List<SeaImage> eduImages = imageRepository.findAllByEdu(edu);
+
+
+        //배 리뷰 가져오기
+        List<userShipProductReviewResponseDTO> shipProductReviewList = shipProductReviews.stream().map(review -> new userShipProductReviewResponseDTO(review.getReviewContent(), review.getUser(), review.getReviewId(), review.getReviewRating(), review.getInquiryDateTime(),shipImages)).collect(Collectors.toList());
+
+        //낚시터 리뷰 가져오기
+        List<userSpotProductReviewResponseDTO> spotProductReviewList = spotProductReviews.stream().map(review -> new userSpotProductReviewResponseDTO(review.getReviewContent(), review.getUser(), review.getReviewId(), review.getReviewRating(), review.getInquiryDateTime(),spotImages)).collect(Collectors.toList());
+
+        //클래스 리뷰 가져오기
+        List<userEduReviewResponseDTO> eduProductReviewList = eduReviews.stream().map(review -> new userEduReviewResponseDTO(review.getReviewContent(), review.getUser(), review.getReviewId(), review.getReviewRating(), review.getInquiryDateTime(), eduImages)).collect(Collectors.toList());
+
+
+        return AllReviewsResponseDTO.builder()
+                .userShipProductReviewResponseDTO(shipProductReviewList)
+                .userSpotProductReviewResponseDTO(spotProductReviewList)
+                .userEduReviewResponseDTO(eduProductReviewList)
+                .build();
     }
 
 //    private  foundReserve(List<Reservation> reservation, List<ReservationResponseDTO> reservationResponseDTOS) {
