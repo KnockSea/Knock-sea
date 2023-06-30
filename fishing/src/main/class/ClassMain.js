@@ -22,13 +22,16 @@ function ClassMain() {
   const [topFourEdus, setTopFourEdus] = useState([]);
   const [value, setValue] = useState(0);
 
+
   const handlePageChange = (page) => {
     setPage(page);
   };
+
+  console.log('edus',edus);
     
   
    useEffect(()=>{
-        fetch(`${API_BASE_URL}${EDU}/?page=${page}&size=${size}`, { 
+        fetch(`${API_BASE_URL}${EDU}?page=${page}&size=${size}`, { 
             method: 'GET',
             headers: requestHeader
           })
@@ -36,6 +39,7 @@ function ClassMain() {
               if (res.status === 200) return res.json();
              else {
                 alert('서버가 불안정합니다');
+                console.log(res);
               }
             })
             .then(json => {

@@ -82,6 +82,32 @@ const MpAdminFS = () => {
             }
       };
 
+      //삭제하기
+      const deleteValidation = async (e, validationId) => {
+        e.preventDefault();
+        console.log(validationId);
+        const confirm = window.confirm('정말 삭제하시겠습니까?');
+    if(confirm){
+        try {
+          const response = await fetch(`${API_BASE_URL}${VALIDATION}?valudationId=${validationId}`, {
+            method: 'DELETE',
+          });
+    
+          if (response.ok) {
+            console.log('레코드가 성공적으로 삭제되었습니다.');
+            // 성공적으로 삭제되었을 때 수행할 작업 추가
+          } else {
+            console.log('레코드 삭제 실패');
+            // 삭제 실패 시 수행할 작업 추가
+          }
+        } catch (error) {
+          console.error('삭제 요청 중 오류가 발생했습니다:', error);
+        }
+    }else{
+        return ;
+    }
+      };
+    
   return (
     <section>
     <div className='adminbox'>
@@ -119,9 +145,9 @@ const MpAdminFS = () => {
                             ) : (
                             <div>낚시터사업자번호등록안됌</div>
                         )}
-                        <div>i
+                        <div>
                             <button onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
-                            <button>취소</button>
+                            <button onClick={(e)=> deleteValidation(e,validation.validationId)}>취소</button>
                         </div>
                         <div>{validation.validationStatus}</div>
                     </div>

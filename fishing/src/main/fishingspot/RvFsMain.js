@@ -18,7 +18,6 @@ import RvFsMap from "./RvFsMap";
 import Pagination from "react-js-pagination";
 
 function RvFsMain({ fetchFsProduct, FsProduct }) {
-  const [totalItemCount, setTotalItemCount] = useState(0);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(6);
   const [products, setProducts] = useState(FsProduct);
@@ -35,7 +34,6 @@ function RvFsMain({ fetchFsProduct, FsProduct }) {
 
   useEffect(() => {
     setProducts(FsProduct);
-    setTotalItemCount(products.pageInfo.totalCount);
   }, [FsProduct]);
 
   return (
@@ -54,17 +52,7 @@ function RvFsMain({ fetchFsProduct, FsProduct }) {
         </div>
       </div>
       {/* 페이징 버튼 영역 */}
-      <div className="page">
-        <Pagination
-          activePage={page}
-          itemsCountPerPage={size}
-          totalItemsCount={totalItemCount}
-          pageRangeDisplayed={5}
-          prevPageText={"‹"}
-          nextPageText={"›"}
-          onChange={handlePageChange}
-        />
-      </div>
+      
     </div>
   );
 }

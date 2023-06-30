@@ -26,6 +26,7 @@ function RvFsTemplate() {
       .then((response) => response.json())
       .then((res) => {
         setFsproduct(res);
+        setTotalItemCount(res.pageInfo.totalCount);
       });
   };
 
@@ -41,6 +42,17 @@ function RvFsTemplate() {
           // fetchFsProduct={fetchFsProduct}
           FsProduct={Fsproduct}
         />
+        <div className="page">
+              <Pagination
+              activePage={page}
+              itemsCountPerPage={size}
+              totalItemsCount={totalItemCount}
+              pageRangeDisplayed={5}
+              prevPageText={"‹"}
+              nextPageText={"›"}
+              onChange={handlePageChange}
+              />     
+         </div>   
       </div>
     )
   );

@@ -2,9 +2,15 @@ import React, { useEffect, useState } from "react";
 import { NsHeader } from "../NsHeader";
 import RvMain from "./RvMain";
 import { API_BASE_URL, PRODUCTS } from "../../config/host-config";
+import Pagination from "react-js-pagination";
 
 function RvTemplate() {
   const [Fsproduct, setFsproduct] = useState(null);
+  const [totalItemCount, setTotalItemCount] = useState(0);
+  const handlePageChange = (page) => {
+    setPage(page);
+    // console.log(page);
+  };
 
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(6);
@@ -22,6 +28,7 @@ function RvTemplate() {
       .then((response) => response.json())
       .then((res) => {
         setFsproduct(res);
+        setTotalItemCount(res.pageInfo.totalCount);
       });
   };
 
@@ -37,7 +44,19 @@ function RvTemplate() {
           // fetchFsProduct={fetchFsProduct}
           FsProduct={Fsproduct}
         />
+         <div className="page">
+              <Pagination
+              activePage={page}
+              itemsCountPerPage={size}
+              totalItemsCount={totalItemCount}
+              pageRangeDisplayed={5}
+              prevPageText={"‹"}
+              nextPageText={"›"}
+              onChange={handlePageChange}
+              />     
+         </div>          
       </div>
+      
     )
   );
 }
