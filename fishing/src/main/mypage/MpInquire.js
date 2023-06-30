@@ -44,6 +44,10 @@ const MpInquire = () => {
             });
     };
 
+    useEffect(() => {
+        fetchData();
+      }, []);
+    
 
     useEffect(() => {
         fetchData();
