@@ -80,7 +80,7 @@ const MpIqInput = () => {
             </div>
           </div>
 
-          <Link to="/inquire" className="qtUpdatebtn" onClick={handleSubmit}>
+          <Link to={title && content ? "/inquire" : "#"} className="qtUpdatebtn" onClick={handleSubmit}>
             작성완료
           </Link>
         </div>
