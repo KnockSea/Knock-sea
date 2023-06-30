@@ -32,7 +32,7 @@ function RvFsTemplate() {
 
   useEffect(() => {
     fetchFsProduct({ p: page, s: size, t: type });
-  }, []);
+  }, [page]);
 
   return (
     Fsproduct && (
