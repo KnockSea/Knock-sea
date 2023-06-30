@@ -15,22 +15,6 @@ const NsTemplate = () => {
 
   const mainimgs = () => {
 
-    // fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`)
-    //   .then((response) => {
-    //     console.log(response.status);
-    //     if (response.status === 200) {
-    //       return response.json();
-    //     } else {
-    //       throw new Error("Error response received.");
-    //     }
-    //   })
-    //   .then((res) => {
-    //     setmainship(res);
-    //     console.log(res);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching ship images:", error);
-    //   });
     fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`)
       .then(response => response.json())
       .then(res => {
@@ -40,8 +24,7 @@ const NsTemplate = () => {
     fetch(`${API_BASE_URL}${PRODUCTS}/main/spot`)
     .then(response => response.json())
     .then(res => {
-      setmainspot(res);
-      // console.log(res);
+      setmainspot(res);      
     });
     fetch(`${API_BASE_URL}${EDU}/main/edu`)
     .then(response => response.json())
