@@ -3,25 +3,37 @@ import ocean from "./img/ocean.png";
 import './scss/NsClass.scss'
 import c1 from './img/bn3.jpg'
 import { Link } from "react-router-dom";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 const NsClass = ({eduList}) => {
+  const carouselSettings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    centerMode: false,
+  };
+
   return (
     <div className="ship">
       <div className="title">
-        <p className="t1">오늘의 배낚시 &gt; </p>
+        <p className="t1">오늘의 클래스 &gt; </p>
         <p className="t2">
-          <Link to={"/class"}>더보기</Link>
+          <Link to={"/bt"}>더보기</Link>
         </p>
       </div>
-      <div className="shipboxs">
-        
-        {eduList.map(t => (
-          <div className="group">
-            <div className="image">            
-              <img src={t.imgUrl}/>
+      <div className="shipboxs"> {/* 캐러셀의 부모 요소 */}
+        <Slider {...carouselSettings}>
+          {eduList.map((item) => (
+            <div key={item.id} className="image">
+              <img src={item.imgUrl} alt={item.title} />
             </div>
-          </div>
-        ))}
+          ))}
+        </Slider>
       </div>
     </div>
   );
