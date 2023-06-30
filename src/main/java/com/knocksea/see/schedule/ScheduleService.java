@@ -49,6 +49,7 @@ public class ScheduleService {
 
                 if (time.get(time.size() - 1).getTimeStart().compareTo(LocalTime.now()) >= 1) {
                     old.setStatusValid("INACTIVE");
+                    log.warn("여기 타지?????????????");
                     productRepository.save(old);
                     List<Reservation> reserveList
                             = reservationRepository.findAllByProduct_ProductId(old.getProductId());
