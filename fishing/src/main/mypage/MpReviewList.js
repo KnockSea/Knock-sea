@@ -52,9 +52,10 @@ function MpReviewList() {
                 <div>{review.userName}</div>
                 {review.eduId !== null ?(<div>{review.eduTitle}</div>)
                 :(<div>{review.productTitle}</div>)}      
+                <div className='mpstar'>{review.reviewRating}점</div>
               </div>
-              <div className='mpstar'>{review.reviewRating}</div>
-              <div>{review.reviewContent}</div>
+              <div className='review-wrap'>
+              <div className='review-con'>💌{review.reviewContent}</div>
               <button className="reviewbtn">
               {review.reviewId !== null && review.eduId === null && review.reviewType === "SPOT" ? (
                 <Link to={`/fsdetail/${review.productId}`}>상세보기</Link>
