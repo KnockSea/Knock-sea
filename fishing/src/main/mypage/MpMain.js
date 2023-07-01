@@ -31,6 +31,7 @@ const MpMain = () => {
         userPhone : ''
       });
     
+      console.log(userInfo);
     
     const fetchUserInfo = async () => {
         const res = await fetch(`${API_BASE_URL}${USER}/user-mylist`, {

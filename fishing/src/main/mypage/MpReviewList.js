@@ -10,6 +10,7 @@ function MpReviewList() {
   const [size, setSize] = useState(3);
   const [isHearted, setIsHearted] = useState(false);
 
+  console.log(reviews);
   useEffect(() => {
     fetchData();
   }, [reviews && reviews.length, page, size]);
@@ -56,13 +57,14 @@ function MpReviewList() {
               <div className='review-wrap'>
               <div className='review-con'>💌{review.reviewContent}</div>
               <button className="reviewbtn">
-                {review.eduId !== null ? (
-                <Link to={`/classdetail/${review.eduId}`}>상세보기</Link>)
-                : 
-                (<Link to={`/classdetail/${review.productId}`}>상세보기</Link>)
-              }
-              </button>
-              </div>
+              {review.reviewId !== null && review.eduId === null && review.reviewType === "SPOT" ? (
+                <Link to={`/fsdetail/${review.productId}`}>상세보기</Link>
+              ) : review.reviewId !== null && review.eduId === null && review.reviewType === "SHIP" ? (
+                <Link to={`/detail/${review.productId}`}>상세보기</Link>
+              ) : review.reviewId !== null && review.eduId !== null && review.reviewType === "EDU" ? (
+                <Link to={`/classdetail/${review.eduId}`}>상세보기</Link>
+              ) : null}
+            </button>
             </div>
           </div>
         ))
