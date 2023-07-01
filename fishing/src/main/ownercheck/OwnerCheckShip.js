@@ -4,20 +4,21 @@ import OwnerCheckHeader from './OwnerCheckHeader';
 import { getLoginUserInfo, setLoginUserInfo } from '../util/login-util';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL, VALIDATION } from '../../config/host-config';
-function OwnerCheckShip() {
+import { Link } from 'react-router-dom';
+
+function OwnerCheckShip(props) {
 
   const [shipConfirmImage, setShipConfirmImage] = useState([2]);
   const [shipNumber, setShipNumber] = useState('');
   const [shipLicenseNumber, setShipLicenseNumber] = useState('');
   const [selectedImageNames, setSelectedImageNames] = useState(['', '']);
-
   // cosnt [validationtype, setvalidationtype] = useState('SHIP');
 
-  //화면이동 함수
+ 
   const navi = useNavigate();
   const [userInfo, setUserInfo] = useState({
-    token: '', // Set default value for name
-    userEmail: '', // Set default value for email
+    token: '', 
+    userEmail: '', 
     userName : '',
     userGrade : '',
     userId : '',
@@ -26,7 +27,6 @@ function OwnerCheckShip() {
 
   const handleOwnerCheck = (e) => {
     e.preventDefault();
-    // 등록 처리 로직
     console.log(shipConfirmImage);
     const payload = {
       validationType: 'SHIP',
@@ -34,7 +34,6 @@ function OwnerCheckShip() {
       validationShipLicense: shipLicenseNumber
     };
 
-    //JSON을 Blob타입으로 변경후 FormData에 넣기
     const userJsonBlob = new Blob(
       [JSON.stringify(payload)],
       {type : 'application/json'}
@@ -43,7 +42,6 @@ function OwnerCheckShip() {
     const formData = new FormData();
     formData.append('validation',userJsonBlob);
   
-    // Append each image file separately
     for (let i = 0; i <shipConfirmImage.length; i++) {
       formData.append('validationImage',shipConfirmImage[i]);
     }
@@ -67,23 +65,20 @@ function OwnerCheckShip() {
     }
     })
   };
-  
 
  const handleShipConfirmImage1Change = (event) => {
     const file = event.target.files[0];
     setShipConfirmImage((prevImages) => [file, prevImages[1]]);
-    setSelectedImageNames([file.name, selectedImageNames[1]]); // 선택한 이미지 파일의 이름 저장
+    setSelectedImageNames([file.name, selectedImageNames[1]]); 
   };
 
   const handleShipConfirmImage2Change = (event) => {
     const file = event.target.files[0];
     setShipConfirmImage((prevImages) => [prevImages[0], file]);
-    setSelectedImageNames([selectedImageNames[0], file.name]); // 선택한 이미지 파일의 이름 저장
+    setSelectedImageNames([selectedImageNames[0], file.name]); 
   };
 
 
-
-  //화면 랜더링되자마자 로그인한 유저 설정 
   useEffect(() => {
     const user = getLoginUserInfo();
     setLoginUserInfo(user);
@@ -95,7 +90,24 @@ function OwnerCheckShip() {
         <div className="owner-check-body">
           <form onSubmit={handleOwnerCheck} encType="multipart/form-data">
             <ul>
-              <OwnerCheckHeader />
+            <div className="owner-check-header">
+                <div className="head-title">
+                  <p>KNOCK_SEA 업체 검증</p>
+                  <img className="image-82-CzH" src="https://cdn-icons-png.flaticon.com/128/3061/3061579.png" id="SignUpImg" alt="SignUpImg" />
+                </div>
+                <div className="owner-check-body">
+                  <hr/>
+                  <ul>
+                    <li>
+                      <div>카테고리<span className="imp">*</span></div>
+                      <div className='category'>
+                        <Link to="/ship" style={{backgroundColor:"#123282"}} className="category-select ship">선박</Link>
+                        <Link to="/fishing"  className="category-select fishing">낚시터</Link>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
               <li>
                 <div>선박 등록증<span className="imp">*</span></div>
                 <div>
