@@ -39,6 +39,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -228,7 +229,6 @@ public class UserService {
         //후기 / 좋아요 리스트 담을 dto선언
         EntireInfoResponseDTO entireInfoResponseDTO = new EntireInfoResponseDTO();
 
-
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow(()
                 -> new RuntimeException("해당 유저는 존재하지않습니다"));
 
@@ -272,7 +272,6 @@ public class UserService {
                 eduReviewTotal+=reviewRating;
             }
             entireInfoResponseDTO.setEduReviewAvgScore((int)eduReviewTotal/findByEduReviews.size());
-
         }
 
         for (Product product : findByUser) {
@@ -288,8 +287,10 @@ public class UserService {
             }
         }
 
-        return entireInfoResponseDTO;
+        Optional<Review> reservedNumber = reviewRepository.findById(userInfo.getUserId());
+        log.info("reservedNumber : "+reservedNumber);
 
+        return entireInfoResponseDTO;
     }
 
 
@@ -335,26 +336,29 @@ public class UserService {
         List<Reservation> reservation = reservationRepository.findAllByUser(user);
 
         //유저가 작성한 리뷰를 찾고
-        List<Long> reviewIdByUser = reviewRepository.findReviewIdByUser(user);
-        log.info("reviewIdByUser : "+reviewIdByUser); //reviewIdByUser : [7, 11]
+
 
         List<ReservationResponseDTO> reservationResponseDTOS = new ArrayList<>();
-
+        List<Long> eduIdByUserId = null;
         for (Reservation r : reservation) {
             ReservationTime time = r.getReservationTime();
             if(r.getReservationType().equals("EDU")){
                 Edu edu=r.getEdu();
                 SeaImage seaImage= imageRepository.findAllByEdu(edu).get(0);
+                eduIdByUserId= reviewRepository.findEduIdByUserId(user.getUserId());
+                log.info("eduIdByUserId : "+eduIdByUserId); //reviewIdByUser : [7, 11]
                 reservationResponseDTOS.add(new ReservationResponseDTO(r, time, edu, seaImage));
             }else {
                 Product product = r.getProduct();
                 SeaImage seaImage = imageRepository.findByProduct_ProductId(product.getProductId()).get(0);
+                eduIdByUserId = reviewRepository.findProductIdByUserId(user.getUserId());
+                log.info("productIdByUserId : "+eduIdByUserId); //reviewIdByUser : [7, 11]
                 reservationResponseDTOS.add(new ReservationResponseDTO(r, time, product, seaImage));
             }
 
         }
         log.info("reservationResponseDTOS : "+reservationResponseDTOS);
-        return new UserMyPageResponseDTO(user, reservationResponseDTOS);
+        return new UserMyPageResponseDTO(user, reservationResponseDTOS,eduIdByUserId);
     }
 
     public AllReviewsResponseDTO getMyproductReview(Long userId) {
