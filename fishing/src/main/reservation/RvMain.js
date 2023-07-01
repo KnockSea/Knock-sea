@@ -22,7 +22,7 @@ function RvMain({ fetchFsProduct, FsProduct }) {
   const [size, setSize] = useState(6);
   const [products, setProducts] = useState(FsProduct);
   const type = "SHIP";
-
+  console.log(FsProduct)
   // console.log('안녕 나는 rvmain이야 ');
  
 
