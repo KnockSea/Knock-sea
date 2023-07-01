@@ -12,8 +12,10 @@ import com.knocksea.see.product.repository.ProductDetailService;
 import com.knocksea.see.product.repository.ProductRepository;
 import com.knocksea.see.product.repository.ReservationRepository;
 import com.knocksea.see.product.repository.ReservationTimeRepository;
+import com.knocksea.see.user.dto.response.UserMyPageResponseDTO;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.UserRepository;
+import com.knocksea.see.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,7 @@ public class ReservationService {
     private final EduRepository eduRepository;
     private final ReservationTimeRepository reservationTimeRepository;
     private final ProductDetailService productDetailService;
+    private final UserService userService;
 
     public boolean createReserve(ReservationRequestDTO dto, TokenUserInfo userInfo) throws RuntimeException, NoProductException{
         log.info("dto UserId : "+dto.getUserId());
@@ -83,7 +86,7 @@ public class ReservationService {
 
     // 예약 취소
     // 예약한 인원수 빼주고, 결제 정보 취소도 필요해?
-    public boolean cancelReservation(ReservationCancelDTO dto, TokenUserInfo userInfo) throws RuntimeException {
+    public UserMyPageResponseDTO cancelReservation(ReservationCancelDTO dto, TokenUserInfo userInfo) throws RuntimeException {
         Reservation reservation = reservationRepository.findById(dto.getReservationId()).orElseThrow(() -> new RuntimeException("예약 정보가 없습니다."));
         log.info("reservation : "+reservation);
         log.info("dto : "+dto.getReservationId());
@@ -110,8 +113,11 @@ public class ReservationService {
 
         reservationRepository.deleteById(dto.getReservationId());
         log.info("deleteById");
-        List<Reservation> research = reservationRepository.findAll();
 
-        return reservationRepository.findById(dto.getReservationId()).isPresent();
+        //다시 전체조회 호출해서 return
+        UserMyPageResponseDTO userMyPageResponseDTO = userService.userMyPageInfo(userInfo);
+
+//        return reservationRepository.findById(dto.getReservationId()).isPresent();
+        return userMyPageResponseDTO;
     }
 }

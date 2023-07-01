@@ -1,44 +1,45 @@
-.adminbox {
+
+.MpAdminbox {
     // border: 1px solid #000;
-    height: 600px;
+    // height: 600px;
     display: flex;
     width: 80%;
     margin: 0 auto;
-    // 관리자목록박스
+    
     .mgbox{ 
         // border: 1px solid #000;
         width: 15%;
         .mgtitle{
             font-weight: 700;
-            // border: 1px solid #000;
             height: 90px;
-            position: relative;
             background: #123282;
+
             p {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
+                line-height: 90px;
                 color: white;
             }
         }
 
-        
         .mglist {
+            height: 400px;
             margin-top: 40px;
-            
             background: #123282;
-            padding-top: 20px;
+            padding-top: 30px;
             padding-bottom: 160px;
-            
-            .ch2{
-                // margin-top: 50px;
-                // margin-bottom: 50px;
+    
+            div {
+                margin-top: 20px;
+
+                
             }
             .mgcontent {
-                // text-decoration: none;
-                font-weight: 700;
+                text-decoration: none;
                 color: white;
+
+                &:hover {
+                    font-weight: 700;
+                    border-bottom: 1px solid #ffffff;
+                 }
             }
             
         }
@@ -46,15 +47,84 @@
 
 
 
-
     .mgcontentbox{
         margin-left: 5%;
         border: 1px solid #CCC;
         width: 80%;
+
+        .ctncontent-wrap{
+            margin-top: 30px;
+            height: 300px;
+            
+                .ctncontent {
+                    padding: 0 7px;
+                    display: flex;
+                    justify-content: center;
+                    // border-bottom: 1px solid #c3cbd8;
+
+                    .name {
+                        color: #123282;
+                        font-weight: 700;
+                    }
+                    
+                    div {
+                    height: 30px;
+                    padding: 0 18px;
+                }
+
+                .admin-confirm {
+                    border: none;
+                    font-size: 16px;
+                    margin: 0 5px;
+                    padding: 0 10px;
+                    border-radius: 10px;
+                    background: #123282;
+                    color: #fff;
+                    
+                }
+                }
+
+                .cscontent{
+                    padding: 0 7px;
+                    display: flex;
+                    justify-content: space-around;
+                    // border-bottom: 1px solid #c3cbd8;
+
+                    div {
+                    height: 30px;
+                    padding: 0 5px;
+                    }
+
+                    .name {
+                        // width: 80px;
+                        color: #123282;
+                        font-weight: 700;
+                    }
+
+                    .content {
+                        width: 40%;
+                    }
+                    .over-text {
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                      }
+                    .admin-confirm {
+                        border: none;
+                        font-size: 16px;
+                        margin: 0 5px;
+                        padding: 0 10px;
+                        border-radius: 10px;
+                        background: #123282;
+                        color: #fff;
+                        
+                    }
+                }
+        }
         .ctntitle {
             font-weight: 700;
             height: 50px;
-            // border: 1px solid #000;
+            border-bottom: 2px solid#CCC;
             display: flex;
             text-align: center;
             align-items: center;
@@ -62,12 +132,13 @@
         }
         .ctntext {
             margin-top: 20px;
+
             .ctntextbox1{
             padding: 5px;
-                margin-top: 7px;
+            margin-top: 7px;
             margin-bottom: 7px;
             display: flex;
-            border: 1px solid #000;
+            // border: 1px solid #000;
             justify-content: space-around;
 
             button{
@@ -76,6 +147,41 @@
     
             }
         }
+
+        .page {
+            margin-top: 20px;
+            margin: 0 auto;
+
+            ul {
+              width: 500px;
+            }
+        }
     }
 
+}
+.mgcontentbox{
+.ctntext {
+    
+    .answertext {
+         padding: 10px;
+        font-family: 'Gowun Batang', serif;
+    }
+    .adminreplyinput {
+
+        textarea {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #b8b8b8;
+            border-radius: 10px;
+        }
+    }
+}
+
+.replybtn1 {
+    a {
+        text-decoration: none;
+        color: #fff;
+    }
+    
+}
 }

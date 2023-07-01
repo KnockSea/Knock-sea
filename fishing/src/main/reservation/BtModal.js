@@ -50,7 +50,6 @@ function BtModal({ closeModal, sDetail }) {
   const handleTimeChange = (time, timeIndex) => {
     setSelectedTime(time);
     setTimeIndex(timeIndex);
-  };  
 
   const handlePayment = () => {
     console.log("token", token.userId);

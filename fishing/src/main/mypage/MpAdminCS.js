@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "./MpScss/MpAdminCS.scss";
+import "./MpScss/MpAdmin.scss";
 import MpInquiryD from './MpInquiryD'
 import "./MpScss/Paging.css";
 import Pagination from "react-js-pagination";
@@ -42,47 +42,48 @@ const MpAdminCS = () => {
 
   return (
     <section>
-      <div className="adminbox">
+      <div className="MpAdminbox">
         <div className="mgbox">
           <div className="mgtitle">
-            <p>관리자</p>
+            <p>[관리자]</p>
           </div>
           <div className="mglist">
             <div>
-              <Link to="/admin">배 검증요청</Link>
-            </div>
-            <div className="ch2">
-              <Link to="/adminFS">낚시터 검증요청</Link>
+              <Link to="/admin" className='mgcontent'>배 검증요청</Link>
             </div>
             <div>
-              <Link to="/adminCS">문의 현황</Link>
+              <Link to="/adminFS" className='mgcontent'>낚시터 검증요청</Link>
+            </div>
+            <div>
+              <Link to="/adminCS" className='mgcontent'>문의 현황</Link>
             </div>
           </div>
         </div>
         <div className="mgcontentbox">
           <div className="ctntitle">KNOCK_SEA 관리자 화면 (문의)</div>
-          <div className="ctntext">
-          {inquiries.length !==0 ? (
-            inquiries.map((inquiry) => (
-              <div className="ctntextbox11" key={inquiry.inquiryId}>
-                <div>{inquiry.userName}</div>
-                <div>{inquiry.inquiryTitle}</div>
-                <div>{inquiry.inquiryDetails}</div>
-                <div>{inquiry.inquiryDateTime}</div>
-                {inquiry.answerDetails===null &&(
-                <Link
-                  to={{ pathname: `/adminreply/${inquiry.inquiryId}` }}
-                >
-                  답변하기
-                </Link>
-                )}
-              </div>
-            ))
-            ) : (
-              <div>문의가 입력된 것이 없습니다.</div>
-          )}
-          </div>
-          <Pagination
+          <div className='ctncontent-wrap'>
+            {/* <div className="ctncontent"> */}
+            {inquiries.length !==0 ? (
+              inquiries.map((inquiry) => (
+                <div className="cscontent" key={inquiry.inquiryId}>
+                  <div className="name">{inquiry.userName}</div>
+                  <div className="over-text">{inquiry.inquiryTitle}</div>
+                  <div className="over-text content">{inquiry.inquiryDetails}</div>
+                  <div>{inquiry.inquiryDateTime}</div>
+                  {inquiry.answerDetails===null &&(
+                  <Link className="admin-confirm"
+                    to={{ pathname: `/adminreply/${inquiry.inquiryId}` }}
+                  >답변하기</Link>
+                  )}
+                </div>
+              ))
+              ) : (
+                <div className='ctncontent'>❎ 현재 들어온 문의 없음</div>
+            )}
+            {/* </div> */}
+          </div>  
+          <div className="page">
+          <Pagination 
             activePage={page}
             itemsCountPerPage={10}
             totalItemsCount={totalItemCount}
@@ -91,6 +92,7 @@ const MpAdminCS = () => {
             nextPageText={"›"}
             onChange={handlePageChange}
           />
+          </div>
         </div>
       </div>
     </section>
