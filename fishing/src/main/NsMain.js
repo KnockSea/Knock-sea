@@ -76,7 +76,7 @@ const NsMain = ({shipList, spotList, eduList}) => {
             <Route path='/iqinput' element={<MpIqInput/>}></Route>
             {/* 문의 현황 */}
             <Route path='/inquire' element={<MpInquire/>}></Route>
-            관리자용 전체 문의 현황
+            {/* 관리자용 전체 문의 현황 */}
             <Route path='/adInquire' element={<MpAdInquire/>}></Route>
             
             {/* 문의답변 */}
