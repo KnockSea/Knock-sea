@@ -4,13 +4,13 @@ import { Route, Routes } from 'react-router-dom';
 import { useNavigate, Link } from 'react-router-dom';
 import Post from './Post';
 import ProfileUpload from './ProfileUpload';
-import { API_BASE_URL as BASE, USER } from '../../config/host-config';
+import { API_BASE_URL, USER } from '../../config/host-config';
 
 
 function SignUpForm(){
 
 
-  const API_BASE_URL = BASE + USER;
+  
 
   const redirection = useNavigate();
 
@@ -103,7 +103,7 @@ function SignUpForm(){
    // 이메일 중복체크 서버 통신 함수
    const fetchDuplicateCheck = async (userEmail) => {
 
-    const res = await fetch(`${API_BASE_URL}/check?userEmail=${userEmail}`);
+    const res = await fetch(`${API_BASE_URL}${USER}/check?userEmail=${userEmail}`);
 
     let msg = '', flag = false;
     if (res.status === 200) {
@@ -117,6 +117,7 @@ function SignUpForm(){
         flag = true;
       }
     } else {
+      console.log(res.status);
       alert('서버 통신이 원활하지 않습니다!');
     }
 
@@ -311,7 +312,7 @@ function SignUpForm(){
         userData.append('profileImage', profileImage);
 
         // fetch를 사용하여 회원가입 요청 보내기
-        fetch(`${API_BASE_URL}/register`, {
+        fetch(`${API_BASE_URL}${USER}/register`, {
           method: 'POST',
           body: userData
         })

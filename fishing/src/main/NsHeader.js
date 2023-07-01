@@ -268,11 +268,16 @@ export const NsHeader = () => {
             </>
           )}
           <div className='userLogin'>
-            {isLogin() ? (
-              <Link to={'/login'}  style={linkStyle} onClick={resetStorage}>Log-out</Link>
-            ) : (
-              <><Link to={'/login'}  style={linkStyle}>Log-in</Link></>
-            )}
+          {isLogin() ?(
+            <Link to={'/login'}  style={linkStyle} onClick={resetStorage}>Log-out</Link>
+            )
+            :(
+              <>
+              <Link to={'/join'}  style={linkStyle} className='sign-in-tap'>Sign-in</Link>
+              <Link to={'/login'}  style={linkStyle}>Log-in</Link>
+              </>
+            )
+          }
           </div>
         </div>
       </div>

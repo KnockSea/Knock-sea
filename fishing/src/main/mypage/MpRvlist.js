@@ -169,7 +169,7 @@ const dateStatusCheck=(checkDate)=>{
             <div className='rvliststatus'>예약확정</div>
                   <div> 
                     {/* {dateStatusCheck (reservation.reserveDate) || ( */}
-                      <Button variant="outlined" onClick={handleClickOpen}>
+                      <Button variant="outlined" onClick={handleClickOpen} className='regi-cancel'>
                         예약 취소
                       </Button>
                       {/* )} */}

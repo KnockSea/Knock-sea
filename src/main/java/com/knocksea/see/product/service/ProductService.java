@@ -86,7 +86,7 @@ public class ProductService implements ProductDetailService {
 
         List<ViewProduct> allAddress = viewProductRepository.findAll();
         // 이러면.. 페이지 넘길때마다 지도 다시 뿌리는건데 어쩌지
-
+        log.warn("올 어드레스 왜 안나오는데{}", allAddress);
         // 이미지랑 예약 가능 유저 수
 
 
