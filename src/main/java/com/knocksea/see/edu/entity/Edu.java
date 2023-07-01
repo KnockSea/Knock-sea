@@ -58,6 +58,9 @@ public class Edu {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Builder.Default
+    private String statusValid = "ACTIVE";
+
 /*  @OneToMany(mappedBy = "edu", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Heart> like = new ArrayList<>();

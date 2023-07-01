@@ -134,7 +134,7 @@ const RvBtDetail = () => {
             <div className="detail-section">
               <div className="detail-box detail-list-profile">
                 <div className="lists">
-                  <Link to={`/host/${sDetail.productId}/${sDetail.typeP}`}>
+                  <Link to={`/host/${sDetail.productId}/${sDetail.typeP}/${sDetail.userId}`}>
                     <div className="box profile-img">
                       <img src={sDetail.userImgUrl} />
                     </div>

@@ -6,6 +6,7 @@ import com.knocksea.see.exception.NoneMatchUserException;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
 import com.knocksea.see.product.dto.response.*;
 import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.entity.ViewProduct;
 import com.knocksea.see.product.repository.*;
@@ -253,7 +254,7 @@ public class ProductService implements ProductDetailService {
                     .title(ship.getShipName())
                     .imgUrl(shipImg.get(0).getImageName())
                     .info(ship.getShipDescription())
-                    .rateAvg(score/pReview.size())
+                    .rateAvg(score != 0 ? score/pReview.size() : 0)
                     .build();
         } else {
             spot = fishingSpotRepository.findByUser(owner);
@@ -267,19 +268,26 @@ public class ProductService implements ProductDetailService {
                     .imgUrl(spotImg.get(0).getImageName())
                     .info(spot.getSpotDescription())
                     .rateAvg(score/pReview.size())
+                    .rateAvg(score != 0 ? score/pReview.size() : 0)
                     .build();
         }
+        log.warn("왜 NAN? {}", hostDTO.getRateAvg());
         return hostDTO;
     }
 
-    public List<HostReviewResponseDTO> hostReview(Long productId) {
-        Ship ship = shipRepository.findById(1L).orElseThrow(() -> new RuntimeException("배 정보가 없습니다."));
-        User user = ship.getUser();
-        Product pro = productRepository.findByTargetProduct(user, "SHIP");
+    // 상품에서 들어오는 호스트
+    public List<HostReviewResponseDTO> hostReview(Long id, String type) {
+        User users = new User();
+        Product newPro = new Product();
+        if (type.equals("SHIP")) {
+            newPro = productRepository.findById(id).orElseThrow(() -> new RuntimeException("상품 정보가 없습니다"));
+        } else {
+            newPro = productRepository.findById(id).orElseThrow(() -> new RuntimeException("상품 정보가 없습니다"));
+//            Ship ship = shipRepository.findById(id).orElseThrow(() -> new RuntimeException("배 정보가 없습니다."));
+        }
 
-//        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("상품 정보가 없습니다."));
-
-        List<Review> byProduct = getByProduct(pro);
+//        Product pro = productRepository.findByTargetProduct(users, "SHIP");
+        List<Review> byProduct = getByProduct(newPro);
         log.warn("이거 안되면 큰일난다. {}", byProduct);
         List<HostReviewResponseDTO> reviewList = byProduct.stream().map(r -> {
             String s = reviewService.imgName(r);
@@ -297,12 +305,32 @@ public class ProductService implements ProductDetailService {
         return reviewList;
     }
 
-    public void hostProduct(Long userId, String type) {
+    // 봉인
+    public List<HostReservationResponseDTO> hostProduct(Long userId, String type) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+        List<HostReservationResponseDTO> list = new ArrayList<>();
         if (type.equals("SHIP")) {
-//            productRepository.findByUserAndType(user, type);
+            List<Product> productList = productRepository.findByUser(user);
+            List<Product> newProductList = new ArrayList<>();
+            productList.forEach(pro -> {
+                if(pro.getProductType().equals("SHIP")) {
+                    newProductList.add(pro);
+                }
+            });
+            List<Reservation> reserveList = new ArrayList<>();
+            for (Product product : newProductList) {
+                reserveList = reservationRepository.findAllByProduct_ProductId(product.getProductId());
+                for (Reservation r : reserveList) {
+                    list.add(HostReservationResponseDTO.builder()
+                            .id(r.getReservationId())
+                            .build());
+                }
+            }
+        } else {
 
         }
+
+        return null;
     }
 
     // 얘도 ... 리뷰에 만들어야 되는데...
