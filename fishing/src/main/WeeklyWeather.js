@@ -1,6 +1,25 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./scss/WeeklyWeather.scss";
+import icon01d from "./icons/01d.png";
+import icon01n from "./icons/01n.png";
+import icon02d from "./icons/02d.png";
+import icon02n from "./icons/02n.png";
+import icon03d from "./icons/03d.png";
+import icon03n from "./icons/03n.png";
+import icon04d from "./icons/04d.png";
+import icon04n from "./icons/04n.png";
+import icon09d from "./icons/09d.png";
+import icon09n from "./icons/09n.png";
+import icon10d from "./icons/10d.png";
+import icon10n from "./icons/10n.png";
+import icon11d from "./icons/11d.png";
+import icon11n from "./icons/11n.png";
+import icon13d from "./icons/13d.png";
+import icon13n from "./icons/13n.png";
+import icon50d from "./icons/50d.png";
+import icon50n from "./icons/50n.png";
+import iconUnknown from "./icons/unknown.png";
 
 const WeeklyWeather = () => {
   const [temp, setTemp] = useState(0);
@@ -20,32 +39,27 @@ const WeeklyWeather = () => {
     return images;
   }
 
-  // icons 폴더 내의 모든 이미지 파일 불러오기
-  // const icons = Object.values(importAll(require.context("./icons/", false, /\.(png)$/)));
-
-
   const icons = {
-    "01d": require("./icons/01d.png").default,
-    "01n": require("./icons/01n.png").default,
-    "02d": require("./icons/02d.png").default,
-    "02n": require("./icons/02n.png").default,
-    "03d": require("./icons/03d.png").default,
-    "03n": require("./icons/03n.png").default,
-    "04d": require("./icons/04d.png").default,
-    "04n": require("./icons/04n.png").default,
-    "09d": require("./icons/09d.png").default,
-    "09n": require("./icons/09n.png").default,
-    "10d": require("./icons/10d.png").default,
-    "10n": require("./icons/10n.png").default,
-    "11d": require("./icons/11d.png").default,
-    "11n": require("./icons/11n.png").default,
-    "13d": require("./icons/13d.png").default,
-    "13n": require("./icons/13n.png").default,
-    "50d": require("./icons/50d.png").default,
-    "50n": require("./icons/50n.png").default,
-    "unknown": require("./icons/unknown.png").default
+    "01d": icon01d,
+    "01n": icon01n,
+    "02d": icon02d,
+    "02n": icon02n,
+    "03d": icon03d,
+    "03n": icon03n,
+    "04d": icon04d,
+    "04n": icon04n,
+    "09d": icon09d,
+    "09n": icon09n,
+    "10d": icon10d,
+    "10n": icon10n,
+    "11d": icon11d,
+    "11n": icon11n,
+    "13d": icon13d,
+    "13n": icon13n,
+    "50d": icon50d,
+    "50n": icon50n,
+    "unknown": iconUnknown
   };
-  
 
 
 
@@ -96,15 +110,9 @@ const WeeklyWeather = () => {
     setLoading(true);
   };
 
-
-
   const matchedIcon = icons[icon];
   const imageSrc = matchedIcon || null;
 
-  console.log("이미지 불러와져라아아아ㅏ!", imageSrc)
-  console.log("하하하하호호호호", matchedIcon)
-  console.log("이런 젠장", icons)
-  console.log("이런 젠장 ㅜㅜㅜ", icon)
   
   return (
     <div className="weather">
@@ -114,9 +122,8 @@ const WeeklyWeather = () => {
         <div className="apiinfo">
           <div className="wttopitem">
             <div className="imgbox111">
-              <img src={`https://openweathermap.org/img/w/${icon}.png`} alt={desc} />
+              {/* <img src={`https://openweathermap.org/img/w/${icon}.png`} alt={desc} /> */}
               {imageSrc && <img src={imageSrc} alt="" />}
-
             </div>
             <div className="wtinfo">
               <select onChange={handleCityChange} value={cityName}>
@@ -141,10 +148,12 @@ const WeeklyWeather = () => {
                 <option value="Ansan">안산</option>
                 <option value="Anyang">안양</option>
               </select>
-              <div>현재온도: {(temp - 273.15).toFixed(0)}°</div>
-              <div>최대온도: {(tempMax - 273.15).toFixed(0)}°</div>
-              <div>최저온도: {(tempMin - 273.15).toFixed(0)}°</div>
-              <div>습도: {humidity} %</div>
+              <div className="w-content-wrap">
+                <div>현재온도: {(temp - 273.15).toFixed(0)}°</div>
+                <div>최대온도: {(tempMax - 273.15).toFixed(0)}°</div>
+                <div>최저온도: {(tempMin - 273.15).toFixed(0)}°</div>
+                <div>습도: {humidity} %</div>
+              </div>
             </div>
           </div>
 
@@ -152,8 +161,7 @@ const WeeklyWeather = () => {
             <div className="weather-list">
               {weeklyWeather.slice(1).map((weather, index) => (
                 <div className="weather-item" key={index}>
-                  <img src={`https://openweathermap.org/img/w/${weather.icon}.png`} alt="" />
-
+                   <img src={icons[weather.icon]} alt="" />
                   <div>
                     <p>{weather.date}</p>
                     <p>{weather.day}</p>

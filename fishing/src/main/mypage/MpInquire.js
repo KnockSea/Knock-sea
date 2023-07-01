@@ -12,11 +12,23 @@ const MpInquire = () => {
     const [token, setToken] = useState(getLoginUserInfo().token);
     const [totalItemCount, setTotalItemCount] = useState(0);
     const [page, setPage] = useState(1);
+    const [fetchSuccess, setFetchSuccess] = useState(true); // 패치 성공 여부를 저장하는 상태 변수
+
+    useEffect(() => {
+        const fetchToken = async () => {
+            const userToken = await getLoginUserInfo().token;
+            setToken(userToken);
+        };
+    
+        fetchToken();
+    }, []);
 
     const handlePageChange = (page) => {
         setPage(page);
         console.log(page);
       };
+
+      console.log('inquiers',inquiries);
 
     const fetchData = () => {
         fetch(
@@ -35,6 +47,7 @@ const MpInquire = () => {
                     // console.log(data.pageInfo.totalCount);
                     setInquiries(data.inquiries);
                     setTotalItemCount(data.pageInfo.totalCount);
+                    setFetchSuccess(false);
                 } else {
                     // 처리할 에러에 대한 로직 추가
                 }
@@ -47,13 +60,14 @@ const MpInquire = () => {
 
     useEffect(() => {
         fetchData();
-    }, [inquiries && inquiries.length, page]);
+        setFetchSuccess(true);
+    }, [page, token, inquiries.length]);
 
     return (
         <section className="MyPageMainBox">
             <div className="mainbox1">
                 <h1>문의 현황</h1>
-                {inquiries.length !==0 ? (
+                {inquiries.length !== 0 ? (
                     inquiries.map((inquiry) => (
                         <div key={inquiry.inquiryId} className="inbox">
                             <div className="initembox">

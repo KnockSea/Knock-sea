@@ -7,6 +7,7 @@ import com.knocksea.see.product.dto.request.ReservationCancelDTO;
 import com.knocksea.see.product.dto.request.ReservationRequestDTO;
 import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
 import com.knocksea.see.product.service.ReservationService;
+import com.knocksea.see.user.dto.response.UserMyPageResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -49,22 +50,23 @@ public class ReservationController {
             , BindingResult result
             , @AuthenticationPrincipal TokenUserInfo userInfo
     ) {
+        log.info("/api/v1/reservation DELETE! - {}", dto);
         if (result.hasErrors()) {
             log.warn(result.toString());
             return ResponseEntity.badRequest().body(result.getFieldError());
         }
-        log.info("/api/v1/reservation DELETE! - {}", dto);
 
         try {
-            if (reservationService.cancelReservation(dto, userInfo)) {
+            UserMyPageResponseDTO b = reservationService.cancelReservation(dto, userInfo);
+            if (b==null) {
+                log.info("예약 취소에 실패");
                 return ResponseEntity.internalServerError().body("예약 취소에 실패하였습니다. \n서버와 통신이 원활하지 않습니다.");
             }
-            return ResponseEntity.ok().body("예약이 취소되었습니다.");
+            return ResponseEntity.ok().body(b);
         } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
     }
 
 

@@ -5,10 +5,12 @@ import com.knocksea.see.edu.dto.request.EduAndReservationTimeCreateDTO;
 import com.knocksea.see.edu.dto.response.EduDetailResponseDTO;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
 import com.knocksea.see.user.service.ImageService;
+import com.knocksea.see.validation.dto.request.PageDTO;
 import com.knocksea.see.validation.dto.request.ValidationCreateDTO;
 import com.knocksea.see.validation.dto.request.validationModifyRequestDTO;
 import com.knocksea.see.validation.dto.response.ValidationListResponseDTO;
 import com.knocksea.see.validation.dto.response.ValidationRegisterResponseDTO;
+import com.knocksea.see.validation.dto.response.ValidationTypeListResponseDTO;
 import com.knocksea.see.validation.entity.Validation;
 import com.knocksea.see.validation.entity.ValidationStatus;
 import com.knocksea.see.validation.entity.ValidationType;
@@ -91,18 +93,19 @@ public class ValidationApiController {
     }
 
     //타입별 전체조회
-    @GetMapping("/{validationType}")
-    public ResponseEntity<?> list(@PathVariable ValidationType validationType/*, @PathVariable Long userId*/
-//
+    @GetMapping("/validationlist")
+    public ResponseEntity<?> list(PageDTO pageDTO
     ){
-        log.info("/api/v1/validation {} GET",validationType);
+        log.info("/api/v1/validationlist {} GET",pageDTO);
 
         try {
 //            List<ValidationListResponseDTO> allByType = validationService.findAllByType(validationType, userInfo);
-            List<ValidationListResponseDTO> allByType = validationService.findAllByType(validationType);
+            ValidationTypeListResponseDTO allByType = validationService.findAll(pageDTO);
+//            System.out.println("allbytype"+allByType);
             return ResponseEntity.ok().body(allByType);
 
         } catch (RuntimeException e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
@@ -129,4 +132,18 @@ public class ValidationApiController {
                     .body(e.getMessage());
         }
     }
+
+    //검증요청상태 반려(삭제)
+    @DeleteMapping("/{validationId}")
+    public ResponseEntity<?> deleteValidation(
+            @PathVariable Long validationId
+    ){
+
+        log.info("delete mapping DELETE ! : {}",validationId );
+
+        validationService.deletevalidation(validationId);
+
+        return ResponseEntity.ok().body("삭제 성공");
+    }
+
 }

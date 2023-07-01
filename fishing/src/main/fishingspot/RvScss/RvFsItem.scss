@@ -1,54 +1,63 @@
-.Fssection{
+.Fssection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  
+  .contentCard1 {
     display: flex;
-    .contentCard {
-        border: 1px solid #000;
-        // width: 30%;
-        height: 250px;
-        margin-left: 20px;
-        margin-top: 20px;
-        border-radius: 15px;
-        
-        .imgbox {
-            width: 100%;
+    flex-wrap: nowrap;
+    width: calc(33.3333333333% - 20px);
+    height: 250px;
+    margin-left: 20px;
+    margin-top: 20px;
+    border-radius: 15px;
+    align-content: center;
+    justify-content: space-evenly;
+    align-items: stretch;
+
+    .imgbox1 {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 15px 15px 0px 0px;
+
+      img {
+        object-fit: cover;
+        width: 100%;
         height: 100%;
-        overflow: hidden;
-        border-radius: 15px 15px 0px 0px;
-        
-        img {
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
-            border-radius: 15px;
-        }
-    }
-    
-    .cardTitle {
-        font-weight: 700;
-        font-size: 13px;
-        float: left;
-    }
-    
-    
-    .miniTitle {
-        font-size: 13px;
-        float: left;
-        color: #5F5F5F;
+        border-radius: 15px;
+      }
     }
 
-    .miniContent {
-        font-size: 13px;
-        float: left;
+    .cardTitle1 {
+      font-weight: 700;
+      font-size: 13px;
+      float: left;
     }
-    
-    .calendar {
-        width: fit-content;
-    height: fit-content;
-    font-size: 13px;
-    float: left;
-    color: #3974d9;
-    clear: left; /* 추가 */
-    /* border: 1px solid #000; */
-    text-align: left;
+
+    .miniTitle1 {
+      font-size: 11px;
+      float: left;
+      color: #5f5f5f;
     }
-}
+
+    .miniContent1 {
+      font-size: 13px;
+      float: left;
+    }
+
+    .calendar1 {
+      width: fit-content;
+      height: fit-content;
+      font-size: 13px;
+      float: left;
+      color: #3974d9;
+      clear: left;
+      text-align: left;
+    }
+  }
+
+  .contentCard1:nth-child(n + 4):nth-child(-n + 6) {
+    margin-top: 100px;
+  }
 }

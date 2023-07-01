@@ -12,12 +12,16 @@ import com.knocksea.see.product.repository.ProductDetailService;
 import com.knocksea.see.product.repository.ProductRepository;
 import com.knocksea.see.product.repository.ReservationRepository;
 import com.knocksea.see.product.repository.ReservationTimeRepository;
+import com.knocksea.see.user.dto.response.UserMyPageResponseDTO;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.UserRepository;
+import com.knocksea.see.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -30,6 +34,7 @@ public class ReservationService {
     private final EduRepository eduRepository;
     private final ReservationTimeRepository reservationTimeRepository;
     private final ProductDetailService productDetailService;
+    private final UserService userService;
 
     public boolean createReserve(ReservationRequestDTO dto, TokenUserInfo userInfo) throws RuntimeException, NoProductException{
         log.info("dto UserId : "+dto.getUserId());
@@ -81,23 +86,38 @@ public class ReservationService {
 
     // 예약 취소
     // 예약한 인원수 빼주고, 결제 정보 취소도 필요해?
-    public boolean cancelReservation(ReservationCancelDTO dto, TokenUserInfo userInfo) throws RuntimeException {
+    public UserMyPageResponseDTO cancelReservation(ReservationCancelDTO dto, TokenUserInfo userInfo) throws RuntimeException {
         Reservation reservation = reservationRepository.findById(dto.getReservationId()).orElseThrow(() -> new RuntimeException("예약 정보가 없습니다."));
-
+        log.info("reservation : "+reservation);
+        log.info("dto : "+dto.getReservationId());
         if (!reservation.getUser().getUserId().equals(userInfo.getUserId())) {
             throw new RuntimeException("본인의 예약만 취소할 수 있습니다.");
         }
 
         // 현재 예약에 신청중인 사람 수
         int reserveCount = reservation.getReservationUserCount();
+        log.info("reserveCount : "+reserveCount);
         ReservationTime reservationTime = reservation.getReservationTime();
+        log.info("reservationTime : "+reservationTime);
+
         reservationTime.setTimeCurrentUser(reservationTime.getTimeCurrentUser() - reserveCount);
 
         // 인원수 변동 후 업데이트
         ReservationTime savedTime = reservationTimeRepository.save(reservationTime);
+        log.info("savedTime : "+savedTime);
+
+        reservation.setUser(null);
+        reservation.setReservationTime(null);
+        reservation.setEdu(null);
+        reservation.setProduct(null);
 
         reservationRepository.deleteById(dto.getReservationId());
+        log.info("deleteById");
 
-        return reservationRepository.findById(dto.getReservationId()).isPresent();
+        //다시 전체조회 호출해서 return
+        UserMyPageResponseDTO userMyPageResponseDTO = userService.userMyPageInfo(userInfo);
+
+//        return reservationRepository.findById(dto.getReservationId()).isPresent();
+        return userMyPageResponseDTO;
     }
 }

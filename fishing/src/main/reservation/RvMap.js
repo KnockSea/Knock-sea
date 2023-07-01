@@ -4,6 +4,9 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 const { kakao } = window;
 
 const RvMap = ({ productDetail }) => {
+  // console.log("map에서사용한다잉", productDetail)
+  // console.log("map에서사용한다잉", productDetail.productDetail)
+  // console.log("map에서사용한다잉", productDetail.productDetail[0].title)
   useEffect(() => {
     const container = document.getElementById("map");
     const options = {
@@ -26,10 +29,34 @@ const RvMap = ({ productDetail }) => {
             position: markerPosition,
           });
           marker.setMap(map);
+
+    const infowindow = new kakao.maps.InfoWindow({
+              content: getProductTitle(address.productId),
+              position: markerPosition,
+            });
+
+
+          kakao.maps.event.addListener(marker, "mouseover", function () {
+            infowindow.open(map, marker);
+          });
+
+
+          kakao.maps.event.addListener(marker, "mouseout", function () {
+            infowindow.close();
+          });
         }
       });
     });
   }, [productDetail]);
+
+   // 상품 ID를 사용하여 상품 타이틀을 가져오는 함수
+   const getProductTitle = (productId) => {
+    const product = productDetail.productDetail.find(
+      (item) => item.productId === productId
+    );
+    return product ? product.title : ""; // 상품이 존재하면 타이틀 반환, 그렇지 않으면 빈 문자열 반환
+  };
+
 
   return (
     <div id="map" style={{ width: "800px", height: "600px" }}></div>

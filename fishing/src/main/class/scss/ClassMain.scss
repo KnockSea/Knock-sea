@@ -42,6 +42,19 @@ body{
     display: flex;
     justify-content: space-between;
     margin: 20px 0;
+
+    .class-regi {
+        a{
+            text-decoration: none;
+            color: #FFF;
+        }
+        width: 160px;
+        border-radius: 10px;
+        background: #123282;
+        text-align: center;
+        text-decoration: none;
+        color: #FFF;
+    }
 }
 .content-wrap {
     width: 1136px;
@@ -59,7 +72,7 @@ body{
 .class-list-1 {
     width: 261px;
     height: 350px; 
-    background: #eff1f3;
+    background: #f7f7f8;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding: 12px;
     border-radius: 10px;
@@ -70,6 +83,11 @@ body{
 .list-title-wrap {
     display: flex;
     justify-content: space-between;
+    
+    .userId {
+        font-weight: 700;
+        font-family: 'Orbit', sans-serif;
+    }
 }
 
 #list-img {
@@ -97,11 +115,20 @@ body{
         white-space: nowrap; 
         overflow: hidden;
         text-overflow: ellipsis;
+
+    .list-star-rating {
+        display: flex;
+        .review-rate {
+            font-size: 15px;
+        }
+    }
     }
 }
 
 .list-t {
-    margin-top: 5px;
+    margin-top: 2px;
+    font-family: Noto Sans KR;
+    font-size: 13.5px;
 }
 
 .text-title {

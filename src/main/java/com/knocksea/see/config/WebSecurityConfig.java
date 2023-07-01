@@ -56,6 +56,7 @@ public class WebSecurityConfig {
                 .antMatchers("/api/v1/user/check").permitAll()
                 .antMatchers("/api/v1/validation/{validationType}").permitAll()
                 .antMatchers("/api/v1/validation").permitAll()
+                .antMatchers("/api/v1/user/load-mylist").permitAll()
 
 //                .antMatchers("/api/v1/edu/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/edu").permitAll()
@@ -70,6 +71,8 @@ public class WebSecurityConfig {
                 .antMatchers("/api/v1/hearts").permitAll()
                 .antMatchers("/api/v1/hearts/exists").permitAll()
                 .antMatchers("/api/v1/hearts/eduHeart").permitAll()
+                .antMatchers("/api/v1/hearts/spotHeart").permitAll()
+                .antMatchers("/api/v1/hearts/shipHeart").permitAll()
                 .anyRequest().authenticated()
         ;
 

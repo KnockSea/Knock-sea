@@ -31,6 +31,7 @@ public class ValidationListResponseDTO {
 
     private Long userId;
 
+    private Long validationId;
     public ValidationListResponseDTO(Validation validation) {
         this.validationType=validation.getValidationType();
         this.validationShipRegi=validation.getValidationShipRegi();
@@ -39,5 +40,6 @@ public class ValidationListResponseDTO {
         this.validationStatus=validation.getValidationStatus();
         this.userName=validation.getUser().getUserName();
         this.userId = validation.getUser().getUserId();
+        this.validationId = validation.getValidationId();
     }
 }

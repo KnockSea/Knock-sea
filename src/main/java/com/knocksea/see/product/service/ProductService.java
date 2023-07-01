@@ -1,20 +1,23 @@
 package com.knocksea.see.product.service;
 
 import com.knocksea.see.auth.TokenUserInfo;
-import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.edu.repository.EduRepository;
 import com.knocksea.see.exception.NoneMatchUserException;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
 import com.knocksea.see.product.dto.response.*;
 import com.knocksea.see.product.entity.Product;
+import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
 import com.knocksea.see.product.entity.ViewProduct;
 import com.knocksea.see.product.repository.*;
 import com.knocksea.see.product.dto.request.PageDTO;
 import com.knocksea.see.review.dto.response.ReviewDetailResponseDTO;
+import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.review.repository.ReviewRepository;
 import com.knocksea.see.review.service.ReviewService;
+import com.knocksea.see.user.entity.FishingSpot;
 import com.knocksea.see.user.entity.SeaImage;
+import com.knocksea.see.user.entity.Ship;
 import com.knocksea.see.user.entity.User;
 import com.knocksea.see.user.repository.FishingSpotRepository;
 import com.knocksea.see.user.repository.ImageRepository;
@@ -214,7 +217,7 @@ public class ProductService implements ProductDetailService {
     }
 
     public List<mainListResponseDTO> spotMainList() {
-        List<Product> productsSpot = productRepository.findTop9ByProductType("SHIP");
+        List<Product> productsSpot = productRepository.findTop9ByProductType("SPOT");
 
         return getCollect(productsSpot);
 
@@ -223,11 +226,115 @@ public class ProductService implements ProductDetailService {
     private List<mainListResponseDTO> getCollect(List<Product> product) {
         return product.stream()
                 .map(p -> {
-                    SeaImage seaImage = imageRepository.findByProduct(p);
+//                    SeaImage seaImage = imageRepository.findByProduct(p);
+                    List<SeaImage> seaImage = imageRepository.findByProduct(p);
+                    log.warn("하나만 가져올거라!! : {}", seaImage);
 //                            .orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));
-                    return new mainListResponseDTO(p, seaImage);
+                    return new mainListResponseDTO(p, seaImage.get(0));
                 }).collect(Collectors.toList());
     }
 
-//    public autoTrans
+    public HostInfoResponseDTO hostUser(Long productId, String productType) {
+        Product target = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+
+        User owner = target.getUser();
+        Ship ship = new Ship();
+        FishingSpot spot = new FishingSpot();
+        HostInfoResponseDTO hostDTO = new HostInfoResponseDTO();
+        double score = 0;
+        if (productType.equals("SHIP")) {
+            ship = shipRepository.findByUser(owner);
+            List<SeaImage> shipImg = imageRepository.findByShip(ship);
+            List<Review> pReview = getByProduct(target);
+            for (Review review : pReview) {
+                score += review.getReviewRating();
+            }
+            hostDTO = HostInfoResponseDTO.builder()
+                    .title(ship.getShipName())
+                    .imgUrl(shipImg.get(0).getImageName())
+                    .info(ship.getShipDescription())
+                    .rateAvg(score != 0 ? score/pReview.size() : 0)
+                    .build();
+        } else {
+            spot = fishingSpotRepository.findByUser(owner);
+            List<SeaImage> spotImg = imageRepository.findBySpot(spot);
+            List<Review> pReview = getByProduct(target);
+            for (Review review : pReview) {
+                score += review.getReviewRating();
+            }
+            hostDTO = HostInfoResponseDTO.builder()
+                    .title(spot.getSpotTitle())
+                    .imgUrl(spotImg.get(0).getImageName())
+                    .info(spot.getSpotDescription())
+                    .rateAvg(score/pReview.size())
+                    .rateAvg(score != 0 ? score/pReview.size() : 0)
+                    .build();
+        }
+        log.warn("왜 NAN? {}", hostDTO.getRateAvg());
+        return hostDTO;
+    }
+
+    // 상품에서 들어오는 호스트
+    public List<HostReviewResponseDTO> hostReview(Long id, String type) {
+        User users = new User();
+        Product newPro = new Product();
+        if (type.equals("SHIP")) {
+            newPro = productRepository.findById(id).orElseThrow(() -> new RuntimeException("상품 정보가 없습니다"));
+        } else {
+            newPro = productRepository.findById(id).orElseThrow(() -> new RuntimeException("상품 정보가 없습니다"));
+//            Ship ship = shipRepository.findById(id).orElseThrow(() -> new RuntimeException("배 정보가 없습니다."));
+        }
+
+//        Product pro = productRepository.findByTargetProduct(users, "SHIP");
+        List<Review> byProduct = getByProduct(newPro);
+        log.warn("이거 안되면 큰일난다. {}", byProduct);
+        List<HostReviewResponseDTO> reviewList = byProduct.stream().map(r -> {
+            String s = reviewService.imgName(r);
+
+            return HostReviewResponseDTO.builder()
+                    .reviewId(r.getReviewId())
+                    .reviewContent(r.getReviewContent())
+                    .reviewRating(r.getReviewRating())
+                    .reviewType(r.getReviewType())
+                    .image(s)
+                    .userName(r.getUser().getUserName())
+                    .build();
+        }).collect(Collectors.toList());
+
+        return reviewList;
+    }
+
+    // 봉인
+    public List<HostReservationResponseDTO> hostProduct(Long userId, String type) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+        List<HostReservationResponseDTO> list = new ArrayList<>();
+        if (type.equals("SHIP")) {
+            List<Product> productList = productRepository.findByUser(user);
+            List<Product> newProductList = new ArrayList<>();
+            productList.forEach(pro -> {
+                if(pro.getProductType().equals("SHIP")) {
+                    newProductList.add(pro);
+                }
+            });
+            List<Reservation> reserveList = new ArrayList<>();
+            for (Product product : newProductList) {
+                reserveList = reservationRepository.findAllByProduct_ProductId(product.getProductId());
+                for (Reservation r : reserveList) {
+                    list.add(HostReservationResponseDTO.builder()
+                            .id(r.getReservationId())
+                            .build());
+                }
+            }
+        } else {
+
+        }
+
+        return null;
+    }
+
+    // 얘도 ... 리뷰에 만들어야 되는데...
+    private List<Review> getByProduct(Product product) {
+        return reviewRepository.findByProduct(product);
+    }
 }

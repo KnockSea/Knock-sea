@@ -52,6 +52,7 @@ public class EduDetailResponseDTO {
     private String userName;
 
     private String userProfileImage;
+    private String statusValid;
 
 
 /*    public EduDetailResponseDTO(Edu saveEdu, List<ReservationTime> timeList) {
@@ -92,5 +93,6 @@ public class EduDetailResponseDTO {
         this.userId = edu.getUser().getUserId();
         this.userName = edu.getUser().getUserName();
         this.userProfileImage=edu.getUser().getProfileImg();
+        this.statusValid = edu.getStatusValid();
     }
 }

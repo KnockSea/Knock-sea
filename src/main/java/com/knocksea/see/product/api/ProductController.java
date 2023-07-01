@@ -4,6 +4,7 @@ import com.knocksea.see.auth.TokenUserInfo;
 import com.knocksea.see.exception.NoneMatchUserException;
 import com.knocksea.see.product.dto.request.PageDTO;
 import com.knocksea.see.product.dto.request.ProductRequestDTO;
+import com.knocksea.see.product.dto.response.HostInfoResponseDTO;
 import com.knocksea.see.product.dto.response.ProductDetailResponseDTO;
 import com.knocksea.see.product.dto.response.ProductListResponseDTO;
 import com.knocksea.see.product.dto.response.mainListResponseDTO;
@@ -128,9 +129,10 @@ public class ProductController {
     @GetMapping("/main/spot")
     public ResponseEntity<?> mainPageSpot() {
 
-//        log.info("/api/v1/products GET ! - {} ", );
 
-        return ResponseEntity.ok().body(productService.spotMainList());
+        List<mainListResponseDTO> spots = productService.spotMainList();
+        log.info("/api/v1/products 낚시터 GET ! - {} ", spots );
+        return ResponseEntity.ok().body(spots);
     }
 
 
@@ -145,5 +147,37 @@ public class ProductController {
         } catch (RuntimeException e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/host-info")
+    public ResponseEntity<?> hostInfo(@RequestParam Long productId, @RequestParam String type) {
+
+        log.info("/api/v1/products/host-info GET ! - {} ", productId);
+
+        HostInfoResponseDTO host = productService.hostUser(productId, type);
+        return ResponseEntity.ok().body(host);
+    }
+
+    @GetMapping("/host-review")
+    public ResponseEntity<?> hostReviews(@RequestParam Long id, @RequestParam String type) {
+
+        log.info("/api/v1/products/hostReviews GET ! - {} ", id);
+
+        return ResponseEntity.ok().body(productService.hostReview(id, type));
+    }
+
+//    @GetMapping("/host-review")
+//    public ResponseEntity<?> hostReview(@RequestParam Long producd, @RequestParam String type) {
+//
+//        log.info("/api/v1/products/hostReviews GET ! - {} ", productId);
+//
+//        return ResponseEntity.ok().body(productService.hostReview(productId, type));
+//    }
+
+    @GetMapping("/host-product")
+    public ResponseEntity<?> hostProduct(@RequestParam Long userId, @RequestParam String type) {
+
+        return ResponseEntity.ok().body(productService.hostProduct(userId, type));
+
     }
 }

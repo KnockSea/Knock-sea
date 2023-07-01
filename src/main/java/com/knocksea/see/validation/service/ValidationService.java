@@ -1,22 +1,31 @@
 package com.knocksea.see.validation.service;
 
 import com.knocksea.see.auth.TokenUserInfo;
+import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
+import com.knocksea.see.product.dto.response.PageResponseDTO;
 import com.knocksea.see.user.entity.User;
-import com.knocksea.see.user.entity.UserGrade;
 import com.knocksea.see.user.repository.UserRepository;
+import com.knocksea.see.validation.dto.request.PageDTO;
 import com.knocksea.see.validation.dto.request.ValidationCreateDTO;
 import com.knocksea.see.validation.dto.request.validationModifyRequestDTO;
 import com.knocksea.see.validation.dto.response.ValidationListResponseDTO;
 import com.knocksea.see.validation.dto.response.ValidationRegisterResponseDTO;
+import com.knocksea.see.validation.dto.response.ValidationTypeListResponseDTO;
 import com.knocksea.see.validation.entity.Validation;
 import com.knocksea.see.validation.entity.ValidationStatus;
 import com.knocksea.see.validation.entity.ValidationType;
 import com.knocksea.see.validation.repository.ValidationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.PageRequest;
 
+import javax.swing.*;
 import javax.transaction.Transactional;
 
 import java.util.List;
@@ -71,11 +80,15 @@ public class ValidationService {
         }
     }
 
-    public List<ValidationListResponseDTO> findAllByType(ValidationType validationType
-//            , TokenUserInfo userInfo
-    )
+    public ValidationTypeListResponseDTO findAll(PageDTO dto)
     throws RuntimeException{
-        log.info("validationType : "+" "+validationType);
+
+
+        PageRequest pageable = PageRequest.of(
+                dto.getPage()-1,
+                dto.getSize()
+        );
+        log.info("page DTO : "+" "+dto);
 
 //        if (!(userInfo.getUserGrade().equals("ADMIN"))) {
 //            throw new RuntimeException("관리자 기능입니다.");
@@ -83,17 +96,20 @@ public class ValidationService {
 /*        User user = userRepository.findById(userId).orElseThrow(()->
                 new RuntimeException("회원 정보가 없습니다"));*/
 
-        List<Validation> validationList = validationRepository.findByValidationTypeAndValidationStatus(validationType);
-        log.info("validationList SIZE : "+validationList.size());
-        log.info("validationList : "+validationList);
-        
+
+        Page<Validation> PagingvalidationList = validationRepository.findAllByTypeAndStatus(pageable, dto.getType(), dto.getStatus());
+
         //entity를 dto로 변환해서 리턴해야 함
-        List<ValidationListResponseDTO> collectValidation = validationList.stream().map(validation -> {
+        List<ValidationListResponseDTO> collectValidation =PagingvalidationList.stream().map(validation -> {
             ValidationListResponseDTO validationListResponseDTO = new ValidationListResponseDTO(validation);
             return validationListResponseDTO;
         }).collect(Collectors.toList());
 
-        return collectValidation;
+        return ValidationTypeListResponseDTO.builder()
+                .count(collectValidation.size())
+                .validationListResponseDTO(collectValidation)
+                .pageInfo(new PageResponseDTO(PagingvalidationList))
+                .build();
     }
 
     public ValidationStatus modifyStatus(validationModifyRequestDTO dto) {
@@ -124,4 +140,11 @@ public class ValidationService {
         return validationSaved.getValidationStatus();
     }
 
+
+    // pk번호로 검증요청 삭제
+    public void deletevalidation(Long validationId) {
+
+        validationRepository.deleteById(validationId);
+
+    }
 }

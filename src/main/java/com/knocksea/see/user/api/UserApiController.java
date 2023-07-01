@@ -5,12 +5,9 @@ import com.knocksea.see.user.dto.request.LoginRequestDTO;
 import com.knocksea.see.user.dto.request.UserDeleteRequest;
 import com.knocksea.see.user.dto.request.UserModifyRequestDTO;
 import com.knocksea.see.user.dto.request.UserRegisterRequestDTO;
-import com.knocksea.see.user.dto.response.EntireInfoResponseDTO;
-import com.knocksea.see.user.dto.response.LoginResponseDTO;
-import com.knocksea.see.user.dto.response.UserModifyresponseDTO;
+import com.knocksea.see.user.dto.response.*;
 import com.knocksea.see.exception.DuplicatedEmailException;
 import com.knocksea.see.exception.NoRegisteredArgumentsException;
-import com.knocksea.see.user.dto.response.UserMyPageResponseDTO;
 import com.knocksea.see.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -240,6 +237,7 @@ public class UserApiController {
             return ResponseEntity.ok().body(entireInfo);
 
         }catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.badRequest().body("좋아요/리뷰 리스트를 얻어오는데 실패했습니다");
         }
     }
@@ -276,6 +274,27 @@ public class UserApiController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
+
+
+    //사장님 pk로 사장님이 등록한 상품의 리뷰들 가져오기 !
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getMyproductReview(
+            Long userId,
+            @AuthenticationPrincipal TokenUserInfo userInfo
+    ){
+        log.info("user-myProduct -GET !: {}",userInfo);
+
+        try{
+            AllReviewsResponseDTO myproductReview = userService.getMyproductReview(userId);
+
+            return ResponseEntity.ok().body(myproductReview);
+        }catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
+
 
 
 

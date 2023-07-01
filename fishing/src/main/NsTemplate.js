@@ -12,44 +12,31 @@ const NsTemplate = () => {
   const [mainship, setmainship] = useState([]);
   const [mainspot, setmainspot] = useState([]);
   const [mainedu, setmainedu] = useState([]); 
+  const [linkdetail, setlinkdetail] = useState([]);
 
   const mainimgs = () => {
 
-    // fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`)
-    //   .then((response) => {
-    //     console.log(response.status);
-    //     if (response.status === 200) {
-    //       return response.json();
-    //     } else {
-    //       throw new Error("Error response received.");
-    //     }
-    //   })
-    //   .then((res) => {
-    //     setmainship(res);
-    //     console.log(res);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching ship images:", error);
-    //   });
     fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`)
       .then(response => response.json())
       .then(res => {
         setmainship(res);
-        // console.log(res);
       });
     fetch(`${API_BASE_URL}${PRODUCTS}/main/spot`)
     .then(response => response.json())
     .then(res => {
-      setmainspot(res);
-      // console.log(res);
+      setmainspot(res);      
     });
     fetch(`${API_BASE_URL}${EDU}/main/edu`)
     .then(response => response.json())
     .then(res => {
       setmainedu(res);
-      // console.log(res);
     });
-     
+       fetch(`${API_BASE_URL}${PRODUCTS}/product-list`)
+  .then(response => response.json())
+  .then(res =>{
+        setlinkdetail(res);
+        console.log("dasdasdasdasdasdas" ,res);
+    })  
   }
 
 
@@ -64,7 +51,12 @@ const NsTemplate = () => {
     <div>
       <NsHeader />
 
-      <NsMain shipList={mainship} spotList={mainspot} eduList={mainedu}/>
+      <NsMain 
+      shipList={mainship} 
+      spotList={mainspot} 
+      eduList={mainedu}
+      linkdetail={linkdetail}
+      />
 
       {showFooter && <NsFootter />}
     </div>

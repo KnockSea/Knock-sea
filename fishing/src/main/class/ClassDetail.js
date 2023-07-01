@@ -96,15 +96,14 @@ function ClassDetail() {
         'Authorization': 'Bearer ' + token
       };
 
- const API_BASE_URL = `${API_BASE_URL}${EDU}/${eduId}`;
  console.log("oneEdu : ",oneEdu);
-
+// const API_BASE_URL = `${API_BASE_URL}${EDU}/${eduId}`;
 useEffect(() => {
   const loginUserInfo = getLoginUserInfo();
   setToken(loginUserInfo.token);
   setIsHearted(localStorage.getItem('isHearted') === 'true');
 
-  fetch(API_BASE_URL, {
+  fetch(`${API_BASE_URL}${EDU}/${eduId}`, {
     method: 'GET',
     headers: requestHeader,
   })
@@ -147,12 +146,10 @@ useEffect(() => {
               <div className="detail-section">
                 <div className="detail-box detail-list-profile">
                   <div className="lists">
-                    <Link to="/host">
-                      <div className="box profile-img">
+                    <div className="box profile-img">
                         <img src={oneEdu.userProfileImage} alt="Profile" />
                       </div>
                       <span className="box profile-page">{oneEdu.userName}</span>
-                    </Link>
                     <div>
                       <button
                         onClick={createHeart}
@@ -163,15 +160,14 @@ useEffect(() => {
                           cursor: 'pointer',
                         }}
                       >
-                        {exists ? '❤️' : '🤍'}
-                        <h3>{eduHeartCount}</h3>
+                        {exists ? '❤️' : '🤍'} <span>{eduHeartCount}</span>
                       </button>
                     </div>
                     <div className="condition">
                       <ul className="condition-box">
                         <li>{oneEdu.eduLevel} |</li>
-                        <li>최대 {oneEdu.timeList && oneEdu.timeList[0].timeMaxUser}명 |</li>
-                        <li>{oneEdu.eduPrice}원</li>
+                        <li> 최대 {oneEdu.timeList && oneEdu.timeList[0].timeMaxUser}명 |</li>
+                        <li> {oneEdu.eduPrice}원</li>
                       </ul>
                     </div>
                   </div>
@@ -179,7 +175,9 @@ useEffect(() => {
                     <button className="box btn" onClick={handleRegiIsloign}>
                       바로 예약하기
                     </button>
+                    
                     {modal === true ? <ClassModal closeModal={() => setModal(false)} oneEdu={oneEdu} /> : null}
+                    
                   </div>
                   </div>
                 </div>
