@@ -129,7 +129,10 @@ export const NsHeader = () => {
             <Link to={'/login'}  style={linkStyle} onClick={resetStorage}>Log-out</Link>
             )
             :(
-              <><Link to={'/login'}  style={linkStyle}>Log-in</Link></>
+              <>
+              <Link to={'/join'}  style={linkStyle} className='sign-in-tap'>Sign-in</Link>
+              <Link to={'/login'}  style={linkStyle}>Log-in</Link>
+              </>
             )
           }
           </div>
