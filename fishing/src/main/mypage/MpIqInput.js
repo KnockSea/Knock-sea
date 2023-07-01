@@ -21,6 +21,14 @@ const MpIqInput = () => {
   };
 
   const handleSubmit = () => {
+
+
+    if (title === "" || content === "") {
+      alert("제목이나 내용이 비어있습니다!");
+      return; // submit 이벤트를 중지합니다.
+    }
+  
+
     const data = {
       inquiryDetails: content,
       inquiryTitle: title,
@@ -80,7 +88,7 @@ const MpIqInput = () => {
             </div>
           </div>
 
-          <Link to="/inquire" className="qtUpdatebtn" onClick={handleSubmit}>
+          <Link to={title && content ? "/inquire" : "#"} className="qtUpdatebtn" onClick={handleSubmit}>
             작성완료
           </Link>
         </div>
