@@ -25,16 +25,22 @@ const NsClass = ({eduList}) => {
       <div className="title">
         <p className="t1">오늘의 클래스 &gt; </p>
         <p className="t2">
-          <Link to={"/bt"}>더보기</Link>
+          <Link to={"/bt"}>🔍더보기</Link>
         </p>
       </div>
       <div className="shipboxs"> {/* 캐러셀의 부모 요소 */}
         <Slider {...carouselSettings}>
-          {eduList.map((item) => (
-            <div key={item.id} className="image">
-              <img src={item.imgUrl} alt={item.title} />
-            </div>
-          ))}
+        {eduList.map((item) => {
+            const productId = item.id;
+
+            return (
+              <div key={item.id} className="image">
+                <Link to={`/classdetail/${productId}`}>
+                  <img src={item.imgUrl} alt={item.title} />
+                </Link>
+              </div>
+            );
+          })}
         </Slider>
       </div>
     </div>

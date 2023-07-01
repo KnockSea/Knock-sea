@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 import "./scss/NsItem.scss";
 
-const NsItem = ({ shipList }) => {
+const NsItem = ({ shipList, linkdetail }) => {
   const carouselSettings = {
     dots: true,
     infinite: true,
@@ -13,8 +13,8 @@ const NsItem = ({ shipList }) => {
     slidesToShow: 4,
     slidesToScroll: 1,
     centerMode: false,
-    autoplay: true, // 자동 전환 설정
-    autoplaySpeed: 3000, // 전환 간격 (3초)
+    autoplay: true,
+    autoplaySpeed: 3000,
   };
 
   return (
@@ -22,16 +22,22 @@ const NsItem = ({ shipList }) => {
       <div className="title">
         <p className="t1">오늘의 배낚시 &gt; </p>
         <p className="t2">
-          <Link to={"/bt"}>더보기</Link>
+          <Link to={"/bt"}>🔍더보기</Link>
         </p>
       </div>
-      <div className="shipboxs"> {/* 캐러셀의 부모 요소 */}
+      <div className="shipboxs">
         <Slider {...carouselSettings}>
-          {shipList.map((item) => (
-            <div key={item.id} className="image">
-              <img src={item.imgUrl} alt={item.title} />
-            </div>
-          ))}
+          {shipList.map((item) => {
+            const productId = item.id;
+
+            return (
+              <div key={item.id} className="image">
+                <Link to={`/detail/${productId}`}>
+                  <img src={item.imgUrl} alt={item.title} />
+                </Link>
+              </div>
+            );
+          })}
         </Slider>
       </div>
     </div>

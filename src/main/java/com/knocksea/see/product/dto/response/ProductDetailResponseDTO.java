@@ -33,6 +33,7 @@ public class ProductDetailResponseDTO {
     private int maxUser;
 
     private String typeP;
+    private String statusValid;
 
     // 예약 가능 시간 list있어야함
     // -> 예약 가능 시간 dto만들어서 그걸 list화 해야 되겠는데?
@@ -60,6 +61,7 @@ public class ProductDetailResponseDTO {
         this.userImgUrl = product.getUser().getProfileImg();
         this.mainImgUrl = imageName;
         this.typeP = product.getProductType();
+        this.statusValid = product.getStatusValid();
     }
 
 
@@ -86,5 +88,6 @@ public class ProductDetailResponseDTO {
         this.imgUrl = imgUrls;
         this.typeP = product.getProductType();
 //        this.maxUser = product.getMaxUser();
+        this.statusValid = product.getStatusValid();
     }
 }

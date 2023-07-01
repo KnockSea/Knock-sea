@@ -145,10 +145,10 @@ const MpAdminFS = () => {
                     ) : (
                     <div>❗ 등록유저이름 없음 ❗</div>
                     )}
-                    {validation.validationBusnessRegi ? (
-                    <div className='username'>{validation.validationBusinessRegi}</div>
+                    {validation.validationBusinessRegi ? (
+                      <div className='username'>{validation.validationBusinessRegi}</div>
                     ) : (
-                    <div>❗ 낚시터사업자번호 등록안됨 ❗</div>
+                      <div>❗ 낚시터사업자번호 등록안됨 ❗</div>
                     )}
                     <div>
                     <button className='admin-confirm' onClick={(e) => updateValidation(e, validation.userName, validation.validationType, validation.userId)}>승인</button>

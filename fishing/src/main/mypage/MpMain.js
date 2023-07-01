@@ -64,7 +64,7 @@ const MpMain = () => {
         // console.log(userInfo);
         // 배 정보를 가져오는 함수
         const user = getLoginUserInfo();
-        setUserInfo(user);
+        setUserInfo('마이페이지', user);
         fetchUserInfo();
         // fetchShipInfo();
       }, []);

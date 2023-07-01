@@ -25,9 +25,25 @@ function BtModal({ closeModal, sDetail }) {
   const [classTimes, setClassTimes] = useState([]);
   const [timeIndex, setTimeIndex] = useState(0);
   const navigate = useNavigate();
+  const [index, setIndex] = useState(0);
+
+
   const handleIncrease = () => {
-    setCount(count + 1);
+  if (
+    sDetail.timeList[index].timeMaxUser -
+    sDetail.timeList[index].timeCurrentUser >
+      count
+    ) {
+      setCount(count + 1);
+    } else if (
+      sDetail.timeList[index].timeMaxUser -
+      sDetail.timeList[index].timeCurrentUser <=
+      count
+    ) {
+      alert("인원 입력을 확인해주세요");
+    }
   };
+
 
   const handleDecrease = () => {
     if (count > 0) {
@@ -50,7 +66,6 @@ function BtModal({ closeModal, sDetail }) {
   const handleTimeChange = (time, timeIndex) => {
     setSelectedTime(time);
     setTimeIndex(timeIndex);
-  };
 
   const handlePayment = () => {
     console.log("token", token.userId);
@@ -212,5 +227,6 @@ function BtModal({ closeModal, sDetail }) {
       </div>
     </div>
   );
+  }
 }
 export default BtModal;

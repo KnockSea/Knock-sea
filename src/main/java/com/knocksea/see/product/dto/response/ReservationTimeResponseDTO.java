@@ -26,6 +26,7 @@ public class ReservationTimeResponseDTO {
     private LocalTime timeStart;
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime timeEnd;
+    private String statusValid;
 
     public ReservationTimeResponseDTO(ReservationTime time) {
         this.timeId = time.getTimeId();
@@ -35,5 +36,6 @@ public class ReservationTimeResponseDTO {
         this.timeDate = time.getTimeDate();
         this.timeStart = time.getTimeStart();
         this.timeEnd = time.getTimeEnd();
+        this.statusValid = time.getStatusValid();
     }
 }

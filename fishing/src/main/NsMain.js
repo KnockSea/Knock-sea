@@ -47,6 +47,7 @@ import MpInquiryResult from './mypage/MpInquiryResult';
 import MpAdInquire from './mypage/MpAdInquire';
 import Like from './like/Like';
 import ReviewList from './reviewList/ReviewList';
+import weathericon from "./icons/weathericon.png";
 
 const NsMain = ({shipList, spotList, eduList}) => {
   return (
@@ -107,7 +108,8 @@ const NsMain = ({shipList, spotList, eduList}) => {
             <Route path='/adminFs' element={<MpAdminFS/>}></Route>
             <Route path='/adminCS' element={<MpAdminCS/>}></Route>
 
-            <Route path='/host/:productId/:type' element={<HostSearchMain/>}></Route>
+            <Route path='/host/:productId/:type/:userId' element={<HostSearchMain/>}></Route>
+            {/* <Route path='/hostuser/:userId/:type' element={<HostSearchMain/>}></Route> */}
             
             {/* 리뷰게시판 */}
             <Route path='/reviewList' element={<ReviewList />}></Route>
@@ -131,6 +133,7 @@ const MainContent = ({ shipList, spotList, eduList }) => {
                 </div>
             <div className='apibox'>
                 <div className='wtbox'>
+                    <span><img src={weathericon} alt="weather" /> 이번 주 날씨 </span>
                     <WeeklyWeather/>
                 </div>
             </div>

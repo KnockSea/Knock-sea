@@ -14,10 +14,21 @@ const MpInquire = () => {
     const [page, setPage] = useState(1);
     const [fetchSuccess, setFetchSuccess] = useState(true); // 패치 성공 여부를 저장하는 상태 변수
 
+    useEffect(() => {
+        const fetchToken = async () => {
+            const userToken = await getLoginUserInfo().token;
+            setToken(userToken);
+        };
+    
+        fetchToken();
+    }, []);
+
     const handlePageChange = (page) => {
         setPage(page);
         console.log(page);
       };
+
+      console.log('inquiers',inquiries);
 
     const fetchData = () => {
         fetch(
@@ -50,7 +61,7 @@ const MpInquire = () => {
     useEffect(() => {
         fetchData();
         setFetchSuccess(true);
-    }, [page]);
+    }, [page, token, inquiries.length]);
 
     return (
         <section className="MyPageMainBox">
