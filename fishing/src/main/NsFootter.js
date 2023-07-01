@@ -1,35 +1,34 @@
-import React from 'react'
+import React from 'react';
 import './scss/NsFootter.scss';
-
-
+import star from './icons/icons10.png';
+import fb from './icons/icons11.png';
+import tw from './icons/icons12.png';
 
 const NsFootter = () => {
   return (
-   <div className='footter'>
-        <ul>
-            <li>회사소개</li>
-            <li>운영사이트</li>
-            <li>이용약관</li>
-            <li>개인정보처리방침</li>
-            <li>Open API</li>
-            <li>광고문의</li>
-            <li>제휴문의</li>
-            <li>고객센터</li>
-        </ul>
+    <div className='footter'>
+      <div className='iconsbox1'>
+        <a href='http://icons8.com/icons'>
+          <img src={star} alt='Star' />
+        </a>
+        <a href='http://icons8.com/icons' className='imgcn'>
+          <img src={fb} alt='Facebook' />
+        </a>
+        <a href='http://icons8.com/icons'>
+          <img src={tw} alt='Twitter' />
+        </a>
+      </div>
 
-    <div>
-        <p>메뉴 정보 수정: knocksea@knocksea.com</p>
-        <p>FAX : 02- 123 - 4567</p>
-        <p>Email: helpdesk@knocksea.com</p>
-        <p>고객상담</p>
+      <div>
+        <p>FAX : 02-123-4567</p>
+        <p className='ft'>Email: helpdesk@knocksea.com</p>
+      </div>
+      <p className='copyright'>
+        Copyrightⓒ Your fishing makes me happy.
+        All rights reserved.
+      </p>
     </div>
+  );
+};
 
-    <p className='copyright'>Copyrightⓒ Your fishing makes me happy. All rights reserved.</p>
-
-   </div>
-
-
-  )
-}
-
-export default NsFootter
+export default NsFootter;
