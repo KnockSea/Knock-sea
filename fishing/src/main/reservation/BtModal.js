@@ -50,8 +50,7 @@ function BtModal({ closeModal, sDetail }) {
   const handleTimeChange = (time, timeIndex) => {
     setSelectedTime(time);
     setTimeIndex(timeIndex);
-  };
-  const API_BASE_URL = `${API_BASE_URL}${RESERVATION}`;
+  };  
 
   const handlePayment = () => {
     console.log("token", token.userId);
@@ -74,7 +73,7 @@ function BtModal({ closeModal, sDetail }) {
       Authorization: "Bearer " + token,
     };
 
-    fetch(API_BASE_URL, {
+    fetch(`${API_BASE_URL}${RESERVATION}`, {
       method: "POST",
       headers: requestHeader,
       body: JSON.stringify(reservation),

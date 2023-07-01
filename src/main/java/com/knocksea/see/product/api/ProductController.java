@@ -158,7 +158,7 @@ public class ProductController {
         return ResponseEntity.ok().body(host);
     }
 
-    @GetMapping("/hostuser-review")
+    @GetMapping("/host-review")
     public ResponseEntity<?> hostReviews(@RequestParam Long id, @RequestParam String type) {
 
         log.info("/api/v1/products/hostReviews GET ! - {} ", id);
@@ -175,8 +175,9 @@ public class ProductController {
 //    }
 
     @GetMapping("/host-product")
-    public ResponseEntity<?> hostProduct() {
+    public ResponseEntity<?> hostProduct(@RequestParam Long userId, @RequestParam String type) {
 
-        return null;
+        return ResponseEntity.ok().body(productService.hostProduct(userId, type));
+
     }
 }

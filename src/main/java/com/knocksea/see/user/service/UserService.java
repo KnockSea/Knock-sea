@@ -420,7 +420,15 @@ public class UserService {
 
 
         //배 리뷰 가져오기
-        List<userShipProductReviewResponseDTO> shipProductReviewList = shipProductReviews.stream().map(review -> new userShipProductReviewResponseDTO(review.getReviewContent(), review.getUser(), review.getReviewId(), review.getReviewRating(), review.getInquiryDateTime(),shipImages)).collect(Collectors.toList());
+        List<userShipProductReviewResponseDTO> shipProductReviewList
+                = shipProductReviews.stream()
+                .map(review -> new userShipProductReviewResponseDTO
+                        (review.getReviewContent()
+                                , review.getUser()
+                                , review.getReviewId()
+                                , review.getReviewRating()
+                                , review.getInquiryDateTime()
+                                ,shipImages)).collect(Collectors.toList());
 
         //낚시터 리뷰 가져오기
         List<userSpotProductReviewResponseDTO> spotProductReviewList = spotProductReviews.stream().map(review -> new userSpotProductReviewResponseDTO(review.getReviewContent(), review.getUser(), review.getReviewId(), review.getReviewRating(), review.getInquiryDateTime(),spotImages)).collect(Collectors.toList());

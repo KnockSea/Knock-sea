@@ -28,4 +28,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     List<Reservation> findAllByProduct_ProductId(Long productId);
 
+    List<Reservation> findAllByEdu(Edu old);
 }

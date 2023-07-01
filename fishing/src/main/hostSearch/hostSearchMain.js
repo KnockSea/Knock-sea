@@ -12,12 +12,14 @@ const HostSearchMain = () => {
 
     const params = useParams();
     
+    const [ownerId, setOwnerId] = useState(params.userId);
     const [productId, setProductId] = useState(params.productId);
     const [type, setType] = useState(params.type);
     const [token, setToken] = useState(getLoginUserInfo().token);
-    const [userInfo, setUserInfo] = useState({});
+    const [ownerInfo, setOwnerInfo] = useState({}); // 상품에서~ 보는 사장정보
+    const [ownerReview, setOwnerReview] = useState([]); //상품에서~ 보는 리뷰
 
-
+    // 상품에서 호스트 넘어올떄 ~
     const hostFetch = async () => {
 
         try {
@@ -25,7 +27,7 @@ const HostSearchMain = () => {
           
             if (response.status === 200) {
               const data = await response.json();
-              setUserInfo(data);
+              setOwnerInfo(data);
             } else {
               // Handle other status codes
             }
@@ -34,16 +36,31 @@ const HostSearchMain = () => {
           }
         
     }
-
+    // 상품에서 호스트 넘어올때 리뷰
     const hostReview = async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}${PRODUCTS}/host-review?shipId=${shipId}`);
+            const response = await fetch(`${API_BASE_URL}${PRODUCTS}/host-review?id=${productId}&type=${type}`);
           
             if (response.status === 200) {
               const data = await response.json();
-              setUserInfo(data);
+              setOwnerReview(data);
             } else {
-              // Handle other status codes
+              console.log('왜?', response.status);
+            }
+          } catch (error) {
+            // Handle fetch error
+          }
+    }
+
+    const hostProduct = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}${PRODUCTS}/host-review?userId=${ownerId}&type=${type}`);
+          
+            if (response.status === 200) {
+              const data = await response.json();
+              setOwnerReview(data);
+            } else {
+              console.log('왜?', response.status);
             }
           } catch (error) {
             // Handle fetch error
@@ -52,7 +69,8 @@ const HostSearchMain = () => {
     
     useEffect(()=>{
         hostFetch();
-        console.log('유저 정보', userInfo);
+        hostReview();
+        
     }, []);
 
 
@@ -66,7 +84,7 @@ const HostSearchMain = () => {
                                       
                     <div className='user-search-box'>
                         <div className='user-photo-box'>
-                            <img src={userInfo.imgUrl}/>
+                            <img src={ownerInfo.imgUrl}/>
                                 {/* <HostPhotoCarousel/>     */}
                         </div>
 
@@ -80,7 +98,7 @@ const HostSearchMain = () => {
                                 </div>
                             </div>
                             <div className='user-content-page'>
-                                {/* <p>{userInfo.title}</p> */}
+                                {/* <p>{ownerInfo.title}</p> */}
                                 <p>소개소개소개</p>
                             </div>
                         </div>
@@ -89,6 +107,9 @@ const HostSearchMain = () => {
                 <div className='rvbox'>
                         <h2>이 업체의 리뷰</h2>
                         <p>아직 작성된 리뷰가 없습니다</p>
+                        {ownerReview.map(rev => {
+                            <div>{rev.reviewContent} </div>
+                        })}
                 </div>
 
                 <div className='rvbox2'>

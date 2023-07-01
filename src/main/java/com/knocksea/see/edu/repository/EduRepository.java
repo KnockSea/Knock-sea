@@ -29,7 +29,7 @@ public interface EduRepository extends JpaRepository<Edu,Long> {
             "ORDER BY AVG(r.reviewRating) DESC")
     List<Edu> findTop4ByReviewRating();
 
-
+    List<Edu> findAllByStatusValid(String active);
 
 
 //    Optional<Edu> findByUserId(User user);
