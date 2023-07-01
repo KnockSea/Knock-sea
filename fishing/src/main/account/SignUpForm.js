@@ -17,7 +17,7 @@ function SignUpForm(){
   const [userValue, setUserValue] = useState({
     userEmail: '',
     userPassword: '',
-    userAddress: '',
+    userAddress: '주소검색 Click',
     userFullAddress: '',
     userName: '',
     userPhone: ''

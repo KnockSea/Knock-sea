@@ -24,7 +24,7 @@ const NsFishingSpot = ( { spotList } ) => {
       <div className="title">
         <p className="t1">오늘의 낚시터 &gt; </p>
         <p className="t2">
-          <Link to={"/bt"}>더보기</Link>
+          <Link to={"/bt"}>🔍더보기</Link>
         </p>
       </div>
       <div className="shipboxs"> {/* 캐러셀의 부모 요소 */}
