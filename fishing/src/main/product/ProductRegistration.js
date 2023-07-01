@@ -156,7 +156,7 @@ function ProductRegistration() {
             if (res.status === 200) {
               alert('등록 성공');
             } else {
-              alert("이미 등록된 클래스가 있어요😥");
+              alert("업체정보 미등록 또는 예약상품 기등록 문제에요!😥");
             }
           } catch (error) {
             console.error('데이터 전송 실패!');

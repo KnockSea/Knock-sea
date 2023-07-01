@@ -134,7 +134,7 @@ const RvBtDetail = () => {
             <div className="detail-section">
               <div className="detail-box detail-list-profile">
                 <div className="lists">
-                  <Link to={`/host/${sDetail.productId}/${sDetail.typeP}`}>
+                  <Link to={`/host/${sDetail.productId}/${sDetail.typeP}/${sDetail.userId}`}>
                     <div className="box profile-img">
                       <img src={sDetail.userImgUrl} />
                     </div>
@@ -167,14 +167,7 @@ const RvBtDetail = () => {
                   </div>
                 </div>
                 <div>
-                  <button
-                    className="box btn"
-                    onClick={() => {
-                      setModal(true);
-                    }}
-                  >
-                    바로 예약하기
-                  </button>
+                  <buttonb className="box btn"onClick={() => {setModal(true);}}>바로 예약하기</buttonb>
                   {modal === true ? (
                     <BtModal
                       closeModal={() => setModal(false)}

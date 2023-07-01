@@ -4,9 +4,9 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 const { kakao } = window;
 
 const RvMap = ({ productDetail }) => {
-  console.log("map에서사용한다잉", productDetail)
-  console.log("map에서사용한다잉", productDetail.productDetail)
-  console.log("map에서사용한다잉", productDetail.productDetail[0].title)
+//   console.log("map에서사용한다잉", productDetail)
+//   console.log("map에서사용한다잉", productDetail.productDetail)
+//   console.log("map에서사용한다잉", productDetail.productDetail[0].title)
   useEffect(() => {
     const container = document.getElementById("map");
     const options = {

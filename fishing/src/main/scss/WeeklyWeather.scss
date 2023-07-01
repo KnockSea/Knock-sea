@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Cute+Font&family=Jua&family=Nanum+Gothic&display=swap');
+
+.weather {
+    margin-top: 30px;
+    padding: 10px;
+    border-radius: 20px;
+
+    .wtinfo {
+        text-align: left;
+        
+        .w-content-wrap {
+            margin: 5px;
+
+            div{
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        }
+
+        select, option {
+            border: none;
+            background: #6ca5fcad;
+            border-radius: 20px;
+            padding: 5px;
+            color: #fff;
+            text-align: center;
+            font-size: 14px;
+            font-family: 'Jua', sans-serif;
+        }
+    }
+
+    .weekly-weather .weather-item {
+        margin: 3px;
+        border: none;
+        box-shadow: none;
+        p {
+        font-family:'Noto Sans KR', sans-serif;
+     }
+    }
+}

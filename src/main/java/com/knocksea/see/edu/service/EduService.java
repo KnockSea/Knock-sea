@@ -291,6 +291,7 @@ public class EduService {
         List<Edu> eduList = eduRepository.findTop9ByOrderByCreateDateDesc();
 
         return eduList.stream()
+
                 .map(e -> {
                     List<SeaImage> seaImage = imageRepository.findAllByEdu(e);
 //                            .orElseThrow(() -> new RuntimeException("이미지정보가 잘못 되었습니다."));

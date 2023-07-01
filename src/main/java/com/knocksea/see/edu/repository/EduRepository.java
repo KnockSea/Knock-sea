@@ -29,7 +29,10 @@ public interface EduRepository extends JpaRepository<Edu,Long> {
             "ORDER BY AVG(r.reviewRating) DESC")
     List<Edu> findTop4ByReviewRating();
 
+    List<Edu> findAllByStatusValid(String active);
 
+    @Query("SELECT e FROM Edu e WHERE e.user = :user")
+    Edu findByUserId(@Param("user") User user);
 
 
 //    Optional<Edu> findByUserId(User user);

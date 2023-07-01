@@ -95,7 +95,7 @@ const RvFsDetail = () => {
         setFsdetail(FsDetail);
       });
   }, [productId, exists]);
-
+  console.log("sdatail", FsDetail);
   return (
     <div className="allview">
       <div className="imgbox">
@@ -121,7 +121,7 @@ const RvFsDetail = () => {
             <div className="detail-section">
               <div className="detail-box detail-list-profile">
                 <div className="lists">
-                  <Link to={"/host"}>
+                  <Link to={`/host/${FsDetail.productId}/${FsDetail.typeP}`}>
                     <div className="box profile-img">
                       <img src={FsDetail.userImgUrl} />
                     </div>

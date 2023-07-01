@@ -176,6 +176,7 @@ const reviewCheck=(id)=>{
                   <div> 
                     {dateStatusCheck (reservation.reserveDate) || (
                       <Button variant="outlined" onClick={handleClickOpen}>
+
                         예약 취소
                       </Button>
                       )}
