@@ -5,12 +5,14 @@ import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
+import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.user.entity.SeaImage;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @Setter
 @Getter
@@ -35,8 +37,6 @@ public class ReservationResponseDTO {
 
     private String type;
 
-    private boolean isReviewed;
-
     public ReservationResponseDTO(Reservation r, ReservationTime time, Product product, SeaImage img) {
         this.imgUrl = img.getImageName();
         this.reserveDate=time.getTimeDate();
@@ -48,6 +48,7 @@ public class ReservationResponseDTO {
         this.id=product.getProductId();
         this.reservationId=r.getReservationId();
         this.type=r.getReservationType();
+
     }
 
     public ReservationResponseDTO(Reservation r, ReservationTime time, Edu edu, SeaImage img) {
@@ -61,5 +62,6 @@ public class ReservationResponseDTO {
         this.id= edu.getEduId();
         this.reservationId=r.getReservationId();
         this.type=r.getReservationType();
+
     }
 }
