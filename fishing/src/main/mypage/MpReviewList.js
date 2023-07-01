@@ -51,9 +51,10 @@ function MpReviewList() {
                 <div>{review.userName}</div>
                 {review.eduId !== null ?(<div>{review.eduTitle}</div>)
                 :(<div>{review.productTitle}</div>)}      
+                <div className='mpstar'>{review.reviewRating}점</div>
               </div>
-              <div className='mpstar'>{review.reviewRating}</div>
-              <div>{review.reviewContent}</div>
+              <div className='review-wrap'>
+              <div className='review-con'>💌{review.reviewContent}</div>
               <button className="reviewbtn">
                 {review.eduId !== null ? (
                 <Link to={`/classdetail/${review.eduId}`}>상세보기</Link>)
@@ -61,6 +62,7 @@ function MpReviewList() {
                 (<Link to={`/classdetail/${review.productId}`}>상세보기</Link>)
               }
               </button>
+              </div>
             </div>
           </div>
         ))
