@@ -35,7 +35,6 @@ public class HeartService {
     private final EduRepository eduRepository;
 
     public boolean createAndDeleteHeart(HeartCreateDTO dto) {
-
         Product product = null;
         Edu edu = null;
 
@@ -46,27 +45,32 @@ public class HeartService {
         if (dto.getEduId() != null) {
             edu = eduRepository.findById(dto.getEduId()).orElseThrow();
         }
-        User user = userRepository.findById(dto.getUserId()).orElseThrow();
-        Heart saved = null;
-        boolean heartOrNot = heartRepository.existsByUserAndHeartType(user, HeartType.valueOf(dto.getHeartType()));
-        if (!heartOrNot) {
-            // 좋아요 추가
-            Heart heart = dto.toEntity(user, edu, product);
-            saved = heartRepository.save(heart);
 
-        } else {
-            // 좋아요 취소
-            Heart heart = heartRepository.existsByUserAndHeartType1(user, HeartType.valueOf(dto.getHeartType()));
-            log.info("heart @@@@@@@@@@@@@@@@@ - {}", heart);
-            heartRepository.deleteById(heart.getHeartId());
+        User user = userRepository.findById(dto.getUserId()).orElseThrow();
+
+        Heart existingHeart = null;
+        if (product != null) {
+            existingHeart = heartRepository.findByUserAndProduct(user, product);
+        } else if (edu != null) {
+            existingHeart = heartRepository.findByUserAndEdu(user, edu);
         }
-        return !heartOrNot;
+
+        if (existingHeart == null) {
+            // 새로운 하트 생성
+            Heart heart = dto.toEntity(user, edu, product);
+            heartRepository.save(heart);
+            return true;
+        } else {
+            // 기존 하트 삭제
+            heartRepository.delete(existingHeart);
+            return false;
+        }
     }
     public boolean existsByUserAndHeartType(Long userId, String heartType) {
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
         return heartRepository.existsByUserAndHeartType(user, HeartType.valueOf(heartType));
     }
-
     public int eduHeart(Long eduId, String heartType) {
         Optional<Edu> eduOptional = eduRepository.findById(eduId);
         Edu edu = eduOptional.orElse(null);
