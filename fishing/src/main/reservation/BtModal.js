@@ -227,5 +227,6 @@ function BtModal({ closeModal, sDetail }) {
       </div>
     </div>
   );
+  }
 }
 export default BtModal;
