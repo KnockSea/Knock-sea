@@ -1,33 +1,28 @@
 import React, { useState, useEffect } from "react";
 import MpList from "./MpList";
 import { getLoginUserInfo } from "../util/login-util";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { API_BASE_URL, INQUIRIES } from "../../config/host-config";
 
 const MpIqInput = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [token, setToken] = useState("");
+  const navigate = useNavigate();
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-    // console.log(event.target.value);
-    // console.log(token);
   };
 
   const handleContentChange = (event) => {
     setContent(event.target.value);
-    // console.log(event.target.value);
   };
 
   const handleSubmit = () => {
-
-
     if (title === "" || content === "") {
       alert("제목이나 내용이 비어있습니다!");
       return; // submit 이벤트를 중지합니다.
     }
-  
 
     const data = {
       inquiryDetails: content,
@@ -44,22 +39,19 @@ const MpIqInput = () => {
     })
       .then((response) => response.json())
       .then((result) => {
-        // 서버 응답을 처리하는 로직 작성
         console.log(result);
+        navigate("/inquire"); // fetch가 완료된 후 페이지 전환
       })
       .catch((error) => {
-        // 에러 처리 로직 작성
         console.error(error);
       });
   };
 
-  // 토큰을 얻어오는 함수 (예시: 로그인 후 토큰 저장)
   const fetchToken = () => {
     const token = getLoginUserInfo().token;
     setToken(token);
   };
 
-  // 컴포넌트가 마운트될 때 토큰을 얻어오도록 useEffect를 사용하여 호출
   useEffect(() => {
     fetchToken();
   }, []);
@@ -68,7 +60,6 @@ const MpIqInput = () => {
     <section className="MyPageMainBox">
       <div className="mainbox1">
         <h1>문의하기</h1>
-
         <div className="myquerybigbox">
           <div className="titlebox ">
             <div className="clbox">
@@ -88,7 +79,11 @@ const MpIqInput = () => {
             </div>
           </div>
 
-          <Link to={title && content ? "/inquire" : "#"} className="qtUpdatebtn" onClick={handleSubmit}>
+          <Link
+            to={title && content ? "/inquire" : "#"}
+            className="qtUpdatebtn"
+            onClick={handleSubmit}
+          >
             작성완료
           </Link>
         </div>
