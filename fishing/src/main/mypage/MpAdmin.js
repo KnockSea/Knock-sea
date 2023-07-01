@@ -19,23 +19,37 @@ const MpAdmin = () => {
         // console.log(page);
       };
 
-      console.log('data',validationList);
+      // console.log('data',validationList);
+
+      const valFetch = async () => {
+        try {
+          const fetVal = await fetch(`${API_BASE_URL}${VALIDATION}/validationlist?page=${page}&size=${size}&type=${validationType}`);
+          if (fetVal.status == 200) {
+            const res = await fetVal.json();
+            setValidationList(res);
+            setTotalItemCount(res.pageInfo.totalCount);
+          }
+        } catch {
+
+        }
+      }
 
     // API 요청
     useEffect(() => {
-        fetch(`${API_BASE_URL}${VALIDATION}/validationlist?page=${page}&size=${size}&type=${validationType}`)
-          .then(response => response.json())
-          .then(data => {
-            const { validationListResponseDTO } = data;
+        // fetch(`${API_BASE_URL}${VALIDATION}/validationlist?page=${page}&size=${size}&type=${validationType}`)
+        //   .then(response => response.json())
+        //   .then(data => {
+        //     const { validationListResponseDTO } = data;
 
-                setValidationList(validationListResponseDTO);
+        //         setValidationList(validationListResponseDTO);
 
-                // Update the totalItemCount state variable if necessary
-                setTotalItemCount(data.pageInfo.totalCount);
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
+        //         // Update the totalItemCount state variable if necessary
+        //         setTotalItemCount(data.pageInfo.totalCount);
+        //   })
+        //   .catch(error => {
+        //     console.error('Error:', error);
+        //   });
+        valFetch();
       }, [isApprovalComplete]);
     //검증요청 승인하는 함수
     const updateValidation = async (e, validationUserName, validationType,validationuserId) => {
@@ -118,7 +132,7 @@ const MpAdmin = () => {
 
 
             
-                {validationList.length > 0 ? (
+                {!!validationList ? (
                     validationList.map((validation) => (
                     <div key={validation.validationId} className='ctncontent'>
                         {validation.userId ? (
