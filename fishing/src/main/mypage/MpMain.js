@@ -31,6 +31,7 @@ const MpMain = () => {
         userPhone : ''
       });
     
+      console.log(userInfo);
     
     const fetchUserInfo = async () => {
         const res = await fetch(`${API_BASE_URL}${USER}/user-mylist`, {
@@ -64,7 +65,7 @@ const MpMain = () => {
         // console.log(userInfo);
         // 배 정보를 가져오는 함수
         const user = getLoginUserInfo();
-        setUserInfo('마이페이지', user);
+        setUserInfo(user);
         fetchUserInfo();
         // fetchShipInfo();
       }, []);
