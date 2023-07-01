@@ -70,6 +70,7 @@ public class HeartService {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
         return heartRepository.existsByUserAndHeartType(user, HeartType.valueOf(heartType));
+
     }
     public int eduHeart(Long eduId, String heartType) {
         Optional<Edu> eduOptional = eduRepository.findById(eduId);
