@@ -10,7 +10,7 @@ function MpReviewList() {
   const [size, setSize] = useState(3);
   const [isHearted, setIsHearted] = useState(false);
 
-  console.log(reviews);
+  // console.log(reviews);
   useEffect(() => {
     fetchData();
   }, [reviews && reviews.length, page, size]);

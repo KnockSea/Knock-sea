@@ -16,9 +16,9 @@ export default function MpModal({ user }) {
   const navi = useNavigate();
 
   const { email, password } = user;
-  console.log(email);
-  console.log(password);
-  console.log(getLoginUserInfo().token);
+  // console.log(email);
+  // console.log(password);
+  // console.log(getLoginUserInfo().token);
 
   const [open, setOpen] = React.useState(false);
 

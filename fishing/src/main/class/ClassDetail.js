@@ -106,12 +106,12 @@ function ClassDetail() {
 
       if (response.status === 200) {
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         setOneEdu(json);
         fetchEduHeartCount();
       } else {
         alert('서버가 불안정합니다');
-        console.log(response);
+        // console.log(response);
       }
     } catch (error) {
       console.error('Error fetching edu list:', error);

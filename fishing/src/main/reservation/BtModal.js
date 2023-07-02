@@ -64,7 +64,7 @@ function BtModal({ closeModal, sDetail }) {
   }
 
   const handlePayment = () => {
-    console.log("token", token.userId);
+    // console.log("token", token.userId);
     const reservation = {
       reservationType: "SHIP",
       reservationDate: formattedDate,
@@ -77,7 +77,7 @@ function BtModal({ closeModal, sDetail }) {
       reservationTimeId: timeIndex,
     };
 
-    console.log("click button : ", reservation);
+    // console.log("click button : ", reservation);
 
     const requestHeader = {
       "content-type": "application/json",

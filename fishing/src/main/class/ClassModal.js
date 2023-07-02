@@ -64,7 +64,7 @@ function ClassModal({ closeModal, oneEdu }) {
 
   const handlePayment = async () => {
     try {
-      console.log("token", token.userId);
+      // console.log("token", token.userId);
       const reservation = {
         reservationType: "EDU",
         reservationDate: formattedDate,
@@ -76,7 +76,7 @@ function ClassModal({ closeModal, oneEdu }) {
         reservationTimeId: timeIndex,
       };
   
-      console.log("click button : ", reservation);
+      // console.log("click button : ", reservation);
   
       const requestHeader = {
         "content-type": "application/json",

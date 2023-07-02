@@ -25,7 +25,7 @@ function Myinfo() {
   const [userFullAddress, setuserFullAddress] = useState("");
   const [popup, setPopup] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
-  console.log(userInfo);
+  // console.log(userInfo);
   const [username, setusername] = useState("");
   const [userphone, setuserphone] = useState("");
   const [useremail, setuseremail] = useState("");
@@ -36,7 +36,7 @@ function Myinfo() {
     new window.daum.Postcode({
       onComplete: function (data) {
         // 주소 검색 완료 시 실행되는 콜백 함수
-        console.log(data); // 선택된 주소 데이터를 확인하거나 필요한 처리를 수행합니다.
+        // console.log(data); // 선택된 주소 데이터를 확인하거나 필요한 처리를 수행합니다.
         // 주소 데이터를 원하는 방식으로 처리하고 상태에 저장할 수 있습니다.
       },
     }).open();
@@ -47,31 +47,31 @@ function Myinfo() {
   //주소 얻어오는 함수
   const getAddress = (userAddress) => {
     setuserAddress(userAddress);
-    console.log("getAddr:", userAddress);
+    // console.log("getAddr:", userAddress);
   };
 
   //이름 얻어오는 함수
   const usernameHandler = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setusername(e.target.value);
   };
 
   //번호 얻어오는 함수
   const userphoneHandler = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setuserphone(e.target.value);
   };
 
   //이메일 값 얻어오는 함수
   const userEmailHandler = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setuseremail(e.target.value);
   };
   //사진 파일값 읽어오는 함수
   const handleFileChange = (e) => {
     //첨부된 파일 정보
     const file = e.target.files[0];
-    console.log(file);
+    // console.log(file);
     setSelectedFile(file);
   };
 
@@ -125,7 +125,7 @@ function Myinfo() {
     );
     if (confirm) {
       fetchSignUpPost();
-      console.log(userInfo.token);
+      // console.log(userInfo.token);
     }
     return;
   };

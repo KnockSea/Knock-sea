@@ -42,8 +42,8 @@ const MpRvlist = () => {
   };
 
   const handleCancel = (reservation) => {
-    console.log('삭제');
-    console.log('reservation: ', reservation);
+    // console.log('삭제');
+    // console.log('reservation: ', reservation);
 
     const formdata =
       reservation.type === 'EDU'
@@ -74,7 +74,7 @@ const MpRvlist = () => {
       body: JSON.stringify(formdata),
     })
       .then((res) => {
-        console.log(res.status);
+        // console.log(res.status);
         return res.json();
       })
       .then((json) => {
@@ -98,7 +98,7 @@ const MpRvlist = () => {
 
     if (res.status === 200) {
       const json = await res.json();
-      console.log('json: ', json);
+      // console.log('json: ', json);
       setUserProfile(json);
     } else if (res.status === 500) {
       alert('예약 내역이 없습니다');

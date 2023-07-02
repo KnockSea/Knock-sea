@@ -17,7 +17,7 @@ const MpFsInfo = () => {
     spotImageLocation: []
   });
 
-  console.log('spotInfo',spotInfo);
+  // console.log('spotInfo',spotInfo);
 
   const [userInfo, setUserInfo] = useState({
     token: '', // Set default value for name
@@ -37,9 +37,9 @@ const fetchSpotInfo = async () => {
 
     if (res.status === 200) {
         const json = await res.json(); // JSON 데이터 파싱
-        console.log(json);
+        // console.log(json);
         setSpotInfo(json);
-        console.log(spotInfo.spotImageLocation[0]);
+        // console.log(spotInfo.spotImageLocation[0]);
 
         /*
         // 서버에서 직렬화된 이미지가 응답된다.
@@ -53,7 +53,7 @@ const fetchSpotInfo = async () => {
     }else{
       alert('서버와의 통신이 원활하지않습니다!')
     }
-  }
+};
 
   //낚시터 정보 삭제하기
   const deletespot = async (e) =>{
@@ -125,16 +125,16 @@ useEffect(() => {
             </div>
           </div>
         </div>
-                    <div className='binfo-btbox'>
-                          {spotInfo && spotInfo.spotId ? (
-                            <>
-                              <button className='binfo-isbtn' onClick={deletespot}>낚시터 삭제하기</button>
-                              {/* <button className='binfo-isbtn'>배 정보 수정하기</button> */}
-                            </>
-                              ) : (
-                              <button className='binfo-isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
-                            )}
-                    </div>
+        <div className='binfo-btbox'>
+              {spotInfo && spotInfo.spotId ? (
+                <>
+                  <button className='binfo-isbtn' onClick={deletespot}>낚시터 삭제하기</button>
+                  {/* <button className='binfo-isbtn'>배 정보 수정하기</button> */}
+                </>
+                  ) : (
+                  <button className='binfo-isbtn'><Link to={'/myquery'}>글 등록하기</Link></button>
+                )}
+        </div>
 
         <div className="rvbox">
           <h2>리뷰 게시판</h2>

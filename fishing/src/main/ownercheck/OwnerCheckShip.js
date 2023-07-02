@@ -27,7 +27,7 @@ function OwnerCheckShip(props) {
 
   const handleOwnerCheck = (e) => {
     e.preventDefault();
-    console.log(shipConfirmImage);
+    // console.log(shipConfirmImage);
     const payload = {
       validationType: 'SHIP',
       validationShipRegi: shipNumber,

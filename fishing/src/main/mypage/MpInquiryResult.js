@@ -14,9 +14,9 @@ const MpInquiryResult = () => {
 
     const handleSubmitAnswer = (e) => {
         e.preventDefault();
-        console.log(inquiryId);
-        console.log(inquiry);
-        console.log(inquiry.inquiryDetails);
+        // console.log(inquiryId);
+        // console.log(inquiry);
+        // console.log(inquiry.inquiryDetails);
     };
 
     const fetchInquiry = async () => {

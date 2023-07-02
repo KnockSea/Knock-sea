@@ -110,8 +110,8 @@ const RvBtDetail = () => {
       });
   }, [productId, exists]);
 
-  console.log("sdatail", sDetail);
-  console.log("xxx", sDetail.title);
+  // console.log("sdatail", sDetail);
+  // console.log("xxx", sDetail.title);
   return (
     <div className="allview">
       <div className="imgbox">

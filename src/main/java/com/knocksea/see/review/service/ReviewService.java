@@ -169,9 +169,15 @@ public class ReviewService {
 
     public String imgName(Review review) {
         String imgs;
-        if (review.getReviewType().toString().equals("SHIP") || review.getReviewType().toString().equals("SPOT")) {
+        if (review.getReviewType().toString().equals("SHIP")) {
+            log.warn("이미지타입 {}", review.getReviewType());
+            Product product = productRepository.findById(review.getProduct().getProductId()).orElseThrow();
+            log.warn("상품! {}", product);
+            imgs = imageRepository.findByProduct(product).get(0).getImageName();
+            log.warn("이미지 이름 {}", imgs);
+        } else if (review.getReviewType().toString().equals("SPOT")) {
             imgs = imageRepository.findByProduct(
-                    productRepository.findById(review.getProduct().getProductId()).orElseThrow())
+                            productRepository.findById(review.getProduct().getProductId()).orElseThrow())
                     .get(0).getImageName();
         } else {
             imgs = imageRepository.findByEdu(

@@ -70,7 +70,7 @@ function RvFsModal({ closeModal, FsDetail }) {
   
 
   const handlePayment = () => {
-    console.log("token", token.userId);
+    // console.log("token", token.userId);
     const reservation = {
       reservationType: "SPOT",
       reservationDate: formattedDate,
@@ -83,7 +83,7 @@ function RvFsModal({ closeModal, FsDetail }) {
       reservationTimeId: timeIndex,
     };
 
-    console.log("click button : ", reservation);
+    // console.log("click button : ", reservation);
 
     const requestHeader = {
       "content-type": "application/json",

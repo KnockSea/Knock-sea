@@ -112,7 +112,7 @@ const RvFsDetail = () => {
         setFsdetail(FsDetail);
       });
   }, [productId, exists]);
-  console.log("sdatail", FsDetail);
+  // console.log("sdatail", FsDetail);
   return (
     <div className="allview">
       <div className="imgbox">

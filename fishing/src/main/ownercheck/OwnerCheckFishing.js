@@ -16,7 +16,7 @@ function OwnerCheckFishing() {
     const handleOwnerConfirm = async (e) => {
     e.preventDefault();
     //  처리 로직
-    console.log(file);
+    // console.log(file);
 
     const payload = {
       validationType: 'SPOT',
