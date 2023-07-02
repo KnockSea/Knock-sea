@@ -32,18 +32,6 @@ public class EduApiController {
     private final EduService eduService;
     private final ImageService imageService;
 
-    //좋아요 많은 순 4개 조회
-    @GetMapping("/topFour")
-    public ResponseEntity<?> topFourList() {
-        log.info("/api/v1/edu topFourList");
-
-        EduTopFourListResponseDTO topFourDto = eduService.findTopFour();
-
-        return ResponseEntity
-                .ok()
-                .body(topFourDto);
-    }
-
     //전체 조회
     @GetMapping
     public ResponseEntity<?> list(PageDTO pageDTO) {
