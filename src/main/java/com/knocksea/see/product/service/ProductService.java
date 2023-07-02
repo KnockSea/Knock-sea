@@ -134,12 +134,14 @@ public class ProductService implements ProductDetailService {
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
 
         if(dto.getProductLabelType().equals("SHIP")){
+            log.info("shipRepository.findByUser(user) : " + shipRepository.findByUser(user));
             if(shipRepository.findByUser(user)==null)
                 log.info("ggggg");
                 throw new RuntimeException("배 정보를 먼저 등록해주세요.");
         }
 
         if(dto.getProductLabelType().equals("SPOT")){
+            log.info("fishingSpotRepository.findByUser(user) : " + fishingSpotRepository.findByUser(user) );
             if(fishingSpotRepository.findByUser(user)==null)
                 log.info("kkkkk");
                 throw new RuntimeException("낚시터 정보를 먼저 등록해주세요");
