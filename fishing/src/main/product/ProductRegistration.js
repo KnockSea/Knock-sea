@@ -155,6 +155,8 @@ function ProductRegistration() {
           // console.log(formData);
             if (res.status === 200) {
               alert('등록 성공');
+              if (productDTO.productLabelType === 'SHIP') navigate('/bt');
+              else navigate('/fs');
             } else {
               alert("업체정보 미등록 또는 예약상품 기등록 문제에요!😥");
             }
