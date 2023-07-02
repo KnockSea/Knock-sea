@@ -66,12 +66,20 @@ public class HeartService {
             return false;
         }
     }
-    public boolean existsByUserAndHeartType(Long userId, String heartType) {
+    public boolean existsByUserAndEduAndHeartType(Long userId, Long eduId, String heartType) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-
-        return heartRepository.existsByUserAndHeartType(user, HeartType.valueOf(heartType));
+        Edu edu = eduRepository.findById(eduId).orElseThrow(() -> new RuntimeException("Edu not found"));
+        return heartRepository.existsByUserAndEduAndHeartType(user, edu, HeartType.valueOf(heartType));
 
     }
+    public boolean existsByUserAndProductAndHeartType(Long userId, Long productId, String heartType) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+
+        return heartRepository.existsByUserAndProductAndHeartType(user, product, HeartType.valueOf(heartType));
+
+    }
+
     public int eduHeart(Long eduId, String heartType) {
         Optional<Edu> eduOptional = eduRepository.findById(eduId);
         Edu edu = eduOptional.orElse(null);
