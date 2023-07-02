@@ -30,7 +30,7 @@ const MpAdmin = () => {
             setValidationList(res);
             setValidationLists(res.validationListResponseDTO);
             setTotalItemCount(res.pageInfo.totalCount);
-            console.log('값 있니?', res.validationListResponseDTO);
+            // console.log('값 있니?', res.validationListResponseDTO);
           }
         } catch {
 
@@ -57,9 +57,9 @@ const MpAdmin = () => {
     //검증요청 승인하는 함수
     const updateValidation = async (e, validationUserName, validationType,validationuserId) => {
         e.preventDefault();
-        console.log(validationUserName,validationType);
+        // console.log(validationUserName,validationType);
         const confirm = window.confirm('정말 승인하시겠습니까?');
-        console.log(validationList);
+        // console.log(validationList);
         if (confirm) {
             // console.log(validationUserName);
             // console.log(validationType);
@@ -86,7 +86,7 @@ const MpAdmin = () => {
 
       const deleteValidation = async (e, validationId) => {
         e.preventDefault();
-        console.log(validationId);
+        // console.log(validationId);
         const confirm = window.confirm('정말 삭제하시겠습니까?');
         if(confirm){
         try {
@@ -111,7 +111,7 @@ const MpAdmin = () => {
     }
       };
 
-      console.log(validationList.validationListResponseDTO);
+      // console.log(validationList.validationListResponseDTO);
   return (
     <section>
     <div className='MpAdminbox'>

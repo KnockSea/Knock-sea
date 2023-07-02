@@ -1,364 +1,343 @@
-@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
 .MyPageMainBox {
-    width: 1136px;
-    min-width: 1136px;
-    margin: 0 auto;
-    display: flex;
-    // border: 1px solid #000;
-    justify-content: space-around;
+  width: 1136px;
+  min-width: 1136px;
+  margin: 0 auto;
+  display: flex;
+  // border: 1px solid #000;
+  justify-content: space-around;
 
-    .mainbox1{
-        width: 80%;
-        // margin: 0 auto;
-        .mychoicebox {
-            display: flex;  
-            justify-content: space-between;
-            // margin-right: 600px;
-            :nth-child(2){
-                margin-left: 50px;
-            }
-            :nth-child(3){
-                margin-left: 50px;
-            }
-            :nth-child(4){
-                margin-left: 50px;
-            }
-            h1 {
-                width: fit-content;
-                font-size: 25px;
-                padding: 5px;
-                font-weight: 700;
-                border-bottom: 3px solid #123282;            
-            }
-            .ownerTap {
-                display: flex;
-                justify-content: center;
-                :link {
-                    text-decoration: none;
-                }
-                h1{
-                    text-decoration: none;
-                    font-size: 20px;
-                    border-bottom: none;
-                    color: #000;
-                    &:hover {
-                        color: #f1a5cb;
-                    }
-                }
-            }
-            
+  .mainbox1 {
+    width: 80%;
+    // margin: 0 auto;
+    .mychoicebox {
+      display: flex;
+      justify-content: space-between;
+      // margin-right: 600px;
+      :nth-child(2) {
+        margin-left: 50px;
+      }
+      :nth-child(3) {
+        margin-left: 50px;
+      }
+      :nth-child(4) {
+        margin-left: 50px;
+      }
+      h1 {
+        width: fit-content;
+        font-size: 25px;
+        padding: 5px;
+        font-weight: 700;
+        border-bottom: 3px solid #123282;
+      }
+      .ownerTap {
+        display: flex;
+        justify-content: center;
+        :link {
+          text-decoration: none;
         }
-
-        .userinfobox {
-            display: flex;
-            height: 250px;
-            justify-content: space-between;
-            border-bottom: 1px solid #DDDDDD;
-
-            .userinfoWrap {
-                width: 100%;
-                height: 180px;
-                margin-top: 20px;
-                // border: 1px solid #ff0000;
-                display: flex;
-                justify-content: start;
-                
-            }
-
-            .profilebox {
-                width: 140px;
-                height: 140px;
-                line-height: 140px;
-                // margin-top: 30px;
-                border-radius: 50%;
-                // overflow: hidden;
-                // background: url('../../img/ocean.png') left;
-                
-                img{
-                    width: 120px;
-                    height: 120px;
-                    border-radius: 50%;
-                    border: 2px solid rgba(255, 255, 255, 0.4); 
-                } 
-            }
-            .userWrap {
-                height: 80px;
-                text-align: left;
-                margin-left: 40px;
-                font-size: 16px;
-                
-                
-                p, div{
-                font-family: 'Jua', sans-serif;
-                margin-bottom: 10px;
-                }
-
-                .userName {
-                    color: #3e61b8;
-                }
-
-                
-
-            }
-          
-           
-
-            .namebox{
-                width: 80%;
-                // border: 1px solid #000;
-                padding: 10px;
-                height: fit-content;
-                text-align: left;
-                font-family: 'Adamina', serif;
-                
-                .nickName {
-                    font-weight: 700;
-                    font-size: 18px;
-                    text-overflow: ellipsis;
-                }
-                .content {
-                    height: 130px;
-                    overflow: scroll;
-                    font-size: 12px;
-                    padding: 5px;
-                    
-                    &::-webkit-scrollbar {
-                        width: 10px;  /* 스크롤바의 너비 */
-                        height: 1px;
-                        background: rgba(114, 137, 168, 0.1); 
-                    }
-                    &::-webkit-scrollbar-thumb {
-                        height: 30%; /* 스크롤바의 길이 */
-                        background: #a6cbe9; /* 스크롤바의 색상 */
-                        border-radius: 10px;
-                    }
-                    
-                }
-            }
-            
-            .btnboxMain  {
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-end;
-                margin-bottom: 10px;
-
-                button {
-                    width: 150px;  
-                    height: 26px;        
-                    color: white;
-                    border: none;
-                    border-radius: 10px;
-                    background: #123282;
-                }
+        h1 {
+          text-decoration: none;
+          font-size: 20px;
+          border-bottom: none;
+          color: #000;
+          &:hover {
+            color: #f1a5cb;
+          }
         }
-
-        }
-
-        .btbox {
-            width: 100%;
-            // border: 1px solid #000;
-            position: relative;
-            bottom: 0px;
-            text-align: right;
-            height: 20px;
-        
-           .isbtn {
-            width: 150px;          
-            color: white;
-            border-radius: 10px;
-            background: #123282;
-           }
-           
-        }
-
-        .binfo-btbox {
-            position: relative;
-            bottom: 40px;
-            text-align: right;
-            height: 20px;
-
-        .binfo-isbtn {
-            width: 150px;          
-            color: white;
-            border-radius: 10px;
-            background: #123282;
-           }
-        }
-
-        .rvbox {
-            margin-top: 10px;            
-            height: 300px;
-            text-align: left;
-            border-bottom: 1px solid #DDDDDD;
-            h2 {
-                width: fit-content;
-                font-size: 25px;
-                padding: 5px;
-                font-weight: 700;
-                border-bottom: 3px solid #123282; 
-            }
-            .MpReFormItem{
-                margin-top: 20px;
-                display: flex;
-                align-items: center;
-
-                .mprebox1{
-                    width: 100px;
-                    height: 100px;
-                    // border: 1px solid #000;
-                }
-                .mprebox2{
-                    width: 50%;
-                    margin-left: 10px;
-                   
-                    .mpreAutohr{
-                        display: flex;
-                        :nth-child(1){
-                            // border: 1px solid #000;
-                            height: 20px;
-                            padding: 0 20px;
-                            border-right: 1px solid #ccc;
-                            color: #123282;
-                            font-weight: 600;
-                        }
-                     :nth-child(2){
-                        padding: 0 20px;
-                        font-weight: 600;
-                     }
-                    }
-                    .mpstar{
-                        border-left: 1px solid #ccc;
-                        padding: 0 20px;
-                        width: 80px;
-                    }
-
-                    .review-wrap {
-                        width: 100%;
-                        margin: 20px;
-                        display: flex;
-                        justify-content: space-between;
-                        .review-con {
-                            white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-                            overflow: hidden; /* 넘치는 부분 숨김 */
-                            text-overflow: ellipsis;
-                        }
-                        .reviewbtn {
-                            border: none;
-                            background: #5b77bd;
-                            color: #fff;
-
-                        }
-                    }
-                }
-            }
-        }
-        .rvbox2 {
-            width: 100%;
-            height: 300px;
-            margin-top: 10px;
-            text-align: left;
-            border-bottom: 1px solid #DDDDDD;
-
-            .inner-rvbox2 {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            h2 {
-                width: fit-content;
-                font-size: 25px;
-                padding: 5px;
-                font-weight: 700;
-                border-bottom: 3px solid #123282; 
-            }
-
-            .inner-rvbox2 .mp-isbtn, .isbtn {
-                height: fit-content;
-                width: 150px;
-                background: #123282;
-                color: white;
-                // font-weight: 700;
-               border-radius: 10px;
-               border: #123282;
-
-               &:hover {
-                font-weight: 600;
-               }
-               }
-
-
-        }
-
-
-
-// 예약 from 시작
-        .MpRvFromInfo {
-
-            .mprvbox1{
-                display: flex;
-                font-weight: 700;
-                justify-content: space-around;
-                align-items: center;
-                border-top: 1px solid #ccc;
-                border-bottom: 1px solid #ccc;
-                height: 50px;
-                font-size: 18px;
-            }
-            .mprvbox2{
-                display: flex;
-                justify-content: space-around;
-                align-items: center;
-                height: 60px;
-                font-size: 12px;
-                border-bottom: 1px solid #ccc;
-                .mprvid{
-                    width: 40px;
-                }
-
-            }
-        }
-// 예약 from 끝 
-         a{
-            color: #fff;
-            font-weight: normal;
-
-            &:hover {
-                font-weight: 600;
-            }
-        }
-
+      }
     }
 
-    
+    .userinfobox {
+      display: flex;
+      height: 250px;
+      justify-content: space-between;
+      border-bottom: 1px solid #dddddd;
+
+      .userinfoWrap {
+        width: 100%;
+        height: 180px;
+        margin-top: 20px;
+        // border: 1px solid #ff0000;
+        display: flex;
+        justify-content: start;
+      }
+
+      .profilebox {
+        width: 140px;
+        height: 140px;
+        line-height: 140px;
+        // margin-top: 30px;
+        border-radius: 50%;
+        // overflow: hidden;
+        // background: url('../../img/ocean.png') left;
+
+        img {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+      }
+      .userWrap {
+        height: 80px;
+        text-align: left;
+        margin-left: 40px;
+        font-size: 16px;
+
+        p,
+        div {
+          font-family: "Jua", sans-serif;
+          margin-bottom: 10px;
+        }
+
+        .userName {
+          color: #3e61b8;
+        }
+      }
+
+      .namebox {
+        width: 80%;
+        // border: 1px solid #000;
+        padding: 10px;
+        height: fit-content;
+        text-align: left;
+        font-family: "Adamina", serif;
+
+        .nickName {
+          font-weight: 700;
+          font-size: 18px;
+          text-overflow: ellipsis;
+        }
+        .content {
+          height: 130px;
+          overflow: scroll;
+          font-size: 12px;
+          padding: 5px;
+
+          &::-webkit-scrollbar {
+            width: 10px; /* 스크롤바의 너비 */
+            height: 1px;
+            background: rgba(114, 137, 168, 0.1);
+          }
+          &::-webkit-scrollbar-thumb {
+            height: 30%; /* 스크롤바의 길이 */
+            background: #a6cbe9; /* 스크롤바의 색상 */
+            border-radius: 10px;
+          }
+        }
+      }
+
+      .btnboxMain {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+
+        button {
+          width: 150px;
+          height: 26px;
+          color: white;
+          border: none;
+          border-radius: 10px;
+          background: #123282;
+        }
+      }
+    }
+
+    .btbox {
+      width: 100%;
+      // border: 1px solid #000;
+      position: relative;
+      bottom: 0px;
+      text-align: right;
+      height: 20px;
+
+      .isbtn {
+        width: 150px;
+        color: white;
+        border-radius: 10px;
+        background: #123282;
+      }
+    }
+
+    .binfo-btbox {
+      position: relative;
+      bottom: 40px;
+      text-align: right;
+      height: 20px;
+
+      .binfo-isbtn {
+        width: 150px;
+        color: white;
+        border-radius: 10px;
+        background: #123282;
+      }
+    }
+
+    .rvbox {
+      margin-top: 10px;
+      height: 300px;
+      text-align: left;
+      border-bottom: 1px solid #dddddd;
+      h2 {
+        width: fit-content;
+        font-size: 25px;
+        padding: 5px;
+        font-weight: 700;
+        border-bottom: 3px solid #123282;
+      }
+      .MpReFormItem {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+
+        .mprebox1 {
+          width: 100px;
+          height: 100px;
+          // border: 1px solid #000;
+        }
+        .mprebox2 {
+          width: 50%;
+          margin-left: 10px;
+
+          .mpreAutohr {
+            display: flex;
+            :nth-child(1) {
+              // border: 1px solid #000;
+              height: 20px;
+              padding: 0 20px;
+              border-right: 1px solid #ccc;
+              color: #123282;
+              font-weight: 600;
+            }
+            :nth-child(2) {
+              padding: 0 20px;
+              font-weight: 600;
+            }
+          }
+          .mpstar {
+            border-left: 1px solid #ccc;
+            padding: 0 20px;
+            width: 80px;
+          }
+
+          .review-wrap {
+            width: 100%;
+            margin: 20px;
+            display: flex;
+            justify-content: space-between;
+            .review-con {
+              white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+              overflow: hidden; /* 넘치는 부분 숨김 */
+              text-overflow: ellipsis;
+            }
+            .reviewbtn {
+              border: none;
+              background: #5b77bd;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+    .rvbox2 {
+      // width: 100%;
+      // height: 300px;
+      margin-top: 213px;
+      text-align: left;
+      border-bottom: 1px solid #dddddd;
+
+      .inner-rvbox2 {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      h2 {
+        width: fit-content;
+        font-size: 25px;
+        padding: 5px;
+        font-weight: 700;
+        border-bottom: 3px solid #123282;
+      }
+
+      .inner-rvbox2 .mp-isbtn,
+      .isbtn {
+        height: fit-content;
+        width: 150px;
+        background: #123282;
+        color: white;
+        // font-weight: 700;
+        border-radius: 10px;
+        border: #123282;
+
+        &:hover {
+          font-weight: 600;
+        }
+      }
+    }
+
+    // 예약 from 시작
+    .MpRvFromInfo {
+      .mprvbox1 {
+        display: flex;
+        font-weight: 700;
+        justify-content: space-around;
+        align-items: center;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        height: 50px;
+        font-size: 18px;
+      }
+      .mprvbox2 {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 60px;
+        font-size: 12px;
+        border-bottom: 1px solid #ccc;
+        .mprvid {
+          width: 40px;
+        }
+      }
+    }
+    // 예약 from 끝
+    a {
+      color: #fff;
+      font-weight: normal;
+
+      &:hover {
+        font-weight: 600;
+      }
+    }
+  }
 }
 
-
 .list {
-    width: 11%;
-    background: #123282;
-    padding: 10px;
-    border-radius: 0px 15px 15px 0px;
-    height: fit-content;
+  width: 11%;
+  background: #123282;
+  padding: 10px;
+  border-radius: 0px 15px 15px 0px;
+  height: fit-content;
 
-    list-style-type: none;
-    color: white;
+  list-style-type: none;
+  color: white;
 
-    padding-bottom: 80px;
-    position: relative;
-    top: -70px;
-    li {
-        margin-top: 10px;
-        text-align: left;
-        
-        a{
-            color: #fff;
-        }
-        &:hover {
-            background: #9fb0d65d;
-        }
+  padding-bottom: 80px;
+  position: relative;
+  top: -70px;
+  li {
+    margin-top: 10px;
+    text-align: left;
+
+    a {
+      color: #fff;
     }
-    .my {
-        margin-bottom: 60px;
+    &:hover {
+      background: #9fb0d65d;
     }
-
+  }
+  .my {
+    margin-bottom: 60px;
+  }
 }

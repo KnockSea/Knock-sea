@@ -29,8 +29,8 @@ function RvFsMain({ fetchFsProduct, FsProduct }) {
   };
 
   // fetchFsProduct(page, size, type);
-  console.log("producct", products);
-  console.log("totalItemCount", products.pageInfo.totalCount);
+  // console.log("producct", products);
+  // console.log("totalItemCount", products.pageInfo.totalCount);
 
   useEffect(() => {
     setProducts(FsProduct);

@@ -110,8 +110,8 @@ const RvBtDetail = () => {
       });
   }, [productId, exists]);
 
-  console.log("sdatail", sDetail);
-  console.log("xxx", sDetail.title);
+  // console.log("sdatail", sDetail);
+  // console.log("xxx", sDetail.title);
   return (
     <div className="allview">
       <div className="imgbox">
@@ -146,18 +146,18 @@ const RvBtDetail = () => {
                     <span className="box profile-page">{sDetail.userName}</span>
                   </Link>
                   <div>
-                    <button
-                      onClick={createHeart}
-                      style={{
-                        color: exists ? "red" : "black",
-                        border: "none",
-                        background: "transparent",
-                        cursor: "pointer",
-                      }}
+                  <button
+                    onClick={createHeart}
+                    style={{
+                      color: "black",
+                      border: "none",
+                      background: "transparent",
+                      cursor: "pointer",
+                      fontWeight: "bold", // 텍스트를 굵게 설정
+                    }}
                     >
-                      {exists ? "❤️" : "🤍"}
-                      <h3>{eduHeartCount}</h3>
-                    </button>
+                    <strong>'❤️' <span>{eduHeartCount}</span></strong>
+</button>
                   </div>
                   <div className="condition">
                     <ul className="condition-box">

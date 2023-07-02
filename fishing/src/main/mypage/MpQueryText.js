@@ -19,7 +19,7 @@ const MpQueryText = () => {
   const handleImage = (e) => {
     // const img = Array.from(e.target.files);
     setImages([...e.target.files]);
-    console.log("이미지 파일 목록 뜸?", images);
+    // console.log("이미지 파일 목록 뜸?", images);
   };
 
   const handleTitle = (e) => {
@@ -30,18 +30,28 @@ const MpQueryText = () => {
   const handleContent = (e) => {
     const newInfo = { ...info, shipDescription: e.target.value };
     setInfo(newInfo);
-    console.log(info.category);
+    // console.log(info.category);
   };
 
   const handleCategory = (e) => {
     const newInfo = { ...info, category: e.target.value };
     setInfo(newInfo);
-    console.log(info.category);
+    // console.log(info.category);
   };
 
   //배/ 낚시터 정보 등록하기
   const shipRegiFetch = async () => {
     // e.preventdefault();
+
+    if(info.shipName===""){
+      alert('프로필 제목은 필수값입니다!');
+      return;
+    }
+
+    if(info.shipDescription===""){
+      alert('프로필 내용은 필수값입니다!');
+      return;
+    }
 
     if (info.category === "ship") {
       const userJsonBlob = new Blob([JSON.stringify(info)], {
@@ -54,12 +64,12 @@ const MpQueryText = () => {
         formData.append("shipImages", imgs);
       });
 
-      for (let pair of formData.entries()) {
-        console.log(
-          "키: " + JSON.stringify(pair[0]),
-          "밸류: " + JSON.stringify(pair[1].name)
-        );
-      }
+      // for (let pair of formData.entries()) {
+      //   console.log(
+      //     "키: " + JSON.stringify(pair[0]),
+      //     "밸류: " + JSON.stringify(pair[1].name)
+      //   );
+      // }
       try {
         const res = await fetch(`${API_BASE_URL}${SHIP}/register`, {
           method: "POST",
@@ -87,7 +97,7 @@ const MpQueryText = () => {
         type: "application/json",
       });
 
-      console.log(Blob);
+      // console.log(Blob);
 
       const formData = new FormData();
       formData.append("spot", userJsonBlob);
@@ -95,12 +105,12 @@ const MpQueryText = () => {
         formData.append("spotImage", imgs);
       });
 
-      for (let pair of formData.entries()) {
-        console.log(
-          "키: " + JSON.stringify(pair[0]),
-          "밸류: " + JSON.stringify(pair[1].name)
-        );
-      }
+      // for (let pair of formData.entries()) {
+      //   console.log(
+      //     "키: " + JSON.stringify(pair[0]),
+      //     "밸류: " + JSON.stringify(pair[1].name)
+      //   );
+      // }
       try {
         const res = await fetch(
           `${API_BASE_URL}${FISHINGSPOT}/register`,

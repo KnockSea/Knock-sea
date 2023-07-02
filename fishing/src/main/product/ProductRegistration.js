@@ -113,15 +113,15 @@ function ProductRegistration() {
       formData.append(`productImages`, image);
     });
  
-    console.log("===================== formData 값 =====================");
+    // console.log("===================== formData 값 =====================");
     // for (let [key, value] of formData.entries()) {
     //   console.log(key, value);
     // }
 
-    console.log(productDTO);
-    for (let pair of formData.entries()) {
-      console.log('키: ' + JSON.stringify(pair[0]),'밸류: ' + JSON.stringify(pair[1]));
-    }
+    // console.log(productDTO);
+    // for (let pair of formData.entries()) {
+    //   console.log('키: ' + JSON.stringify(pair[0]),'밸류: ' + JSON.stringify(pair[1]));
+    // }
 
       const handleProductRegi = async (e) => {
         e.preventDefault();
@@ -152,9 +152,11 @@ function ProductRegistration() {
           body: formData
           });
           // console.log('API_BASE_URL',API_BASE_URL,PRODUCTS);
-          console.log(formData);
+          // console.log(formData);
             if (res.status === 200) {
               alert('등록 성공');
+              if (productDTO.productLabelType === 'SHIP') navigate('/bt');
+              else navigate('/fs');
             } else {
               alert("업체정보 미등록 또는 예약상품 기등록 문제에요!😥");
             }
