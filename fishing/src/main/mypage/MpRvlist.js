@@ -9,6 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import MpList from './MpList';
 
 const MpRvlist = () => {
   const [userProfile, setUserProfile] = useState({
@@ -180,6 +181,7 @@ const MpRvlist = () => {
           <div>예약 내역이 없습니다.</div>
         )}
       </div>
+    <MpList />
     </section>
   );
 };

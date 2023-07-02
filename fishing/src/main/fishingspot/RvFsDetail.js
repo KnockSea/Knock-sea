@@ -173,10 +173,7 @@ const RvFsDetail = () => {
                   </div>
                 </div>
                 <div>
-                <button className="box btn" onClick={handleRegiIsloign}>
-               
-                    바로 예약하기
-                  </button>
+                <button className="box btn" onClick={() => {setModal(true);}}>바로 예약하기</button>
                   {modal === true ? (
                     <RvFsModal
                       closeModal={() => setModal(false)}
