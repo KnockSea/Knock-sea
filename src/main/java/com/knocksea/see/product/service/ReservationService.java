@@ -116,6 +116,7 @@ public class ReservationService {
 
         //다시 전체조회 호출해서 return
         UserMyPageResponseDTO userMyPageResponseDTO = userService.userMyPageInfo(userInfo);
+        log.info("userMyPageResponseDTO : "+userMyPageResponseDTO);
 
 //        return reservationRepository.findById(dto.getReservationId()).isPresent();
         return userMyPageResponseDTO;
