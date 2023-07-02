@@ -94,7 +94,7 @@ const MpAdminCS = () => {
             )}
             {/* </div> */}
           </div>
-          <div className="page">
+          <div className="page11">
             <Pagination
               activePage={page}
               itemsCountPerPage={10}
