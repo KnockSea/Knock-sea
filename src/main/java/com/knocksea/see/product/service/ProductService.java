@@ -86,7 +86,7 @@ public class ProductService implements ProductDetailService {
 
         List<ViewProduct> allAddress = viewProductRepository.findAll();
         // 이러면.. 페이지 넘길때마다 지도 다시 뿌리는건데 어쩌지
-
+        log.warn("올 어드레스 왜 안나오는데{}", allAddress);
         // 이미지랑 예약 가능 유저 수
 
 
@@ -128,12 +128,29 @@ public class ProductService implements ProductDetailService {
     ) throws RuntimeException, IOException {
         // 상품을 먼저 등록하고 -> 시간 정보를 등록해야 한다.
         log.warn("여기까지 들어옵니까?");
+        log.info("ProductRequestDTO : "+dto.getProductLabelType());
+
         User user = userRepository.findById(userInfo.getUserId()).
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
 
-        if (shipRepository.findByUser(user) == null && fishingSpotRepository.findByUser(user) == null) {
-            throw new RuntimeException("배 또는 낚시터 정보를 등록해 주세요.");
+        if(dto.getProductLabelType().equals("SHIP")){
+            if(shipRepository.findByUser(user)==null)
+                log.info("ggggg");
+                throw new RuntimeException("배 정보를 먼저 등록해주세요.");
         }
+
+        if(dto.getProductLabelType().equals("SPOT")){
+            if(fishingSpotRepository.findByUser(user)==null)
+                log.info("kkkkk");
+                throw new RuntimeException("낚시터 정보를 먼저 등록해주세요");
+        }
+
+
+
+//        if (shipRepository.findByUser(user) == null && fishingSpotRepository.findByUser(user) == null) {
+//            throw new RuntimeException("낚시터 정보를 먼저 등록해주세요.");
+//        }
+
 
         if (productRepository.existsByProductTypeAndUserUserId(dto.getProductLabelType(), user.getUserId())) {
             throw new RuntimeException("이미 등록된 상품입니다.");

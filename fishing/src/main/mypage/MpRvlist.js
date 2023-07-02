@@ -16,7 +16,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 
 const MpRvlist = () => {
-  
+
+
   const [userProfile, setUserProfile] = useState({
     userId: 0,
     userName: '',
@@ -101,7 +102,6 @@ const MpRvlist = () => {
   useEffect(() => {
     const user = getLoginUserInfo();
     setUserInfo(user);
-    // fetchShipInfo();
     userReservefetch();
   }, []);
 
@@ -155,24 +155,31 @@ const dateStatusCheck=(checkDate)=>{
     }
 }
 
+const reviewCheck=(id)=>{
+
+  for (let i = 0; i < userProfile.eduIdByUserId; i++) {
+    if(userInfo.eduIdByUserId[i]===id)
+    console.log("Ggg");
+  }
+}
 
   return (
     <section className='MyPageMainBox'>
-    <div className='mainbox1'>
+    <div className='mainbox-Rvlist'>
 
-        <h1>내 예약 내역</h1>
+        <h3>내 예약 내역</h3>
         {!!userProfile.reserveDTO ? (
         userProfile.reserveDTO.map((reservation, index) => (
           <div className='rvlistbox' key={index} >
-
             <div className='rvlistwrap'>
             <div className='rvliststatus'>예약확정</div>
                   <div> 
-                    {/* {dateStatusCheck (reservation.reserveDate) || ( */}
+                    {dateStatusCheck (reservation.reserveDate) || (
                       <Button variant="outlined" onClick={handleClickOpen}>
+
                         예약 취소
                       </Button>
-                      {/* )} */}
+                      )}
                       <Dialog
                         open={open}
                         onClose={handleClose}
@@ -203,25 +210,19 @@ const dateStatusCheck=(checkDate)=>{
                 <div className='rvlistsally'>{reservation.reservePrice}원</div>
               </div>
             </div>
-            {/* </Link> */}
-            {/* {reservation.reserveDate <= today && ( // 오늘 날짜와 예약일이 같은 경우에만 후기쓰기 버튼을 보여줌
-                <div className='rvlistbtnbox'>
-                  <button className='relist'>후기쓰기</button>
-                </div>
-              )} */}
               <div className='rvlistbtnbox-wrap'>
                {dateStatusCheck (reservation.reserveDate) || (
                 <div className='rvlistbtnbox'>
                     <button className='norelist'>후기 등록 기간이 아닙니다.</button>
                 </div>
                )}
-            {/* {dateStatusCheck(reservation.reserveDate) && ( */}
-              <div className='rvlistbtnbox'>
-                <Link to={'/review'} state={{ reservationInfo : reservation}}>
-                  <button className='relist'>🖍 후기쓰기</button>
-                </Link>
-              </div>
-            {/* )} */}
+              {dateStatusCheck(reservation.reserveDate) && (
+                <div className='rvlistbtnbox'>
+                  <Link to={'/review'} state={{ reservationInfo : reservation}}>
+                    <button className='relist'>🖍 후기쓰기</button>
+                  </Link>
+                </div>
+              )}
             </div>
             </div>
         ))
@@ -229,9 +230,7 @@ const dateStatusCheck=(checkDate)=>{
         <div>예약 내역이 없습니다.</div>
       )}
   </div>
-
     <MpList/>
-    
 </section>
   )
 }

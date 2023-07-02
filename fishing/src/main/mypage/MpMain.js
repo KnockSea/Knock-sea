@@ -32,6 +32,7 @@ const MpMain = () => {
         userPhone : ''
       });
     
+      console.log(userInfo);
     
     const fetchUserInfo = async () => {
         const res = await fetch(`${API_BASE_URL}${USER}/user-mylist`, {
@@ -108,19 +109,6 @@ const MpMain = () => {
                         <button><Link to={'/myinfo'}>개인 정보 수정</Link></button>
                         </div>
                     </div>
-                    
-                {userInfo.userGrade==='OWNER'&&(
-                <div className='rvbox'>
-                    <h2>리뷰 현황</h2>
-                    <MpReviewList />
-                </div>
-                )}
-                {userInfo.userGrade==='COMMON'&&(
-                <div className='rvbox'>
-                    <h2>리뷰 현황</h2>
-                    <MpReviewList />
-                </div>
-                )}
                 <div className='rvbox2'>
                     <div className='inner-rvbox2 btbox'>
                         <div>
@@ -134,9 +122,21 @@ const MpMain = () => {
                         </div>
                     </div>
                 </div>
+                {userInfo.userGrade==='OWNER'&&(
+                <div className='rvbox'>
+                    <h2>리뷰 현황</h2>
+                    <MpReviewList />
+                </div>
+                )}
+                {userInfo.userGrade==='COMMON'&&(
+                <div className='rvbox'>
+                    <h2>리뷰 현황</h2>
+                    <MpReviewList />
+                </div>
+                )}
             </div>
         
-                <MpList style={{position:"fixed"}} />
+                <MpList />
         </section>
     )
 }

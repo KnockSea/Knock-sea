@@ -14,35 +14,30 @@ const NsTemplate = () => {
   const [mainedu, setmainedu] = useState([]); 
   const [linkdetail, setlinkdetail] = useState([]);
 
-  const mainimgs = () => {
-
-    fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`)
-      .then(response => response.json())
-      .then(res => {
-        setmainship(res);
-      });
-    fetch(`${API_BASE_URL}${PRODUCTS}/main/spot`)
-    .then(response => response.json())
-    .then(res => {
-      setmainspot(res);      
-    });
-    fetch(`${API_BASE_URL}${EDU}/main/edu`)
-    .then(response => response.json())
-    .then(res => {
-      setmainedu(res);
-    });
-       fetch(`${API_BASE_URL}${PRODUCTS}/product-list`)
-  .then(response => response.json())
-  .then(res =>{
-        setlinkdetail(res);
-        console.log("dasdasdasdasdasdas" ,res);
-    })  
-  }
-
-
+  const fetchData = async () => {
+    try {
+      const responseShip = await fetch(`${API_BASE_URL}${PRODUCTS}/main/ship`);
+      const dataShip = await responseShip.json();
+      setmainship(dataShip);
+  
+      const responseSpot = await fetch(`${API_BASE_URL}${PRODUCTS}/main/spot`);
+      const dataSpot = await responseSpot.json();
+      setmainspot(dataSpot);
+  
+      const responseEdu = await fetch(`${API_BASE_URL}${EDU}/main/edu`);
+      const dataEdu = await responseEdu.json();
+      setmainedu(dataEdu);
+  
+      const responseProductList = await fetch(`${API_BASE_URL}${PRODUCTS}/product-list`);
+      const dataProductList = await responseProductList.json();
+      setlinkdetail(dataProductList);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   useEffect(() => {
-    mainimgs();
+    fetchData();
     // 링크 변경 시 footer 숨김 처리
     setShowFooter(location.pathname === "/");
   }, [location]);

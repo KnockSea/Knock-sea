@@ -11,6 +11,7 @@ import { API_BASE_URL, EDU, HEART } from "../../config/host-config";
 
 function ClassDetail() {
   const [modal, setModal] = useState("false");
+
   const { eduId } = useParams();
   const [oneEdu, setOneEdu] = useState([]);
   const [token, setToken] = useState(getLoginUserInfo().token);
@@ -41,12 +42,12 @@ function ClassDetail() {
   };
 
   useEffect(() => {
+
+    // console.log('eduId',eduId);
     const fetchHeartExists = async () => {
       try {
         const heartType = "EDU"; // 하트 타입
-
         const apiUrl = `${API_BASE_URL}${HEART}/exists?userId=${userId}&heartType=${heartType}`;
-
         const response = await fetch(apiUrl);
         const exists = await response.json();
 
@@ -92,32 +93,33 @@ function ClassDetail() {
   };
 
   const requestHeader = {
-    "content-type": "application/json",
-    Authorization: "Bearer " + token,
+    'content-type': 'application/json',
+    Authorization: 'Bearer ' + token,
   };
 
-  console.log("oneEdu : ", oneEdu);
-  // const API_BASE_URL = `${API_BASE_URL}${EDU}/${eduId}`;
-  useEffect(() => {
-    const loginUserInfo = getLoginUserInfo();
-    setToken(loginUserInfo.token);
-    setIsHearted(localStorage.getItem("isHearted") === "true");
+  const fetchEduList = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}${EDU}/${eduId}`, {
+        method: 'GET',
+        headers: requestHeader,
+      });
 
-    fetch(`${API_BASE_URL}${EDU}/${eduId}`, {
-      method: "GET",
-      headers: requestHeader,
-    })
-      .then((res) => {
-        if (res.status === 200) return res.json();
-        else {
-          alert("서버가 불안정합니다");
-        }
-      })
-      .then((json) => {
+      if (response.status === 200) {
+        const json = await response.json();
         console.log(json);
         setOneEdu(json);
         fetchEduHeartCount();
-      });
+      } else {
+        alert('서버가 불안정합니다');
+        console.log(response);
+      }
+    } catch (error) {
+      console.error('Error fetching edu list:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEduList();
     fetchEduHeartCount();
   }, [eduId, exists]);
 
@@ -149,11 +151,8 @@ function ClassDetail() {
         </div>
         <div className="detail-content-wrap">
           <div className="detail-left-section">
-            <span style={{ textAlign: "left" }}>{oneEdu.eduTitle}</span>
-            <ClassDetailTap
-              eduInfo={oneEdu.eduInfo}
-              reviewList={oneEdu.reviewList}
-            />
+            <span style={{ textAlign: 'left' }}>{oneEdu.eduTitle}</span>
+            <ClassDetailTap eduInfo={oneEdu.eduInfo} reviewList={oneEdu.reviewList} />
           </div>
           <div className="detail-right-section">
             <div className="detail-box detail-list-top">
@@ -174,7 +173,7 @@ function ClassDetail() {
                           cursor: "pointer",
                         }}
                       >
-                        {exists ? "❤️" : "🤍"} <span>{eduHeartCount}</span>
+                        '❤️' <span>{eduHeartCount}</span>
                       </button>
                     </div>
                     <div className="condition">
@@ -194,7 +193,6 @@ function ClassDetail() {
                     <button className="box btn" onClick={handleRegiIsloign}>
                       바로 예약하기
                     </button>
-
                     {modal === true ? (
                       <ClassModal
                         closeModal={() => setModal(false)}
