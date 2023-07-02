@@ -213,14 +213,16 @@ const RvBtDetail = () => {
                     <button
                       onClick={createHeart}
                       style={{
-                        color: exists ? "red" : "black",
+                        color: "black",
                         border: "none",
                         background: "transparent",
                         cursor: "pointer",
+                        fontWeight: "bold", // 텍스트를 굵게 설정
                       }}
                     >
-                      {exists ? "❤️" : "🤍"}
-                      <h3>{eduHeartCount}</h3>
+                      <strong>
+                        '' <span>{eduHeartCount}</span>
+                      </strong>
                     </button>
                   </div>
                   <div className="condition">
@@ -236,7 +238,7 @@ const RvBtDetail = () => {
                   </div>
                 </div>
                 <div>
-                <button className="box btn" onClick={handleRegiIsloign}>
+                  <button className="box btn" onClick={handleRegiIsloign}>
                     바로 예약하기
                   </button>
                   {modal === true ? (
