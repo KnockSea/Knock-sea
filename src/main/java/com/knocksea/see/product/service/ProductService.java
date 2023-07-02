@@ -128,21 +128,22 @@ public class ProductService implements ProductDetailService {
     ) throws RuntimeException, IOException {
         // 상품을 먼저 등록하고 -> 시간 정보를 등록해야 한다.
         log.warn("여기까지 들어옵니까?");
-        log.info("ProductRequestDTO : "+dto.getProductLabelType());
 
         User user = userRepository.findById(userInfo.getUserId()).
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
 
         if(dto.getProductLabelType().equals("SHIP")){
-            if(shipRepository.findByUser(user)==null)
-                log.info("ggggg");
+            log.info("shipRepository.findByUser(user) : " + shipRepository.findByUser(user));
+            if(shipRepository.findByUser(user)==null){
                 throw new RuntimeException("배 정보를 먼저 등록해주세요.");
+            }
         }
 
         if(dto.getProductLabelType().equals("SPOT")){
-            if(fishingSpotRepository.findByUser(user)==null)
-                log.info("kkkkk");
+            log.info("fishingSpotRepository.findByUser(user) : " + fishingSpotRepository.findByUser(user) );
+            if(fishingSpotRepository.findByUser(user)==null){
                 throw new RuntimeException("낚시터 정보를 먼저 등록해주세요");
+            }
         }
 
 
