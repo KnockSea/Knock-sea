@@ -18,14 +18,15 @@ const RvBtDetail = () => {
   const { productId } = useParams();
   // const [selectedCity, setSelectedCity] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
+  const [modal, setModal] = useState(false);
+  const [sDetail, setSdetail] = useState({});
   const [userId, setUserId] = useState(getLoginUserInfo().userId);
   const [isHearted, setIsHearted] = useState(false);
   const [exists, setExists] = useState(false);
   const [eduHeartCount, setEduHeartCount] = useState(0);
-  const [modal, setModal] = useState(false);
-  const [sDetail, setSdetail] = useState({});
   const [token, setToken] = useState(getLoginUserInfo().token);
   const navigate = useNavigate();
+
   const fetchEduHeartCount = () => {
     fetch(
       `${API_BASE_URL}${HEART}/shipHeart?productId=${productId}&heartType=${"SHIP"}`
@@ -171,13 +172,17 @@ const RvBtDetail = () => {
                   </div>
                 </div>
                 <div>
-                  <button className="box btn" onClick={handleRegiIsloign}>
+                  <button 
+                  className="box btn" 
+                  onClick={() => {setModal(true);
+                  }}
+                  >
                     바로 예약하기
-                  </button>
+                    </button>
                   {modal === true ? (
                     <BtModal
-                      closeModal={() => setModal(false)}
-                      sDetail={sDetail}
+                    closeModal={() => setModal(false)}
+                    sDetail={sDetail}
                     />
                   ) : null}
                 </div>
