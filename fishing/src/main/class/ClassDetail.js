@@ -159,7 +159,7 @@ function ClassDetail() {
                           cursor: 'pointer',
                         }}
                       >
-                        {exists ? '❤️' : '🤍'} <span>{eduHeartCount}</span>
+                        '❤️' <span>{eduHeartCount}</span>
                       </button>
                     </div>
                     <div className="condition">

@@ -12,7 +12,7 @@ import javax.persistence.Id;
 @Immutable
 @Setter @Getter
 @ToString @EqualsAndHashCode
-@Subselect("SELECT product_id, product_location_info, product_full_address FROM sea_product WHERE status_valid = 'ACTIVE'")
+@Subselect("SELECT product_id, product_location_info, product_full_address FROM sea_product")
 @NoArgsConstructor
 @AllArgsConstructor
 public class ViewProduct {

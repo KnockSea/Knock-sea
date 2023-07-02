@@ -165,9 +165,9 @@ const reviewCheck=(id)=>{
 
   return (
     <section className='MyPageMainBox'>
-    <div className='mainbox1'>
+    <div className='mainbox-Rvlist'>
 
-        <h1>내 예약 내역</h1>
+        <h3>내 예약 내역</h3>
         {!!userProfile.reserveDTO ? (
         userProfile.reserveDTO.map((reservation, index) => (
           <div className='rvlistbox' key={index} >
@@ -216,13 +216,13 @@ const reviewCheck=(id)=>{
                     <button className='norelist'>후기 등록 기간이 아닙니다.</button>
                 </div>
                )}
-            {dateStatusCheck(reservation.reserveDate) && (
-              <div className='rvlistbtnbox'>
-                <Link to={'/review'} state={{ reservationInfo : reservation}}>
-                  <button className='relist'>🖍 후기쓰기</button>
-                </Link>
-              </div>
-            )}
+              {dateStatusCheck(reservation.reserveDate) && (
+                <div className='rvlistbtnbox'>
+                  <Link to={'/review'} state={{ reservationInfo : reservation}}>
+                    <button className='relist'>🖍 후기쓰기</button>
+                  </Link>
+                </div>
+              )}
             </div>
             </div>
         ))
@@ -230,9 +230,7 @@ const reviewCheck=(id)=>{
         <div>예약 내역이 없습니다.</div>
       )}
   </div>
-
     <MpList/>
-    
 </section>
   )
 }
