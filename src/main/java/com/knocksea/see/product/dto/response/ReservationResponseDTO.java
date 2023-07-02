@@ -5,12 +5,14 @@ import com.knocksea.see.edu.entity.Edu;
 import com.knocksea.see.product.entity.Product;
 import com.knocksea.see.product.entity.Reservation;
 import com.knocksea.see.product.entity.ReservationTime;
+import com.knocksea.see.review.entity.Review;
 import com.knocksea.see.user.entity.SeaImage;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @Setter
 @Getter

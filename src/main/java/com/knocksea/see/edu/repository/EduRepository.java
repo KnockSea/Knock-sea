@@ -31,6 +31,9 @@ public interface EduRepository extends JpaRepository<Edu,Long> {
 
     List<Edu> findAllByStatusValid(String active);
 
+    @Query("SELECT e FROM Edu e WHERE e.user = :user")
+    Edu findByUserId(@Param("user") User user);
+
 
 //    Optional<Edu> findByUserId(User user);
 }

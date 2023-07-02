@@ -43,27 +43,34 @@ function MpReviewList() {
   return (
     <>
       {reviews && reviews.length > 0 ? (
-        reviews.map(review => (
-          <div className='MpReFormItem' key={review.id}>
-            <div className='numbox'></div>
-            <div className='mprebox1'><img src={review.image} alt='이미지' style={{ width: '100px', height: '100px' }} /></div>
-            <div className='mprebox2'>
-              <div className='mpreAutohr'>
+        reviews.map((review) => (
+          <div className="MpReFormItem" key={review.id}>
+            <div className="numbox"></div>
+            <div className="mprebox1">
+              <img src={review.image} alt="이미지" style={{ width: '100px', height: '100px' }} />
+            </div>
+            <div className="mprebox2">
+              <div className="mpreAutohr">
                 <div>{review.userName}</div>
-                {review.eduId !== null ?(<div>{review.eduTitle}</div>)
-                :(<div>{review.productTitle}</div>)}      
+                {review.eduId !== null ? (
+                  <div>{review.eduTitle}</div>
+                ) : (
+                  <div>{review.productTitle}</div>
+                )}
+                <div className="mpstar">{review.reviewRating}점</div>
               </div>
-              <div className='mpstar'>{review.reviewRating}</div>
-              <div>{review.reviewContent}</div>
-              <button className="reviewbtn">
-              {review.reviewId !== null && review.eduId === null && review.reviewType === "SPOT" ? (
-                <Link to={`/fsdetail/${review.productId}`}>상세보기</Link>
-              ) : review.reviewId !== null && review.eduId === null && review.reviewType === "SHIP" ? (
-                <Link to={`/detail/${review.productId}`}>상세보기</Link>
-              ) : review.reviewId !== null && review.eduId !== null && review.reviewType === "EDU" ? (
-                <Link to={`/classdetail/${review.eduId}`}>상세보기</Link>
-              ) : null}
-            </button>
+              <div className="review-wrap">
+                <div className="review-con">💌{review.reviewContent}</div>
+                <button className="reviewbtn">
+                  {review.reviewId !== null && review.eduId === null && review.reviewType === "SPOT" ? (
+                    <Link to={`/fsdetail/${review.productId}`}>상세보기</Link>
+                  ) : review.reviewId !== null && review.eduId === null && review.reviewType === "SHIP" ? (
+                    <Link to={`/detail/${review.productId}`}>상세보기</Link>
+                  ) : review.reviewId !== null && review.eduId !== null && review.reviewType === "EDU" ? (
+                    <Link to={`/classdetail/${review.eduId}`}>상세보기</Link>
+                  ) : null}
+                </button>
+              </div>
             </div>
           </div>
         ))
