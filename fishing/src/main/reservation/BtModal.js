@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from "react";
-import "../scss/Calendar.scss";
 import "../fishingspot/RvScss/RvModal.scss";
+import "../class/scss/ClassModal.scss";
 import { getLoginUserInfo } from "../util/login-util";
 import ClassCalendar from "../class/ClassCalendar";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL, RESERVATION } from "../../config/host-config";
-const handleLogin = (e) => {
-  e.preventDefault();
 
-  // 회원가입 서버 요청
-};
-
-// 렌더링 후 실행함수
-// timeList, price, address
 function BtModal({ closeModal, sDetail }) {
   const [token, setToken] = useState(getLoginUserInfo().token);
   const listSize = sDetail.timeList.length - 1;
   const startTime = sDetail.timeList[0].timeDate; //시작날짜
   const EndTime = sDetail.timeList[listSize].timeDate; //마지막 날짜
+
+  const timeList = sDetail && sDetail.timeList ? sDetail.timeList : [];
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [count, setCount] = useState(0);
@@ -66,6 +61,7 @@ function BtModal({ closeModal, sDetail }) {
   const handleTimeChange = (time, timeIndex) => {
     setSelectedTime(time);
     setTimeIndex(timeIndex);
+  }
 
   const handlePayment = () => {
     console.log("token", token.userId);
@@ -121,6 +117,11 @@ function BtModal({ closeModal, sDetail }) {
         </div>
 
         {sDetail.timeList.map((time, index) => {
+           const remainingSlots =
+           sDetail.timeList[index].timeMaxUser -
+           sDetail.timeList[index].timeCurrentUser;
+         const isNoRemainingSlot = remainingSlots === 0;
+
           const timeDate = new Date(time.timeDate);
           const selectedLocalDate = selectedDate
             ? new Date(
@@ -139,34 +140,20 @@ function BtModal({ closeModal, sDetail }) {
                 key={sDetail.timeList[index].timeId}
               >
                 <div
-                  className="selected-time"
+                  className={`selected-time ${
+                    isNoRemainingSlot ? "no-remaining-slot" : ""
+                  }`}
                   onClick={() =>
                     handleTimeChange(
                       `${time.timeStart}~${time.timeEnd}`,
-                      `${sDetail.timeList[index].timeId}`
+                      `${sDetail.timeList[index].timeId}`,
+                      `${index}`
                     )
                   }
                 >
-                  {time.timeStart}~{time.timeEnd}
-                </div>
-                <div className="selected-time">
-                  남은 인원:{" "}
-                  {sDetail.timeList[index].timeMaxUser -
-                    sDetail.timeList[index].timeCurrentUser}
+                 {time.timeStart}~{time.timeEnd} | 남은 인원: {remainingSlots}
                   명
                 </div>
-
-                {classTimes.map((time, index) => (
-                  <div
-                    key={index}
-                    className="selected-time"
-                    onClick={() =>
-                      handleTimeChange(time, sDetail.timeList[index].timeId)
-                    }
-                  >
-                    {time}
-                  </div>
-                ))}
               </div>
             );
           }
@@ -227,6 +214,5 @@ function BtModal({ closeModal, sDetail }) {
       </div>
     </div>
   );
-  }
 }
 export default BtModal;

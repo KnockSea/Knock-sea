@@ -14,15 +14,15 @@ import RvDetailTap from "./RvDetailTap";
 import BtModal from "./BtModal";
 
 const RvBtDetail = () => {
-  const { productId } = useParams();
-
-  const [selectedCity, setSelectedCity] = useState(null);
+  const { productId } = useParams();///
   const [startDate, setStartDate] = useState(new Date());
+  const [modal, setModal] = useState(false);
+  const [sDetail, setSdetail] = useState({});
   const [userId, setUserId] = useState(getLoginUserInfo().userId);
   const [isHearted, setIsHearted] = useState(false);
   const [exists, setExists] = useState(false);
   const [eduHeartCount, setEduHeartCount] = useState(0);
-  
+
   const fetchEduHeartCount = () => {
     fetch(`${API_BASE_URL}${HEART}/shipHeart?productId=${productId}&heartType=${'SHIP'}`)
       .then(response => response.json())
@@ -51,6 +51,7 @@ const RvBtDetail = () => {
     fetchHeartExists();
   }, [userId]);
   
+
   const createHeart = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}${HEART}`, {
@@ -83,20 +84,6 @@ const RvBtDetail = () => {
     }
   };
 
-  const cities = [
-    { name: "옵션선택안함", code: "B1" },
-    { name: "초보자옵션1 (1인당 15000원)", code: "A1" },
-  ];
-
-  // const location = useLocation();
-  // console.log(location)
-  console.log(productId);
-  // const productId = location.state.productId;
-  // useEffect(()=>{
-
-  // },[])
-  const [modal, setModal] = useState("false");
-  const [sDetail, setSdetail] = useState({});
 
   useEffect(() => {
     fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`)
@@ -167,11 +154,17 @@ const RvBtDetail = () => {
                   </div>
                 </div>
                 <div>
-                  <buttonb className="box btn"onClick={() => {setModal(true);}}>바로 예약하기</buttonb>
+                  <button 
+                  className="box btn" 
+                  onClick={() => {setModal(true);
+                  }}
+                  >
+                    바로 예약하기
+                    </button>
                   {modal === true ? (
                     <BtModal
-                      closeModal={() => setModal(false)}
-                      sDetail={sDetail}
+                    closeModal={() => setModal(false)}
+                    sDetail={sDetail}
                     />
                   ) : null}
                 </div>
