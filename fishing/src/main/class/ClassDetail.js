@@ -164,17 +164,18 @@ function ClassDetail() {
                     </div>
                     <span className="box profile-page">{oneEdu.userName}</span>
                     <div>
-                      <button
-                        onClick={createHeart}
-                        style={{
-                          color: "black",
-                          border: "none",
-                          background: "transparent",
-                          cursor: "pointer",
-                        }}
-                      >
-                        '❤️' <span>{eduHeartCount}</span>
-                      </button>
+                    <button
+  onClick={createHeart}
+  style={{
+    color: "black",
+    border: "none",
+    background: "transparent",
+    cursor: "pointer",
+    fontWeight: "bold", // 텍스트를 굵게 설정
+  }}
+>
+  <strong>'❤️' <span>{eduHeartCount}</span></strong>
+</button>
                     </div>
                     <div className="condition">
                       <ul className="condition-box">
