@@ -11,9 +11,7 @@ function MpReviewList() {
   const [isHearted, setIsHearted] = useState(false);
 
   // console.log(reviews);
-  useEffect(() => {
-    fetchData();
-  }, [reviews && reviews.length, page, size]);
+ 
 
   const fetchData = () => {
     fetch(`${API_BASE_URL}${REVIEW}/myReview?page=${page}&size=${size}`, {
@@ -33,8 +31,13 @@ function MpReviewList() {
       })
       .catch(error => {
         console.error(error);
+        console.log('에러가');
       });
   };
+
+  useEffect(() => {
+    fetchData();
+  }, [reviews && reviews.length, page, size]);
 
   if (reviews === null) {
     return <div>Loading...</div>;

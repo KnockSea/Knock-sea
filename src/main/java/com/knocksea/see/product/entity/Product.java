@@ -49,8 +49,9 @@ public class Product {
     @Column(name = "product_full_address", nullable = false)
     private String productFullAddress; // 상세 주소 ( 몇동 몇호 )
 
-    @Column(name = "product_info", nullable = false)
+    @Column(name = "product_info", nullable = false, length = 2000)
     private String productInfo;
+
 
     @Column(name = "product_location_info", nullable = false)
     private String productLocationInfo; // 주소 입력 받는 곳 ( 주소 폼 )

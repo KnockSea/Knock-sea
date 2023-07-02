@@ -201,27 +201,27 @@ const RvBtDetail = () => {
             <div className="detail-section">
               <div className="detail-box detail-list-profile">
                 <div className="lists">
-                  <Link
+                  {/* <Link
                     to={`/host/${sDetail.productId}/${sDetail.typeP}/${sDetail.userId}`}
-                  >
+                  > */}
                     <div className="box profile-img">
                       <img src={sDetail.userImgUrl} />
                     </div>
                     <span className="box profile-page">{sDetail.userName}</span>
-                  </Link>
+                  {/* </Link> */}
                   <div>
-                    <button
-                      onClick={createHeart}
-                      style={{
-                        color: exists ? "red" : "black",
-                        border: "none",
-                        background: "transparent",
-                        cursor: "pointer",
-                      }}
+                  <button
+                    onClick={createHeart}
+                    style={{
+                      color: "black",
+                      border: "none",
+                      background: "transparent",
+                      cursor: "pointer",
+                      fontWeight: "bold", // 텍스트를 굵게 설정
+                    }}
                     >
-                      {exists ? "❤️" : "🤍"}
-                      <h3>{eduHeartCount}</h3>
-                    </button>
+                    <strong>'❤️' <span>{eduHeartCount}</span></strong>
+</button>
                   </div>
                   <div className="condition">
                     <ul className="condition-box">

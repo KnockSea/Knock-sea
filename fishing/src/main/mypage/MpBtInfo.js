@@ -7,6 +7,9 @@ import {getLoginUserInfo, isLogin } from '../util/login-util';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { API_BASE_URL, SHIP } from '../../config/host-config'
+import MpReviewList from './MpReviewList';
+
+
 const MpBtInfo = () => {
 
 
@@ -126,21 +129,24 @@ const MpBtInfo = () => {
                   </div>
 
               <div className='rvbox'>
-                      <h2>리뷰 게시판</h2>
-                      <p>아직 작성된 리뷰가 없습니다</p>
-                {/* 서버와 연결하면 값 가져올때 있다면 로딩해줘야함 */}
-                      {/* <MpReFormItem/> */}
+              {userInfo.userGrade === 'OWNER' && (
+                <div className='rvbox'>
+                  <h2>리뷰 게시판</h2>
+                  {shipinfo.shipId && <MpReviewList />}
+                  {!shipinfo.shipId && <p>아직 작성된 리뷰가 없습니다.</p>}
+                </div>
+              )}
+              {userInfo.userGrade === 'COMMON' && (
+                <div className='rvbox'>
+                  <h2>리뷰 게시판</h2>
+                  {shipinfo.shipId && <MpReviewList />}
+                  {!shipinfo.shipId && <p>아직 작성된 리뷰가 없습니다.</p>}
+                </div>
+                        )}
 
               </div>
 
-              <div className='rvbox2'>
-                  <h2>예약 현황</h2>
-                  <p>아직 작성된 글이 없습니다</p>
-                  {/* 서버와 연결하면 값 가져올때 있다면 로딩해줘야함 */}
-
-                  {/* <MpRvFormItem/> */}
-
-              </div>
+   
           </div>
         
                 <MpList />

@@ -130,7 +130,10 @@ const MpRvlist = () => {
                 <div className='rvliststatus'>예약확정</div>
                 <div>
                   {dateStatusCheck(reservation.reserveDate) || (
-                    <Button variant='outlined' onClick={() => handleClickOpen(reservation)}>
+                    <Button 
+                    variant='outlined' 
+                    onClick={() => handleClickOpen(reservation)}
+                    className='regi-cancel'>
                       예약 취소
                     </Button>
                   )}
