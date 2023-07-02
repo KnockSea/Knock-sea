@@ -125,6 +125,27 @@ function EduRegistration() {
   const handleProductRegi = async () => {
     console.log("Eformdata?", formData);
 
+    // e.preventDefault();
+        
+    if (
+      // !productLabelType ||
+      !productTitle ||
+      !productInfo ||
+      !productLocationInfo ||
+      !productFullAddress ||
+      !productPrice ||
+      !timeMaxUser ||
+      !timeDate.length ||
+      !timeStarts.length ||
+      !timeEnds.length ||
+      !productService ||
+      images.length === 0
+    ) {
+      alert('모든 필수 항목을 입력해주세요.');
+      return;
+    }
+
+
 
     try {
       console.log("EduLevel : " ,eduLevel);
