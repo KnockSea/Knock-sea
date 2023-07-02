@@ -147,16 +147,17 @@ const RvBtDetail = () => {
                   </Link>
                   <div>
                   <button
-                        onClick={createHeart}
-                        style={{
-                          color: "black",
-                          border: "none",
-                          background: "transparent",
-                          cursor: "pointer",
-                        }}
-                      >
-                        '❤️' <span>{eduHeartCount}</span>
-                      </button>
+                    onClick={createHeart}
+                    style={{
+                      color: "black",
+                      border: "none",
+                      background: "transparent",
+                      cursor: "pointer",
+                      fontWeight: "bold", // 텍스트를 굵게 설정
+                    }}
+                    >
+                    <strong>'❤️' <span>{eduHeartCount}</span></strong>
+</button>
                   </div>
                   <div className="condition">
                     <ul className="condition-box">
