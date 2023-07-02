@@ -43,6 +43,16 @@ const MpQueryText = () => {
   const shipRegiFetch = async () => {
     // e.preventdefault();
 
+    if(info.shipName===""){
+      alert('프로필 제목은 필수값입니다!');
+      return;
+    }
+
+    if(info.shipDescription===""){
+      alert('프로필 내용은 필수값입니다!');
+      return;
+    }
+
     if (info.category === "ship") {
       const userJsonBlob = new Blob([JSON.stringify(info)], {
         type: "application/json",
