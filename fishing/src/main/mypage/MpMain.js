@@ -108,6 +108,7 @@ const MpMain = () => {
                         {/* <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button> */}
                         <button><Link to={'/myinfo'}>개인 정보 수정</Link></button>
                         </div>
+                        </div>
                         <div className='rvbox2'>
                     <div className='inner-rvbox2 btbox'>
                         {/* <div> */}
