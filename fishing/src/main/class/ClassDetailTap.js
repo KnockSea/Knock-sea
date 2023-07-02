@@ -15,7 +15,7 @@ const ClassDetailTap = (props) => {
 
   const handlePageChange = (page) => {
     setPage(page);
-    console.log(page);
+    // console.log(page);
   };
   // console.log("props : ",props.reviewList[0].reviewContent);
 

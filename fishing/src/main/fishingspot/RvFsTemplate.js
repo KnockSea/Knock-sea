@@ -13,21 +13,23 @@ function RvFsTemplate() {
   const [totalItemCount, setTotalItemCount] = useState(0);
   const handlePageChange = (page) => {
     setPage(page);
-    console.log(page);
+    // console.log(page);
   };
 
   // 낚시터 상품 정보 전체를 가져오는 함수
   const fetchFsProduct = async ({ p, s, t }) => {
-    console.log(Fsproduct);
-
-    fetch(
-      `${API_BASE_URL}${PRODUCTS}/product-list?page=${p}&size=${s}&type=${t}`
-    )
-      .then((response) => response.json())
-      .then((res) => {
-        setFsproduct(res);
-        setTotalItemCount(res.pageInfo.totalCount);
-      });
+    try {
+      // console.log(Fsproduct);
+  
+      const response = await fetch(
+        `${API_BASE_URL}${PRODUCTS}/product-list?page=${p}&size=${s}&type=${t}`
+      );
+      const res = await response.json();
+      setFsproduct(res);
+      setTotalItemCount(res.pageInfo.totalCount);
+    } catch (error) {
+      console.error('Error fetching FS product:', error);
+    }
   };
 
   useEffect(() => {

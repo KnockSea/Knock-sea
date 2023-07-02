@@ -8,7 +8,8 @@ import "./MpScss/MpAdmin.scss";
 const MpAdmin = () => {
 
     const [totalItemCount, setTotalItemCount] = useState(1);
-    const [validationList, setValidationList] = useState([]);
+    const [validationList, setValidationList] = useState({});
+    const [validationLists, setValidationLists] = useState([]);
     const [validationType, setValidationType] = useState('SHIP');
     const [page, setPage] = useState(1);
     const [size, setSize] = useState(10);
@@ -19,30 +20,46 @@ const MpAdmin = () => {
         // console.log(page);
       };
 
-      console.log('data',validationList);
+      // console.log('data',validationList);
+
+      const valFetch = async () => {
+        try {
+          const fetVal = await fetch(`${API_BASE_URL}${VALIDATION}/validationlist?page=${page}&size=${size}&type=${validationType}`);
+          if (fetVal.status == 200) {
+            const res = await fetVal.json();
+            setValidationList(res);
+            setValidationLists(res.validationListResponseDTO);
+            setTotalItemCount(res.pageInfo.totalCount);
+            // console.log('값 있니?', res.validationListResponseDTO);
+          }
+        } catch {
+
+        }
+      }
 
     // API 요청
     useEffect(() => {
-        fetch(`${API_BASE_URL}${VALIDATION}/validationlist?page=${page}&size=${size}&type=${validationType}`)
-          .then(response => response.json())
-          .then(data => {
-            const { validationListResponseDTO } = data;
+        // fetch(`${API_BASE_URL}${VALIDATION}/validationlist?page=${page}&size=${size}&type=${validationType}`)
+        //   .then(response => response.json())
+        //   .then(data => {
+        //     const { validationListResponseDTO } = data;
 
-                setValidationList(validationListResponseDTO);
+        //         setValidationList(validationListResponseDTO);
 
-                // Update the totalItemCount state variable if necessary
-                setTotalItemCount(data.pageInfo.totalCount);
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
+        //         // Update the totalItemCount state variable if necessary
+        //         setTotalItemCount(data.pageInfo.totalCount);
+        //   })
+        //   .catch(error => {
+        //     console.error('Error:', error);
+        //   });
+        valFetch();
       }, [isApprovalComplete]);
     //검증요청 승인하는 함수
     const updateValidation = async (e, validationUserName, validationType,validationuserId) => {
         e.preventDefault();
-        console.log(validationUserName,validationType);
+        // console.log(validationUserName,validationType);
         const confirm = window.confirm('정말 승인하시겠습니까?');
-        console.log(validationList);
+        // console.log(validationList);
         if (confirm) {
             // console.log(validationUserName);
             // console.log(validationType);
@@ -69,7 +86,7 @@ const MpAdmin = () => {
 
       const deleteValidation = async (e, validationId) => {
         e.preventDefault();
-        console.log(validationId);
+        // console.log(validationId);
         const confirm = window.confirm('정말 삭제하시겠습니까?');
         if(confirm){
         try {
@@ -94,6 +111,7 @@ const MpAdmin = () => {
     }
       };
 
+      // console.log(validationList.validationListResponseDTO);
   return (
     <section>
     <div className='MpAdminbox'>
@@ -112,43 +130,39 @@ const MpAdmin = () => {
             <div className='mgcontentbox'>
                 <div className='ctntitle'>KNOCK_SEA 관리자 화면 (배)</div>
                 <div className='ctncontent-wrap'>        
-                {/* 본문내용 */}
-                
-
-
-
-            
-                {validationList.length > 0 ? (
-                    validationList.map((validation) => (
-                    <div key={validation.validationId} className='ctncontent'>
+                  {validationLists ? (
+                    validationLists.map((validation) => (
+                      <div key={validation.validationId} className='ctncontent'>
                         {validation.userId ? (
-                            <div className='username'>{validation.userId}</div>
-                            ) : (
-                            <div>등록 유저번호 없음</div>
+                          <div className='username'>{validation.userId}</div>
+                        ) : (
+                          <div>등록 유저번호 없음</div>
                         )}
                         {validation.userName ? (
-                            <div className='username'>{validation.userName}</div>
-                            ) : (
-                            <div>등록 유저이름 없음</div>
+                          <div className='username'>{validation.userName}</div>
+                        ) : (
+                          <div>등록 유저이름 없음</div>
                         )}
-                        {validation.validationShipRegi? (
-                            <div className='username name'>{validation.validationShipRegi}</div>
-                            ) : (
-                            <div>선박 등록증 등록 안됨</div>
+                        {validation.validationShipRegi ? (
+                          <div className='username name'>{validation.validationShipRegi}</div>
+                        ) : (
+                          <div>선박 등록증 등록 안됨</div>
                         )}
-                        {validation.validationShipLicense?(
-                            <div className='username name'>{validation.validationShipRegi}</div>
-                            ):(
-                            <div>선박면허 등록 안됨</div>
+                        {validation.validationShipLicense ? (
+                          <div className='username name'>{validation.validationShipLicense}</div>
+                        ) : (
+                          <div>선박면허 등록 안됨</div>
                         )}
                         <div>
-                            <button className='admin-confirm' onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
-                            <button className='admin-confirm' onClick={(e) => deleteValidation(e, validation.validationId)}>취소</button>
+                          <button className='admin-confirm' onClick={(e) => updateValidation(e, validation.userName, validation.validationType,validation.userId)}>승인</button>
+                          <button className='admin-confirm' onClick={(e) => deleteValidation(e, validation.validationId)}>취소</button>
                         </div>
                         <div>{validation.validationStatus}</div>
-                    </div>
+                      </div>
                     ))
-                ) : (<div className='ctncontent'>❎ 현재 요청데이터 없음</div>)}
+                  ) : (
+                    <div className='ctncontent'>❎ 현재 요청데이터 없음</div>
+                )}
                 </div>
 
 

@@ -13,7 +13,7 @@ const MpAdminCS = () => {
 
   const handlePageChange = (page) => {
     setPage(page);
-    console.log(page);
+    // console.log(page);
   };
   useEffect(() => {
     fetchInquiries();
@@ -21,7 +21,7 @@ const MpAdminCS = () => {
 
   useEffect(() => {
     fetchInquiries();
-    console.log(inquiries);
+    // console.log(inquiries);
   }, [page, inquiries && inquiries.length]);
 
   const fetchInquiries = async () => {

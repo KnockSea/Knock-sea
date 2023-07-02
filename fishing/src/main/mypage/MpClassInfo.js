@@ -31,7 +31,7 @@ const MpClassInfo = () => {
         });
         if (res.status === 200) {
             const json = await res.json(); // JSON 데이터 파싱
-            console.log(json);
+            // console.log(json);
             setmyEdu(json);
         } else {
             alert('등록된 클래스가 없습니다!!');
@@ -41,7 +41,7 @@ const MpClassInfo = () => {
 
     useEffect(() => {
         const user = getLoginUserInfo();
-        console.log(user);
+        // console.log(user);
         setUserInfo(user);
         getMyEdu();
       }, []);

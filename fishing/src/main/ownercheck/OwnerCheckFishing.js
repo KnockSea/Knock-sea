@@ -13,10 +13,10 @@ function OwnerCheckFishing() {
   //화면이동 함수
   const navi = useNavigate();
 
-  const handleOwnerConfirm = async (e) => {
+    const handleOwnerConfirm = async (e) => {
     e.preventDefault();
     //  처리 로직
-    console.log(file);
+    // console.log(file);
 
     const payload = {
       validationType: 'SPOT',

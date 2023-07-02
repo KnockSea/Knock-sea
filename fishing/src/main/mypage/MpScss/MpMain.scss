@@ -208,34 +208,56 @@
                     // border: 1px solid #000;
                 }
                 .mprebox2{
+                    width: 50%;
                     margin-left: 10px;
                    
-                    
                     .mpreAutohr{
                         display: flex;
                         :nth-child(1){
                             // border: 1px solid #000;
+                            height: 20px;
+                            padding: 0 20px;
                             border-right: 1px solid #ccc;
-                            width: 80px;
+                            color: #123282;
+                            font-weight: 600;
                         }
                      :nth-child(2){
-                        margin-left: 40px;
+                        padding: 0 20px;
+                        font-weight: 600;
                      }
                     }
                     .mpstar{
-                        margin-top: 10px;
-                        margin-bottom: 10px;
+                        border-left: 1px solid #ccc;
+                        padding: 0 20px;
+                        width: 80px;
+                    }
+
+                    .review-wrap {
+                        width: 100%;
+                        margin: 20px;
+                        display: flex;
+                        justify-content: space-between;
+                        .review-con {
+                            white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+                            overflow: hidden; /* 넘치는 부분 숨김 */
+                            text-overflow: ellipsis;
+                        }
+                        .reviewbtn {
+                            border: none;
+                            background: #5b77bd;
+                            color: #fff;
+
+                        }
                     }
                 }
             }
-
-
         }
         .rvbox2 {
             // width: 100%;
             // height: 300px;
             margin-top: 213px;
             text-align: left;
+            border-bottom: 1px solid #DDDDDD;
 
             .inner-rvbox2 {
                 display: flex;

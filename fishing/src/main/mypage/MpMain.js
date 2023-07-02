@@ -22,28 +22,28 @@ const MpMain = () => {
     profileImageUrl: "",
   });
 
-  const [userInfo, setUserInfo] = useState({
-    token: "",
-    userEmail: "",
-    userName: "",
-    userGrade: "",
-    userId: "",
-    userPhone: "",
-  });
+      const [userInfo, setUserInfo] = useState({
+        token: '',
+        userEmail: '',
+        userName : '',
+        userGrade : '',
+        userId : '',
+        userPhone : ''
+      });
+    
+    //   console.log(userInfo);
 
-  const fetchUserInfo = async () => {
-    const res = await fetch(`${API_BASE_URL}${USER}/user-mylist`, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-      },
-    });
+    const fetchUserInfo = async () => {
+        const res = await fetch(`${API_BASE_URL}${USER}/user-mylist`, {
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')}
+        });
 
-    if (res.status === 200) {
-      const json = await res.json(); // JSON 데이터 파싱
-      console.log(json);
-      setUserProfile(json);
-      console.log(userProfile);
+        if (res.status === 200) {
+            const json = await res.json(); // JSON 데이터 파싱
+            // console.log(json);
+            setUserProfile(json);
+            // console.log(userProfile);
 
       /*
             // 서버에서 직렬화된 이미지가 응답된다.
@@ -81,6 +81,64 @@ const MpMain = () => {
               </Link>
             )}
 
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpfs'}><h1>🚩 낚시터</h1></Link>)}
+                            {/* {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)} */}
+                        </div>
+                    </div>
+                    <div className='userinfobox'>
+                        <div className='userinfoWrap'>
+                            <div className='profilebox'>
+                                <img className="my-profile" title="마이페이지" src={userProfile.profileImageUrl || require('./../icons/defaultProfile.png')}/>
+                            </div>
+                            <div className='userWrap userMain'>
+                                <p>이름</p>
+                                <p>나의 등급</p>
+                                <p>이메일</p>
+                                <p>연락처</p>
+                            </div>
+                            <div className='userWrap userEtc'>
+                                <div className='userName'>{userInfo.userName}</div>
+                                <div>{userInfo.userGrade}</div>
+                                <div>{userInfo.userEmail}</div>
+                                <div>{userInfo.userPhone}</div>
+                            </div>
+                        </div>
+                        <div className='btnboxMain'>
+                        {/* <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button> */}
+                        <button><Link to={'/myinfo'}>개인 정보 수정</Link></button>
+                        </div>
+                    </div>
+                <div className='rvbox2'>
+                    <div className='inner-rvbox2 btbox'>
+                        <div>
+                            <h2>예약 현황</h2>
+                            <p>아직 작성된 글이 없습니다</p>
+                            {/* <MpRvlist/> */}
+                        </div>
+                        <div>
+                        <button className='mp-isbtn'onClick={ () => {setModal(true)} }>등록하러 가기</button>
+                            {modal === true ? <RegiModal closeModal={() => setModal(false)} /> : null}
+                        </div>
+                    </div>
+                </div>
+                {userInfo.userGrade==='OWNER'&&(
+                <div className='rvbox'>
+                    <h2>리뷰 현황</h2>
+                    <MpReviewList />
+                </div>
+                )}
+                {userInfo.userGrade==='COMMON'&&(
+                <div className='rvbox'>
+                    <h2>리뷰 현황</h2>
+                    <MpReviewList />
+                </div>
+                )}
+            </div>
+
+                <MpList />
+        </section>
+    )
+}
             {userInfo.userGrade === "OWNER" && (
               <Link to={"/mpbt"}>
                 <h1>🚩 낚시터</h1>

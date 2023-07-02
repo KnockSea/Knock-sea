@@ -26,7 +26,7 @@ function RegiModal({closeModal}) {
       });
       if (res.status === 200) {
           const json = await res.json(); // JSON 데이터 파싱
-          console.log(json);
+          // console.log(json);
       } else {
       }
     };

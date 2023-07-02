@@ -39,7 +39,7 @@ function MpAnswer() {
           .then(response => response.json())
           .then(result => {
             // 서버 응답을 처리하는 로직 작성
-            console.log(result);
+            // console.log(result);
           })
           .catch(error => {
             // 에러 처리 로직 작성

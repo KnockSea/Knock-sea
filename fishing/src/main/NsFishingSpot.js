@@ -32,7 +32,7 @@ const NsFishingSpot = ({ spotList, linkdetail }) => {
 
             return (
               <div key={item.id} className="image">
-                <Link to={`/detail/${productId}`}>
+                <Link to={`/fsdetail/${productId}`}>
                   <img src={item.imgUrl} alt={item.title} />
                 </Link>
               </div>

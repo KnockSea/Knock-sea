@@ -34,7 +34,7 @@ const MpReviewForm = () => {
       id : id
     };
 
-    console.log("formdata : ",formdata);
+    // console.log("formdata : ",formdata);
 
     fetch(`${API_BASE_URL}${REVIEW}`, {
       method: "POST",
@@ -47,7 +47,7 @@ const MpReviewForm = () => {
       .then((response) => response.json())
       .then((result) => {
         // 서버 응답을 처리하는 로직 작성
-        console.log(result);
+        // console.log(result);
       })
       .catch((error) => {
         // 에러 처리 로직 작성
@@ -66,7 +66,7 @@ const location = useLocation();
   useEffect(() => {
     fetchToken();
     const reservationInfo = location.state.reservationInfo;
-    console.log("reservationInfo : ",reservationInfo);
+    // console.log("reservationInfo : ",reservationInfo);
     setId(reservationInfo.id);
     setReviewType(reservationInfo.type);
   }, []);

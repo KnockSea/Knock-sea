@@ -20,21 +20,22 @@ function RvTemplate() {
 
   // 배 상품 정보를 전체 가져오는 함수
   const fetchFsProduct = async ({ p, s, t }) => {
-    // console.log("안녕 나는 rvtemplate fetch야");
-
-    fetch(
-      `${API_BASE_URL}${PRODUCTS}/product-list?page=${p}&size=${s}&type=${t}`
-    )
-      .then((response) => response.json())
-      .then((res) => {
-        setFsproduct(res);
-        setTotalItemCount(res.pageInfo.totalCount);
-      });
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}${PRODUCTS}/product-list?page=${p}&size=${s}&type=${t}`
+      );
+      const res = await response.json();
+      setFsproduct(res);
+      setTotalItemCount(res.pageInfo.totalCount);
+    } catch (error) {
+      console.error('Error fetching FS product:', error);
+    }
   };
 
   useEffect(() => {
     fetchFsProduct({ p: page, s: size, t: type });
   }, [page]);
+  // console.log('지도 지도 ', Fsproduct);
 
   return (
     Fsproduct && (

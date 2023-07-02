@@ -4,13 +4,13 @@ import { Route, Routes } from 'react-router-dom';
 import { useNavigate, Link } from 'react-router-dom';
 import Post from './Post';
 import ProfileUpload from './ProfileUpload';
-import { API_BASE_URL as BASE, USER } from '../../config/host-config';
+import { API_BASE_URL, USER } from '../../config/host-config';
 
 
 function SignUpForm(){
 
 
-  const API_BASE_URL = BASE + USER;
+  
 
   const redirection = useNavigate();
 
@@ -57,7 +57,7 @@ function SignUpForm(){
 
   const getAddress = (userAddress) => {
 
-    console.log('getAddr:', userAddress);
+    // console.log('getAddr:', userAddress);
     // setPostAddress(userAddress);
 
     let msg; // 검증 메시지를 저장할 변수
@@ -103,12 +103,12 @@ function SignUpForm(){
    // 이메일 중복체크 서버 통신 함수
    const fetchDuplicateCheck = async (userEmail) => {
 
-    const res = await fetch(`${API_BASE_URL}/check?userEmail=${userEmail}`);
+    const res = await fetch(`${API_BASE_URL}${USER}/check?userEmail=${userEmail}`);
 
     let msg = '', flag = false;
     if (res.status === 200) {
       const json = await res.json();
-      console.log(json);
+      // console.log(json);
       if (json) {
         msg = '이메일이 중복되었습니다!';
         flag = false;
@@ -117,6 +117,7 @@ function SignUpForm(){
         flag = true;
       }
     } else {
+      // console.log(res.status);
       alert('서버 통신이 원활하지 않습니다!');
     }
 
@@ -293,48 +294,45 @@ function SignUpForm(){
       return true;
     };
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
-
+    const handleSignUp = async (e) => {
+      e.preventDefault();
+    
       // 회원가입 서버 요청
-      if(isValid()) {
-
-
+      if (isValid()) {
         const userJsonBlob = new Blob(
           [JSON.stringify(userValue)],
           { type: 'application/json' }
         );
-
-
+    
         const userData = new FormData();
         userData.append('user', userJsonBlob);
         userData.append('profileImage', profileImage);
-
-        // fetch를 사용하여 회원가입 요청 보내기
-        fetch(`${API_BASE_URL}/register`, {
-          method: 'POST',
-          body: userData
-        })
-          .then(async (res) => {
-            if (res.status === 200) {
-              alert('😀회원가입이 완료되었습니다!🎉');
-              redirection('/login');
-            } else if(res.status===400){
-              const error = await res.text(); // 에러 메시지 받기
-              // alert('서버와의 통신이 원활하지 않습니다😓',error);
-              alert(error + '😓');
-            }else if(res.status===500){
-              const error = await res.text(); // 에러 메시지 받기
-              alert(error + '😓');
-            }
-          })
-          .then(flag => {
+    
+        try {
+          // fetch를 사용하여 회원가입 요청 보내기
+          const response = await fetch(`${API_BASE_URL}${USER}/register`, {
+            method: 'POST',
+            body: userData
           });
-
+    
+          if (response.status === 200) {
+            alert('😀회원가입이 완료되었습니다!🎉');
+            redirection('/login');
+          } else if (response.status === 400) {
+            const error = await response.text(); // 에러 메시지 받기
+            alert(error + '😓');
+          } else if (response.status === 500) {
+            const error = await response.text(); // 에러 메시지 받기
+            alert(error + '😓');
+          }
+        } catch (error) {
+          console.error('Error signing up:', error);
+        }
       } else {
         alert('입력란을 다시 확인해주세요!🤸🏻‍♀️');
       }
     };
+    
 
   
 
