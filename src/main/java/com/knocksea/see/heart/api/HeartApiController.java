@@ -43,7 +43,7 @@ public class HeartApiController {
         try {
 //            boolean isLiked = heartService.checkIfLiked(userInfo, dto);
             boolean heart = heartService.createAndDeleteHeart(dto);
-
+            log.info("heart@@@@@@@@@@@@@@@@@{}", heart);
             return ResponseEntity
                     .ok()
                     .body(heart);
@@ -74,15 +74,35 @@ public class HeartApiController {
         return null;
     }
 
-    @GetMapping("/exists")
-    public ResponseEntity<?> existsByUserAndHeartType(
+    @GetMapping("/existsEdu")
+    public ResponseEntity<?> existsByUserAndEduAndHeartType(
             @RequestParam("userId") Long userId,
-            @RequestParam("heartType") String heartType
+            @RequestParam("heartType") String heartType,
+            @RequestParam("eduId") Long eduId
     ) {
         try {
             log.info("userId@@@@@@@@@@@@@@@@@@@@@@@ {}", userId);
             log.info("heartType@@@@@@@@@@@@@@@@@@@@ {}", heartType);
-            boolean exists = heartService.existsByUserAndHeartType(userId, heartType);
+            log.info("eduId@@@@@@@@@@@@@@@@@@@@ {}", eduId);
+            boolean exists = heartService.existsByUserAndEduAndHeartType(userId, eduId, heartType);
+            log.info("exists @@@@@@@@ {}", exists);
+            return ResponseEntity.ok().body(exists);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("서버 터짐 원인: " + e.getMessage());
+        }
+    }
+    @GetMapping("/existsProduct")
+    public ResponseEntity<?> existsByUserAndProductAndHeartType(
+        @RequestParam("userId") Long userId,
+        @RequestParam("heartType") String heartType,
+        @RequestParam("productId") Long productId
+    ) {
+        try {
+            log.info("userId@@@@@@@@@@@@@@@@@@@@@@@ {}", userId);
+            log.info("heartType@@@@@@@@@@@@@@@@@@@@ {}", heartType);
+            log.info("eduId@@@@@@@@@@@@@@@@@@@@ {}", productId);
+            boolean exists = heartService.existsByUserAndProductAndHeartType(userId, productId, heartType);
             log.info("exists @@@@@@@@ {}", exists);
             return ResponseEntity.ok().body(exists);
         } catch (Exception e) {

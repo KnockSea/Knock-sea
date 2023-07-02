@@ -3,7 +3,7 @@ import "./RvScss/RvBtDetail.scss";
 import dt1 from "../img/dtRv.png";
 import boat from "../img/boat.jpg";
 import { API_BASE_URL, PRODUCTS, HEART } from "../../config/host-config";
-import { useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Calendar } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import { getLoginUserInfo } from '../util/login-util';
@@ -15,7 +15,6 @@ import BtModal from "./BtModal";
 
 const RvBtDetail = () => {
   const { productId } = useParams();
-
   const [selectedCity, setSelectedCity] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
   const [userId, setUserId] = useState(getLoginUserInfo().userId);
@@ -30,24 +29,22 @@ const RvBtDetail = () => {
       .catch(error => console.error('Error fetching edu heart count:', error));
   };
 
+  const fetchHeartExists = async () => {
+    try {
+      const heartType = 'SHIP'; // 하트 타입
 
+      const apiUrl = `${API_BASE_URL}${HEART}/existsProduct?userId=${userId}&heartType=${heartType}&productId=${productId}`;
+
+      const response = await fetch(apiUrl);
+      const exists = await response.json();
+
+      setExists(exists);
+    } catch (error) {
+      console.error('API 요청 실패:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchHeartExists = async () => {
-      try {
-        const heartType = 'SHIP'; // 하트 타입
-  
-        const apiUrl = `${API_BASE_URL}${HEART}/exists?userId=${userId}&heartType=${heartType}`;
-  
-        const response = await fetch(apiUrl);
-        const exists = await response.json();
-  
-        setExists(exists);
-      } catch (error) {
-        console.error('API 요청 실패:', error);
-      }
-    };
-  
     fetchHeartExists();
   }, [userId]);
   
@@ -99,6 +96,7 @@ const RvBtDetail = () => {
   const [sDetail, setSdetail] = useState({});
 
   useEffect(() => {
+    setIsHearted(localStorage.getItem('isHearted') === 'true');
     fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`)
       .then((response) => response.json())
       .then((sDetail) => {
@@ -141,7 +139,7 @@ const RvBtDetail = () => {
                     <span className="box profile-page">{sDetail.userName}</span>
                   </Link>
                   <div>
-                  <button
+                  <button 
                         onClick={createHeart}
                         style={{
                           color: exists ? 'red' : 'black',
@@ -150,8 +148,7 @@ const RvBtDetail = () => {
                           cursor: 'pointer',
                         }}
                       >
-                        {exists ? '❤️' : '🤍'}
-                        <h3>{eduHeartCount}</h3>
+                        {exists ? '❤️' : '🤍'} <span>{eduHeartCount}</span>
                       </button>
                     </div>
                   <div className="condition">

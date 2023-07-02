@@ -3,10 +3,8 @@ import './scss/ClassDetail.scss';
 import ClassModal from "./ClassModal";
 import ClassDetailTap from "./ClassDetailTap";
 import Calendar from '../Calendar';
-import { Route, Routes,Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, Route, Routes,Link } from 'react-router-dom';
 import { getLoginUserInfo } from "../util/login-util";
-import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL, EDU, HEART } from '../../config/host-config';
 
 
@@ -39,13 +37,12 @@ function ClassDetail() {
                 setModal(true);
                 e.preventDefault();
                 }};
-
-  useEffect(() => {
-    const fetchHeartExists = async () => {
+    
+  const fetchHeartExists = async () => {
       try {
         const heartType = 'EDU'; // 하트 타입
 
-        const apiUrl = `${API_BASE_URL}${HEART}/exists?userId=${userId}&heartType=${heartType}`;
+        const apiUrl = `${API_BASE_URL}${HEART}/existsEdu?userId=${userId}&heartType=${heartType}&eduId=${eduId}`;
 
         const response = await fetch(apiUrl);
         const exists = await response.json();
@@ -56,6 +53,7 @@ function ClassDetail() {
       }
     };
 
+  useEffect(() => {
     fetchHeartExists();
   }, [userId]);
 
@@ -118,7 +116,6 @@ useEffect(() => {
       setOneEdu(json);
       fetchEduHeartCount();
     });
-    fetchEduHeartCount();
 }, [eduId, exists]);
 
 
@@ -151,7 +148,7 @@ useEffect(() => {
                       </div>
                       <span className="box profile-page">{oneEdu.userName}</span>
                     <div>
-                      <button
+                      <button 
                         onClick={createHeart}
                         style={{
                           color: exists ? 'red' : 'black',
@@ -166,7 +163,7 @@ useEffect(() => {
                     <div className="condition">
                       <ul className="condition-box">
                         <li>{oneEdu.eduLevel} |</li>
-                        <li> 최대 {oneEdu.timeList && oneEdu.timeList[0].timeMaxUser}명 |</li>
+                        <li> 최대{" "} {oneEdu.timeList && oneEdu.timeList[0].timeMaxUser}명 |</li>
                         <li> {oneEdu.eduPrice}원</li>
                       </ul>
                     </div>

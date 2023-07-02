@@ -43,7 +43,7 @@ public interface HeartRepository extends JpaRepository<Heart, Long> {
 
     Heart findByUserAndEduAndProduct(User user,Edu edu,Product product);
 
-    boolean existsByUserAndHeartType(User user, HeartType heartType);
+
 
 //    @Query("SELECT CASE WHEN COUNT(h) > 0 THEN true ELSE false END FROM Heart h WHERE h.user.userId = :userId AND h.heartType = :heartType")
 //    boolean existsByUserAndHeartType(@Param("userId") Long userId, @Param("heartType") String heartType);
@@ -67,4 +67,14 @@ public interface HeartRepository extends JpaRepository<Heart, Long> {
     boolean existsByUserAndEduAndHeartType(@Param("user") User user,
                                            @Param("edu") Edu edu,
                                            @Param("heartType") HeartType heartType);
+
+    @Query("SELECT CASE WHEN COUNT(h) > 0 THEN true ELSE false END " +
+        "FROM Heart h " +
+        "WHERE h.user = :user " +
+        "AND h.product = :product " +
+        "AND h.heartType = :heartType")
+    boolean existsByUserAndProductAndHeartType(@Param("user") User user,
+                                           @Param("product") Product product,
+                                           @Param("heartType") HeartType heartType);
+
 }

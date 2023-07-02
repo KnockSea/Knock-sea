@@ -6,7 +6,7 @@ import fs from "../img/fs.jpg";
 import { API_BASE_URL, PRODUCTS, HEART } from "../../config/host-config";
 import { useLocation, useParams } from "react-router-dom";
 import { Calendar } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getLoginUserInfo } from '../util/login-util';
 
 import "primereact/resources/themes/saga-blue/theme.css";
@@ -25,7 +25,8 @@ const RvFsDetail = () => {
   const [isHearted, setIsHearted] = useState(false);
   const [exists, setExists] = useState(false);
   const [eduHeartCount, setEduHeartCount] = useState(0);
-
+  const navigate = useNavigate();
+  const [token, setToken] = useState(getLoginUserInfo().token);
 
  const fetchEduHeartCount = () => {
     fetch(`${API_BASE_URL}${HEART}/spotHeart?productId=${productId}&heartType=${'SPOT'}`)
@@ -34,24 +35,22 @@ const RvFsDetail = () => {
       .catch(error => console.error('Error fetching edu heart count:', error));
   };
 
+  const fetchHeartExists = async () => {
+    try {
+      const heartType = 'SPOT'; // 하트 타입
 
+      const apiUrl = `${API_BASE_URL}${HEART}/existsProduct?userId=${userId}&heartType=${heartType}&productId=${productId}`;
+
+      const response = await fetch(apiUrl);
+      const exists = await response.json();
+
+      setExists(exists);
+    } catch (error) {
+      console.error('API 요청 실패:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchHeartExists = async () => {
-      try {
-        const heartType = 'SPOT'; // 하트 타입
-  
-        const apiUrl = `${API_BASE_URL}${HEART}/exists?userId=${userId}&heartType=${heartType}`;
-  
-        const response = await fetch(apiUrl);
-        const exists = await response.json();
-  
-        setExists(exists);
-      } catch (error) {
-        console.error('API 요청 실패:', error);
-      }
-    };
-  
     fetchHeartExists();
   }, [userId]);
   
@@ -88,6 +87,10 @@ const RvFsDetail = () => {
   };
 
   useEffect(() => {
+    const loginUserInfo = getLoginUserInfo();
+    setToken(loginUserInfo.token);
+    setIsHearted(localStorage.getItem('isHearted') === 'true');
+
     fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`)
       .then((response) => response.json())
       .then((FsDetail) => {
@@ -139,8 +142,7 @@ const RvFsDetail = () => {
                           cursor: 'pointer',
                         }}
                       >
-                        {exists ? '❤️' : '🤍'}
-                        <h3>{eduHeartCount}</h3>
+                        {exists ? '❤️' : '🤍'} <span>{eduHeartCount}</span>
                       </button>
                     </div>
                   <div className="condition">
