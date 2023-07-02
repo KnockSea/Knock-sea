@@ -1,49 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import './scss/ClassDetail.scss';
+import React, { useState, useEffect } from "react";
+import "./scss/ClassDetail.scss";
 import ClassModal from "./ClassModal";
 import ClassDetailTap from "./ClassDetailTap";
-import Calendar from '../Calendar';
-import { Route, Routes,Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import Calendar from "../Calendar";
+import { Route, Routes, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getLoginUserInfo } from "../util/login-util";
-import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL, EDU, HEART } from '../../config/host-config';
-
-
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL, EDU, HEART } from "../../config/host-config";
 
 function ClassDetail() {
-     const [modal, setModal] = useState('false'); 
-     const { eduId } = useParams();
-     const [oneEdu, setOneEdu] = useState([]);
-     const [token, setToken] = useState(getLoginUserInfo().token);
-     const [userId, setUserId] = useState(getLoginUserInfo().userId);
-     const [isHearted, setIsHearted] = useState(false);
-     const [exists, setExists] = useState(false);
-     const navigate = useNavigate();
-     const [eduHeartCount, setEduHeartCount] = useState(0);
-
+  const [modal, setModal] = useState("false");
+  const { eduId } = useParams();
+  const [oneEdu, setOneEdu] = useState([]);
+  const [token, setToken] = useState(getLoginUserInfo().token);
+  const [userId, setUserId] = useState(getLoginUserInfo().userId);
+  const [isHearted, setIsHearted] = useState(false);
+  const [exists, setExists] = useState(false);
+  const navigate = useNavigate();
+  const [eduHeartCount, setEduHeartCount] = useState(0);
 
   const fetchEduHeartCount = () => {
-    fetch(`${API_BASE_URL}${HEART}/eduHeart?eduId=${eduId}&heartType=${'EDU'}`)
-      .then(response => response.json())
-      .then(data => setEduHeartCount(data))
-      .catch(error => console.error('Error fetching edu heart count:', error));
+    fetch(`${API_BASE_URL}${HEART}/eduHeart?eduId=${eduId}&heartType=${"EDU"}`)
+      .then((response) => response.json())
+      .then((data) => setEduHeartCount(data))
+      .catch((error) =>
+        console.error("Error fetching edu heart count:", error)
+      );
   };
 
-      const handleRegiIsloign = (e) => {
-        if (!token) {
-                alert("로그인이 필요한 서비스입니다!😏");
-                navigate('/login');
-            return;
-             } else {
-                setModal(true);
-                e.preventDefault();
-                }};
+  const handleRegiIsloign = (e) => {
+    if (!token) {
+      alert("로그인이 필요한 서비스입니다!😏");
+      navigate("/login");
+      return;
+    } else {
+      setModal(true);
+      e.preventDefault();
+    }
+  };
 
   useEffect(() => {
     const fetchHeartExists = async () => {
       try {
-        const heartType = 'EDU'; // 하트 타입
+        const heartType = "EDU"; // 하트 타입
 
         const apiUrl = `${API_BASE_URL}${HEART}/exists?userId=${userId}&heartType=${heartType}`;
 
@@ -52,7 +52,7 @@ function ClassDetail() {
 
         setExists(exists);
       } catch (error) {
-        console.error('API 요청 실패:', error);
+        console.error("API 요청 실패:", error);
       }
     };
 
@@ -62,13 +62,13 @@ function ClassDetail() {
   const createHeart = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}${HEART}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId: userId,
-          heartType: 'EDU',
+          heartType: "EDU",
           eduId: eduId,
           productId: null,
         }),
@@ -77,96 +77,115 @@ function ClassDetail() {
       if (response.ok) {
         const updatedIsHearted = !isHearted;
         setIsHearted(updatedIsHearted);
-        localStorage.setItem('isHearted', updatedIsHearted.toString());
+        localStorage.setItem("isHearted", updatedIsHearted.toString());
 
         // 하트 생성 후 exists 값을 업데이트
         const updatedExists = !exists;
         setExists(updatedExists);
         fetchEduHeartCount();
       } else {
-        console.error('하트 생성 또는 삭제 실패');
+        console.error("하트 생성 또는 삭제 실패");
       }
     } catch (error) {
-      console.error('하트 생성 또는 삭제 실패:', error);
+      console.error("하트 생성 또는 삭제 실패:", error);
     }
   };
 
-        const requestHeader = {
-        'content-type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      };
+  const requestHeader = {
+    "content-type": "application/json",
+    Authorization: "Bearer " + token,
+  };
 
- console.log("oneEdu : ",oneEdu);
-// const API_BASE_URL = `${API_BASE_URL}${EDU}/${eduId}`;
-useEffect(() => {
-  const loginUserInfo = getLoginUserInfo();
-  setToken(loginUserInfo.token);
-  setIsHearted(localStorage.getItem('isHearted') === 'true');
+  console.log("oneEdu : ", oneEdu);
+  // const API_BASE_URL = `${API_BASE_URL}${EDU}/${eduId}`;
+  useEffect(() => {
+    const loginUserInfo = getLoginUserInfo();
+    setToken(loginUserInfo.token);
+    setIsHearted(localStorage.getItem("isHearted") === "true");
 
-  fetch(`${API_BASE_URL}${EDU}/${eduId}`, {
-    method: 'GET',
-    headers: requestHeader,
-  })
-    .then((res) => {
-      if (res.status === 200) return res.json();
-      else {
-        alert('서버가 불안정합니다');
-      }
+    fetch(`${API_BASE_URL}${EDU}/${eduId}`, {
+      method: "GET",
+      headers: requestHeader,
     })
-    .then((json) => {
-      console.log(json);
-      setOneEdu(json);
-      fetchEduHeartCount();
-    });
+      .then((res) => {
+        if (res.status === 200) return res.json();
+        else {
+          alert("서버가 불안정합니다");
+        }
+      })
+      .then((json) => {
+        console.log(json);
+        setOneEdu(json);
+        fetchEduHeartCount();
+      });
     fetchEduHeartCount();
-}, [eduId, exists]);
-
+  }, [eduId, exists]);
 
   return (
     <div className="class-detail-container">
       <div className="class-detail-wrap">
         <div id="class-detail-header">
           <div className="detail-main-photo1">
-            <img src={oneEdu.imageList && oneEdu.imageList[0]} className="photo1" alt="Photo1" />
+            <img
+              src={oneEdu.imageList && oneEdu.imageList[0]}
+              className="photo1"
+              alt="Photo1"
+            />
           </div>
           <div className="photo detail-main-photo2">
-            <img src={oneEdu.imageList && oneEdu.imageList[1]} className="photo2" alt="Photo2" />
+            <img
+              src={oneEdu.imageList && oneEdu.imageList[1]}
+              className="photo2"
+              alt="Photo2"
+            />
           </div>
           <div className="photo detail-main-photo3">
-            <img src={oneEdu.imageList && oneEdu.imageList[2]} className="photo3" alt="Photo3" />
+            <img
+              src={oneEdu.imageList && oneEdu.imageList[2]}
+              className="photo3"
+              alt="Photo3"
+            />
           </div>
         </div>
         <div className="detail-content-wrap">
           <div className="detail-left-section">
-            <span style={{ textAlign: 'left' }}>{oneEdu.eduTitle}</span>
-            <ClassDetailTap eduInfo={oneEdu.eduInfo} reviewList={oneEdu.reviewList} />
-          </div>    
+            <span style={{ textAlign: "left" }}>{oneEdu.eduTitle}</span>
+            <ClassDetailTap
+              eduInfo={oneEdu.eduInfo}
+              reviewList={oneEdu.reviewList}
+            />
+          </div>
           <div className="detail-right-section">
             <div className="detail-box detail-list-top">
               <div className="detail-section">
                 <div className="detail-box detail-list-profile">
                   <div className="lists">
                     <div className="box profile-img">
-                        <img src={oneEdu.userProfileImage} alt="Profile" />
-                      </div>
-                      <span className="box profile-page">{oneEdu.userName}</span>
+                      <img src={oneEdu.userProfileImage} alt="Profile" />
+                    </div>
+                    <span className="box profile-page">{oneEdu.userName}</span>
                     <div>
                       <button
                         onClick={createHeart}
                         style={{
-                          color: exists ? 'red' : 'black',
-                          border: 'none',
-                          background: 'transparent',
-                          cursor: 'pointer',
+                          color: exists ? "red" : "black",
+                          border: "none",
+                          background: "transparent",
+                          cursor: "pointer",
                         }}
                       >
-                        {exists ? '❤️' : '🤍'} <span>{eduHeartCount}</span>
+                        {exists ? "❤️" : "🤍"} <span>{eduHeartCount}</span>
                       </button>
                     </div>
                     <div className="condition">
                       <ul className="condition-box">
                         <li>{oneEdu.eduLevel} |</li>
-                        <li> 최대 {oneEdu.timeList && oneEdu.timeList[0].timeMaxUser}명 |</li>
+                        <li>
+                          {" "}
+                          최대{" "}
+                          {oneEdu.timeList && oneEdu.timeList[0].timeMaxUser}명
+                          |
+                        </li>
                         <li> {oneEdu.eduPrice}원</li>
                       </ul>
                     </div>
@@ -175,10 +194,13 @@ useEffect(() => {
                     <button className="box btn" onClick={handleRegiIsloign}>
                       바로 예약하기
                     </button>
-                    
-                    {modal === true ? <ClassModal closeModal={() => setModal(false)} oneEdu={oneEdu} /> : null}
-                    
-                  </div>
+
+                    {modal === true ? (
+                      <ClassModal
+                        closeModal={() => setModal(false)}
+                        oneEdu={oneEdu}
+                      />
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -186,7 +208,8 @@ useEffect(() => {
           </div>
         </div>
       </div>
-    );
-  }
-  
-  export default ClassDetail;
+    </div>
+  );
+}
+
+export default ClassDetail;
