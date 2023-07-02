@@ -69,7 +69,7 @@ const MpQueryText = () => {
 
         if (res.status === 200) {
           alert("등록 성공");
-          window.location.href = "/my";
+          window.location.href = "/mpbt";
         } else {
           alert(res.text());
         }
@@ -113,7 +113,7 @@ const MpQueryText = () => {
 
         if (res.status === 200) {
           alert("등록 성공");
-          window.location.href = "/my";
+          window.location.href = "/mpfs";
         } else if (res.status === 400) {
           alert("등록실패");
         }
