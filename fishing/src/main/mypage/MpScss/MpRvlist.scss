@@ -28,13 +28,11 @@
     .rvlistwrap {
         display: flex;
         justify-content: space-between;
-        button {
-            border-radius: 15px;
-            margin-right: 25px;
-        }
-
+       
         .regi-cancel{
             border: 1px solid #123282;
+            border-radius: 15px;
+            margin-right: 25px;
             color: #123282;
             width: 120px;
             height: 30px;
@@ -53,7 +51,9 @@
         font-weight: 700;
         margin: 5px 10px;
         font-size: 20px;
-
+        .cancel-btn {
+            margin-top: 10px;
+        }
     }
 
     .rvitembox {
@@ -91,13 +91,15 @@
                 width: 85%;
                 background: #123282;
                 border: 1px solid #123282;
+                color: #fff;
             }
     
             .norelist{
                 width: 85%;
-                background: rgb(187, 187, 187);
+                background: rgb(155, 155, 155);
                 border: 1px solid rgb(187, 187, 187);
                 cursor: no-drop;
+                color: #fff;
             }
         }
 
