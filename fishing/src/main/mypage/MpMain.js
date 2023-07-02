@@ -32,7 +32,7 @@ const MpMain = () => {
         userPhone : ''
       });
     
-    //   console.log(userInfo);
+      console.log(userInfo);
     
     const fetchUserInfo = async () => {
         const res = await fetch(`${API_BASE_URL}${USER}/user-mylist`, {
@@ -42,9 +42,9 @@ const MpMain = () => {
 
         if (res.status === 200) {
             const json = await res.json(); // JSON 데이터 파싱
-            // console.log(json);
+            console.log(json);
             setUserProfile(json);
-            // console.log(userProfile);
+            console.log(userProfile);
 
             /*
             // 서버에서 직렬화된 이미지가 응답된다.
@@ -82,7 +82,7 @@ const MpMain = () => {
                         <div className='ownerTap'>
                             {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>⛵ 배</h1></Link>)}
 
-                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpfs'}><h1>🚩 낚시터</h1></Link>)}
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>🚩 낚시터</h1></Link>)}
                             {/* {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)} */}
                         </div>
                     </div>
@@ -108,20 +108,21 @@ const MpMain = () => {
                         {/* <button className='isbtn'><Link to={'/myquery'}>글 등록하기</Link></button> */}
                         <button><Link to={'/myinfo'}>개인 정보 수정</Link></button>
                         </div>
-                    </div>
-                <div className='rvbox2'>
+                        <div className='rvbox2'>
                     <div className='inner-rvbox2 btbox'>
-                        <div>
-                            <h2>예약 현황</h2>
-                            <p>아직 작성된 글이 없습니다</p>
+                        {/* <div> */}
+                            {/* <h2>예약 현황</h2>
+                            <p>아직 작성된 글이 없습니다</p> */}
                             {/* <MpRvlist/> */}
-                        </div>
+                        {/* </div> */}
                         <div>
                         <button className='mp-isbtn'onClick={ () => {setModal(true)} }>등록하러 가기</button>
                             {modal === true ? <RegiModal closeModal={() => setModal(false)} /> : null}
                         </div>
                     </div>
                 </div>
+                    </div>
+          
                 {userInfo.userGrade==='OWNER'&&(
                 <div className='rvbox'>
                     <h2>리뷰 현황</h2>
