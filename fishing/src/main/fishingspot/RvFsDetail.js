@@ -26,6 +26,7 @@ const RvFsDetail = () => {
   const [token, setToken] = useState(getLoginUserInfo().token);
   const navigate = useNavigate();
   const [imageCount, setImageCount] = useState(0);
+
   const fetchEduHeartCount = () => {
     fetch(
       `${API_BASE_URL}${HEART}/spotHeart?productId=${productId}&heartType=${"SPOT"}`

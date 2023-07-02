@@ -13,10 +13,10 @@ import "primeicons/primeicons.css";
 import RvDetailTap from "./RvDetailTap";
 import BtModal from "./BtModal";
 import { useNavigate } from "react-router-dom";
+import no from "../img/nophoto.jpg";
 
 const RvBtDetail = () => {
   const { productId } = useParams();
-  // const [selectedCity, setSelectedCity] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
   const [modal, setModal] = useState(false);
   const [sDetail, setSdetail] = useState({});
@@ -26,6 +26,7 @@ const RvBtDetail = () => {
   const [eduHeartCount, setEduHeartCount] = useState(0);
   const [token, setToken] = useState(getLoginUserInfo().token);
   const navigate = useNavigate();
+  const [imageCount, setImageCount] = useState(0);
 
   const fetchEduHeartCount = () => {
     fetch(
@@ -48,7 +49,6 @@ const RvBtDetail = () => {
       e.preventDefault();
     }
   };
-
 
   useEffect(() => {
     const fetchHeartExists = async () => {
@@ -101,24 +101,88 @@ const RvBtDetail = () => {
     }
   };
 
+  // useEffect(() => {
+  //   fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`)
+  //     .then((response) => response.json())
+  //     .then((sDetail) => {
+  //       fetchEduHeartCount();
+  //       setSdetail(sDetail);
+  //     });
+  // }, [productId, exists]);
+
   useEffect(() => {
     fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`)
       .then((response) => response.json())
       .then((sDetail) => {
         fetchEduHeartCount();
         setSdetail(sDetail);
+        setImageCount(sDetail.imgUrl.length);
       });
   }, [productId, exists]);
+  const handleImageLoad = (e, index) => {
+    const img = e.target;
+    if (index === 0) {
+      img.style.width = "100%";
+      img.style.height = "100%";
+    } else if (index === 1) {
+      img.style.width = "100%";
+      img.style.height = "100%";
+    } else if (index === 2) {
+      img.style.width = "100%";
+      img.style.height = "100%";
+      img.style.disply = "flex";
+      img.style.justifycontent = "space-between";
+    }
+  };
+  const handleboxLoad = (e, index) => {
+    const div = e.target.parentNode;
+    if (index === 0) {
+      div.style.width = "100%";
+      div.style.height = "100%";
+    } else if (index === 1) {
+      div.style.width = "100%";
+    } else if (index === 2) {
+      div.style.width = "100%";
+      div.style.overflow = "hidden";
 
-  // console.log("sdatail", sDetail);
-  // console.log("xxx", sDetail.title);
+      // div.style.display = "flex";
+      // div.style.justifyContent = "space-between";
+    }
+  };
+
+  // 기본 이미지 URL
+  const defaultImageUrl = no;
+
+  // 이미지 로드 실패 시 호출되는 핸들러
+  const handleImageError = (e) => {
+    e.target.src = defaultImageUrl;
+  };
+
   return (
     <div className="allview">
       <div className="imgbox">
-        {/* <img src={sDetail.imgUrl && sDetail.imgUrl[1]} />
-        <img src={sDetail.imgUrl && sDetail.imgUrl[2]} /> */}
+        {/* {sDetail.imgUrl &&
+          sDetail.imgUrl.map((url, index) => <img key={index} src={url} />)} */}
         {sDetail.imgUrl &&
-          sDetail.imgUrl.map((url, index) => <img key={index} src={url} />)}
+          sDetail.imgUrl.map((url, index) => (
+            <div
+              key={index}
+              className="image-box"
+              onLoad={(e) => handleboxLoad(e, index)}
+            >
+              <img
+                src={url}
+                onLoad={(e) => handleImageLoad(e, index)}
+                onError={handleImageError}
+                className="imgboxmian1"
+              />
+            </div>
+          ))}
+        {imageCount === 1 && (
+          <div className="image-box">
+            <img src={no} alt="No Image" className="imgboxmian1" />
+          </div>
+        )}
       </div>
 
       <div className="allContentbox">
@@ -172,17 +236,18 @@ const RvBtDetail = () => {
                   </div>
                 </div>
                 <div>
-                  <button 
-                  className="box btn" 
-                  onClick={() => {setModal(true);
-                  }}
+                  <button
+                    className="box btn"
+                    onClick={() => {
+                      setModal(true);
+                    }}
                   >
                     바로 예약하기
-                    </button>
+                  </button>
                   {modal === true ? (
                     <BtModal
-                    closeModal={() => setModal(false)}
-                    sDetail={sDetail}
+                      closeModal={() => setModal(false)}
+                      sDetail={sDetail}
                     />
                   ) : null}
                 </div>
