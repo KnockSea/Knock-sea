@@ -51,8 +51,26 @@
       align-items: center;
       justify-content: center;
     }
-      .cscontent {
-        margin-bottom: 20px;
-      }
+    .ctncontent-wrap{
+        // border: 1px solid #000;
+        height: 450px;
+        .cscontent {
+          margin-bottom: 20px;
+          justify-content: space-between;
+
+          .name{
+            width: 100px;
+          }
+          .over-text{
+            width: 150px;
+          }
+          .over-text content{
+            width: 150px;
+          }
+        }
+    }
+    }
+    .page11 {
+        margin-top: 35px;
     }
   }
