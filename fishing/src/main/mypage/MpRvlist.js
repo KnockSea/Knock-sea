@@ -158,9 +158,9 @@ const dateStatusCheck=(checkDate)=>{
 
   return (
     <section className='MyPageMainBox'>
-    <div className='mainbox1'>
+    <div className='mainbox-Rvlist'>
 
-        <h1>내 예약 내역</h1>
+        <h3>내 예약 내역</h3>
         {!!userProfile.reserveDTO ? (
         userProfile.reserveDTO.map((reservation, index) => (
           <div className='rvlistbox' key={index} >
@@ -229,9 +229,7 @@ const dateStatusCheck=(checkDate)=>{
         <div>예약 내역이 없습니다.</div>
       )}
   </div>
-
     <MpList/>
-    
 </section>
   )
 }

@@ -133,7 +133,7 @@ const MpMain = () => {
                 )}
             </div>
         
-                <MpList style={{position:"fixed"}} />
+                <MpList />
         </section>
     )
 }

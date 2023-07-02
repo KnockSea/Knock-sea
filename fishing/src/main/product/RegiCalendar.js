@@ -54,7 +54,7 @@ class CalendarComponent extends Component {
           moveRangeOnFirstSelection={false}
           ranges={[this.state]}
           locale={ko}
-          minDate={new Date()} 
+         /// minDate={new Date()} 
           disabledDates={this.state.disabledDates} 
           dayProps={(date) => ({
           className: isSameDay(date, new Date()) ? "today disabled" : "disabled"
