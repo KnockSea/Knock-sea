@@ -83,7 +83,8 @@ function ClassMain() {
                 <div className="class-HOT">
                     <p><span className='class-list-title'>HOT! </span>지금 인기 많은 클래스</p>
                     <div className='lists'>
-                            {topFourEdus.map((t) => (
+                            {topFourEdus.slice(0, 4).map((t) => (
+                              <Link to={`/classdetail/${t.eduId}` } style={{ color: 'black', textDecoration: 'none' }}> 
                                     <div className="class-list-1" key={t.eduId}>
                                       <div className="writer" data-id={t.eduId}></div>
                                     <div className="list-img-wrapper">
@@ -110,6 +111,7 @@ function ClassMain() {
                                         <div className="text-price list-t">💰 가격 : {t.eduPrice}원</div>
                                     </div>
                                     </div>
+                                    </Link>
                                 ))}
                         </div>       
                 </div>
