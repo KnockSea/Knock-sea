@@ -79,14 +79,18 @@ const MpAdminCS = () => {
                     {inquiry.inquiryDetails}
                   </div>
                   <div>{inquiry.inquiryDateTime}</div>
-                  {inquiry.answerDetails === null && (
+                  {(inquiry.answerDetails === null) ? (
                     <Link
                       className="admin-confirm"
                       to={{ pathname: `/adminreply/${inquiry.inquiryId}` }}
                     >
                       답변하기
                     </Link>
-                  )}
+                  ): (<Link
+                    className="admin-confirm" style={ {backgroundColor: "green"} }
+                  >
+                    답변완료
+                  </Link>)}
                 </div>
               ))
             ) : (
