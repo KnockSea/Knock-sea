@@ -133,13 +133,15 @@ public class ProductService implements ProductDetailService {
         User user = userRepository.findById(userInfo.getUserId()).
                 orElseThrow(() -> new RuntimeException("회원 정보가 없습니다"));
 
-        if(dto.getProductLabelType()=="SHIP"){
+        if(dto.getProductLabelType().equals("SHIP")){
             if(shipRepository.findByUser(user)==null)
+                log.info("ggggg");
                 throw new RuntimeException("배 정보를 먼저 등록해주세요.");
         }
 
-        if(dto.getProductLabelType()=="SPOT"){
+        if(dto.getProductLabelType().equals("SPOT")){
             if(fishingSpotRepository.findByUser(user)==null)
+                log.info("kkkkk");
                 throw new RuntimeException("낚시터 정보를 먼저 등록해주세요");
         }
 
