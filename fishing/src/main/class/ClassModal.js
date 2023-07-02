@@ -62,45 +62,45 @@ function ClassModal({ closeModal, oneEdu }) {
     setIndex(index);
   };
 
-  const handlePayment = () => {
-    console.log("token", token.userId);
-    const reservation = {
-      reservationType: "EDU",
-      reservationDate: formattedDate,
-      reservationAddress: oneEdu.eduFullAddress,
-      reservationUserCount: count,
-      reservationPrice: oneEdu.eduPrice,
-      eduLevel: oneEdu.eduLevel,
-      eduId: oneEdu.eduId,
-      reservationTimeId: timeIndex,
-    };
-
-    console.log("click button : ", reservation);
-
-    const requestHeader = {
-      "content-type": "application/json",
-      Authorization: "Bearer " + token,
-    };
-
-    fetch(`${API_BASE_URL}${RESERVATION}`, {
-      method: 'POST',
-      headers: requestHeader,
-      body: JSON.stringify(reservation)
-    })
-      .then(res => {
-        if (res.status === 200) {
-          alert('예약이 완료되었습니다!😝')
-          navigate('/rvlist');
-          return res.json();
-        } else if (res.status === 401) {
-          alert('예약 실패..😫');
-        }
-      })
-      .catch(error => {
-        console.error("Error:", error);
+  const handlePayment = async () => {
+    try {
+      console.log("token", token.userId);
+      const reservation = {
+        reservationType: "EDU",
+        reservationDate: formattedDate,
+        reservationAddress: oneEdu.eduFullAddress,
+        reservationUserCount: count,
+        reservationPrice: oneEdu.eduPrice,
+        eduLevel: oneEdu.eduLevel,
+        eduId: oneEdu.eduId,
+        reservationTimeId: timeIndex,
+      };
+  
+      console.log("click button : ", reservation);
+  
+      const requestHeader = {
+        "content-type": "application/json",
+        Authorization: "Bearer " + token,
+      };
+  
+      const response = await fetch(`${API_BASE_URL}${RESERVATION}`, {
+        method: 'POST',
+        headers: requestHeader,
+        body: JSON.stringify(reservation)
       });
+  
+      if (response.status === 200) {
+        alert('예약이 완료되었습니다!😝');
+        navigate('/rvlist');
+        return await response.json();
+      } else if (response.status === 401) {
+        alert('예약 실패..😫');
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
-
+  
   return (
     <div className="modal-overlay">
       <div className="modal-box">
