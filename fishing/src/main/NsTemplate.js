@@ -35,7 +35,7 @@ const NsTemplate = () => {
   .then(response => response.json())
   .then(res =>{
         setlinkdetail(res);
-        console.log("dasdasdasdasdasdas" ,res);
+        // console.log("dasdasdasdasdasdas" ,res);
     })  
   }
 

@@ -73,7 +73,12 @@ header {
             }
 
             .userLogin{
-                font-weight: 700;      
+                font-weight: 700;    
+                text-align: right;
+
+                .sign-in-tap {
+                    margin-right: 25px;     
+                }
             }
 
             .ownerGo {

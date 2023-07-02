@@ -35,45 +35,42 @@ function ClassMain() {
   };
 
   console.log('edus',edus);
+
+  const fetchEdu = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}${EDU}?page=${page}&size=${size}`, {
+        method: 'GET',
+        headers: requestHeader
+      });
+  
+      if (response.status === 200) {
+        const json = await response.json();
+        console.log('json', json);
+        setEdus(json);
+        setTotalItemCount(json.pageInfo.totalCount);
+        setTopFourEdus(json.topFour);
+        console.log("topFourEdus", topFourEdus);
+      } else {
+        alert('서버가 불안정합니다');
+        console.log(response);
+      }
+    } catch (error) {
+      console.error('Error fetching edu:', error);
+    }
+  };
     
   
    useEffect(()=>{
-        fetch(`${API_BASE_URL}${EDU}?page=${page}&size=${size}`, { 
-            method: 'GET',
-            headers: requestHeader
-          })
-            .then(res => {
-              if (res.status === 200) return res.json();
-             else {
-                alert('서버가 불안정합니다');
-                console.log(res);
-              }
-            })
-            .then(json => {
-              console.log('json', json); // Check the fetched data
-              setEdus(json);
-              setTotalItemCount(json.pageInfo.totalCount);
-              setTopFourEdus(json.topFour);
-              console.log("topFourEdus",topFourEdus);
-            });
-        }, [page]);
+    const user = getLoginUserInfo();
+    setUserInfo(user);
+      fetchEdu();
+    }, [page]);
+ 
+    const [filter, setFilter] = useState('');
 
-        useEffect(() => {
-          const user = getLoginUserInfo();
-          setUserInfo(user);
-        }, []);
-      // const TopList = [
-      //   { id: '12', feedImg: 'https://cdn.pixabay.com/photo/2023/06/07/18/14/giraffes-8047856_1280.jpg', star: '★★★★★', title: '기린아 안녕', place: '부둣가', price: 10000 },
-      //   { id: '123', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
-      //   { id: '1234', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
-      //   { id: '돔쟁123이', feedImg: 'https://cdn.pixabay.com/photo/2023/05/05/11/07/sweet-7972193_1280.jpg', star: '★★★★★', title: '오늘 과자먹어요', place: '낚시터', price: 20000 },
-      // ];
-
-      const [filter, setFilter] = useState('');
-
-      const handleFilterChange = (event) => {
-        setFilter(event.target.value);
-      };
+    const handleFilterChange = (event) => {
+      setFilter(event.target.value);
+    };
 
     return(
       edus.posts && (

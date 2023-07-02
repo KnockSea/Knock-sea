@@ -6,7 +6,7 @@ import MpReFormItem from './MpReFormItem'
 import {getLoginUserInfo, isLogin } from '../util/login-util';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { API_BASE_URL, SHIP, USER } from '../../config/host-config'
+import { API_BASE_URL, SHIP } from '../../config/host-config'
 const MpBtInfo = () => {
 
 
@@ -47,19 +47,6 @@ const MpBtInfo = () => {
           alert('서버와의 통신이 원활하지않습니다!')
         }
       }
-
-      // 해당 상품 리뷰들 가져오는 함수
-      const fetchShipReview = async () => {
-        // const resp = await fetch(`${API_BASE_URL}${SHIP}/host-review?shipId=${shipinfo.shipId}`);
-        const resp = await fetch(`${API_BASE_URL}${USER}/load-myList`, {
-          method: 'GET',
-          headers: { 'Authorization': 'Bearer ' +localStorage.getItem('ACCESS_TOKEN')}
-        });
-          
-          if (resp.status === 200 ){
-            console.log('급해', resp.json());
-          }
-      };
       
       //배정보 삭제하기
       const deleteShip = async (e) =>{
@@ -97,7 +84,6 @@ const MpBtInfo = () => {
         const user = getLoginUserInfo();
         setUserInfo(user);
         fetchShipInfo();
-        fetchShipReview();
       }, []);
     
       useEffect(() => {
@@ -173,10 +159,6 @@ const MpBtInfo = () => {
         
                 <MpList />
         </section>
-
-
-
-
   )
 }
 

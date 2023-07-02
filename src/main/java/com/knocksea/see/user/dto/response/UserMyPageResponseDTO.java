@@ -26,12 +26,14 @@ public class UserMyPageResponseDTO {
     private String profileImageUrl;
 
     private List<Long> reviewId;
+    private List<Long> eduIdByUserId;
 
-    public UserMyPageResponseDTO(User user, List<ReservationResponseDTO> reservationTime) {
+    public UserMyPageResponseDTO(User user, List<ReservationResponseDTO> reservationTime,List<Long> eduIdByUserId) {
         this.userId = user.getUserId();
         this.userName = user.getUserName();
         this.userPoint = user.getUserPoint();
         this.reserveDTO = reservationTime;
         this.profileImageUrl = user.getProfileImg();
+        this.eduIdByUserId = eduIdByUserId;
     }
 }
