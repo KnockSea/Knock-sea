@@ -32,7 +32,7 @@ const MpMain = () => {
         userPhone : ''
       });
     
-      console.log(userInfo);
+    //   console.log(userInfo);
     
     const fetchUserInfo = async () => {
         const res = await fetch(`${API_BASE_URL}${USER}/user-mylist`, {
@@ -42,9 +42,9 @@ const MpMain = () => {
 
         if (res.status === 200) {
             const json = await res.json(); // JSON 데이터 파싱
-            console.log(json);
+            // console.log(json);
             setUserProfile(json);
-            console.log(userProfile);
+            // console.log(userProfile);
 
             /*
             // 서버에서 직렬화된 이미지가 응답된다.
@@ -82,7 +82,7 @@ const MpMain = () => {
                         <div className='ownerTap'>
                             {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>⛵ 배</h1></Link>)}
 
-                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpbt'}><h1>🚩 낚시터</h1></Link>)}
+                            {userInfo.userGrade==='OWNER' &&(<Link to={'/mpfs'}><h1>🚩 낚시터</h1></Link>)}
                             {/* {userInfo.userGrade==='OWNER' &&(<Link to={'/mpclass'}><h1>📚 클래스</h1></Link>)} */}
                         </div>
                     </div>
@@ -121,8 +121,6 @@ const MpMain = () => {
                         </div>
                     </div>
                 </div>
-                    </div>
-          
                 {userInfo.userGrade==='OWNER'&&(
                 <div className='rvbox'>
                     <h2>리뷰 현황</h2>

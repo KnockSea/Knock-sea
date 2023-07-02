@@ -141,10 +141,10 @@ useEffect(() => {
           <p>아직 작성된 리뷰가 없습니다</p>
         </div>
 
-        <div className="rvbox2">
+        {/* <div className="rvbox2">
           <h2>예약 현황</h2>
           <p>아직 작성된 글이 없습니다</p>
-        </div>
+        </div> */}
       </div>
 
       <MpList />

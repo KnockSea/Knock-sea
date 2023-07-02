@@ -121,14 +121,14 @@ const RvFsDetail = () => {
             <div className="detail-section">
               <div className="detail-box detail-list-profile">
                 <div className="lists">
-                  <Link to={`/host/${FsDetail.productId}/${FsDetail.typeP}`}>
+                  {/* <Link to={`/host/${FsDetail.productId}/${FsDetail.typeP}`}> */}
                     <div className="box profile-img">
                       <img src={FsDetail.userImgUrl} />
                     </div>
                     <span className="box profile-page">
                       {FsDetail.userName}
                     </span>
-                  </Link>
+                  {/* </Link> */}
                   <div>
                   <button
   onClick={createHeart}

@@ -137,14 +137,14 @@ const RvBtDetail = () => {
             <div className="detail-section">
               <div className="detail-box detail-list-profile">
                 <div className="lists">
-                  <Link
+                  {/* <Link
                     to={`/host/${sDetail.productId}/${sDetail.typeP}/${sDetail.userId}`}
-                  >
+                  > */}
                     <div className="box profile-img">
                       <img src={sDetail.userImgUrl} />
                     </div>
                     <span className="box profile-page">{sDetail.userName}</span>
-                  </Link>
+                  {/* </Link> */}
                   <div>
                   <button
                     onClick={createHeart}
