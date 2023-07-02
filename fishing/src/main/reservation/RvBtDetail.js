@@ -146,18 +146,17 @@ const RvBtDetail = () => {
                     <span className="box profile-page">{sDetail.userName}</span>
                   </Link>
                   <div>
-                    <button
-                      onClick={createHeart}
-                      style={{
-                        color: exists ? "red" : "black",
-                        border: "none",
-                        background: "transparent",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {exists ? "❤️" : "🤍"}
-                      <h3>{eduHeartCount}</h3>
-                    </button>
+                  <button
+                        onClick={createHeart}
+                        style={{
+                          color: "black",
+                          border: "none",
+                          background: "transparent",
+                          cursor: "pointer",
+                        }}
+                      >
+                        '❤️' <span>{eduHeartCount}</span>
+                      </button>
                   </div>
                   <div className="condition">
                     <ul className="condition-box">
