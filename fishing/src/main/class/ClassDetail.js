@@ -167,7 +167,7 @@ function ClassDetail() {
                       <button
                         onClick={createHeart}
                         style={{
-                          color: exists ? "red" : "black",
+                          color: "black",
                           border: "none",
                           background: "transparent",
                           cursor: "pointer",
