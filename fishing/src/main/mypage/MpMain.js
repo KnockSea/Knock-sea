@@ -10,6 +10,7 @@ import {getLoginUserInfo, isLogin } from '../util/login-util';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { API_BASE_URL, USER } from '../../config/host-config'
+import MpRvlist from './MpRvlist'
 
 
 const MpMain = () => {
@@ -113,6 +114,7 @@ const MpMain = () => {
                         <div>
                             <h2>예약 현황</h2>
                             <p>아직 작성된 글이 없습니다</p>
+                            {/* <MpRvlist/> */}
                         </div>
                         <div>
                         <button className='mp-isbtn'onClick={ () => {setModal(true)} }>등록하러 가기</button>
@@ -134,7 +136,7 @@ const MpMain = () => {
                 )}
             </div>
         
-                <MpList style={{position:"fixed"}} />
+                <MpList />
         </section>
     )
 }

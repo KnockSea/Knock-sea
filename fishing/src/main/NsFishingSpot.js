@@ -22,7 +22,7 @@ const NsFishingSpot = ({ spotList, linkdetail }) => {
       <div className="title">
         <p className="t1">오늘의 낚시터 &gt; </p>
         <p className="t2">
-          <Link to={"/bt"}>🔍더보기</Link>
+          <Link to={"/fs"}>🔍더보기</Link>
         </p>
       </div>
       <div className="shipboxs">
@@ -32,7 +32,7 @@ const NsFishingSpot = ({ spotList, linkdetail }) => {
 
             return (
               <div key={item.id} className="image">
-                <Link to={`/detail/${productId}`}>
+                <Link to={`/fsdetail/${productId}`}>
                   <img src={item.imgUrl} alt={item.title} />
                 </Link>
               </div>

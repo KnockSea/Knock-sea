@@ -1,55 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import './scss/NsMain.scss'
-import wt from './img/wt.png'
-import NsItem from './NsItem'
-import NsBanner from './NsBanner'
-import { Route, Routes } from 'react-router-dom'
-import RvTemplate from './reservation/RvTemplate'
-import NsFishingSpot from './NsFishingSpot'
-import NsClass from './NsClass'
-import RvBtDetail from './reservation/RvBtDetail'
-import MpMain from './mypage/MpMain'
-import Myinfo from './mypage/Myinfo'
-import Mypassword from './mypage/Mypassword'
-import MpUserDrop from './mypage/MpUserDrop'
-import MpDrop from './mypage/MpDrop'
-import MpInquire from './mypage/MpInquire'
-import MpRvlist from './mypage/MpRvlist'
-import MpReviewForm from './mypage/MpReviewForm'
+import React, { useState, useEffect } from "react";
+import "./scss/NsMain.scss";
+import wt from "./img/wt.png";
+import NsItem from "./NsItem";
+import NsBanner from "./NsBanner";
+import { Route, Routes } from "react-router-dom";
+import RvTemplate from "./reservation/RvTemplate";
+import NsFishingSpot from "./NsFishingSpot";
+import NsClass from "./NsClass";
+import RvBtDetail from "./reservation/RvBtDetail";
+import MpMain from "./mypage/MpMain";
+import Myinfo from "./mypage/Myinfo";
+import Mypassword from "./mypage/Mypassword";
+import MpUserDrop from "./mypage/MpUserDrop";
+import MpDrop from "./mypage/MpDrop";
+import MpInquire from "./mypage/MpInquire";
+import MpRvlist from "./mypage/MpRvlist";
+import MpReviewForm from "./mypage/MpReviewForm";
 
-import ProductRegistration from './product/ProductRegistration'
-import RvFsDetail from './fishingspot/RvFsDetail'
-import RvFsTemplate from './fishingspot/RvFsTemplate'
-import WeeklyWeather from './WeeklyWeather'
-import SignUpForm from './account/SignUpForm'
-import Login from './account/Login'
-import ClassMain from './class/ClassMain'
-import ClassDetail from './class/ClassDetail'
-import OwnerCheckMain from './ownercheck/OwnerCheckMain'
-import OwnerCheckShip from './ownercheck/OwnerCheckShip'
-import OwnerCheckFishing from './ownercheck/OwnerCheckFishing'
-import MpQueryText from './mypage/MpQueryText'
+import ProductRegistration from "./product/ProductRegistration";
+import RvFsDetail from "./fishingspot/RvFsDetail";
+import RvFsTemplate from "./fishingspot/RvFsTemplate";
+import WeeklyWeather from "./WeeklyWeather";
+import SignUpForm from "./account/SignUpForm";
+import Login from "./account/Login";
+import ClassMain from "./class/ClassMain";
+import ClassDetail from "./class/ClassDetail";
+import OwnerCheckMain from "./ownercheck/OwnerCheckMain";
+import OwnerCheckShip from "./ownercheck/OwnerCheckShip";
+import OwnerCheckFishing from "./ownercheck/OwnerCheckFishing";
+import MpQueryText from "./mypage/MpQueryText";
 
-import MpBtInfo from './mypage/MpBtInfo'
-import MpFsInfo from './mypage/MpFsInfo'
-import MpClassInfo from './mypage/MpClassInfo'
-import { API_BASE_URL, PRODUCTS } from '../config/host-config';
-import MpAdmin from './mypage/MpAdmin';
-import MpIqInput from './mypage/MpIqInput';
-import MpAdminFS from './mypage/MpAdminFS';
-import MpAdminCS from './mypage/MpAdminCS';
-import HostSearchMain from './hostSearch/hostSearchMain'
-import EduRegistration from './product/EduRegistration';
+import MpBtInfo from "./mypage/MpBtInfo";
+import MpFsInfo from "./mypage/MpFsInfo";
+import MpClassInfo from "./mypage/MpClassInfo";
+import { API_BASE_URL, PRODUCTS } from "../config/host-config";
+import MpAdmin from "./mypage/MpAdmin";
+import MpIqInput from "./mypage/MpIqInput";
+import MpAdminFS from "./mypage/MpAdminFS";
+import MpAdminCS from "./mypage/MpAdminCS";
+import HostSearchMain from "./hostSearch/hostSearchMain";
+import EduRegistration from "./product/EduRegistration";
 
-import ScrollToTop from './ScrollToTop';
-import MpInquiryD from './mypage/MpInquiryD';
-import MpInquiryResult from './mypage/MpInquiryResult';
-import MpAdInquire from './mypage/MpAdInquire';
-import Like from './like/Like';
-import ReviewList from './reviewList/ReviewList';
+import ScrollToTop from "./ScrollToTop";
+import MpInquiryD from "./mypage/MpInquiryD";
+import MpInquiryResult from "./mypage/MpInquiryResult";
+import MpAdInquire from "./mypage/MpAdInquire";
+import Like from "./like/Like";
+import ReviewList from "./reviewList/ReviewList";
 import weathericon from "./icons/weathericon.png";
 
-const NsMain = ({shipList, spotList, eduList}) => {
+const NsMain = ({ shipList, spotList, eduList }) => {
   return (
     <section>
         <ScrollToTop />
@@ -113,35 +113,35 @@ const NsMain = ({shipList, spotList, eduList}) => {
             
             {/* 리뷰게시판 */}
             <Route path='/reviewList' element={<ReviewList />}></Route>
-        </Routes>
-            
+        </Routes>            
     </section>
-  )
-}
+  );
+};
 const MainContent = ({ shipList, spotList, eduList }) => {
-    return (
+  return (
+    <>
+      {
         <>
-           {(
-            <>
-            <NsBanner />
-            <div className='mainbox'>
-            <div className='contentbox'>
-            <NsItem shipList={shipList}/>
-            <NsFishingSpot spotList={spotList}/>
-            <NsClass eduList={eduList}/>
-
-                </div>
-            <div className='apibox'>
-                <div className='wtbox'>
-                    <span><img src={weathericon} alt="weather" /> 이번 주 날씨 </span>
-                    <WeeklyWeather/>
-                </div>
+          <NsBanner />
+          <div className="mainbox">
+            <div className="contentbox">
+              <NsItem shipList={shipList} />
+              <NsFishingSpot spotList={spotList} />
+              <NsClass eduList={eduList} />
             </div>
+            <div className="apibox">
+              <div className="wtbox">
+                <span>
+                  <img src={weathericon} alt="weather" /> 이번 주 날씨{" "}
+                </span>
+                <WeeklyWeather />
+              </div>
             </div>
-                </>
-            )}
+          </div>
         </>
-    );
+      }
+    </>
+  );
 };
 
 export default NsMain;
