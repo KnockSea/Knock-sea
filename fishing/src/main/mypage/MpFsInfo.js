@@ -5,6 +5,8 @@ import { getLoginUserInfo } from "../util/login-util";
 import { useState } from "react";
 import { useEffect } from "react";
 import { API_BASE_URL,FISHINGSPOT } from "../../config/host-config";
+import MpReviewList from './MpReviewList';
+
 const MpFsInfo = () => {
 
 
@@ -140,15 +142,15 @@ useEffect(() => {
             {userInfo.userGrade === 'OWNER' && (
                 <div className='rvbox'>
                   <h2>리뷰 게시판</h2>
-                  {shipinfo.shipId && <MpReviewList />}
-                  {!shipinfo.shipId && <p>아직 작성된 리뷰가 없습니다.</p>}
+                  {spotInfo.spotId && <MpReviewList />}
+                  {!spotInfo.spotId && <p>아직 작성된 리뷰가 없습니다.</p>}
                 </div>
               )}
               {userInfo.userGrade === 'COMMON' && (
                 <div className='rvbox'>
                   <h2>리뷰 게시판</h2>
-                  {shipinfo.shipId && <MpReviewList />}
-                  {!shipinfo.shipId && <p>아직 작성된 리뷰가 없습니다.</p>}
+                  {spotInfo.spotId && <MpReviewList />}
+                  {!spotInfo.spotId && <p>아직 작성된 리뷰가 없습니다.</p>}
                 </div>
                         )}
           </div>
