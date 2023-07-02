@@ -53,7 +53,7 @@ public class ScheduleService {
 
                 int timer = time.get(time.size() - 1).getTimeStart().compareTo(LocalTime.now());
                 log.warn("타이머 : {}", timer);
-                if (timer <= 1) {
+                if (timer < 0) {
                     old.setStatusValid("INACTIVE");
                     log.warn("여기 타지?????????????");
                     productRepository.save(old);

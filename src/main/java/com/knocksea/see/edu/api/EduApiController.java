@@ -60,11 +60,11 @@ public class EduApiController {
     //개별 조회
     @GetMapping("/{eduId}")
     public ResponseEntity<?> detail(@PathVariable Long eduId) {
-        log.info("/api/v1/edu/{} GET", eduId);
+        log.info("/api/v1/edu/ GET {}", eduId);
 
         try {
             EduDetailResponseDTO dto = eduService.getDetail(eduId);
-
+            log.info("return dto : {} ",dto);
             return ResponseEntity.ok().body(dto);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

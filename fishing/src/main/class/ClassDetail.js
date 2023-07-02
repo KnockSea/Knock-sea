@@ -39,6 +39,8 @@ function ClassDetail() {
   };
 
   useEffect(() => {
+
+    // console.log('eduId',eduId);
     const fetchHeartExists = async () => {
       try {
         const heartType = 'EDU'; // 하트 타입
@@ -107,6 +109,7 @@ function ClassDetail() {
         fetchEduHeartCount();
       } else {
         alert('서버가 불안정합니다');
+        console.log(response);
       }
     } catch (error) {
       console.error('Error fetching edu list:', error);
