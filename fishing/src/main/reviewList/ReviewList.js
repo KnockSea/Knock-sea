@@ -12,7 +12,7 @@ function ReviewList() {
 
   const handlePageChange = (page) => {
     setPage(page);
-    console.log(page);
+    // console.log(page);
   };
 
   useEffect(() => {
@@ -31,8 +31,8 @@ function ReviewList() {
         if (data) {
           setReviews(data.reviews);
           setTotalItemCount(data.pageInfo.totalCount);
-          console.log("data", data);
-          console.log(data.reviews);
+          // console.log("data", data);
+          // console.log(data.reviews);
         } else {
           // 처리할 에러에 대한 로직 추가
         }

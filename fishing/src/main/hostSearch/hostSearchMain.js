@@ -45,7 +45,7 @@ const HostSearchMain = () => {
               const data = await response.json();
               setOwnerReview(data);
             } else {
-              console.log('왜?', response.status);
+              // console.log('왜?', response.status);
             }
           } catch (error) {
             // Handle fetch error
@@ -60,7 +60,7 @@ const HostSearchMain = () => {
               const data = await response.json();
               setOwnerReview(data);
             } else {
-              console.log('왜?', response.status);
+              // console.log('왜?', response.status);
             }
           } catch (error) {
             // Handle fetch error

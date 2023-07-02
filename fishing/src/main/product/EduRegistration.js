@@ -55,7 +55,7 @@ function EduRegistration() {
     let currentDate = parseISO(startDate);
     const finalDate = parseISO(endDate);
 
-    console.log(currentDate);
+    // console.log(currentDate);
 
     while (currentDate <= finalDate) {
         dates.push(format(currentDate, "yyyy-MM-dd"));
@@ -69,7 +69,7 @@ function EduRegistration() {
         const [timeStart, timeEnd] = timeString.split(" - ");
         setStartTimes([...timeStarts, timeStart]);
         setEndTimes([...timeEnds, timeEnd]);
-        console.log("Received time:", timeStarts, timeEnds);
+        // console.log("Received time:", timeStarts, timeEnds);
   }
 
   // 시간 박스 생성
@@ -99,7 +99,7 @@ function EduRegistration() {
       // userId : userId,
   };
 
-  console.log(eduDTO.eduLevel);
+  // console.log(eduDTO.eduLevel);
 
   const userJsonBlobE = new Blob(
         [JSON.stringify(eduDTO)], {
@@ -115,15 +115,15 @@ function EduRegistration() {
   });
   
   
-  console.log("===================== formData 값 =====================");
+  // console.log("===================== formData 값 =====================");
 
-  for (let pair of formData.entries()) {
-    console.log('키: ' + JSON.stringify(pair[0]),'밸류: ' + JSON.stringify(pair[1]));
-  }
+  // for (let pair of formData.entries()) {
+  //   console.log('키: ' + JSON.stringify(pair[0]),'밸류: ' + JSON.stringify(pair[1]));
+  // }
   
   
   const handleProductRegi = async () => {
-    console.log("Eformdata?", formData);
+    // console.log("Eformdata?", formData);
 
     // e.preventDefault();
         
@@ -148,7 +148,7 @@ function EduRegistration() {
 
 
     try {
-      console.log("EduLevel : " ,eduLevel);
+      // console.log("EduLevel : " ,eduLevel);
       const res = await fetch(`${API_BASE_URL}${EDU}`, {
           method: "POST",
           headers: { Authorization: "Bearer " + token },
@@ -158,6 +158,7 @@ function EduRegistration() {
             alert("등록 성공");
             navigate("/");
           } else {
+            
             alert("이미 등록된 클래스가 있어요😥");
           }
 

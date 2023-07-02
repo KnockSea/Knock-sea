@@ -19,7 +19,7 @@ const MpAdminFS = () => {
         // console.log(page);
       };
 
-      console.log('data',validationList);
+      // console.log('data',validationList);
     // API 요청
     useEffect(() => {
         fetch(`${API_BASE_URL}${VALIDATION}/validationlist?page=${page}&size=${size}&type=${validationType}`)
@@ -41,9 +41,9 @@ const MpAdminFS = () => {
     //검증요청 승인하는 함수
     const updateValidation = async (e, validationUserName, validationType,validationuserId) => {
         e.preventDefault();
-        console.log(validationUserName,validationType);
+        // console.log(validationUserName,validationType);
         const confirm = window.confirm('정말 승인하시겠습니까?');
-        console.log(validationList);
+        // console.log(validationList);
         if (confirm) {
             // console.log(validationUserName);
             // console.log(validationType);
@@ -88,7 +88,7 @@ const MpAdminFS = () => {
       //삭제하기
       const deleteValidation = async (e, validationId) => {
         e.preventDefault();
-        console.log(validationId);
+        // console.log(validationId);
         const confirm = window.confirm('정말 삭제하시겠습니까?');
     if(confirm){
         try {

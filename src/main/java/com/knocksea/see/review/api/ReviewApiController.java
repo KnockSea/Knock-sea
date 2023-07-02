@@ -26,50 +26,53 @@ import java.util.List;
 @RequestMapping("/api/v1/reviews")
 public class ReviewApiController {
 
-        private final ReviewService reviewService;
+    private final ReviewService reviewService;
 
-        // 리뷰 후기 등록
-        @PostMapping
-        public ResponseEntity<?> create(
-            @AuthenticationPrincipal TokenUserInfo userInfo,
-            @Validated @RequestBody ReviewCreateDTO dto
-            , BindingResult result
-        ) {
-          log.info("/api/v1/reviews ReviewCreateDTO POST!! - {}", dto);
+    // 리뷰 후기 등록
+    @PostMapping
+    public ResponseEntity<?> create(
+        @AuthenticationPrincipal TokenUserInfo userInfo,
+        @Validated @RequestBody ReviewCreateDTO dto
+        , BindingResult result
+    ) {
+      log.info("/api/v1/reviews ReviewCreateDTO POST!! - {}", dto);
 
-          if (dto == null) {
-            return ResponseEntity
-                .badRequest()
-                .body("후기 정보를 전달해주세요!!");
-          }
-          ResponseEntity<List<FieldError>> fieldErrors = getValidatedResult(result);
-          if (fieldErrors != null) return fieldErrors;
+      if (dto == null) {
+        return ResponseEntity
+            .badRequest()
+            .body("후기 정보를 전달해주세요!!");
+      }
+      ResponseEntity<List<FieldError>> fieldErrors = getValidatedResult(result);
+      if (fieldErrors != null) return fieldErrors;
 
-          try {
-            ReviewDetailResponseDTO responseDTO = reviewService.createReview(dto, userInfo);
-            return ResponseEntity
-                .ok()
-                .body(responseDTO);
-          } catch (RuntimeException e) {
-            e.printStackTrace();
-            return ResponseEntity
-                .internalServerError()
-                .body("서버 터짐 원인: " + e.getMessage());
-          }
-        }
+      try {
+        ReviewDetailResponseDTO responseDTO = reviewService.createReview(dto, userInfo);
+        return ResponseEntity
+            .ok()
+            .body(responseDTO);
+      } catch (RuntimeException e) {
+        e.printStackTrace();
+        return ResponseEntity
+            .internalServerError()
+            .body("서버 터짐 원인: " + e.getMessage());
+      }
+    }
 
-        // 자신이 쓴 후기
-        @GetMapping("/myReview")
-        public ResponseEntity<?> getReviewById(
-            @AuthenticationPrincipal TokenUserInfo userInfo
-            , UserPageDTO pageDTO) {
-          ReviewListResponseDTO userReviewById = reviewService.getUserReviewById(pageDTO, userInfo.getUserId());
-          try {
-            return ResponseEntity.ok().body(userReviewById);
-          } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-          }
-        }
+    // 자신이 쓴 후기
+    @GetMapping("/myReview")
+    public ResponseEntity<?> getReviewById(
+        @AuthenticationPrincipal TokenUserInfo userInfo
+        , UserPageDTO pageDTO) {
+      ReviewListResponseDTO userReviewById = reviewService.getUserReviewById(pageDTO, userInfo.getUserId());
+
+      log.info("/api/v1/myReviews?page={}&size={}", pageDTO.getPage(), pageDTO.getSize());
+
+      try {
+        return ResponseEntity.ok().body(userReviewById);
+      } catch (Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+      }
+    }
 
         // 후기 전체 리스트
   @GetMapping

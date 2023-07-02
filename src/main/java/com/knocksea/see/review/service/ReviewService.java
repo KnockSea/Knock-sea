@@ -118,25 +118,27 @@ public class ReviewService {
                 Sort.by("inquiryDateTime").descending()
         );
         log.info("TokenUserId - {}", TokenUserId);
-        User user = userRepository.findById(TokenUserId).orElseThrow();
+        User user = userRepository.findById(TokenUserId).orElseThrow(() -> new RuntimeException("유저가 없습니다"));
         Page<Review> byUserId = reviewRepository.findByUser(user, pageable);
-        List<Review> userList = byUserId.getContent();
+//        List<Review> userList = byUserId.getContent();
 //        List<SeaImage> imgs = imageRepository.findAllByUser(user);
 //        List<String> imgUrls = new ArrayList<>();
 //        for (SeaImage img : imgs) {
 //            imgUrls.add(img.getImageName());
 //        }
-        List<ReviewDetailResponseDTO> detailList = userList.stream()
+
+        log.info("byUserId - {}", byUserId);
+//        log.info("detailList - {}", userList);
+
+        List<ReviewDetailResponseDTO> detailList = byUserId.stream()
                 .map(review -> {
                     return new ReviewDetailResponseDTO(review, imgName(review));
                 })
                 .collect(Collectors.toList());
 
-        log.info("byUserId - {}", byUserId);
-        log.info("detailList - {}", detailList);
 
         return ReviewListResponseDTO.builder()
-                .count(userList.size())
+                .count(byUserId.getContent().size())
                 .pageInfo(new PageResponseDTO<Review>(byUserId))
                 .reviews(detailList)
                 .build();
@@ -169,14 +171,20 @@ public class ReviewService {
 
     public String imgName(Review review) {
         String imgs;
-        if (review.getReviewType().toString().equals("SHIP") || review.getReviewType().toString().equals("SPOT")) {
+        if (review.getReviewType().toString().equals("SHIP")) {
+            log.warn("이미지타입 {}", review.getReviewType());
+            Product product = productRepository.findById(review.getProduct().getProductId()).orElseThrow();
+            log.warn("상품! {}", product);
+            imgs = imageRepository.findByProduct(product).get(0).getImageName();
+            log.warn("이미지 이름 {}", imgs);
+        } else if (review.getReviewType().toString().equals("SPOT")) {
             imgs = imageRepository.findByProduct(
-                    productRepository.findById(review.getProduct().getProductId()).orElseThrow())
+                            productRepository.findById(review.getProduct().getProductId()).orElseThrow())
                     .get(0).getImageName();
         } else {
-            imgs = imageRepository.findByEdu(
+            imgs = imageRepository.findAllByEdu(
                     eduRepository.findById(review.getEdu().getEduId()).orElseThrow())
-                    .getImageName();
+                    .get(0).getImageName();
         }
         return imgs;
     }

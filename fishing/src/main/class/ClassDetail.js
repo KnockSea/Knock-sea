@@ -106,12 +106,12 @@ function ClassDetail() {
 
       if (response.status === 200) {
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         setOneEdu(json);
         fetchEduHeartCount();
       } else {
         alert('서버가 불안정합니다');
-        console.log(response);
+        // console.log(response);
       }
     } catch (error) {
       console.error('Error fetching edu list:', error);
@@ -164,17 +164,18 @@ function ClassDetail() {
                     </div>
                     <span className="box profile-page">{oneEdu.userName}</span>
                     <div>
-                      <button
-                        onClick={createHeart}
-                        style={{
-                          color: exists ? "red" : "black",
-                          border: "none",
-                          background: "transparent",
-                          cursor: "pointer",
-                        }}
-                      >
-                        '❤️' <span>{eduHeartCount}</span>
-                      </button>
+                    <button
+  onClick={createHeart}
+  style={{
+    color: "black",
+    border: "none",
+    background: "transparent",
+    cursor: "pointer",
+    fontWeight: "bold", // 텍스트를 굵게 설정
+  }}
+>
+  <strong>'❤️' <span>{eduHeartCount}</span></strong>
+</button>
                     </div>
                     <div className="condition">
                       <ul className="condition-box">

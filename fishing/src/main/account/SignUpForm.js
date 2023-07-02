@@ -57,7 +57,7 @@ function SignUpForm(){
 
   const getAddress = (userAddress) => {
 
-    console.log('getAddr:', userAddress);
+    // console.log('getAddr:', userAddress);
     // setPostAddress(userAddress);
 
     let msg; // 검증 메시지를 저장할 변수
@@ -108,7 +108,7 @@ function SignUpForm(){
     let msg = '', flag = false;
     if (res.status === 200) {
       const json = await res.json();
-      console.log(json);
+      // console.log(json);
       if (json) {
         msg = '이메일이 중복되었습니다!';
         flag = false;
@@ -117,7 +117,7 @@ function SignUpForm(){
         flag = true;
       }
     } else {
-      console.log(res.status);
+      // console.log(res.status);
       alert('서버 통신이 원활하지 않습니다!');
     }
 

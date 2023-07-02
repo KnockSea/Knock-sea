@@ -39,7 +39,7 @@ const MpIqInput = () => {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         navigate("/inquire"); // fetch가 완료된 후 페이지 전환
       })
       .catch((error) => {

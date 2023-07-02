@@ -95,7 +95,7 @@ const RvFsDetail = () => {
         setFsdetail(FsDetail);
       });
   }, [productId, exists]);
-  console.log("sdatail", FsDetail);
+  // console.log("sdatail", FsDetail);
   return (
     <div className="allview">
       <div className="imgbox">
@@ -131,18 +131,18 @@ const RvFsDetail = () => {
                   </Link>
                   <div>
                   <button
-                        onClick={createHeart}
-                        style={{
-                          color: exists ? 'red' : 'black',
-                          border: 'none',
-                          background: 'transparent',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {exists ? '❤️' : '🤍'}
-                        <h3>{eduHeartCount}</h3>
-                      </button>
-                    </div>
+  onClick={createHeart}
+  style={{
+    color: "black",
+    border: "none",
+    background: "transparent",
+    cursor: "pointer",
+    fontWeight: "bold", // 텍스트를 굵게 설정
+  }}
+>
+  <strong>'❤️' <span>{eduHeartCount}</span></strong>
+</button>
+                  </div>
                   <div className="condition">
                     <ul className="condition-box">
                       {/* <li>{FsDetail.Level} |</li> */}
