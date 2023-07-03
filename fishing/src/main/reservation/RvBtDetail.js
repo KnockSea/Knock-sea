@@ -101,14 +101,6 @@ const RvBtDetail = () => {
     }
   };
 
-  // useEffect(() => {
-  //   fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`)
-  //     .then((response) => response.json())
-  //     .then((sDetail) => {
-  //       fetchEduHeartCount();
-  //       setSdetail(sDetail);
-  //     });
-  // }, [productId, exists]);
 
   useEffect(() => {
     fetch(`${API_BASE_URL}${PRODUCTS}/${productId}`)
@@ -119,6 +111,7 @@ const RvBtDetail = () => {
         setImageCount(sDetail.imgUrl.length);
       });
   }, [productId, exists]);
+  
   const handleImageLoad = (e, index) => {
     const img = e.target;
     if (index === 0) {

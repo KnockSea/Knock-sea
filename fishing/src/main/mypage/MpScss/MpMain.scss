@@ -177,9 +177,23 @@
 
     .rvbox {
       margin-top: 10px;
-      height: 300px;
+      height: 400px;
       text-align: left;
       border-bottom: 1px solid #dddddd;
+      overflow: scroll;
+
+      
+        &::-webkit-scrollbar {
+          width: 8px;  /* 스크롤바의 너비 */
+          height: 1px;
+          background: rgba(0, 49, 184, 0.1); 
+      }
+      &::-webkit-scrollbar-thumb {
+          height: 30%; /* 스크롤바의 길이 */
+          background: #64b0e2; /* 스크롤바의 색상 */
+          border-radius: 10px;
+      }
+
       h2 {
         width: fit-content;
         font-size: 25px;
@@ -198,7 +212,7 @@
           // border: 1px solid #000;
         }
         .mprebox2 {
-          width: 50%;
+          width: 70%;
           margin-left: 10px;
 
           .mpreAutohr {
@@ -223,16 +237,18 @@
           }
 
           .review-wrap {
-            width: 100%;
             margin: 20px;
             display: flex;
             justify-content: space-between;
+            width: 1000px;
+
             .review-con {
               white-space: nowrap; /* 텍스트 줄바꿈 방지 */
               overflow: hidden; /* 넘치는 부분 숨김 */
               text-overflow: ellipsis;
             }
             .reviewbtn {
+              margin-left: 10px;
               border: none;
               background: #5b77bd;
               color: #fff;

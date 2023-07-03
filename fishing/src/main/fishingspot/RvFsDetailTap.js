@@ -13,7 +13,7 @@ const RvFsDetailTap = ({ FsDetail}) => {
       scroller.scrollTo(tab, {
         duration: 200,
         smooth: 'easeInOutQuart',
-        offset: -130, // 스크롤 위치의 오프셋 (필요에 따라 조정)
+        offset: -150, // 스크롤 위치의 오프셋 (필요에 따라 조정)
       });
     };
   
@@ -64,21 +64,21 @@ const RvFsDetailTap = ({ FsDetail}) => {
 
       
     </ul>
-    <div>
+    <div className='rv-detail-wrap'>
       <Element name='소개'>
-        <h2>낚시터 소개</h2>
+        <h2>🚩 낚시터 소개 🚩</h2>
         <p>{FsDetail.info}</p>
       </Element>
       <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/><br/> <br/> <br/> <br/>
       <Element name='후기'>
-        <h2>낚시터 후기</h2>
+        <h2>🚩 낚시터 후기 🚩</h2>
         {FsDetail.reviewList && FsDetail.reviewList.map((review, index) => (
           <p key={index}>{review.reviewContent}</p>
         ))}
       </Element>
       <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/><br/> <br/> <br/> <br/>
-      <Element name='후기'>
-        <h2>주의 사항</h2>
+      <Element name='주의사항'>
+        <h2>🚩 주의 사항 🚩</h2>
             <RvFsText
             FsDetail={ FsDetail}
             />
