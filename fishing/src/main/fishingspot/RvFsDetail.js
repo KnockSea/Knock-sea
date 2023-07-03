@@ -156,17 +156,7 @@ const RvFsDetail = () => {
   return (
     <div className="allview">
       <div className="imgbox">
-        {/* {FsDetail.imgUrl &&
-    FsDetail.imgUrl.map((url, index) => (
-      <div key={index} className="image-box" onLoad={(e) => handleboxLoad(e, index)}>
-        <img
-          src={url}
-          onLoad={(e) => handleImageLoad(e, index)}
-          onError={handleImageError}
-          className="imgboxmian1"
-        />
-      </div>
-    ))} */}
+
         {FsDetail.imgUrl &&
           FsDetail.imgUrl.map((url, index) => (
             <div
@@ -224,7 +214,7 @@ const RvFsDetail = () => {
                       }}
                     >
                       <strong>
-                        '' <span>{eduHeartCount}</span>
+                        '❤️' <span>{eduHeartCount}</span>
                       </strong>
                     </button>
                   </div>

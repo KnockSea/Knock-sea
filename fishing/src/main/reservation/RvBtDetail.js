@@ -161,8 +161,6 @@ const RvBtDetail = () => {
   return (
     <div className="allview">
       <div className="imgbox">
-        {/* {sDetail.imgUrl &&
-          sDetail.imgUrl.map((url, index) => <img key={index} src={url} />)} */}
         {sDetail.imgUrl &&
           sDetail.imgUrl.map((url, index) => (
             <div
@@ -204,24 +202,26 @@ const RvBtDetail = () => {
                   {/* <Link
                     to={`/host/${sDetail.productId}/${sDetail.typeP}/${sDetail.userId}`}
                   > */}
-                    <div className="box profile-img">
-                      <img src={sDetail.userImgUrl} />
-                    </div>
-                    <span className="box profile-page">{sDetail.userName}</span>
+                  <div className="box profile-img">
+                    <img src={sDetail.userImgUrl} />
+                  </div>
+                  <span className="box profile-page">{sDetail.userName}</span>
                   {/* </Link> */}
                   <div>
-                  <button
-                    onClick={createHeart}
-                    style={{
-                      color: "black",
-                      border: "none",
-                      background: "transparent",
-                      cursor: "pointer",
-                      fontWeight: "bold", // 텍스트를 굵게 설정
-                    }}
+                    <button
+                      onClick={createHeart}
+                      style={{
+                        color: "black",
+                        border: "none",
+                        background: "transparent",
+                        cursor: "pointer",
+                        fontWeight: "bold", // 텍스트를 굵게 설정
+                      }}
                     >
-                    <strong>'❤️' <span>{eduHeartCount}</span></strong>
-</button>
+                      <strong>
+                        '❤️' <span>{eduHeartCount}</span>
+                      </strong>
+                    </button>
                   </div>
                   <div className="condition">
                     <ul className="condition-box">
@@ -236,7 +236,7 @@ const RvBtDetail = () => {
                   </div>
                 </div>
                 <div>
-                <button className="box btn" onClick={handleRegiIsloign}>
+                  <button className="box btn" onClick={handleRegiIsloign}>
                     바로 예약하기
                   </button>
                   {modal === true ? (
