@@ -97,10 +97,7 @@ const NsMain = ({ shipList, spotList, eduList }) => {
             <Route path="/login" element={<Login />}></Route>
             
             {/* 업체 등록 */}
-            <Route path="ownercheck/*" element={<OwnerCheckMain />}>
-              <Route path="ship" element={<OwnerCheckShip />}></Route>
-              <Route path="fishing" element={<OwnerCheckFishing />}></Route>
-          
+            <Route path="ownercheck/" element={<OwnerCheckMain />}>
             </Route>
 
             <Route path="fs/" element={<RvFsTemplate />}>
@@ -126,7 +123,7 @@ const NsMain = ({ shipList, spotList, eduList }) => {
             <Route path='/host/:productId/:type/:userId' element={<HostSearchMain/>}></Route>
             {/* <Route path='/hostuser/:userId/:type' element={<HostSearchMain/>}></Route> */}
             
-        </Routes>            
+        </Routes>                
     </section>
   );
 };
