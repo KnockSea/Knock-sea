@@ -2,6 +2,7 @@ import React from 'react';
 // import './scss/OwnerCheck.scss';
 import './scss/OwnerCheckHeader.scss';
 import { Link } from 'react-router-dom';
+import { Outlet } from 'react-bootstrap-icons';
 
 function OwnerCheckHeader() {
   return (
@@ -18,8 +19,8 @@ function OwnerCheckHeader() {
             <li>
               <div>카테고리<span className="imp">*</span></div>
               <div className='category'>
-                <Link to={{ pathname: "/ship", state: { backgroundColor: "#123282" } }} className="category-select ship">선박</Link>
-                <Link to={{ pathname: "/fishing", state: { backgroundColor: "#123282" } }}  className="category-select fishing">낚시터</Link>
+                <Link to="ship" className="category-select ship">선박</Link>
+                <Link to="fishing" className="category-select fishing">낚시터</Link>
               </div>
             </li>
           </ul>

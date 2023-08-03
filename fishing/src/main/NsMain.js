@@ -54,65 +54,78 @@ const NsMain = ({ shipList, spotList, eduList }) => {
     <section>
         <ScrollToTop />
         <Routes>
+           {/* home */}
             <Route path='/' element ={<MainContent shipList={shipList} spotList={spotList} eduList={eduList} />} />
+  
             {/* <Route path='/detail' element={<RvBtDetail/>}> </Route> */}
-            <Route path='/bt' element={<RvTemplate/>}> </Route>
-            <Route path='/detail/:productId' element={<RvBtDetail/>}> </Route>
-            <Route path='/fsdetail/:productId' element={<RvFsDetail/>}> </Route>
+            <Route path='bt/' element={<RvTemplate/>}> 
+              <Route path='detail/:productId' element={<RvBtDetail/>}> </Route>
+              <Route path='fsdetail/:productId' element={<RvFsDetail/>}> </Route>
+            </Route>
+
             {/* 클래스 탭 */}
-            <Route path='/class' element={<ClassMain/>}></Route>
-            <Route path='/classdetail/:eduId' element={<ClassDetail/>}></Route>
+            <Route path='class/' element={<ClassMain/>}>
+              <Route path='classdetail/:eduId' element={<ClassDetail/>}></Route>
+            </Route>
+
             {/* 마이페이지 */}                        
-            <Route path='/my' element={<MpMain/>}> </Route>
-            <Route path='/myinfo' element={<Myinfo/>}></Route>
-            <Route path='/mypassword' element={<Mypassword/>}></Route>
-            {/* 상품등록 */}
-            <Route path='/product' element={<ProductRegistration/>}></Route>
-            <Route path='/edu' element={<EduRegistration/>}></Route>
+            <Route path='my/' element={<MpMain/>}> 
+              <Route path='info' element={<Myinfo/>}></Route>
+              <Route path='password' element={<Mypassword/>}></Route>
+              {/* 상품등록 */}
+              <Route path='product' element={<ProductRegistration/>}></Route>
+              <Route path='edu' element={<EduRegistration/>}></Route>
+              
+              <Route path='userDrop' element={<MpUserDrop/>}></Route>
+              <Route path='drop' element={<MpDrop/>}></Route>
+              {/* 문의하기 */}
+              <Route path='iqinput' element={<MpIqInput/>}></Route>
+              {/* 문의 현황 */}
+              <Route path='inquire' element={<MpInquire/>}></Route>
+              {/* 리뷰게시판 */}
+              <Route path='reviewList' element={<ReviewList />}></Route>
+              {/* 유저 문의 상세보기 */}
+              <Route path="inquiryResult/:inquiryId" element={<MpInquiryResult />} />
+              <Route path="rvlist" element={<MpRvlist />}></Route>
+              <Route path="review" element={<MpReviewForm />}></Route>
+            </Route>
             
-            <Route path='/userDrop' element={<MpUserDrop/>}></Route>
-            <Route path='/drop' element={<MpDrop/>}></Route>
-            {/* 문의하기 */}
-            <Route path='/iqinput' element={<MpIqInput/>}></Route>
-            {/* 문의 현황 */}
-            <Route path='/inquire' element={<MpInquire/>}></Route>
-            {/* 관리자용 전체 문의 현황 */}
-            <Route path='/adInquire' element={<MpAdInquire/>}></Route>
-            
-            {/* 문의답변 */}
-            <Route
-                path="/adminreply/:inquiryId"
-                element={<MpInquiryD />}
-            ></Route>
-            {/* 유저 문의 상세보기 */}
-            <Route path="/inquiryResult/:inquiryId" element={<MpInquiryResult />} />
-            <Route path="/rvlist" element={<MpRvlist />}></Route>
-            <Route path="/review" element={<MpReviewForm />}></Route>
-
-            {/* 로그인, 회원가입 */}
+            {/* 로그인 */}
             <Route path="/join" element={<SignUpForm />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            {/* 업체 등록 */}
-            <Route path="/ownercheck" element={<OwnerCheckMain />}></Route>
-            <Route path="/ship" element={<OwnerCheckShip />}></Route>
-            <Route path="/fishing" element={<OwnerCheckFishing />}></Route>
 
-            <Route path="/fs" element={<RvFsTemplate />}></Route>
-            <Route path="/myquery" element={<MpQueryText />}></Route>
+             {/* 회원가입 */}
+            <Route path="/login" element={<Login />}></Route>
+            
+            {/* 업체 등록 */}
+            <Route path="ownercheck/*" element={<OwnerCheckMain />}>
+              <Route path="ship" element={<OwnerCheckShip />}></Route>
+              <Route path="fishing" element={<OwnerCheckFishing />}></Route>
+          
+            </Route>
+
+            <Route path="fs/" element={<RvFsTemplate />}>
+              <Route path="myquery" element={<MpQueryText />}></Route>
+            </Route>
+
             {/* 업체 정보 */}
-            <Route path="/mpbt" element={<MpBtInfo />}></Route>
-            <Route path="/mpfs" element={<MpFsInfo />}></Route>
-            <Route path="/mpclass" element={<MpClassInfo />}></Route>
+            <Route path="mpbt/" element={<MpBtInfo />}>
+              <Route path="mpfs" element={<MpFsInfo />}></Route>
+              <Route path="mpclass" element={<MpClassInfo />}></Route>
+            </Route>
+
             {/* 관리자 */}
-            <Route path='/admin' element={<MpAdmin/>}></Route>
-            <Route path='/adminFs' element={<MpAdminFS/>}></Route>
-            <Route path='/adminCS' element={<MpAdminCS/>}></Route>
+            <Route path='admin/' element={<MpAdmin/>}>
+              <Route path='adminFs' element={<MpAdminFS/>}></Route>
+              <Route path='adminCS' element={<MpAdminCS/>}></Route>
+              {/* 관리자용 전체 문의 현황 */}
+              <Route path='adInquire' element={<MpAdInquire/>}></Route>
+              {/* 문의답변 */}
+              <Route path="adminreply/:inquiryId" element={<MpInquiryD />}></Route>
+            </Route>
 
             <Route path='/host/:productId/:type/:userId' element={<HostSearchMain/>}></Route>
             {/* <Route path='/hostuser/:userId/:type' element={<HostSearchMain/>}></Route> */}
             
-            {/* 리뷰게시판 */}
-            <Route path='/reviewList' element={<ReviewList />}></Route>
         </Routes>            
     </section>
   );

@@ -90,24 +90,6 @@ function OwnerCheckShip(props) {
         <div className="owner-check-body">
           <form onSubmit={handleOwnerCheck} encType="multipart/form-data">
             <ul>
-            <div className="owner-check-header">
-                <div className="head-title">
-                  <p>KNOCK_SEA 업체 검증</p>
-                  <img className="image-82-CzH" src="https://cdn-icons-png.flaticon.com/128/3061/3061579.png" id="SignUpImg" alt="SignUpImg" />
-                </div>
-                <div className="owner-check-body">
-                  <hr/>
-                  <ul>
-                    <li>
-                      <div>카테고리<span className="imp">*</span></div>
-                      <div className='category'>
-                        <Link to="/ship" style={{backgroundColor:"#123282"}} className="category-select ship">선박</Link>
-                        <Link to="/fishing"  className="category-select fishing">낚시터</Link>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
               <li>
                 <div>선박 등록증<span className="imp">*</span></div>
                 <div>
